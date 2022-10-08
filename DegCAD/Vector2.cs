@@ -56,6 +56,9 @@ namespace DegCAD
             return new Vector2(v1.X - v2.X, v1.Y - v2.Y);
         }
 
+        public static Vector2 operator *(Vector2 v, double d) => (v.X * d, v.Y * d);
+        public static Vector2 operator /(Vector2 v, double d) => (v.X / d, v.Y / d);
+
         public static Vector2 operator -(Vector2 v)
         {
             return new Vector2(-v.X, -v.Y);
