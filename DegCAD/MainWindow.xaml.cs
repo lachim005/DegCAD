@@ -20,9 +20,17 @@ namespace DegCAD
     /// </summary>
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// The editor that the user has currently open
+        /// </summary>
+        public Editor? ActiveEditor { get; set; }
+
+
         public MainWindow()
         {
             InitializeComponent();
+            ActiveEditor = editor;
+            cmdPallete.GenerateCommands(this);
         }
     }
 }

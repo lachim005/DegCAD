@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,6 +35,11 @@ namespace DegCAD
         {
             GeometryDrawer.Clear();
             Axis.Draw(GeometryDrawer);
+        }
+
+        public void ExecuteCommand(IGeometryCommand command)
+        {
+            Debug.WriteLine($"Executing command: {command}");
         }
     }
 }
