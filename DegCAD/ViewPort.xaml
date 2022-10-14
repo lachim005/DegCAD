@@ -11,6 +11,7 @@
              SizeChanged="OnSizeChanged"
              MouseLeave="OnMouseLeave"
              MouseWheel="OnMouseWheel"
+             MouseMove="OnMouseMove"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Image x:Name="imageDisplay"/>

@@ -30,15 +30,15 @@ namespace DegCAD
         /// <summary>
         /// The X offset of the canvas
         /// </summary>
-        public double OffsetX { get; private set; } = -1;
+        public double OffsetX { get; set; } = -1;
         /// <summary>
         /// The Y offset of the canvas
         /// </summary>
-        public double OffsetY { get; private set; } = -1;
+        public double OffsetY { get; set; } = -1;
         /// <summary>
         /// The zoom of the canvas
         /// </summary>
-        public double Scale { get; private set; } = 1;
+        public double Scale { get; set; } = 1;
         /// <summary>
         /// True if the user is currently panning the canvas
         /// </summary>
@@ -49,7 +49,11 @@ namespace DegCAD
         /// <summary>
         /// Triggers if the viewport gets changed in any way so the contents have to get redrawn
         /// </summary>
-        public event EventHandler? ViewportChanged;
+        public event EventHandler<VPMouseEventArgs>? ViewportChanged;
+        /// <summary>
+        /// Triggers when the user moves the mouse on the viewport and contains the mouse coordinates
+        /// </summary>
+        public event EventHandler<VPMouseEventArgs>? VPMouseMoved;
 
         /// <summary>
         /// Pixel width of the canvas
@@ -102,7 +106,7 @@ namespace DegCAD
             OffsetY += posBeforeZoom.Y - posAfterZoom.Y;
 
             //Triggers the redraw
-            ViewportChanged?.Invoke(this, EventArgs.Empty);
+            ViewportChanged?.Invoke(this, new(ScreenToCanvas(mousePos), mousePos));
         }
 
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
@@ -128,7 +132,8 @@ namespace DegCAD
             {
                 Panning = false;
                 MouseMove -= Pan;
-                ViewportChanged?.Invoke(this, EventArgs.Empty);
+                Vector2 mousePos = Mouse.GetPosition(this);
+                ViewportChanged?.Invoke(this, new(ScreenToCanvas(mousePos), mousePos));
             }
         }
 
@@ -141,9 +146,9 @@ namespace DegCAD
 
             //Uncommenting this will probably result in better performance, but looks worse
             //(redraws the canvas only every couple of pixel so it look laggy)
-            //if ((Math.Abs(OffsetX - screenPanBegin.X) % 10) == 0 ||
-            //    (Math.Abs(OffsetY - screenPanBegin.Y) % 10) == 0)
-                ViewportChanged?.Invoke(this, EventArgs.Empty);
+            //if ((Math.Abs(mousePos.X - mousePanBegin.X) % 10) == 0 ||
+            //    (Math.Abs(mousePos.Y - mousePanBegin.Y) % 10) == 0)
+            ViewportChanged?.Invoke(this, new(ScreenToCanvas(mousePos), mousePos));
         }
 
         private void OnMouseLeave(object sender, MouseEventArgs e)
@@ -161,7 +166,8 @@ namespace DegCAD
             //If the viewport gets resized, resizes the writable bitmap to fit it perfectly
             WBmp = BitmapFactory.New((int)ActualWidth, (int)ActualHeight);
             imageDisplay.Source = WBmp;
-            ViewportChanged?.Invoke(this, EventArgs.Empty);
+            Vector2 mousePos = Mouse.GetPosition(this);
+            ViewportChanged?.Invoke(this, new(ScreenToCanvas(mousePos), mousePos));
         }
 
         #region Point conversion
@@ -186,5 +192,26 @@ namespace DegCAD
             return res;
         }
         #endregion
+
+        private void OnMouseMove(object sender, MouseEventArgs e)
+        {
+            //Invokes VPMouseMoved with coordinates
+            Vector2 mpos = e.GetPosition(this);
+            VPMouseMoved?.Invoke(this, new(ScreenToCanvas(mpos), mpos));
+        }
+    }
+
+    /// <summary>
+    /// Event args containing mouse position on the canvas
+    /// </summary>
+    public class VPMouseEventArgs : EventArgs
+    {
+        public Vector2 CanvasPos { get; init; }
+        public Vector2 ScreenPos { get; init; }
+        public VPMouseEventArgs(Vector2 canvasPos, Vector2 screenPos)
+        {
+            CanvasPos = canvasPos;
+            ScreenPos = screenPos;
+        }
     }
 }
