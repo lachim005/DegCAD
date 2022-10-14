@@ -22,6 +22,7 @@ namespace DegCAD
     public partial class Editor : UserControl
     {
         public GeometryDrawer GeometryDrawer { get; set; }
+        public GeometryInputManager InputMgr { get; set; }
 
 
 
@@ -29,6 +30,16 @@ namespace DegCAD
         {
             InitializeComponent();
             GeometryDrawer = new(viewPort);
+            InputMgr = new(viewPort, previewVP);
+            viewPort.ViewportChanged += Redraw;
+            viewPort.ViewportChanged += MovePreviewVP;
+        }
+
+        private void MovePreviewVP(object? sender, EventArgs e)
+        {
+            previewVP.Scale = viewPort.Scale;
+            previewVP.OffsetX = viewPort.OffsetX;
+            previewVP.OffsetY = viewPort.OffsetY;
         }
 
         private void Redraw(object? sender, EventArgs e)
@@ -40,6 +51,7 @@ namespace DegCAD
         public void ExecuteCommand(IGeometryCommand command)
         {
             Debug.WriteLine($"Executing command: {command}");
+            command.ExecuteAsync(InputMgr.PreviewGd, InputMgr);
         }
     }
 }

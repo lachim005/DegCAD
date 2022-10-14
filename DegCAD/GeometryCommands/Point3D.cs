@@ -8,5 +8,8 @@ namespace DegCAD.GeometryCommands
 {
     public class Point3D : IGeometryCommand
     {
+        public async void ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr)
+        {
+        }
     }
 }
