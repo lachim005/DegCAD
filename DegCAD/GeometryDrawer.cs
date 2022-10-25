@@ -121,15 +121,24 @@ namespace DegCAD
         /// </summary>
         private double ClampInfinity(ParametricLine2 l, double t)
         {
+            double par = t;
             if (t == double.NegativeInfinity)
             {
-                return l.GetParamFromX(vp.ScreenToCanvas((0, 0)).X);
+                par = l.GetParamFromX(vp.ScreenToCanvas((0, 0)).X);
+                if (!double.IsFinite(par))
+                {
+                    return l.GetParamFromY(vp.ScreenToCanvas((0, 0)).Y);
+                }
             }
-            if (t == double.PositiveInfinity)
+            else if (t == double.PositiveInfinity)
             {
-                return l.GetParamFromX(vp.ScreenToCanvas((vp.CWidth, 0)).X);
+                par = l.GetParamFromX(vp.ScreenToCanvas((vp.CWidth, 0)).X);
+                if (!double.IsFinite(par))
+                {
+                    return l.GetParamFromY(vp.ScreenToCanvas((0, vp.CHeight)).Y);
+                }
             }
-            return t;
+            return par;
         }
     }
 }
