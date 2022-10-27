@@ -23,7 +23,8 @@ namespace DegCAD
     {
         public GeometryDrawer GeometryDrawer { get; set; }
         public GeometryInputManager InputMgr { get; set; }
-
+        public Timeline Timeline { get; set; }
+        
 
 
         public Editor()
@@ -33,6 +34,7 @@ namespace DegCAD
             InputMgr = new(viewPort, previewVP);
             viewPort.ViewportChanged += Redraw;
             viewPort.ViewportChanged += MovePreviewVP;
+            Timeline = new();
         }
 
         private void MovePreviewVP(object? sender, EventArgs e)
@@ -46,12 +48,18 @@ namespace DegCAD
         {
             GeometryDrawer.Clear();
             Axis.Draw(GeometryDrawer);
+            foreach (var cmd in Timeline.CommandHistory)
+            {
+                cmd.Draw(GeometryDrawer);
+            }
         }
 
-        public void ExecuteCommand(IGeometryCommand command)
+        public async void ExecuteCommand(IGeometryCommand command)
         {
             Debug.WriteLine($"Executing command: {command}");
-            command.ExecuteAsync(InputMgr.PreviewGd, InputMgr);
+            await command.ExecuteAsync(InputMgr.PreviewGd, InputMgr);
+            Timeline.AddCommand(command);
+            Redraw(this, EventArgs.Empty);
         }
     }
 }
