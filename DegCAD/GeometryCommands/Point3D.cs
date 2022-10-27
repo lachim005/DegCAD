@@ -9,12 +9,15 @@ namespace DegCAD.GeometryCommands
 {
     public class Point3D : IGeometryCommand
     {
-        public async void ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr)
+        public Vector2 p1;
+        public Vector2 p2;
+
+        public async Task ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr)
         {
             Style previewStyle = new() { Color = Color.FromRgb(0, 0, 255), LineStyle = 1 };
             ParametricLine2 xLine = new((0, 0), (0, 1));
 
-            var c1 = await inputMgr.GetPoint((p, gd) =>
+            p1 = await inputMgr.GetPoint((p, gd) =>
             {
                 //X line
                 xLine.Point = p;
@@ -24,17 +27,29 @@ namespace DegCAD.GeometryCommands
                 gd.DrawLine((p.X, p.Y - .2), (p.X, p.Y + .2), Style.Default);
             });
 
-            var c2 = await inputMgr.GetPoint((p, gd) =>
+            p2 = await inputMgr.GetPoint((p, gd) =>
             {
                 //X line
                 gd.DrawLine(xLine, double.NegativeInfinity, double.PositiveInfinity, previewStyle);
                 //Point 1 cross
-                gd.DrawLine((c1.X - .2, c1.Y), (c1.X + .2, c1.Y), Style.Default);
-                gd.DrawLine((c1.X, c1.Y - .2), (c1.X, c1.Y + .2), Style.Default);
+                gd.DrawLine((p1.X - .2, p1.Y), (p1.X + .2, p1.Y), Style.Default);
+                gd.DrawLine((p1.X, p1.Y - .2), (p1.X, p1.Y + .2), Style.Default);
                 //Point 2 cross
-                gd.DrawLine((c1.X - .2, p.Y), (c1.X + .2, p.Y), Style.Default);
-                gd.DrawLine((c1.X, p.Y - .2), (c1.X, p.Y + .2), Style.Default);
+                gd.DrawLine((p1.X - .2, p.Y), (p1.X + .2, p.Y), Style.Default);
+                gd.DrawLine((p1.X, p.Y - .2), (p1.X, p.Y + .2), Style.Default);
             });
+
+            p2.X = p1.X;
+        }
+
+        public void Draw(GeometryDrawer gd)
+        {
+            //Point 1 cross
+            gd.DrawLine((p1.X - .2, p1.Y), (p1.X + .2, p1.Y), Style.Default);
+            gd.DrawLine((p1.X, p1.Y - .2), (p1.X, p1.Y + .2), Style.Default);
+            //Point 2 cross
+            gd.DrawLine((p2.X - .2, p2.Y), (p2.X + .2, p2.Y), Style.Default);
+            gd.DrawLine((p2.X, p2.Y - .2), (p2.X, p2.Y + .2), Style.Default);
         }
     }
 }
