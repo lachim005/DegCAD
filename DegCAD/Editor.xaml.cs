@@ -62,7 +62,8 @@ namespace DegCAD
         public async void ExecuteCommand(IGeometryCommand command)
         {
             Debug.WriteLine($"Executing command: {command}");
-            await command.ExecuteAsync(InputMgr.PreviewGd, InputMgr);
+            var res = await command.ExecuteAsync(InputMgr.PreviewGd, InputMgr);
+            Timeline.AddCommand(res);
             Redraw(this, EventArgs.Empty);
         }
     }

@@ -8,7 +8,6 @@ namespace DegCAD
 {
     public interface IGeometryCommand
     {
-        Task ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr);
-        void Draw(GeometryDrawer gd);
+        Task<TimelineItem> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr);
     }
 }
