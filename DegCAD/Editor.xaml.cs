@@ -52,7 +52,10 @@ namespace DegCAD
             Axis.Draw(GeometryDrawer);
             foreach (var cmd in Timeline.CommandHistory)
             {
-                cmd.Draw(GeometryDrawer);
+                for (int i = 0; i < cmd.Items.Length; i++)
+                {
+                    cmd.Items[i].Draw(GeometryDrawer);
+                }
             }
         }
 
@@ -60,7 +63,6 @@ namespace DegCAD
         {
             Debug.WriteLine($"Executing command: {command}");
             await command.ExecuteAsync(InputMgr.PreviewGd, InputMgr);
-            Timeline.AddCommand(command);
             Redraw(this, EventArgs.Empty);
         }
     }

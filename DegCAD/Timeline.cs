@@ -12,8 +12,8 @@ namespace DegCAD
     /// </summary>
     public class Timeline
     {
-        public Stack<IGeometryCommand> CommandHistory { get; private set; } = new();
-        public Stack<IGeometryCommand> UndoneCommands { get; private set; } = new();
+        public Stack<TimelineItem> CommandHistory { get; private set; } = new();
+        public Stack<TimelineItem> UndoneCommands { get; private set; } = new();
 
         public void Undo()
         {
@@ -25,7 +25,7 @@ namespace DegCAD
             CommandHistory.Push(UndoneCommands.Pop());
         }
 
-        public void AddCommand(IGeometryCommand cmd)
+        public void AddCommand(TimelineItem cmd)
         {
             CommandHistory.Push(cmd);
             UndoneCommands.Clear();
