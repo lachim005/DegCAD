@@ -24,17 +24,19 @@ namespace DegCAD
         public GeometryDrawer GeometryDrawer { get; set; }
         public GeometryInputManager InputMgr { get; set; }
         public Timeline Timeline { get; set; }
-        
+        public Snapper Snapper { get; set; }
+
 
 
         public Editor()
         {
             InitializeComponent();
             GeometryDrawer = new(viewPort);
-            InputMgr = new(viewPort, previewVP);
             viewPort.ViewportChanged += Redraw;
             viewPort.ViewportChanged += MovePreviewVP;
             Timeline = new();
+            Snapper = new(Timeline);
+            InputMgr = new(viewPort, previewVP, Snapper);
         }
 
         private void MovePreviewVP(object? sender, EventArgs e)

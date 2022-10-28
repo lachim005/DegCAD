@@ -23,14 +23,16 @@ namespace DegCAD
         public ViewPort PreviewVp { get; set; }
         public ViewPort ViewPort { get; set; }
         public GeometryDrawer PreviewGd { get; set; }
+        public Snapper Snapper { get; set; }
         public Style PreviewStyle { get; set; } = new Style() { Color = Color.FromRgb(0, 0, 255), LineStyle = 1 };
 
-        public GeometryInputManager(ViewPort viewPort, ViewPort previewVp)
+        public GeometryInputManager(ViewPort viewPort, ViewPort previewVp, Snapper snapper)
         {
             InitializeComponent();
             PreviewGd = new(previewVp);
             ViewPort = viewPort;
             PreviewVp = previewVp;
+            Snapper = snapper;
         }
 
         /// <summary>
@@ -43,7 +45,8 @@ namespace DegCAD
             EventHandler<VPMouseEventArgs> previewPoint = (s, e) =>
             {
                 PreviewGd.Clear();
-                preview(e.CanvasPos, PreviewGd);
+                Vector2 snapPos = Snapper.Snap(e.CanvasPos);
+                preview(snapPos, PreviewGd);
             };
 
             //Redraws the preview when the user moves the mouse or zooms/pans the viewport
@@ -59,7 +62,8 @@ namespace DegCAD
                 if (e.ChangedButton == MouseButton.Left)
                 {
                     Vector2 res = Mouse.GetPosition(ViewPort);
-                    result.SetResult(res);
+                    Vector2 snapCanvasPos = Snapper.Snap(ViewPort.ScreenToCanvas(res));
+                    result.SetResult(snapCanvasPos);
                 }
             };
 
@@ -69,7 +73,7 @@ namespace DegCAD
             preview(PreviewVp.ScreenToCanvas(Mouse.GetPosition(ViewPort)), PreviewGd);
 
             //Awaits the user click
-            Vector2 mposClick = ViewPort.ScreenToCanvas(await result.Task);
+            Vector2 mposClick = await result.Task;
 
             //Unasignes all events and clears the preview
             ViewPort.VPMouseMoved -= previewPoint;
