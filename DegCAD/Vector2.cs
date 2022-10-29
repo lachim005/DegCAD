@@ -24,11 +24,11 @@ namespace DegCAD
         /// <summary>
         /// The length of the vector
         /// </summary>
-        double Length { get => Math.Sqrt(X * X + Y * Y); }
+        public double Length { get => Math.Sqrt(X * X + Y * Y); }
         /// <summary>
         /// The squared length of the vector (more efficient to calculate)
         /// </summary>
-        double LengthSquared { get => X * X + Y * Y; }
+        public double LengthSquared { get => X * X + Y * Y; }
 
         /// <summary>
         /// Creates a new two-dimensional vector from coordinates
