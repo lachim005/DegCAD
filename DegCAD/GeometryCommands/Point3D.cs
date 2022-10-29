@@ -40,8 +40,13 @@ namespace DegCAD.GeometryCommands
                 gd.DrawLine((p1.X, p.Y - .2), (p1.X, p.Y + .2), Style.Default);
             });
 
+            p2.X = p1.X;
+
             Point mpoint = new() { X = p1.X, Y = p1.Y, Z = -p2.Y };
-            return new(new IMongeItem[1] { mpoint });
+            return new(
+                new IMongeItem[1] { mpoint }, //Drawable items
+                new Vector2[2] { p1, p2 }     //Snapable points
+            );
         }
     }
 }

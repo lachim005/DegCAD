@@ -12,11 +12,12 @@ namespace DegCAD
     public class TimelineItem
     {
         public IMongeItem[] Items { get; set; }
+        public Vector2[] SnapPoints { get; set; }
 
-
-        public TimelineItem(IMongeItem[] items)
+        public TimelineItem(IMongeItem[] items, Vector2[] snapPoints)
         {
             Items = items;
+            SnapPoints = snapPoints;
         }
     }
 }
