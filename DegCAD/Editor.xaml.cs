@@ -63,6 +63,8 @@ namespace DegCAD
         {
             Debug.WriteLine($"Executing command: {command}");
             var res = await command.ExecuteAsync(InputMgr.PreviewGd, InputMgr);
+            if (res is null)
+                return;
             Timeline.AddCommand(res);
             Redraw(this, EventArgs.Empty);
         }
