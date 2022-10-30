@@ -19,10 +19,10 @@ namespace DegCAD
             gd.DrawLine(axis, double.NegativeInfinity, double.PositiveInfinity, Style.Default);
             //Zero mark
             gd.DrawLine((0,-.2),(0,.2), Style.Default);
-            gd.DrawString("0", (0.1, 0.1), 16, Style.Default);
+            gd.DrawString("0", (0.1, 0.1), 24, Style.Default);
             //Axis label
-            Vector2 end = gd.DrawString("x", (5, 0.1), 16, Style.Default);
-            gd.DrawString("1, 2", (end.X, .45), 8, Style.Default);
+            Vector2 end = gd.DrawString("x", (5, 0.1), 24, Style.Default);
+            gd.DrawString("1, 2", (end.X, .45), 16, Style.Default);
         }
     }
 }

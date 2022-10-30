@@ -97,11 +97,16 @@ namespace DegCAD
                 //Creates a font and a fontsize
                 int fs = (int)(fontSize * vp.Scale);
                 if (fs < 1) fs = 1;
-                var font = new System.Drawing.Font("Calibri Light", fs, System.Drawing.FontStyle.Regular);
+                var font = new System.Drawing.Font("Tahoma", fs, System.Drawing.FontStyle.Regular);
 
                 //Gets the size of the text being drawn and converts it to a vector
                 var size = g.MeasureString(text, font);
                 Vector2 sizeVector = (size.Width, size.Height);
+
+                //Changes some settings to make the font look nicer
+                g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                g.PixelOffsetMode = System.Drawing.Drawing2D.PixelOffsetMode.HighSpeed;
+                g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
 
                 //Fills a transparent rectangle below the text so it doesn't get obstructed by lines
                 vp.WBmp.FillRectangle((int)screenCoords.X, (int)screenCoords.Y,
