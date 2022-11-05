@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -26,6 +27,8 @@ namespace DegCAD
         public Snapper Snapper { get; set; }
         public Style PreviewStyle { get; set; } = new Style() { Color = Color.FromRgb(0, 0, 255), LineStyle = 1 };
 
+        private SemaphoreSlim inputSemaphore = new(1, 1);
+
         public GeometryInputManager(ViewPort viewPort, ViewPort previewVp, Snapper snapper)
         {
             InitializeComponent();
@@ -41,6 +44,8 @@ namespace DegCAD
         /// <param name="preview">Action that will get executed to redraw the preview of the inputed point</param>
         public async Task<Vector2> GetPoint(Action<Vector2, GeometryDrawer> preview)
         {
+            await inputSemaphore.WaitAsync();
+
             //Saves the previewPoint handler so it can be unasigned later
             EventHandler<VPMouseEventArgs> previewPoint = (s, e) =>
             {
@@ -81,6 +86,7 @@ namespace DegCAD
             ViewPort.ViewportChanged -= previewPoint;
             PreviewGd.Clear();
 
+            inputSemaphore.Release();
 
             return mposClick;
         }
