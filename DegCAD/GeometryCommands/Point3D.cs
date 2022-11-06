@@ -27,8 +27,7 @@ namespace DegCAD.GeometryCommands
                 xLine.Point = p;
                 gd.DrawLine(xLine, double.NegativeInfinity, double.PositiveInfinity, previewStyle);
                 //Point 1 cross
-                gd.DrawLine((p.X - .2, p.Y), (p.X + .2, p.Y), Style.Default);
-                gd.DrawLine((p.X, p.Y - .2), (p.X, p.Y + .2), Style.Default);
+                gd.DrawPointCross(p, Style.Default);
             });
 
             p2 = await inputMgr.GetPoint((p, gd) =>
@@ -37,11 +36,9 @@ namespace DegCAD.GeometryCommands
                 //X line
                 gd.DrawLine(xLine, double.NegativeInfinity, double.PositiveInfinity, previewStyle);
                 //Point 1 cross
-                gd.DrawLine((p1.X - .2, p1.Y), (p1.X + .2, p1.Y), Style.Default);
-                gd.DrawLine((p1.X, p1.Y - .2), (p1.X, p1.Y + .2), Style.Default);
+                gd.DrawPointCross(p1, Style.Default);
                 //Point 2 cross
-                gd.DrawLine((p1.X - .2, p.Y), (p1.X + .2, p.Y), Style.Default);
-                gd.DrawLine((p1.X, p.Y - .2), (p1.X, p.Y + .2), Style.Default);
+                gd.DrawPointCross((p1.X, p.Y), Style.Default);
             });
 
             p2.X = p1.X;

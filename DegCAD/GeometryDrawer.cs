@@ -81,6 +81,14 @@ namespace DegCAD
                 vp.WBmp.FillRectangle(0, (int)vp.CanvasToScreen((0, 0)).Y, vp.CWidth, -1, Color.FromRgb(255, 255, 200));
         }
         /// <summary>
+        /// Draws a cross on the set point
+        /// </summary>
+        public void DrawPointCross(Vector2 pt, Style style, double size = 0.2, int thickness = 1)
+        {
+            DrawLine((pt.X - size, pt.Y), (pt.X + size, pt.Y), style, thickness);
+            DrawLine((pt.X, pt.Y - size), (pt.X, pt.Y + size), style, thickness);
+        }
+        /// <summary>
         /// Draws a string on the canvas in canvas space
         /// </summary>
         /// <returns>The canvas space position where the text ended so you can continue drawing something like the lower index</returns>
