@@ -39,19 +39,19 @@ namespace DegCAD
         /// <param name="from">The parameter of the beginning point of the line</param>
         /// <param name="to">The parameter of the ending point of the line</param>
         /// <param name="s">Style of the line</param>
-        public void DrawLine(ParametricLine2 line, double from, double to, Style s)
+        public void DrawLine(ParametricLine2 line, double from, double to, Style s, int thickness = 1)
         {
             //Calculates the canvas points the line will be drawn between
             var p1 = line.GetPoint(ClampInfinity(line, from));
             var p2 = line.GetPoint(ClampInfinity(line, to));
 
-            DrawLine(p1, p2, s);
+            DrawLine(p1, p2, s, thickness);
         }
 
         /// <summary>
         /// Draws a line between two points in canvas space
         /// </summary>
-        public void DrawLine(Vector2 p1, Vector2 p2, Style s)
+        public void DrawLine(Vector2 p1, Vector2 p2, Style s, int thickness = 1)
         {
             //Translates the coordinates to screen space and multiplies them by the scaling factor
             var sp1 = vp.CanvasToScreen(p1);
@@ -61,12 +61,11 @@ namespace DegCAD
             {
                 case 1:
                     //Dashed line
-                    vp.WBmp.DrawLine((int)sp1.X, (int)sp1.Y, (int)sp2.X, (int)sp2.Y, Colors.Transparent);
                     vp.WBmp.DrawLineDotted((int)sp1.X, (int)sp1.Y, (int)sp2.X, (int)sp2.Y, 5, 5, s.Color);
                     break;
                 default:
                     //Solid line
-                    vp.WBmp.DrawLine((int)sp1.X, (int)sp1.Y, (int)sp2.X, (int)sp2.Y, s.Color);
+                    vp.WBmp.DrawLineAa((int)sp1.X, (int)sp1.Y, (int)sp2.X, (int)sp2.Y, s.Color, thickness);
                     break;
             }
         }
