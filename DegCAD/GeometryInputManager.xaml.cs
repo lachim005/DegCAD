@@ -90,5 +90,63 @@ namespace DegCAD
 
             return mposClick;
         }
+
+        public async Task<(Vector2, bool)> GetPointWithPlane(Action<Vector2, GeometryDrawer, bool> preview)
+        {
+            await inputSemaphore.WaitAsync();
+
+            bool plane = false;
+
+            //Saves the previewPoint handler so it can be unasigned later
+            EventHandler<VPMouseEventArgs> previewPoint = (s, e) =>
+            {
+                PreviewGd.Clear();
+                Vector2 snapPos = Snapper.Snap(e.CanvasPos);
+                preview(snapPos, PreviewGd, plane);
+            };
+
+            //Redraws the preview when the user moves the mouse or zooms/pans the viewport
+            ViewPort.VPMouseMoved += previewPoint;
+            ViewPort.ViewportChanged += previewPoint;
+
+            //Used to await the click
+            TaskCompletionSource<Vector2> result = new();
+
+            //Saves the handler so it can be unasigned
+            MouseButtonEventHandler viewPortClick = (s, e) =>
+            {
+                if (e.ChangedButton == MouseButton.Left)
+                {
+                    //Accepts the point
+                    Vector2 res = Mouse.GetPosition(ViewPort);
+                    Vector2 snapCanvasPos = Snapper.Snap(ViewPort.ScreenToCanvas(res));
+                    result.SetResult(snapCanvasPos);
+                } else if (e.ChangedButton == MouseButton.Right)
+                {
+                    //Switches the plane
+                    plane = !plane;
+                    PreviewGd.Clear();
+                    preview(PreviewVp.ScreenToCanvas(e.GetPosition(ViewPort)), PreviewGd, plane);
+                }
+            };
+
+            ViewPort.MouseDown += viewPortClick;
+
+            //Draws the preview so it doesn't appear after the user moves their mouse
+            preview(PreviewVp.ScreenToCanvas(Mouse.GetPosition(ViewPort)), PreviewGd, plane);
+
+            //Awaits the user click
+            Vector2 mposClick = await result.Task;
+
+            //Unasignes all events and clears the preview
+            ViewPort.VPMouseMoved -= previewPoint;
+            ViewPort.MouseDown -= viewPortClick;
+            ViewPort.ViewportChanged -= previewPoint;
+            PreviewGd.Clear();
+
+            inputSemaphore.Release();
+
+            return (mposClick, plane);
+        }
     }
 }
