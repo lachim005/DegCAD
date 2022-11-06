@@ -71,6 +71,17 @@ namespace DegCAD
             }
         }
         /// <summary>
+        /// Fills one plane
+        /// </summary>
+        /// <param name="plane">False to draw the bottom plane, true for the top plane</param>
+        public void DrawPlane(bool plane)
+        {
+            if (!plane)
+                vp.WBmp.FillRectangle(0, (int)vp.CanvasToScreen((0, 0)).Y, vp.CWidth, vp.CHeight, Color.FromRgb(255, 255, 200));
+            else
+                vp.WBmp.FillRectangle(0, (int)vp.CanvasToScreen((0, 0)).Y, vp.CWidth, -1, Color.FromRgb(255, 255, 200));
+        }
+        /// <summary>
         /// Draws a string on the canvas in canvas space
         /// </summary>
         /// <returns>The canvas space position where the text ended so you can continue drawing something like the lower index</returns>

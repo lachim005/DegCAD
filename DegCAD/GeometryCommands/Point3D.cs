@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DegCAD.DrawableItems;
+using System.Diagnostics;
 
 namespace DegCAD.GeometryCommands
 {
@@ -12,14 +13,16 @@ namespace DegCAD.GeometryCommands
     {
         public Vector2 p1;
         public Vector2 p2;
+        bool firstPlane;
 
         public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr)
         {
             Style previewStyle = new() { Color = Color.FromRgb(0, 0, 255), LineStyle = 1 };
             ParametricLine2 xLine = new((0, 0), (0, 1));
 
-            p1 = await inputMgr.GetPoint((p, gd) =>
+            (p1, firstPlane) = await inputMgr.GetPointWithPlane((p, gd, pl) =>
             {
+                gd.DrawPlane(pl);
                 //X line
                 xLine.Point = p;
                 gd.DrawLine(xLine, double.NegativeInfinity, double.PositiveInfinity, previewStyle);
@@ -30,6 +33,7 @@ namespace DegCAD.GeometryCommands
 
             p2 = await inputMgr.GetPoint((p, gd) =>
             {
+                gd.DrawPlane(!firstPlane);
                 //X line
                 gd.DrawLine(xLine, double.NegativeInfinity, double.PositiveInfinity, previewStyle);
                 //Point 1 cross
@@ -42,7 +46,17 @@ namespace DegCAD.GeometryCommands
 
             p2.X = p1.X;
 
-            Point mpoint = new() { X = p1.X, Y = p1.Y, Z = -p2.Y };
+
+            Point mpoint;
+            //Sets the Y and Z coordinates depending on the first plane selected
+            if (firstPlane)
+            {
+                mpoint = new() { X = p1.X, Y = p2.Y, Z = -p1.Y };
+            } else
+            {
+                mpoint = new() { X = p1.X, Y = p1.Y, Z = -p2.Y };
+            }
+
             return new(
                 new IMongeItem[1] { mpoint }, //Drawable items
                 new Vector2[2] { p1, p2 }     //Snapable points
