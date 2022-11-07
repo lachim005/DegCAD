@@ -65,7 +65,12 @@ namespace DegCAD
                     break;
                 default:
                     //Solid line
-                    vp.WBmp.DrawLineAa((int)sp1.X, (int)sp1.Y, (int)sp2.X, (int)sp2.Y, s.Color, thickness);
+                    if (thickness != 1)
+                    {
+                        vp.WBmp.DrawLineAa((int)sp1.X, (int)sp1.Y, (int)sp2.X, (int)sp2.Y, s.Color, thickness);
+                        break;
+                    }
+                    vp.WBmp.DrawLineBresenham((int)sp1.X, (int)sp1.Y, (int)sp2.X, (int)sp2.Y, s.Color);
                     break;
             }
         }
