@@ -24,7 +24,7 @@ namespace DegCAD.GeometryCommands
                 
                 gd.DrawPointCross(p, Style.Default);
             });
-            Vector2 pt2 = await inputMgr.GetPoint((p, gd) =>
+            (Vector2 pt2, plane) = await inputMgr.GetPointWithPlane((p, gd, plane) =>
             {
                 gd.DrawPlane(plane);
                 
@@ -42,7 +42,7 @@ namespace DegCAD.GeometryCommands
                 }
 
                 gd.DrawLine(line1, double.PositiveInfinity * line1Sign, line1.GetParamFromY(0), Style.Default);
-            });
+            }, plane);
 
             //Second projection
             Vector2 pt3 = await inputMgr.GetPoint((p, gd) =>
