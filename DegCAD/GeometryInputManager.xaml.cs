@@ -91,11 +91,11 @@ namespace DegCAD
             return mposClick;
         }
 
-        public async Task<(Vector2, bool)> GetPointWithPlane(Action<Vector2, GeometryDrawer, bool> preview)
+        public async Task<(Vector2, bool)> GetPointWithPlane(Action<Vector2, GeometryDrawer, bool> preview, bool defaultPlane = false)
         {
             await inputSemaphore.WaitAsync();
 
-            bool plane = false;
+            bool plane = defaultPlane;
 
             //Saves the previewPoint handler so it can be unasigned later
             EventHandler<VPMouseEventArgs> previewPoint = (s, e) =>
