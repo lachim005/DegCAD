@@ -44,6 +44,8 @@ namespace DegCAD.MongeItems
             }
         }
 
+        public Vector2[] SnapablePoints { get; } = new Vector2[0];
+
         public Style Style = Style.Default;
 
 

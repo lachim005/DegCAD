@@ -6,6 +6,7 @@
         public double Y { get; set; } = double.NaN;
         public double Z { get; set; } = double.NaN;
         public Style Style { get; set; } = Style.Default;
+        public Vector2[] SnapablePoints { get; } = new Vector2[0];
 
         public void Draw(GeometryDrawer gd)
         {

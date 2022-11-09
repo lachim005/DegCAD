@@ -9,5 +9,6 @@ namespace DegCAD
     public interface IMongeItem
     {
         void Draw(GeometryDrawer gd);
+        public Vector2[] SnapablePoints { get; }
     }
 }
