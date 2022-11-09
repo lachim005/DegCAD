@@ -48,10 +48,10 @@ namespace DegCAD.GeometryCommands
             //Sets the Y and Z coordinates depending on the first plane selected
             if (firstPlane)
             {
-                mpoint = new() { X = p1.X, Y = p2.Y, Z = -p1.Y };
+                mpoint = new(p1.X, p2.Y, -p1.Y);
             } else
             {
-                mpoint = new() { X = p1.X, Y = p1.Y, Z = -p2.Y };
+                mpoint = new(p1.X, p1.Y, -p2.Y);
             }
 
             return new(

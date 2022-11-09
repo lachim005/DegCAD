@@ -27,7 +27,7 @@ namespace DegCAD.GeometryCommands
             foreach (var pt in dialog.Points)
             {
                 //Adds the monge point
-                pts.Add(new Point() { X = pt.X, Y = pt.Y, Z = pt.Z });
+                pts.Add(new Point(pt.X, pt.Y, pt.Z));
 
                 //Adds snapable points
                 if (!double.IsNaN(pt.Y))

@@ -1,12 +1,31 @@
-﻿namespace DegCAD.DrawableItems
+﻿using System.Collections.Generic;
+
+namespace DegCAD.DrawableItems
 {
     internal class Point : IMongeItem
     {
-        public double X { get; set; }
-        public double Y { get; set; } = double.NaN;
-        public double Z { get; set; } = double.NaN;
-        public Style Style { get; set; } = Style.Default;
-        public Vector2[] SnapablePoints { get; } = new Vector2[0];
+        public double X { get; init; }
+        public double Y { get; init; } = double.NaN;
+        public double Z { get; init; } = double.NaN;
+        public Style Style { get; init; } = Style.Default;
+        public Vector2[] SnapablePoints { get; init; }
+
+        public Point(double x, double y, double z) : this(x, y, z, Style.Default) { }
+        public Point(double x, double y, double z, Style style)
+        {
+            X = x;
+            Y = y;
+            Z = z;
+            Style = style;
+
+            //Adds snapable points
+            List<Vector2> snapPts = new(2);
+            if (!double.IsNaN(Y))
+                snapPts.Add((x, y));
+            if (!double.IsNaN(Z))
+                snapPts.Add((x, -z));
+            SnapablePoints = snapPts.ToArray();
+        }
 
         public void Draw(GeometryDrawer gd)
         {
