@@ -26,14 +26,17 @@ namespace DegCAD
             //Goes through every snapable point and saves the closest one
             foreach (var cmd in Timeline.CommandHistory)
             {
-                for (int i = 0; i < cmd.SnapPoints.Length; i++)
+                for (int j = 0; j < cmd.Items.Length; j++)
                 {
-                    double distance = (cmd.SnapPoints[i] - v).LengthSquared;
-                    if (distance < closestPointDistance)
+                    for (int i = 0; i < cmd.Items[j].SnapablePoints.Length; i++)
                     {
-                        closestPointDistance = distance;
-                        closestPoint = cmd.SnapPoints[i];
-                    }
+                        double distance = (cmd.Items[j].SnapablePoints[i] - v).LengthSquared;
+                        if (distance < closestPointDistance)
+                        {
+                            closestPointDistance = distance;
+                            closestPoint = cmd.Items[j].SnapablePoints[i];
+                        }
+                    } 
                 }
             }
 

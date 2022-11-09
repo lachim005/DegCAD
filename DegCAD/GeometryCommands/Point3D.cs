@@ -55,8 +55,7 @@ namespace DegCAD.GeometryCommands
             }
 
             return new(
-                new IMongeItem[1] { mpoint }, //Drawable items
-                new Vector2[2] { p1, p2 }     //Snapable points
+                new IMongeItem[1] { mpoint }
             );
         }
     }

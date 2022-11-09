@@ -22,21 +22,14 @@ namespace DegCAD.GeometryCommands
             }
 
             List<IMongeItem> pts = new();
-            List<Vector2> snap = new();
 
             foreach (var pt in dialog.Points)
             {
                 //Adds the monge point
                 pts.Add(new Point(pt.X, pt.Y, pt.Z));
-
-                //Adds snapable points
-                if (!double.IsNaN(pt.Y))
-                    snap.Add((pt.X, pt.Y));
-                if (!double.IsNaN(pt.Y))
-                    snap.Add((pt.X, -pt.Z));
             }
 
-            return new(pts.ToArray(), snap.ToArray());
+            return new(pts.ToArray());
         }
     }
 }

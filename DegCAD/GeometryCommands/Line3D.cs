@@ -89,8 +89,7 @@ namespace DegCAD.GeometryCommands
             }
 
             return new TimelineItem(
-                new IMongeItem[1] {line},
-                new Vector2[0]
+                new IMongeItem[1] {line}
             );
         }
     }

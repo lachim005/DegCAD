@@ -25,8 +25,7 @@ namespace DegCAD.GeometryCommands
             var lseg = new MongeItems.LineSegment(p1, p2);
 
             return new(
-                new IMongeItem[1] { lseg },
-                new Vector2[0]
+                new IMongeItem[1] { lseg }
             );
         }
     }
