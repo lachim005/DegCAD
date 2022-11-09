@@ -10,7 +10,7 @@ namespace DegCAD.GeometryCommands
 {
     internal class PointCoordInput : IGeometryCommand
     {
-        public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr)
+        public Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr)
         {
             //The dialog is used to enter the point coordinates
             var dialog = new PointCoordinateInputDialog();
@@ -18,7 +18,7 @@ namespace DegCAD.GeometryCommands
 
             if (dialog.Canceled)
             {
-                return null;
+                return Task.FromResult<TimelineItem?>(null);
             }
 
             List<IMongeItem> pts = new();
@@ -29,7 +29,7 @@ namespace DegCAD.GeometryCommands
                 pts.Add(new Point(pt.X, pt.Y, pt.Z));
             }
 
-            return new(pts.ToArray());
+            return Task.FromResult<TimelineItem?>(new(pts.ToArray()));
         }
     }
 }
