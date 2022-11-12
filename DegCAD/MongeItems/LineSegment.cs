@@ -12,7 +12,7 @@ namespace DegCAD.MongeItems
         public Vector2 P2 { get; init; }
         public Style Style { get; init; }
 
-        public Vector2[] SnapablePoints { get; } = new Vector2[0];
+        public Vector2[] SnapablePoints { get; init; }
         public ParametricLine2[] SnapableLines { get; init; }
 
         public LineSegment(Vector2 p1, Vector2 p2) : this(p1, p2, Style.Default) { }
@@ -22,6 +22,7 @@ namespace DegCAD.MongeItems
             P2 = p2;
             Style = style;
             SnapableLines = new ParametricLine2[1] { ParametricLine2.From2Points(p1, p2) };
+            SnapablePoints = new Vector2[2] { p1, p2 };
         }
 
         public void Draw(GeometryDrawer gd)
