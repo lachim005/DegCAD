@@ -10,5 +10,6 @@ namespace DegCAD
     {
         void Draw(GeometryDrawer gd);
         public Vector2[] SnapablePoints { get; }
+        public ParametricLine2[] SnapableLines { get; }
     }
 }

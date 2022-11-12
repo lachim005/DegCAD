@@ -8,46 +8,38 @@ namespace DegCAD.MongeItems
 {
     public class Line : IMongeItem
     {
-        private ParametricLine2 _bottomProjectionLine;
-        private ParametricLine2 _topProjectionLine;
         int botSign;
         int topSign;
 
-        public ParametricLine2 BottomProjectionLine
-        {
-            get => _bottomProjectionLine;
-            set
-            {
-                _bottomProjectionLine = value;
-
-                //Calculates the infinity sign for drawing the line
-                botSign = 1;
-                if (value.DirectionVector.Y * value.DirectionVector.X < 0)
-                {
-                    botSign = -1;
-                }
-            }
-        }
-        public ParametricLine2 TopProjectionLine
-        {
-            get => _topProjectionLine;
-            set
-            {
-                _topProjectionLine = value;
-
-                //Calculates the infinity sign for drawing the line
-                topSign = -1;
-                if (value.DirectionVector.Y * value.DirectionVector.X < 0)
-                {
-                    topSign = 1;
-                }
-            }
-        }
+        public ParametricLine2 BottomProjectionLine { get; init; }
+        public ParametricLine2 TopProjectionLine { get; init; }
 
         public Vector2[] SnapablePoints { get; } = new Vector2[0];
+        public ParametricLine2[] SnapableLines { get; init; }
 
         public Style Style = Style.Default;
 
+        public Line(ParametricLine2 botLine, ParametricLine2 topLine, Style style)
+        {
+            BottomProjectionLine = botLine;
+            TopProjectionLine = topLine;
+
+            //Calculates the infinity sign for drawing the line
+            botSign = 1;
+            if (botLine.DirectionVector.Y * botLine.DirectionVector.X < 0)
+            {
+                botSign = -1;
+            }
+            //Calculates the infinity sign for drawing the line
+            topSign = -1;
+            if (topLine.DirectionVector.Y * topLine.DirectionVector.X < 0)
+            {
+                topSign = 1;
+            }
+
+            SnapableLines = new ParametricLine2[2] { botLine, topLine };
+            Style = style;
+        }
 
         public void Draw(GeometryDrawer gd)
         {

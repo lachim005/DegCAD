@@ -82,10 +82,10 @@ namespace DegCAD.GeometryCommands
             Line line;
             if (plane)
             {
-                line = new Line() { BottomProjectionLine = line2, TopProjectionLine = line1 };
+                line = new Line(line2, line1, Style.Default);
             } else
             {
-                line = new Line() { BottomProjectionLine = line1, TopProjectionLine = line2 };
+                line = new Line(line1, line2, Style.Default);
             }
 
             return new TimelineItem(
