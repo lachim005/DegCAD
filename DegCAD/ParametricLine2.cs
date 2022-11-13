@@ -92,12 +92,11 @@ namespace DegCAD
             //y1 = y2
             //where it finds one of the parameters and uses it to calculate the coordinate
 
-            double a = (l.Point.X - Point.X) / DirectionVector.X;
-            double b =  l.DirectionVector.X / DirectionVector.X;
-            double t2 = (l.Point.Y - (a * DirectionVector.Y) - Point.Y) /
-                ((b*DirectionVector.Y) - l.DirectionVector.Y);
+            double a = (l.Point.Y * DirectionVector.X) + (Point.X * DirectionVector.Y) - (DirectionVector.Y * l.Point.X) - (Point.Y * DirectionVector.X);
+            double b = (DirectionVector.Y * l.DirectionVector.X) - (l.DirectionVector.Y * DirectionVector.X);
+            double t2 = a / b;
 
-            return (l.GetX(t2), l.GetY(t2));
+            return l.GetPoint(t2);
         }
         /// <summary>
         /// Finds and returns an intersection point of two lines
