@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DegCAD.MongeItems;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -37,6 +38,8 @@ namespace DegCAD
             Timeline = new();
             Snapper = new(Timeline);
             InputMgr = new(viewPort, previewVP, Snapper);
+
+            Timeline.AddCommand(new TimelineItem(new IMongeItem[1] { new Axis() }));
         }
 
         private void MovePreviewVP(object? sender, EventArgs e)
@@ -49,7 +52,6 @@ namespace DegCAD
         private void Redraw(object? sender, EventArgs e)
         {
             GeometryDrawer.Clear();
-            Axis.Draw(GeometryDrawer);
             foreach (var cmd in Timeline.CommandHistory)
             {
                 for (int i = 0; i < cmd.Items.Length; i++)

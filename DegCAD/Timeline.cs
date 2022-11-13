@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using DegCAD.MongeItems;
 
 namespace DegCAD
 {
@@ -17,6 +18,9 @@ namespace DegCAD
 
         public void Undo()
         {
+            //User can't undo the axis
+            if (CommandHistory.Peek().Items[0] is Axis) return;
+
             UndoneCommands.Push(CommandHistory.Pop());
         }
 
