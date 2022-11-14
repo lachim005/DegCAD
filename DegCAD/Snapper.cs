@@ -100,6 +100,32 @@ namespace DegCAD
             return v;
         }
 
+        public ParametricLine2? SelectLine(Vector2 v)
+        {
+            ParametricLine2? closestLine = null;
+            double closestLineDistance = SnapThreshold;
+
+            //Goes through every line and saves the closest one
+            foreach(var cmd in Timeline.CommandHistory)
+            {
+                for (int i = 0; i < cmd.Items.Length; i++)
+                {
+                    for (int j = 0; j < cmd.Items[i].SnapableLines.Length; j++)
+                    {
+                        var line = cmd.Items[i].SnapableLines[j];
+                        Vector2 point = TranslatePointToLine(line, v);
+                        double distance = (v - point).LengthSquared;
+                        if (distance < closestLineDistance)
+                        {
+                            closestLine = line;
+                            closestLineDistance = distance;
+                        }
+                    }
+                }
+            }
+            return closestLine;
+        }
+
         /// <summary>
         /// Calculates a point on a line that is closest to the input point
         /// </summary>
