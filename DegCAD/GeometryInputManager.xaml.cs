@@ -148,5 +148,62 @@ namespace DegCAD
 
             return (mposClick, plane);
         }
+
+        /// <summary>
+        /// Gets a line from the user
+        /// </summary>
+        public async Task<ParametricLine2> GetLine(Action<Vector2, ParametricLine2?, GeometryDrawer> preview)
+        {
+            await inputSemaphore.WaitAsync();
+
+            //Saves the previewPoint handler so it can be unasigned later
+            EventHandler<VPMouseEventArgs> previewPoint = (s, e) =>
+            {
+                PreviewGd.Clear();
+                Vector2 snapPos = Snapper.Snap(e.CanvasPos);
+                ParametricLine2? selectedLine = Snapper.SelectLine(e.CanvasPos);
+                preview(snapPos, selectedLine, PreviewGd);
+            };
+
+            //Redraws the preview when the user moves the mouse or zooms/pans the viewport
+            ViewPort.VPMouseMoved += previewPoint;
+            ViewPort.ViewportChanged += previewPoint;
+
+            //Used to await the click
+            TaskCompletionSource<ParametricLine2> result = new();
+
+            //Saves the handler so it can be unasigned
+            MouseButtonEventHandler viewPortClick = (s, e) =>
+            {
+                if (e.ChangedButton == MouseButton.Left)
+                {
+                    Vector2 res = ViewPort.ScreenToCanvas(Mouse.GetPosition(ViewPort));
+                    ParametricLine2? selectedLine = Snapper.SelectLine(res);
+                    //If the user didn't click on a line, ignores the click
+                    if (selectedLine is null)
+                        return;
+                    result.SetResult((ParametricLine2)selectedLine);
+                }
+            };
+
+            ViewPort.MouseDown += viewPortClick;
+
+            //Draws the preview so it doesn't appear after the user moves their mouse
+            Vector2 mousePos = PreviewVp.ScreenToCanvas(Mouse.GetPosition(ViewPort));
+            preview(mousePos, Snapper.SelectLine(mousePos), PreviewGd);
+
+            //Awaits the user click
+            var mposClick = await result.Task;
+
+            //Unasignes all events and clears the preview
+            ViewPort.VPMouseMoved -= previewPoint;
+            ViewPort.MouseDown -= viewPortClick;
+            ViewPort.ViewportChanged -= previewPoint;
+            PreviewGd.Clear();
+
+            inputSemaphore.Release();
+
+            return mposClick;
+        }
     }
 }
