@@ -41,6 +41,11 @@ namespace DegCAD
         /// <param name="s">Style of the line</param>
         public void DrawLine(ParametricLine2 line, double from, double to, Style s, int thickness = 1)
         {
+            if (double.IsNaN(from))
+                from = -to;
+            if (double.IsNaN(to))
+                to = -from;
+
             //Calculates the canvas points the line will be drawn between
             var p1 = line.GetPoint(ClampInfinity(line, from));
             var p2 = line.GetPoint(ClampInfinity(line, to));
