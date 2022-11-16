@@ -41,7 +41,7 @@ namespace DegCAD.GeometryCommands
                 gd.DrawLine(line, double.PositiveInfinity * lineSign, line.GetParamFromY(0), Style.Default);
             });
 
-            return null;
+            return new(new IMongeItem[1] {new LineProjection(line, plane, Style.Default)});
         }
     }
 }
