@@ -17,7 +17,7 @@ namespace DegCAD
             Timeline = timeline;
         }
 
-        public Vector2 Snap(Vector2 v)
+        public Vector2 Snap(Vector2 v, ParametricLine2? forcedLine = null)
         {
             Vector2? closestPoint = null;
             double closestPointDistance = double.MaxValue;
@@ -58,6 +58,10 @@ namespace DegCAD
                     }
                 }
             }
+
+            //Adds the forced line so intersections can be calculated
+            if (forcedLine is not null)
+                closeLines.Add((ParametricLine2)forcedLine);
 
             //If there are more close lines, calculates all the intersections
             if (closeLines.Count > 1)
