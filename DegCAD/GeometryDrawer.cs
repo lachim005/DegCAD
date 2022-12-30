@@ -150,6 +150,32 @@ namespace DegCAD
         }
 
         /// <summary>
+        /// Draws a circle defined by it's center and a point on it
+        /// </summary>
+        public void DrawCircle(Vector2 middle, Vector2 point, Style s)
+        {
+            var sMiddle = vp.CanvasToScreen(middle);
+            var sPoint = vp.CanvasToScreen(point);
+            
+            switch (s.LineStyle) {
+                case 1:
+                    //Dashed circle
+                    vp.WBmp.DrawCircleDashed(sMiddle, sPoint, s.Color);
+                    break;
+                case 2:
+                    //Dot-dashed circle
+                    vp.WBmp.DrawCircleDotDash(sMiddle, sPoint, s.Color);
+                    break;
+                default:
+                    //Solid circle
+                    vp.WBmp.DrawCircle(sMiddle, sPoint, s.Color);
+                    break;
+            }
+
+        }
+
+
+        /// <summary>
         /// If the parameter is infinity, clamps it to the edges of the viewport
         /// </summary>
         private double ClampInfinity(ParametricLine2 l, double t)
