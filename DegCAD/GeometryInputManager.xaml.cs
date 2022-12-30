@@ -51,6 +51,7 @@ namespace DegCAD
             {
                 PreviewGd.Clear();
                 Vector2 snapPos = Snapper.Snap(e.CanvasPos, forceLine);
+                if (predicate is not null && !predicate(snapPos)) return;
                 preview(snapPos, PreviewGd);
             };
 
@@ -105,6 +106,7 @@ namespace DegCAD
             {
                 PreviewGd.Clear();
                 Vector2 snapPos = Snapper.Snap(e.CanvasPos);
+                if (predicate is not null && !predicate(snapPos)) return;
                 preview(snapPos, PreviewGd, plane);
             };
 
