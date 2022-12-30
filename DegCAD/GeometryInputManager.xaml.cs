@@ -42,7 +42,7 @@ namespace DegCAD
         /// Gets a point from the user
         /// </summary>
         /// <param name="preview">Action that will get executed to redraw the preview of the inputed point</param>
-        public async Task<Vector2> GetPoint(Action<Vector2, GeometryDrawer> preview, ParametricLine2? forceLine = null)
+        public async Task<Vector2> GetPoint(Action<Vector2, GeometryDrawer> preview, ParametricLine2? forceLine = null, Predicate<Vector2>? predicate = null)
         {
             await inputSemaphore.WaitAsync();
 
@@ -68,6 +68,9 @@ namespace DegCAD
                 {
                     Vector2 res = Mouse.GetPosition(ViewPort);
                     Vector2 snapCanvasPos = Snapper.Snap(ViewPort.ScreenToCanvas(res), forceLine);
+
+                    if (predicate is not null && !predicate(snapCanvasPos)) return;
+
                     result.SetResult(snapCanvasPos);
                 }
             };
@@ -91,7 +94,7 @@ namespace DegCAD
             return mposClick;
         }
 
-        public async Task<(Vector2, bool)> GetPointWithPlane(Action<Vector2, GeometryDrawer, bool> preview, bool defaultPlane = false)
+        public async Task<(Vector2, bool)> GetPointWithPlane(Action<Vector2, GeometryDrawer, bool> preview, bool defaultPlane = false, Predicate<Vector2>? predicate = null)
         {
             await inputSemaphore.WaitAsync();
 
@@ -120,6 +123,9 @@ namespace DegCAD
                     //Accepts the point
                     Vector2 res = Mouse.GetPosition(ViewPort);
                     Vector2 snapCanvasPos = Snapper.Snap(ViewPort.ScreenToCanvas(res));
+
+                    if (predicate is not null && !predicate(snapCanvasPos)) return;
+
                     result.SetResult(snapCanvasPos);
                 } else if (e.ChangedButton == MouseButton.Right)
                 {
