@@ -174,6 +174,14 @@ namespace DegCAD
 
         }
 
+        public void DrawArc(Vector2 middle, Vector2 point, double angle, double endAngle, Style s)
+        {
+            var sMiddle = vp.CanvasToScreen(middle);
+            var sPoint = vp.CanvasToScreen(point);
+
+            vp.WBmp.DrawArc(sMiddle, sPoint, angle, endAngle, s.Color);
+        }
+
 
         /// <summary>
         /// If the parameter is infinity, clamps it to the edges of the viewport
