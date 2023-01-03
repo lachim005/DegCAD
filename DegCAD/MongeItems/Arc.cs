@@ -28,13 +28,27 @@ namespace DegCAD.MongeItems
             StartAngle = startPoint;
             EndAngle = endPoint;
             Style = style;
-            SnapablePoints = new Vector2[1] { center };
+
+            double radius = (center - point).Length;
+
+            SnapablePoints = new Vector2[3] {
+                center,
+                CalculateEdgePoint(startPoint, radius),
+                CalculateEdgePoint(endPoint, radius),
+            };
             SnapableLines = new ParametricLine2[0];
         }
 
         public void Draw(GeometryDrawer gd)
         {
             gd.DrawArc(Center, Point, StartAngle, EndAngle, Style);
+        }
+
+        private Vector2 CalculateEdgePoint(double angle, double radius)
+        {
+            Vector2 unitVector = Math.SinCos(angle);
+            unitVector *= radius;
+            return Center + (unitVector.Y, unitVector.X);
         }
     }
 }
