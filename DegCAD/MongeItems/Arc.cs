@@ -15,7 +15,7 @@ namespace DegCAD.MongeItems
 
         public ParametricLine2[] SnapableLines { get; init; }
 
-        public Circle2[] SnapableCircles { get; } = new Circle2[0];
+        public Circle2[] SnapableCircles { get; init; }
 
         public Vector2 Center { get; init; }
         public Vector2 Point { get; init; }
@@ -39,6 +39,7 @@ namespace DegCAD.MongeItems
                 CalculateEdgePoint(endPoint, radius),
             };
             SnapableLines = new ParametricLine2[0];
+            SnapableCircles = new Circle2[1] { new Circle2(center, point) };
         }
 
         public void Draw(GeometryDrawer gd)
