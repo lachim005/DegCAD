@@ -15,6 +15,8 @@ namespace DegCAD.MongeItems
 
         public ParametricLine2[] SnapableLines { get; init; }
 
+        public Circle2[] SnapableCircles { get; } = new Circle2[0];
+
         public Vector2 Center { get; init; }
         public Vector2 Point { get; init; }
         public double StartAngle { get; init; }

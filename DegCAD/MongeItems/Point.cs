@@ -10,6 +10,7 @@ namespace DegCAD.DrawableItems
         public Style Style { get; init; } = Style.Default;
         public Vector2[] SnapablePoints { get; init; }
         public ParametricLine2[] SnapableLines { get; } = new ParametricLine2[0];
+        public Circle2[] SnapableCircles { get; } = new Circle2[0];
 
         public Point(double x, double y, double z) : this(x, y, z, Style.Default) { }
         public Point(double x, double y, double z, Style style)

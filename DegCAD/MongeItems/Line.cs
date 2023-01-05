@@ -16,8 +16,9 @@ namespace DegCAD.MongeItems
 
         public Vector2[] SnapablePoints { get; } = new Vector2[0];
         public ParametricLine2[] SnapableLines { get; init; }
+        public Circle2[] SnapableCircles { get; } = new Circle2[0];
 
-        public Style Style = Style.Default;
+        public Style Style { get; } = Style.Default;
 
         public Line(ParametricLine2 botLine, ParametricLine2 topLine, Style style)
         {
