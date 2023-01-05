@@ -20,7 +20,17 @@ namespace DegCAD
         public Vector2 Snap(Vector2 v, ParametricLine2? forcedLine = null)
         {
             Vector2? closestPoint = null;
-            double closestPointDistance = double.MaxValue;
+            double closestPointDistanceSquared = double.MaxValue;
+
+            void SaveClosestPoint(Vector2 pt)
+            {
+                var distance = (v - pt).LengthSquared;
+                if (distance < closestPointDistanceSquared)
+                {
+                    closestPointDistanceSquared = distance;
+                    closestPoint = pt;
+                }
+            }
 
             //Goes through every snapable point and saves the closest one
             foreach (var cmd in Timeline.CommandHistory)
@@ -29,12 +39,7 @@ namespace DegCAD
                 {
                     for (int i = 0; i < cmd.Items[j].SnapablePoints.Length; i++)
                     {
-                        double distance = (cmd.Items[j].SnapablePoints[i] - v).LengthSquared;
-                        if (distance < closestPointDistance)
-                        {
-                            closestPointDistance = distance;
-                            closestPoint = cmd.Items[j].SnapablePoints[i];
-                        }
+                        SaveClosestPoint(cmd.Items[j].SnapablePoints[i]);
                     } 
                 }
             }
@@ -49,7 +54,7 @@ namespace DegCAD
                     for (int j = 0; j < cmd.Items[i].SnapableLines.Length; j++)
                     {
                         var line = cmd.Items[i].SnapableLines[j];
-                        var point = TranslatePointToLine(line, v);
+                        var point = line.GetClosestPoint(v);
                         double distance = (v - point).LengthSquared;
                         if (distance < SnapThreshold)
                         {
@@ -63,43 +68,97 @@ namespace DegCAD
             if (forcedLine is not null)
                 closeLines.Add((ParametricLine2)forcedLine);
 
+            //Goes through every snapable circle and saves all the ones that are close
+            List<Circle2> closeCircles = new();
+            foreach (var cmd in Timeline.CommandHistory)
+            {
+                for (int i = 0; i < cmd.Items.Length; i++)
+                {
+                    for (int j = 0; j < cmd.Items[i].SnapableCircles.Length; j++)
+                    {
+                        var circle = cmd.Items[i].SnapableCircles[j];
+                        var point = circle.TranslatePointToCircle(v);
+                        double distance = (v - point).LengthSquared;
+                        if (distance < SnapThreshold)
+                        {
+                            closeCircles.Add(circle);
+                        }
+                    }
+                }
+            }
+
             //If there are more close lines, calculates all the intersections
             if (closeLines.Count > 1)
             {
-                List<Vector2> intersectionPts = new();
-
                 //calculates all the intersections
                 for (int i = 0; i < closeLines.Count; i++)
                 {
                     for (int j = 0; j < closeLines.Count; j++)
                     {
                         if (i == j) continue;
-                        intersectionPts.Add(closeLines[i].FindIntersection(closeLines[j]));
+                        SaveClosestPoint(closeLines[i].FindIntersection(closeLines[j]));
                     }
                 }
+            }
 
-                //Saves the closest intersection point if it is closer than any other snapable point
-                for (int i = 0; i < intersectionPts.Count; i++)
+            //If there is at least one circle and one line, calculates all their intersections
+            if (closeLines.Count > 0 && closeCircles.Count > 0)
+            {
+                foreach(var circle in closeCircles)
                 {
-                    double distance = (v - intersectionPts[i]).LengthSquared;
-                    if (distance < closestPointDistance)
+                    foreach (var line in closeLines)
                     {
-                        closestPoint = intersectionPts[i];
-                        closestPointDistance = distance;
+                        var intersections = circle.FindIntersections(line);
+                        if (intersections is null) continue;
+                        SaveClosestPoint(intersections.Value.Item1);
+                        SaveClosestPoint(intersections.Value.Item2);
+                    }
+                }
+            }
+
+            if (closeCircles.Count > 1)
+            {
+                //calculates all the intersections
+                for (int i = 0; i < closeCircles.Count; i++)
+                {
+                    for (int j = 0; j < closeCircles.Count; j++)
+                    {
+                        if (i == j) continue;
+                        var intersections = closeCircles[i].FindIntersections(closeCircles[j]);
+                        if (intersections is null) continue;
+                        SaveClosestPoint(intersections.Value.Item1);
+                        SaveClosestPoint(intersections.Value.Item2);
                     }
                 }
             }
 
             //If the closest point is within a threshold, returns the snapped point
-            if (closestPoint is not null && closestPointDistance < SnapThreshold)
+            if (closestPoint is not null && closestPointDistanceSquared < SnapThreshold)
                 return (Vector2)closestPoint;
 
-            //Else returns the point snapped to a line
+
+            //Saves the closest point on a line
             if (closeLines.Count > 0)
             {
-                return TranslatePointToLine(closeLines[0], v);
+                foreach(var line in closeLines)
+                {
+                    SaveClosestPoint(line.GetClosestPoint(v));
+                }
             }
-            
+
+            //Saves the closest point on a circle
+            if (closeCircles.Count > 0)
+            {
+                foreach (var circle in closeCircles)
+                {
+                    SaveClosestPoint(circle.TranslatePointToCircle(v));
+                }
+            }
+
+            //If the closest point is within a threshold, returns the snapped point
+            if (closestPoint is not null && closestPointDistanceSquared < SnapThreshold)
+                return (Vector2)closestPoint;
+
             //Else returns the original point
             return v;
         }
