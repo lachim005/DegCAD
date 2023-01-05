@@ -39,6 +39,15 @@ namespace DegCAD
             Y = y;
         }
 
+        /// <summary>
+        /// Returns a new Vector with the same angle but with the set length
+        /// </summary>
+        public Vector2 ChangeLength(double length)
+        {
+            double scalingFactor = length / Length;
+            return this * scalingFactor;
+        }
+
         /// <returns>a string representation of the vector in the (x,y) format</returns>
         public override string ToString()
         {

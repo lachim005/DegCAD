@@ -107,6 +107,17 @@ namespace DegCAD
             return l1.FindIntersection(l2);
         }
 
+        /// <summary>
+        /// Returns a point on the line closest to the given point
+        /// </summary>
+        public Vector2 GetClosestPoint(Vector2 pt)
+        {
+            //Creates a perpendicular line passing through the set point
+            var perpLine = new ParametricLine2(pt, (DirectionVector.Y, -DirectionVector.X));
+            //Returns the intersection point of the two lines
+            return FindIntersection(perpLine);
+        }
+
         /// <returns>a string representation of the line containing the coordinates of the point and the direction vector</returns>
         public override string ToString()
         {
