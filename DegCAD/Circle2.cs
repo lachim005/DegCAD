@@ -39,5 +39,53 @@ namespace DegCAD
             RadiusSquared = radius.LengthSquared;
             _radius = radius.Length;
         }
+
+        /// <summary>
+        /// Returns the intersections of the line and the circle if they intersect
+        /// </summary>
+        public (Vector2, Vector2)? FindIntersections(ParametricLine2 line)
+        {
+            var p = line.GetClosestPoint(Center);
+            var vector = p - Center;
+
+            //Line doesn't pass through circle
+            if (vector.LengthSquared >= RadiusSquared) return null;
+
+            double segmentLength = Math.Sqrt(RadiusSquared - vector.LengthSquared);
+            var segmentVector = line.DirectionVector.ChangeLength(segmentLength);
+
+            var pt1 = p + segmentVector;
+            var pt2 = p - segmentVector;
+            return (pt1, pt2);
+        }
+        /// <summary>
+        /// Returns the intersections of the two circles if they intersect
+        /// </summary>
+        public (Vector2, Vector2)? FindIntersections(Circle2 circle)
+        {
+            var centersVector = circle.Center - Center;
+            var centerDistance = centersVector.Length;
+            //Circles aren't touching
+            if (Radius + circle.Radius <= centerDistance) return null;
+            //Circle are inside of each other
+            if (Math.Abs(Radius - circle.Radius) >= centerDistance) return null;
+
+            var a = (RadiusSquared - circle.RadiusSquared + (centerDistance*centerDistance)) / (2 * centerDistance);
+            var h = Math.Sqrt(RadiusSquared - (a * a));
+
+            var m = Center + (centersVector * (a / centerDistance));
+            var hVector = new Vector2(centersVector.Y, -centersVector.X).ChangeLength(h);
+
+            var pt1 = m + hVector;
+            var pt2 = m - hVector;
+            return (pt1, pt2);
+        }
+        /// <summary>
+        /// Returns a point on the circle with the same angle as the given point
+        /// </summary>
+        public Vector2 TranslatePointToCircle(Vector2 point)
+        {
+            return Center + (point - Center).ChangeLength(Radius);
+        }
     }
 }
