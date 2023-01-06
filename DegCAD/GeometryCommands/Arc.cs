@@ -29,25 +29,24 @@ namespace DegCAD.GeometryCommands
                 gd.DrawCircle(center, pt, blueStyle);
             }, predicate: (pt) => pt != center);
 
-            double radiusSquared = (radiusPoint - center).LengthSquared;
+            Circle2 circle = new(center, radiusPoint);
+
             Vector2 startPoint = (0,0);
-            Vector2 startVec = (0,0);
 
             Vector2 pt1 = await inputMgr.GetPoint((pt, gd) =>
             {
                 gd.DrawPointCross(center, Style.Default);
                 gd.DrawPointCross(pt, Style.Default);
-                gd.DrawCircle(center, radiusPoint, blueStyle);
+                gd.DrawCircle(circle, blueStyle);
 
                 //Calculates a point on the circle in the direction set by the current point
-                var vec = pt - center;
-                double k = Math.Sqrt(radiusSquared / vec.LengthSquared);
-                startVec = vec * k;
-                startPoint = center + startVec;
+                startPoint = circle.TranslatePointToCircle(pt);
 
                 gd.DrawLine(center, startPoint, redStyle);
 
             }, predicate: (pt) => pt != center);
+
+            Vector2 startVec = startPoint - center;
 
             //Calculates the start angle and adjusts it by it's quadrant
             double startAngle = Math.Atan(startVec.Y / startVec.X);
@@ -60,14 +59,12 @@ namespace DegCAD.GeometryCommands
             {
                 gd.DrawPointCross(center, Style.Default);
                 gd.DrawPointCross(pt, Style.Default);
-                gd.DrawCircle(center, radiusPoint, blueStyle);
+                gd.DrawCircle(circle, blueStyle);
                 gd.DrawLine(center, startPoint, redStyle);
 
                 //Calculates a point on the circle in the direction set by the current point
-                var vec = pt - center;
-                double k = Math.Sqrt(radiusSquared / vec.LengthSquared);
-                var endVec = vec * k;
-                var endPoint = center + endVec;
+                var endPoint = circle.TranslatePointToCircle(pt);
+                var endVec = endPoint - center;
 
                 gd.DrawLine(center, endPoint, redStyle);
 
@@ -77,14 +74,14 @@ namespace DegCAD.GeometryCommands
                 else if (endVec.Y < 0) endAngle += Math.PI * 2;
 
                 //Draws the arc and swaps the start and end angles if necessary
-                if (swap) gd.DrawArc(center, radiusPoint, endAngle, startAngle, redStyle);
-                else gd.DrawArc(center, radiusPoint, startAngle, endAngle, redStyle);
+                if (swap) gd.DrawArc(circle, endAngle, startAngle, redStyle);
+                else gd.DrawArc(circle, startAngle, endAngle, redStyle);
             }, predicate: (pt) => pt != center);
 
             //Swaps the start and end angles if necessary
             if (swap)
-                return new(new IMongeItem[1] { new MongeItems.Arc(center, radiusPoint, endAngle, startAngle, Style.Default) });
-            return new(new IMongeItem[1] { new MongeItems.Arc(center, radiusPoint, startAngle, endAngle, Style.Default) });
+                return new(new IMongeItem[1] { new MongeItems.Arc(circle, endAngle, startAngle, Style.Default) });
+            return new(new IMongeItem[1] { new MongeItems.Arc(circle, startAngle, endAngle, Style.Default) });
         }
     }
 }
