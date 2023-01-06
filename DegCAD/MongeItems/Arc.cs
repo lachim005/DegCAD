@@ -17,41 +17,34 @@ namespace DegCAD.MongeItems
 
         public Circle2[] SnapableCircles { get; init; }
 
-        public Vector2 Center { get; init; }
-        public Vector2 Point { get; init; }
+        public Circle2 Circle { get; init; }
+        public Vector2 Center => Circle.Center;
         public double StartAngle { get; init; }
         public double EndAngle { get; init; }
         public Style Style { get; init; }
 
         public Arc(Vector2 center, Vector2 point, double startPoint, double endPoint, Style style)
+            : this(new Circle2(center, point), startPoint, endPoint, style) { }
+
+        public Arc(Circle2 circle, double startPoint, double endPoint, Style style)
         {
-            Center = center;
-            Point = point;
+            Circle = circle;
             StartAngle = startPoint;
             EndAngle = endPoint;
             Style = style;
 
-            double radius = (center - point).Length;
-
             SnapablePoints = new Vector2[3] {
-                center,
-                CalculateEdgePoint(startPoint, radius),
-                CalculateEdgePoint(endPoint, radius),
+                Circle.Center,
+                circle.CalculatePointWithAngle(startPoint),
+                circle.CalculatePointWithAngle(endPoint)
             };
             SnapableLines = new ParametricLine2[0];
-            SnapableCircles = new Circle2[1] { new Circle2(center, point) };
+            SnapableCircles = new Circle2[1] { circle };
         }
 
         public void Draw(GeometryDrawer gd)
         {
-            gd.DrawArc(Center, Point, StartAngle, EndAngle, Style);
-        }
-
-        private Vector2 CalculateEdgePoint(double angle, double radius)
-        {
-            Vector2 unitVector = Math.SinCos(angle);
-            unitVector *= radius;
-            return Center + (unitVector.Y, unitVector.X);
+            gd.DrawArc(Circle, StartAngle, EndAngle, Style);
         }
     }
 }
