@@ -7,7 +7,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <local:ViewPort x:Name="previewVP"/>
         <local:ViewPort x:Name="viewPort"/>
         <Grid x:Name="inputMgrGrid" VerticalAlignment="Top" HorizontalAlignment="Right" Margin="10"/>
     </Grid>

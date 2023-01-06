@@ -58,23 +58,29 @@ namespace DegCAD
         /// <summary>
         /// Pixel width of the canvas
         /// </summary>
-        public int CWidth => WBmp.PixelWidth;
+        public int CWidth => GeometryWBmp.PixelWidth;
         /// <summary>
         /// Pixel height of the canvas
         /// </summary>
-        public int CHeight => WBmp.PixelHeight;
+        public int CHeight => GeometryWBmp.PixelHeight;
         /// <summary>
         /// The writable bitmap that gets displayed on the screen
         /// </summary>
-        public WriteableBitmap WBmp { get; private set; }
+        public WriteableBitmap GeometryWBmp { get; private set; }
+        public WriteableBitmap PreviewWBmp { get; private set; }
+        public WriteableBitmap BackgroundWBmp { get; private set; }
 
 
         public ViewPort()
         {
             InitializeComponent();
             //Create a new Writable bitmap and displays it
-            WBmp = BitmapFactory.New((int)ActualWidth, (int)ActualHeight);
-            imageDisplay.Source = WBmp;
+            GeometryWBmp = BitmapFactory.New((int)ActualWidth, (int)ActualHeight);
+            PreviewWBmp = BitmapFactory.New((int)ActualWidth, (int)ActualHeight);
+            BackgroundWBmp = BitmapFactory.New((int)ActualWidth, (int)ActualHeight);
+            geometryDisplay.Source = GeometryWBmp;
+            previewDisplay.Source = PreviewWBmp;
+            backgroundDisplay.Source = BackgroundWBmp;
         }
 
         protected void OnMouseWheel(object sender, MouseWheelEventArgs e)
@@ -164,8 +170,13 @@ namespace DegCAD
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
             //If the viewport gets resized, resizes the writable bitmap to fit it perfectly
-            WBmp = BitmapFactory.New((int)ActualWidth, (int)ActualHeight);
-            imageDisplay.Source = WBmp;
+            GeometryWBmp = BitmapFactory.New((int)ActualWidth, (int)ActualHeight);
+            PreviewWBmp = BitmapFactory.New((int)ActualWidth, (int)ActualHeight);
+            BackgroundWBmp = BitmapFactory.New((int)ActualWidth, (int)ActualHeight);
+            geometryDisplay.Source = GeometryWBmp;
+            previewDisplay.Source = PreviewWBmp;
+            backgroundDisplay.Source = BackgroundWBmp;
+
             Vector2 mousePos = Mouse.GetPosition(this);
             ViewportChanged?.Invoke(this, new(ScreenToCanvas(mousePos), mousePos));
         }

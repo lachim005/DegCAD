@@ -21,7 +21,6 @@ namespace DegCAD
     /// </summary>
     public partial class GeometryInputManager : UserControl
     {
-        public ViewPort PreviewVp { get; set; }
         public ViewPort ViewPort { get; set; }
         public GeometryDrawer PreviewGd { get; set; }
         public Snapper Snapper { get; set; }
@@ -29,12 +28,11 @@ namespace DegCAD
 
         private SemaphoreSlim inputSemaphore = new(1, 1);
 
-        public GeometryInputManager(ViewPort viewPort, ViewPort previewVp, Snapper snapper)
+        public GeometryInputManager(ViewPort viewPort, Snapper snapper)
         {
             InitializeComponent();
-            PreviewGd = new(previewVp);
+            PreviewGd = new(viewPort, true);
             ViewPort = viewPort;
-            PreviewVp = previewVp;
             Snapper = snapper;
         }
 
@@ -79,7 +77,7 @@ namespace DegCAD
             ViewPort.MouseDown += viewPortClick;
 
             //Draws the preview so it doesn't appear after the user moves their mouse
-            preview(PreviewVp.ScreenToCanvas(Mouse.GetPosition(ViewPort)), PreviewGd);
+            preview(ViewPort.ScreenToCanvas(Mouse.GetPosition(ViewPort)), PreviewGd);
 
             //Awaits the user click
             Vector2 mposClick = await result.Task;
@@ -134,14 +132,14 @@ namespace DegCAD
                     //Switches the plane
                     plane = !plane;
                     PreviewGd.Clear();
-                    preview(PreviewVp.ScreenToCanvas(e.GetPosition(ViewPort)), PreviewGd, plane);
+                    preview(ViewPort.ScreenToCanvas(e.GetPosition(ViewPort)), PreviewGd, plane);
                 }
             };
 
             ViewPort.MouseDown += viewPortClick;
 
             //Draws the preview so it doesn't appear after the user moves their mouse
-            preview(PreviewVp.ScreenToCanvas(Mouse.GetPosition(ViewPort)), PreviewGd, plane);
+            preview(ViewPort.ScreenToCanvas(Mouse.GetPosition(ViewPort)), PreviewGd, plane);
 
             //Awaits the user click
             Vector2 mposClick = await result.Task;
@@ -197,7 +195,7 @@ namespace DegCAD
             ViewPort.MouseDown += viewPortClick;
 
             //Draws the preview so it doesn't appear after the user moves their mouse
-            Vector2 mousePos = PreviewVp.ScreenToCanvas(Mouse.GetPosition(ViewPort));
+            Vector2 mousePos = ViewPort.ScreenToCanvas(Mouse.GetPosition(ViewPort));
             preview(mousePos, Snapper.SelectLine(mousePos), PreviewGd);
 
             //Awaits the user click

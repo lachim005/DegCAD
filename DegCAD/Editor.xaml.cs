@@ -32,21 +32,14 @@ namespace DegCAD
         public Editor()
         {
             InitializeComponent();
-            GeometryDrawer = new(viewPort);
+            GeometryDrawer = new(viewPort, false);
             viewPort.ViewportChanged += Redraw;
-            viewPort.ViewportChanged += MovePreviewVP;
             Timeline = new();
             Snapper = new(Timeline);
-            InputMgr = new(viewPort, previewVP, Snapper);
+            InputMgr = new(viewPort, Snapper);
+            viewPort.SizeChanged += Redraw;
 
             Timeline.AddCommand(new TimelineItem(new IMongeItem[1] { new Axis() }));
-        }
-
-        private void MovePreviewVP(object? sender, EventArgs e)
-        {
-            previewVP.Scale = viewPort.Scale;
-            previewVP.OffsetX = viewPort.OffsetX;
-            previewVP.OffsetY = viewPort.OffsetY;
         }
 
         private void Redraw(object? sender, EventArgs e)

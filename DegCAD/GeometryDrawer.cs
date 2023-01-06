@@ -14,14 +14,30 @@ namespace DegCAD
     public class GeometryDrawer
     {
         readonly ViewPort vp;
+        private WriteableBitmap wBmp;
+        private bool preview;
 
         /// <summary>
         /// Creates a new instance of the geometry drawer class
         /// </summary>
         /// <param name="vp">The viewport canvas that this GD will draw to</param>
-        public GeometryDrawer(ViewPort vp)
+        public GeometryDrawer(ViewPort vp, bool preview)
         {
             this.vp = vp;
+            this.preview = preview;
+            vp.SizeChanged += VpSizeChanged;
+            if (preview)
+                wBmp = vp.PreviewWBmp;
+            else
+                wBmp = vp.GeometryWBmp;
+        }
+
+        private void VpSizeChanged(object sender, System.Windows.SizeChangedEventArgs e)
+        {
+            if (preview)
+                wBmp = vp.PreviewWBmp;
+            else
+                wBmp = vp.GeometryWBmp;
         }
 
         /// <summary>
@@ -29,7 +45,8 @@ namespace DegCAD
         /// </summary>
         public void Clear()
         {
-            vp.WBmp.Clear(Colors.Transparent);
+            wBmp.Clear(Colors.Transparent);
+            if (preview) vp.BackgroundWBmp.Clear();
         }
 
         /// <summary>
@@ -66,16 +83,16 @@ namespace DegCAD
             {
                 case 1:
                     //Dashed line
-                    vp.WBmp.DrawLineDotted((int)sp1.X, (int)sp1.Y, (int)sp2.X, (int)sp2.Y, 5, 5, s.Color);
+                    wBmp.DrawLineDotted((int)sp1.X, (int)sp1.Y, (int)sp2.X, (int)sp2.Y, 5, 5, s.Color);
                     break;
                 default:
                     //Solid line
                     if (thickness != 1)
                     {
-                        vp.WBmp.DrawLineAa((int)sp1.X, (int)sp1.Y, (int)sp2.X, (int)sp2.Y, s.Color, thickness);
+                        wBmp.DrawLineAa((int)sp1.X, (int)sp1.Y, (int)sp2.X, (int)sp2.Y, s.Color, thickness);
                         break;
                     }
-                    vp.WBmp.DrawLineBresenham((int)sp1.X, (int)sp1.Y, (int)sp2.X, (int)sp2.Y, s.Color);
+                    wBmp.DrawLineBresenham((int)sp1.X, (int)sp1.Y, (int)sp2.X, (int)sp2.Y, s.Color);
                     break;
             }
         }
@@ -86,9 +103,9 @@ namespace DegCAD
         public void DrawPlane(bool plane)
         {
             if (!plane)
-                vp.WBmp.FillRectangle(0, (int)vp.CanvasToScreen((0, 0)).Y, vp.CWidth, vp.CHeight, Color.FromRgb(255, 255, 200));
+                vp.BackgroundWBmp.FillRectangle(0, (int)vp.CanvasToScreen((0, 0)).Y, vp.CWidth, vp.CHeight, Color.FromRgb(255, 255, 200));
             else
-                vp.WBmp.FillRectangle(0, (int)vp.CanvasToScreen((0, 0)).Y, vp.CWidth, -1, Color.FromRgb(255, 255, 200));
+                vp.BackgroundWBmp.FillRectangle(0, (int)vp.CanvasToScreen((0, 0)).Y, vp.CWidth, -1, Color.FromRgb(255, 255, 200));
         }
         /// <summary>
         /// Draws a cross on the set point
@@ -110,11 +127,11 @@ namespace DegCAD
             //I have no idea how this works, but it works
 
             //Creates a new Bitmap that has a method for drawing text
-            int w = vp.WBmp.PixelWidth;
-            int h = vp.WBmp.PixelHeight;
+            int w = wBmp.PixelWidth;
+            int h = wBmp.PixelHeight;
             var bm2 = new System.Drawing.Bitmap(
-                    w, h, vp.WBmp.BackBufferStride, System.Drawing.Imaging.PixelFormat.Format32bppArgb,
-                    vp.WBmp.BackBuffer);
+                    w, h, wBmp.BackBufferStride, System.Drawing.Imaging.PixelFormat.Format32bppArgb,
+                    wBmp.BackBuffer);
 
             using (var g = System.Drawing.Graphics.FromImage(bm2))
             {
@@ -137,7 +154,7 @@ namespace DegCAD
                 g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
 
                 //Fills a transparent rectangle below the text so it doesn't get obstructed by lines
-                vp.WBmp.FillRectangle((int)screenCoords.X, (int)screenCoords.Y,
+                wBmp.FillRectangle((int)screenCoords.X, (int)screenCoords.Y,
                     (int)(screenCoords.X + sizeVector.X), (int)(screenCoords.Y + sizeVector.Y),
                     Colors.Transparent);
 
@@ -169,15 +186,15 @@ namespace DegCAD
             {
                 case 1:
                     //Dashed circle
-                    vp.WBmp.DrawCircleDashed(sMiddle, (int)sRadius, s.Color);
+                    wBmp.DrawCircleDashed(sMiddle, (int)sRadius, s.Color);
                     break;
                 case 2:
                     //Dot-dashed circle
-                    vp.WBmp.DrawCircleDotDash(sMiddle, (int)sRadius, s.Color);
+                    wBmp.DrawCircleDotDash(sMiddle, (int)sRadius, s.Color);
                     break;
                 default:
                     //Solid circle
-                    vp.WBmp.DrawCircle(sMiddle, (int)sRadius, s.Color);
+                    wBmp.DrawCircle(sMiddle, (int)sRadius, s.Color);
                     break;
             }
 
@@ -193,7 +210,7 @@ namespace DegCAD
             var sMiddle = vp.CanvasToScreen(circle.Center);
             var sRadius = vp.Scale * circle.Radius * ViewPort.unitSize;
 
-            vp.WBmp.DrawArc(sMiddle, (int)sRadius, angle, endAngle, s.Color);
+            wBmp.DrawArc(sMiddle, (int)sRadius, angle, endAngle, s.Color);
         }
 
 
