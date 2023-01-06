@@ -87,5 +87,14 @@ namespace DegCAD
         {
             return Center + (point - Center).ChangeLength(Radius);
         }
+        /// <summary>
+        /// Returns a point on the circle with the given angle
+        /// </summary>
+        public Vector2 CalculatePointWithAngle(double angle)
+        {
+            Vector2 unitVector = Math.SinCos(angle);
+            unitVector *= Radius;
+            return Center + (unitVector.Y, unitVector.X);
+        }
     }
 }
