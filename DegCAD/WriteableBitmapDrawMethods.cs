@@ -165,15 +165,13 @@ namespace DegCAD
             }
         }
 
-        public static void DrawArc(this WriteableBitmap bitmap, Vector2 center, Vector2 pointOnCircle, double startAngle, double endAngle, Color color)
+        public static void DrawArc(this WriteableBitmap bitmap, Vector2 center, int radius, double startAngle, double endAngle, Color color)
         {
             //Uses the same algorithm to draw the circle but draws the pixels
             //only if they are between the two angles
 
             if (endAngle <= startAngle) endAngle += Math.PI * 2;
 
-            //Calculate the radius of the circle
-            int radius = (int)(pointOnCircle - center).Length;
 
             //Initialize the variables for the Bresenham's algorithm
             int x = radius;

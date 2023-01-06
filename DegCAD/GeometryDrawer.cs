@@ -176,10 +176,15 @@ namespace DegCAD
 
         public void DrawArc(Vector2 middle, Vector2 point, double angle, double endAngle, Style s)
         {
-            var sMiddle = vp.CanvasToScreen(middle);
-            var sPoint = vp.CanvasToScreen(point);
+            DrawArc(new Circle2(middle, point), angle, endAngle, s);
+        }
 
-            vp.WBmp.DrawArc(sMiddle, sPoint, angle, endAngle, s.Color);
+        public void DrawArc(Circle2 circle, double angle, double endAngle, Style s)
+        {
+            var sMiddle = vp.CanvasToScreen(circle.Center);
+            var sRadius = vp.Scale * circle.Radius * ViewPort.unitSize;
+
+            vp.WBmp.DrawArc(sMiddle, (int)sRadius, angle, endAngle, s.Color);
         }
 
 
