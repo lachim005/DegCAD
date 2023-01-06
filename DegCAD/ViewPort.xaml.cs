@@ -21,11 +21,11 @@ namespace DegCAD
     /// </summary>
     public partial class ViewPort : UserControl
     {
-        const double unitSize = 50;
+        public const double unitSize = 50;
 
-        const double ZoomFactor = 1.1;
-        const double MaxZoom = 5;
-        const double MinZoom = .1;
+        public const double ZoomFactor = 1.1;
+        public const double MaxZoom = 5;
+        public const double MinZoom = .1;
 
         /// <summary>
         /// The X offset of the canvas
