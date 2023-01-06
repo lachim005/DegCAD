@@ -11,11 +11,8 @@ namespace DegCAD
 {
     public static class WriteableBitmapDrawMethods
     {
-        public static void DrawCircle(this WriteableBitmap bitmap, Vector2 center, Vector2 pointOnCircle, Color color)
+        public static void DrawCircle(this WriteableBitmap bitmap, Vector2 center, int radius, Color color)
         {
-            // Calculate the radius of the circle based on the center and the point on the circle
-            int radius = (int)Math.Round(Math.Sqrt(Math.Pow(pointOnCircle.X - center.X, 2) + Math.Pow(pointOnCircle.Y - center.Y, 2)));
-
             // Initialize the variables for the Bresenham's algorithm
             int x = radius;
             int y = 0;
@@ -55,11 +52,8 @@ namespace DegCAD
                 }
             }
         }
-        public static void DrawCircleDashed(this WriteableBitmap bitmap, Vector2 center, Vector2 pointOnCircle, Color color, int dashLength = 8)
+        public static void DrawCircleDashed(this WriteableBitmap bitmap, Vector2 center, int radius, Color color, int dashLength = 8)
         {
-            // Calculate the radius of the circle based on the center and the point on the circle
-            int radius = (int)Math.Round(Math.Sqrt(Math.Pow(pointOnCircle.X - center.X, 2) + Math.Pow(pointOnCircle.Y - center.Y, 2)));
-
             // Initialize the variables for the Bresenham's algorithm
             int x = radius;
             int y = 0;
@@ -109,11 +103,8 @@ namespace DegCAD
                 }
             }
         }
-        public static void DrawCircleDotDash(this WriteableBitmap bitmap, Vector2 center, Vector2 pointOnCircle, Color color, int dashLength = 8)
+        public static void DrawCircleDotDash(this WriteableBitmap bitmap, Vector2 center, int radius, Color color, int dashLength = 8)
         {
-            // Calculate the radius of the circle based on the center and the point on the circle
-            int radius = (int)Math.Round(Math.Sqrt(Math.Pow(pointOnCircle.X - center.X, 2) + Math.Pow(pointOnCircle.Y - center.Y, 2)));
-
             // Initialize the variables for the Bresenham's algorithm
             int x = radius;
             int y = 0;

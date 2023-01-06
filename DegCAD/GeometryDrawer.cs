@@ -154,21 +154,30 @@ namespace DegCAD
         /// </summary>
         public void DrawCircle(Vector2 middle, Vector2 point, Style s)
         {
-            var sMiddle = vp.CanvasToScreen(middle);
-            var sPoint = vp.CanvasToScreen(point);
-            
-            switch (s.LineStyle) {
+            DrawCircle(new Circle2(middle, point), s);
+        }
+
+        /// <summary>
+        /// Draws a circle
+        /// </summary>
+        public void DrawCircle(Circle2 circle, Style s)
+        {
+            var sMiddle = vp.CanvasToScreen(circle.Center);
+            var sRadius = vp.Scale * ViewPort.unitSize * circle.Radius;
+
+            switch (s.LineStyle)
+            {
                 case 1:
                     //Dashed circle
-                    vp.WBmp.DrawCircleDashed(sMiddle, sPoint, s.Color);
+                    vp.WBmp.DrawCircleDashed(sMiddle, (int)sRadius, s.Color);
                     break;
                 case 2:
                     //Dot-dashed circle
-                    vp.WBmp.DrawCircleDotDash(sMiddle, sPoint, s.Color);
+                    vp.WBmp.DrawCircleDotDash(sMiddle, (int)sRadius, s.Color);
                     break;
                 default:
                     //Solid circle
-                    vp.WBmp.DrawCircle(sMiddle, sPoint, s.Color);
+                    vp.WBmp.DrawCircle(sMiddle, (int)sRadius, s.Color);
                     break;
             }
 
