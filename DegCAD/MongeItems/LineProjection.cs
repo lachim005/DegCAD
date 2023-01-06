@@ -10,7 +10,7 @@ namespace DegCAD.MongeItems
     /// <summary>
     /// Projection of a line in one plane
     /// </summary>
-    internal class LineProjection : IMongeItem
+    public class LineProjection : IMongeItem
     {
         public Vector2[] SnapablePoints { get; } = new Vector2[0];
 

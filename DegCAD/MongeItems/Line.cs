@@ -8,11 +8,8 @@ namespace DegCAD.MongeItems
 {
     public class Line : IMongeItem
     {
-        int botSign;
-        int topSign;
-
-        public ParametricLine2 BottomProjectionLine { get; init; }
-        public ParametricLine2 TopProjectionLine { get; init; }
+        public LineProjection BottomLine { get; init; }
+        public LineProjection TopLine { get; init; }
 
         public Vector2[] SnapablePoints { get; } = new Vector2[0];
         public ParametricLine2[] SnapableLines { get; init; }
@@ -22,21 +19,8 @@ namespace DegCAD.MongeItems
 
         public Line(ParametricLine2 botLine, ParametricLine2 topLine, Style style)
         {
-            BottomProjectionLine = botLine;
-            TopProjectionLine = topLine;
-
-            //Calculates the infinity sign for drawing the line
-            botSign = 1;
-            if (botLine.DirectionVector.Y * botLine.DirectionVector.X < 0)
-            {
-                botSign = -1;
-            }
-            //Calculates the infinity sign for drawing the line
-            topSign = -1;
-            if (topLine.DirectionVector.Y * topLine.DirectionVector.X < 0)
-            {
-                topSign = 1;
-            }
+            BottomLine = new(botLine, false, style);
+            TopLine = new(topLine, true, style);
 
             SnapableLines = new ParametricLine2[2] { botLine, topLine };
             Style = style;
@@ -44,8 +28,8 @@ namespace DegCAD.MongeItems
 
         public void Draw(GeometryDrawer gd)
         {
-            gd.DrawLine(BottomProjectionLine, double.PositiveInfinity * botSign, BottomProjectionLine.GetParamFromY(0), Style);
-            gd.DrawLine(TopProjectionLine, double.PositiveInfinity * topSign, TopProjectionLine.GetParamFromY(0), Style);
+            BottomLine.Draw(gd);
+            TopLine.Draw(gd);
         }
     }
 }
