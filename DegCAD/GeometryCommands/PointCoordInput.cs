@@ -1,5 +1,6 @@
 ﻿using DegCAD.Dialogs;
 using DegCAD.DrawableItems;
+using DegCAD.MongeItems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -27,6 +28,14 @@ namespace DegCAD.GeometryCommands
             {
                 //Adds the monge point
                 pts.Add(new Point(pt.X, pt.Y, pt.Z));
+
+                //Adds the labels to the points
+                if (string.IsNullOrWhiteSpace(pt.Label))
+                    continue;
+                if (double.IsFinite(pt.Y))
+                    pts.Add(new Label(pt.Label, "1", "", (pt.X, pt.Y), Style.Default));
+                if (double.IsFinite(pt.Y))
+                    pts.Add(new Label(pt.Label, "2", "", (pt.X, -pt.Z), Style.Default));
             }
 
             return Task.FromResult<TimelineItem?>(new(pts.ToArray()));
