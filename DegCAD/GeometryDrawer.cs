@@ -154,9 +154,9 @@ namespace DegCAD
                 g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
 
                 //Fills a transparent rectangle below the text so it doesn't get obstructed by lines
-                wBmp.FillRectangle((int)screenCoords.X, (int)screenCoords.Y,
+                /*wBmp.FillRectangle((int)screenCoords.X, (int)screenCoords.Y,
                     (int)(screenCoords.X + sizeVector.X), (int)(screenCoords.Y + sizeVector.Y),
-                    Colors.Transparent);
+                    Colors.Transparent);*/
 
                 //Draws the text
                 g.DrawString(text, font, brush, (int)screenCoords.X, (int)screenCoords.Y);
