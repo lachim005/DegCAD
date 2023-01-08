@@ -39,7 +39,13 @@ namespace DegCAD
             InputMgr = new(viewPort, Snapper);
             viewPort.SizeChanged += Redraw;
 
-            Timeline.AddCommand(new TimelineItem(new IMongeItem[1] { new Axis() }));
+            //Adds the axis
+            Timeline.AddCommand(new TimelineItem(new IMongeItem[3]
+            {
+                new Axis(),
+                new MongeItems.Label("x", "1, 2", "", (8,0), DegCAD.Style.Default),
+                new MongeItems.Label("0", "", "", (0,0), DegCAD.Style.Default),
+            }));;
         }
 
         private void Redraw(object? sender, EventArgs e)

@@ -27,10 +27,6 @@ namespace DegCAD.MongeItems
             gd.DrawLine(axis, double.NegativeInfinity, double.PositiveInfinity, Style);
             //Zero mark
             gd.DrawLine((0, -.2), (0, .2), Style);
-            gd.DrawString("0", (0.1, 0.1), 24, Style);
-            //Axis label
-            Vector2 end = gd.DrawString("x", (5, 0.1), 24, Style);
-            gd.DrawString("1, 2", (end.X, .45), 16, Style);
         }
     }
 }
