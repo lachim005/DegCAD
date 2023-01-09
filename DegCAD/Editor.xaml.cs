@@ -26,18 +26,20 @@ namespace DegCAD
         public GeometryInputManager InputMgr { get; set; }
         public Timeline Timeline { get; set; }
         public Snapper Snapper { get; set; }
+        public LabelManager LabelManager { get; set; }
 
-
+        public bool ExecutingCommand { get; private set; } = false;
 
         public Editor()
         {
             InitializeComponent();
             GeometryDrawer = new(viewPort, false);
-            viewPort.ViewportChanged += Redraw;
+            viewPort.ViewportChanged += ViewPortChanged;
             Timeline = new();
             Snapper = new(Timeline);
             InputMgr = new(viewPort, Snapper);
-            viewPort.SizeChanged += Redraw;
+            viewPort.SizeChanged += ViewPortChanged;
+            LabelManager = new(Timeline, GeometryDrawer, viewPort, this);
 
             //Adds the axis
             Timeline.AddCommand(new TimelineItem(new IMongeItem[3]
@@ -48,7 +50,12 @@ namespace DegCAD
             }));;
         }
 
-        private void Redraw(object? sender, EventArgs e)
+        public void ViewPortChanged(object? sender, EventArgs e)
+        {
+            Redraw();
+        }
+
+        public void Redraw()
         {
             GeometryDrawer.Clear();
             foreach (var cmd in Timeline.CommandHistory)
@@ -63,11 +70,13 @@ namespace DegCAD
         public async void ExecuteCommand(IGeometryCommand command)
         {
             Debug.WriteLine($"Executing command: {command}");
+            ExecutingCommand = true;
             var res = await command.ExecuteAsync(InputMgr.PreviewGd, InputMgr);
             if (res is null)
                 return;
             Timeline.AddCommand(res);
-            Redraw(this, EventArgs.Empty);
+            ExecutingCommand = false;
+            Redraw();
         }
     }
 }

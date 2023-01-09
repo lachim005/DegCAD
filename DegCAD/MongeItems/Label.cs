@@ -37,11 +37,16 @@ namespace DegCAD.MongeItems
 
         public void Draw(GeometryDrawer gd)
         {
-            var endPos = gd.DrawString(LabelText, Position, 16, Style);
+            Draw(gd, Style);
+        }
+
+        public void Draw(GeometryDrawer gd, Style style)
+        {
+            var endPos = gd.DrawString(LabelText, Position, 16, style);
             Size = endPos - Position;
             endPos.X -= .1;
-            gd.DrawString(Superscript, (endPos.X, Position.Y), 8, Style);
-            gd.DrawString(Subscript, (endPos.X, Position.Y + .3), 8, Style);
+            gd.DrawString(Superscript, (endPos.X, Position.Y), 8, style);
+            gd.DrawString(Subscript, (endPos.X, Position.Y + .3), 8, style);
         }
     }
 }
