@@ -44,7 +44,7 @@ namespace DegCAD.GeometryCommands
 
                 gd.DrawLine(center, startPoint, redStyle);
 
-            }, predicate: (pt) => pt != center);
+            }, circles: new Circle2[1] { circle }, predicate: (pt) => pt != center);
 
             Vector2 startVec = startPoint - center;
 
@@ -76,7 +76,7 @@ namespace DegCAD.GeometryCommands
                 //Draws the arc and swaps the start and end angles if necessary
                 if (swap) gd.DrawArc(circle, endAngle, startAngle, redStyle);
                 else gd.DrawArc(circle, startAngle, endAngle, redStyle);
-            }, predicate: (pt) => pt != center);
+            }, circles: new Circle2[1] { circle }, predicate: (pt) => pt != center);
 
             //Swaps the start and end angles if necessary
             if (swap)
