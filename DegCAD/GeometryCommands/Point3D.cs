@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using DegCAD.DrawableItems;
 using System.Diagnostics;
+using DegCAD.Dialogs;
 
 namespace DegCAD.GeometryCommands
 {
@@ -54,9 +55,27 @@ namespace DegCAD.GeometryCommands
                 mpoint = new(p1.X, p1.Y, -p2.Y);
             }
 
-            return new(
-                new IMongeItem[1] { mpoint }
-            );
+            List<IMongeItem> mongeItems = new(3)
+            {
+                mpoint
+            };
+
+            //Shows the dialog to input the point name
+            var lid = new LabelInput();
+            lid.subscriptTbx.IsEnabled = false;
+            lid.ShowDialog();
+            //Adds the labels to teh timeline item
+            if (!lid.Canceled)
+            {
+                mongeItems.Add(new MongeItems.Label(lid.LabelText, "1", lid.Superscript,
+                    (mpoint.X, mpoint.Y), Style.Default,
+                    (gd, s) => gd.DrawPointCross((mpoint.X, mpoint.Y), s)));
+                mongeItems.Add(new MongeItems.Label(lid.LabelText, "2", lid.Superscript,
+                    (mpoint.X, -mpoint.Z), Style.Default,
+                    (gd, s) => gd.DrawPointCross((mpoint.X, -mpoint.Z), s)));
+            }
+
+            return new(mongeItems.ToArray());
         }
     }
 }
