@@ -27,6 +27,7 @@ namespace DegCAD
             ViewPort.MouseMove += ViewPortMouseMove;
             ViewPort.MouseDown += ViewPortMouseDown;
             ViewPort.MouseUp += ViewPortMouseUp;
+            ViewPort.MouseLeave += ViewPortMouseLeave;
         }
 
         public MongeItems.Label? HoveredLabel { get; private set; }
@@ -36,6 +37,11 @@ namespace DegCAD
 
         private void ViewPortMouseMove(object sender, MouseEventArgs e)
         {
+            if (MovingLabel)
+            {
+                MoveLabel(sender, e);
+                return;
+            }
             DetectHoveredLabel(e.GetPosition(ViewPort));
         }
 
@@ -90,16 +96,13 @@ namespace DegCAD
             if (HoveredLabel is null) return;
             HoveredLabel.Position = pos + startMoveOffset;
             Editor.Redraw();
+            HoveredLabel.Draw(GeometryDrawer, hoverStyle);
             return;
         }
         private void ViewPortMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton != MouseButton.Left) return;
             if (HoveredLabel is null) return;
-
-            Editor.Redraw();
-            ViewPort.MouseMove -= ViewPortMouseMove;
-            ViewPort.MouseMove += MoveLabel;
 
             var canvasPos = ViewPort.ScreenToCanvas(e.GetPosition(ViewPort));
             startMoveOffset = HoveredLabel.Position - canvasPos;
@@ -110,13 +113,14 @@ namespace DegCAD
             if (e.ChangedButton != MouseButton.Left) return;
             StopMoving(e);
         }
+        private void ViewPortMouseLeave(object sender, MouseEventArgs e)
+        {
+            StopMoving(e);
+        }
         private void StopMoving(MouseEventArgs e)
         {
+            if (!MovingLabel) return;
             MovingLabel = false;
-
-            ViewPort.MouseMove += ViewPortMouseMove;
-            ViewPort.MouseMove -= MoveLabel;
-
             Editor.Redraw();
             DetectHoveredLabel(e.GetPosition(ViewPort));
         }
