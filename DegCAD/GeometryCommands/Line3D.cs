@@ -54,7 +54,7 @@ namespace DegCAD.GeometryCommands
                 gd.DrawPointCross(p, Style.Default);
 
                 gd.DrawLine(line1, double.PositiveInfinity * line1Sign, line1.GetParamFromY(0), Style.Default);
-            });
+            }, lines: new ParametricLine2[1] {line1});
             Vector2 pt4 = await inputMgr.GetPoint((p, gd) =>
             {
                 gd.DrawPlane(!plane);
@@ -77,7 +77,7 @@ namespace DegCAD.GeometryCommands
                 }
 
                 gd.DrawLine(line2, double.PositiveInfinity * line2Sign, line2.GetParamFromY(0), Style.Default);
-            });
+            }, lines: new ParametricLine2[1] { line1 });
 
             Line line;
             if (plane)
