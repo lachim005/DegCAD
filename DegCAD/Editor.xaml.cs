@@ -45,9 +45,15 @@ namespace DegCAD
             Timeline.AddCommand(new TimelineItem(new IMongeItem[3]
             {
                 new Axis(),
-                new MongeItems.Label("x", "1, 2", "", (8,0), DegCAD.Style.Default),
-                new MongeItems.Label("0", "", "", (0,0), DegCAD.Style.Default),
-            }));;
+                new MongeItems.Label("x", "1, 2", "", (8,0), DegCAD.Style.Default, (gd, s) =>
+                {
+                    gd.DrawLine(new ParametricLine2((0,0), (1,0)), double.NegativeInfinity, double.PositiveInfinity, s);
+                }),
+                new MongeItems.Label("0", "", "", (0,0), DegCAD.Style.Default, (gd, s) =>
+                {
+                    gd.DrawPointCross((0,0), s);
+                }),
+            }));
         }
 
         public void ViewPortChanged(object? sender, EventArgs e)

@@ -33,9 +33,15 @@ namespace DegCAD.GeometryCommands
                 if (string.IsNullOrWhiteSpace(pt.Label))
                     continue;
                 if (double.IsFinite(pt.Y))
-                    pts.Add(new Label(pt.Label, "1", "", (pt.X, pt.Y), Style.Default));
-                if (double.IsFinite(pt.Y))
-                    pts.Add(new Label(pt.Label, "2", "", (pt.X, -pt.Z), Style.Default));
+                    pts.Add(new Label(pt.Label, "1", "", (pt.X, pt.Y), Style.Default, (gd, s) =>
+                    {
+                        gd.DrawPointCross((pt.X, pt.Y), s);
+                    }));
+                if (double.IsFinite(pt.Z))
+                    pts.Add(new Label(pt.Label, "2", "", (pt.X, -pt.Z), Style.Default, (gd, s) =>
+                    {
+                        gd.DrawPointCross((pt.X, -pt.Z), s);
+                    }));
             }
 
             return Task.FromResult<TimelineItem?>(new(pts.ToArray()));

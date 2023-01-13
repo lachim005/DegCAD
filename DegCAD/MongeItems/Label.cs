@@ -26,13 +26,16 @@ namespace DegCAD.MongeItems
 
         public Style Style { get; init; }
 
-        public Label(string labelText, string subscript, string superscript, Vector2 position, Style style)
+        private Action<GeometryDrawer, Style> drawLabeledObject;
+
+        public Label(string labelText, string subscript, string superscript, Vector2 position, Style style, Action<GeometryDrawer, Style> drawLabeledObject)
         {
             LabelText = labelText;
             Subscript = subscript;
             Superscript = superscript;
             Position = position;
             Style = style;
+            this.drawLabeledObject = drawLabeledObject;
         }
 
         public void Draw(GeometryDrawer gd)
@@ -47,6 +50,11 @@ namespace DegCAD.MongeItems
             endPos.X -= .1;
             gd.DrawString(Superscript, (endPos.X, Position.Y), 8, style);
             gd.DrawString(Subscript, (endPos.X, Position.Y + .3), 8, style);
+        }
+
+        public void DrawLabeledObject(GeometryDrawer gd, Style style)
+        {
+            drawLabeledObject(gd, style);
         }
     }
 }
