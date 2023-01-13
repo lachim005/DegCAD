@@ -1,0 +1,100 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
+
+namespace DegCAD.Dialogs
+{
+    /// <summary>
+    /// Interaction logic for LabelInput.xaml
+    /// </summary>
+    public partial class LabelInput : Window
+    {
+        public bool Canceled = true;
+
+        public string LabelText => labelTextTbx.Text;
+        public string Superscript => superscriptTbx.Text;
+        public string Subscript => subscriptTbx.Text;
+
+        private TextBox lastFocusedTbx;
+
+        public LabelInput()
+        {
+            InitializeComponent();
+            labelTextTbx.Focus();
+            lastFocusedTbx = labelTextTbx;
+            AddSpecialCharacterButtons();
+        }
+
+        private void Confirm(object sender, RoutedEventArgs e)
+        {
+            Canceled = false;
+            Close();
+        }
+
+        private void Cancel(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+
+        private void TbxGotFocus(object sender, RoutedEventArgs e)
+        {
+            lastFocusedTbx = (TextBox)sender;
+        }
+
+        private void AddSpecialCharacterButtons()
+        {
+            //Special characters
+            //Item 1 - what will be added
+            //Item 2 - button header
+            var specialChars = new List<(string, string)>()
+            {
+                ("\u0305", "A̅"),
+                ("ρ", "ρ"),
+                ("α", "α"),
+                ("β", "β"),
+                ("γ", "γ"),
+                ("δ", "δ"),
+                ("π", "π"),
+                ("ν", "ν"),
+            };
+
+            foreach (var ch in specialChars)
+            {
+                //Creates a button for the character
+                var btn = new Button() { Content = ch.Item2 };
+                btn.Click += CharBtnClick;
+                btn.Tag = ch.Item1;
+                btn.Width = 35;
+                btn.Height = 35;
+                btn.Margin = new(5);
+                specialCharsWp.Children.Add(btn);
+            }
+        }
+
+        private void CharBtnClick(object sender, RoutedEventArgs e)
+        {
+            if (sender is not Button btn) return;
+            if (btn.Tag is not string tag) return;
+
+            AddSpecialCharacter(tag);
+        }
+
+        private void AddSpecialCharacter(string str)
+        {
+            //Adds a special character to the last focused textbox
+            lastFocusedTbx.Text += str;
+            lastFocusedTbx.Focus();
+            lastFocusedTbx.CaretIndex = lastFocusedTbx.Text.Length;
+        }
+    }
+}

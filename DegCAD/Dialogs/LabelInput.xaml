@@ -1,0 +1,42 @@
+﻿<Window x:Class="DegCAD.Dialogs.LabelInput"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DegCAD.Dialogs"
+        mc:Ignorable="d"
+        Title="LabelInput" Height="400" Width="398">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50"/>
+            <RowDefinition Height="100"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Label Content="Zadejte název" FontWeight="Bold" FontSize="30" HorizontalAlignment="Center" Grid.ColumnSpan="2"/>
+        <Grid Grid.ColumnSpan="2" Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TextBox x:Name="labelTextTbx" Grid.RowSpan="2" VerticalAlignment="Center" HorizontalAlignment="Right" Width="200" FontSize="24px" Margin="5px" TextAlignment="Right" GotFocus="TbxGotFocus"/>
+            <TextBox x:Name="superscriptTbx" Grid.Column="1" Grid.Row="0" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="100px" Margin="5px" GotFocus="TbxGotFocus"/>
+            <TextBox x:Name="subscriptTbx" Grid.Column="1" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left" Width="100px" Margin="5px" GotFocus="TbxGotFocus"/>
+        </Grid>
+        <GroupBox Grid.ColumnSpan="2" Grid.Row="2" Header="Speciální znaky" Margin="5px">
+            <WrapPanel x:Name="specialCharsWp">
+
+            </WrapPanel>
+        </GroupBox>
+        <Button x:Name="cancelBtn" Grid.Row="3" Content="Zrušit" Margin="5" Click="Cancel"/>
+        <Button x:Name="confirmBtn" Grid.Row="3" Content="Potvrdit" Margin="5" Grid.Column="2" Click="Confirm"/>
+    </Grid>
+</Window>
