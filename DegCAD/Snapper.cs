@@ -17,7 +17,7 @@ namespace DegCAD
             Timeline = timeline;
         }
 
-        public Vector2 Snap(Vector2 v, ParametricLine2? forcedLine = null)
+        public Vector2 Snap(Vector2 v, Vector2[]? points = null, ParametricLine2[]? lines = null, Circle2[]? circles = null)
         {
             Vector2? closestPoint = null;
             double closestPointDistanceSquared = double.MaxValue;
@@ -44,6 +44,15 @@ namespace DegCAD
                 }
             }
 
+            //Adds the additional points
+            if (points is not null)
+            {
+                foreach (var pt in points)
+                {
+                    SaveClosestPoint(pt);
+                }
+            }
+
             //Goes through every snapable line and saves all the ones that are close
             List<ParametricLine2> closeLines = new();
 
@@ -64,9 +73,11 @@ namespace DegCAD
                 }
             }
 
-            //Adds the forced line so intersections can be calculated
-            if (forcedLine is not null)
-                closeLines.Add((ParametricLine2)forcedLine);
+            //Adds the additional lines
+            if (lines is not null)
+            {
+                closeLines.AddRange(lines);
+            }
 
             //Goes through every snapable circle and saves all the ones that are close
             List<Circle2> closeCircles = new();
@@ -85,6 +96,12 @@ namespace DegCAD
                         }
                     }
                 }
+            }
+
+            //Adds the additional circles
+            if (circles is not null)
+            {
+                closeCircles.AddRange(circles);
             }
 
             //If there are more close lines, calculates all the intersections

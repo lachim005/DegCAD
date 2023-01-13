@@ -40,7 +40,7 @@ namespace DegCAD
         /// Gets a point from the user
         /// </summary>
         /// <param name="preview">Action that will get executed to redraw the preview of the inputed point</param>
-        public async Task<Vector2> GetPoint(Action<Vector2, GeometryDrawer> preview, ParametricLine2? forceLine = null, Predicate<Vector2>? predicate = null)
+        public async Task<Vector2> GetPoint(Action<Vector2, GeometryDrawer> preview, Vector2[]? points = null, ParametricLine2[]? lines = null, Circle2[]? circles = null, Predicate<Vector2>? predicate = null)
         {
             await inputSemaphore.WaitAsync();
 
@@ -48,7 +48,7 @@ namespace DegCAD
             EventHandler<VPMouseEventArgs> previewPoint = (s, e) =>
             {
                 PreviewGd.Clear();
-                Vector2 snapPos = Snapper.Snap(e.CanvasPos, forceLine);
+                Vector2 snapPos = Snapper.Snap(e.CanvasPos, points, lines, circles);
                 if (predicate is not null && !predicate(snapPos)) return;
                 preview(snapPos, PreviewGd);
             };
@@ -66,7 +66,7 @@ namespace DegCAD
                 if (e.ChangedButton == MouseButton.Left)
                 {
                     Vector2 res = Mouse.GetPosition(ViewPort);
-                    Vector2 snapCanvasPos = Snapper.Snap(ViewPort.ScreenToCanvas(res), forceLine);
+                    Vector2 snapCanvasPos = Snapper.Snap(ViewPort.ScreenToCanvas(res), points, lines, circles);
 
                     if (predicate is not null && !predicate(snapCanvasPos)) return;
 
@@ -93,7 +93,7 @@ namespace DegCAD
             return mposClick;
         }
 
-        public async Task<(Vector2, bool)> GetPointWithPlane(Action<Vector2, GeometryDrawer, bool> preview, bool defaultPlane = false, Predicate<Vector2>? predicate = null)
+        public async Task<(Vector2, bool)> GetPointWithPlane(Action<Vector2, GeometryDrawer, bool> preview, bool defaultPlane = false, Vector2[]? points = null, ParametricLine2[]? lines = null, Circle2[]? circles = null, Predicate<Vector2>? predicate = null)
         {
             await inputSemaphore.WaitAsync();
 
@@ -103,7 +103,7 @@ namespace DegCAD
             EventHandler<VPMouseEventArgs> previewPoint = (s, e) =>
             {
                 PreviewGd.Clear();
-                Vector2 snapPos = Snapper.Snap(e.CanvasPos);
+                Vector2 snapPos = Snapper.Snap(e.CanvasPos, points, lines, circles);
                 if (predicate is not null && !predicate(snapPos)) return;
                 preview(snapPos, PreviewGd, plane);
             };
@@ -122,7 +122,7 @@ namespace DegCAD
                 {
                     //Accepts the point
                     Vector2 res = Mouse.GetPosition(ViewPort);
-                    Vector2 snapCanvasPos = Snapper.Snap(ViewPort.ScreenToCanvas(res));
+                    Vector2 snapCanvasPos = Snapper.Snap(ViewPort.ScreenToCanvas(res), points, lines, circles);
 
                     if (predicate is not null && !predicate(snapCanvasPos)) return;
 

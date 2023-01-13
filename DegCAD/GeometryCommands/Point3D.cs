@@ -39,7 +39,7 @@ namespace DegCAD.GeometryCommands
                 gd.DrawPointCross(p1, Style.Default);
                 //Point 2 cross
                 gd.DrawPointCross((p1.X, p.Y), Style.Default);
-            }, new(p1, (0,1)));
+            }, lines: new ParametricLine2[1] { new(p1, (0, 1)) });
 
             p2.X = p1.X;
 
