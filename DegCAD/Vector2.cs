@@ -78,5 +78,17 @@ namespace DegCAD
         public static implicit operator Vector2((double, double) tup) => new(tup.Item1, tup.Item2);
         public static implicit operator Vector2(Point p) => new(p.X, p.Y);
         #endregion
+
+        public override bool Equals(object? obj)
+        {
+            if (obj is null) return false;
+            if (obj is not Vector2 vec) return false;
+            return vec == this;
+        }
+
+        public override int GetHashCode()
+        {
+            return $"{X},{Y}".GetHashCode();
+        }
     }
 }
