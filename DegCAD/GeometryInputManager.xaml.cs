@@ -44,13 +44,19 @@ namespace DegCAD
         {
             await inputSemaphore.WaitAsync();
 
+            //Redraws the preview of the point
+            void DrawPreview(Vector2 canvasPos)
+            {
+                PreviewGd.Clear();
+                Vector2 snapPos = Snapper.Snap(canvasPos, points, lines, circles);
+                if (predicate is not null && !predicate(snapPos)) return;
+                preview(snapPos, PreviewGd);
+            }
+
             //Saves the previewPoint handler so it can be unasigned later
             EventHandler<VPMouseEventArgs> previewPoint = (s, e) =>
             {
-                PreviewGd.Clear();
-                Vector2 snapPos = Snapper.Snap(e.CanvasPos, points, lines, circles);
-                if (predicate is not null && !predicate(snapPos)) return;
-                preview(snapPos, PreviewGd);
+                DrawPreview(e.CanvasPos);
             };
 
             //Redraws the preview when the user moves the mouse or zooms/pans the viewport
@@ -77,7 +83,7 @@ namespace DegCAD
             ViewPort.MouseDown += viewPortClick;
 
             //Draws the preview so it doesn't appear after the user moves their mouse
-            preview(ViewPort.ScreenToCanvas(Mouse.GetPosition(ViewPort)), PreviewGd);
+            DrawPreview(ViewPort.ScreenToCanvas(Mouse.GetPosition(ViewPort)));
 
             //Awaits the user click
             Vector2 mposClick = await result.Task;
@@ -99,13 +105,19 @@ namespace DegCAD
 
             bool plane = defaultPlane;
 
+            //Redraws the preview of the point
+            void DrawPreview(Vector2 canvasPos)
+            {
+                PreviewGd.Clear();
+                Vector2 snapPos = Snapper.Snap(canvasPos, points, lines, circles);
+                if (predicate is not null && !predicate(snapPos)) return;
+                preview(snapPos, PreviewGd, plane);
+            }
+
             //Saves the previewPoint handler so it can be unasigned later
             EventHandler<VPMouseEventArgs> previewPoint = (s, e) =>
             {
-                PreviewGd.Clear();
-                Vector2 snapPos = Snapper.Snap(e.CanvasPos, points, lines, circles);
-                if (predicate is not null && !predicate(snapPos)) return;
-                preview(snapPos, PreviewGd, plane);
+                DrawPreview(e.CanvasPos);
             };
 
             //Redraws the preview when the user moves the mouse or zooms/pans the viewport
@@ -132,14 +144,14 @@ namespace DegCAD
                     //Switches the plane
                     plane = !plane;
                     PreviewGd.Clear();
-                    preview(ViewPort.ScreenToCanvas(e.GetPosition(ViewPort)), PreviewGd, plane);
+                    DrawPreview(ViewPort.ScreenToCanvas(Mouse.GetPosition(ViewPort)));
                 }
             };
 
             ViewPort.MouseDown += viewPortClick;
 
             //Draws the preview so it doesn't appear after the user moves their mouse
-            preview(ViewPort.ScreenToCanvas(Mouse.GetPosition(ViewPort)), PreviewGd, plane);
+            DrawPreview(ViewPort.ScreenToCanvas(Mouse.GetPosition(ViewPort)));
 
             //Awaits the user click
             Vector2 mposClick = await result.Task;
