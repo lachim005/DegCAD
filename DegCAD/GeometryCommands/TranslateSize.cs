@@ -58,7 +58,7 @@ namespace DegCAD.GeometryCommands
                 var ptOnCircle = circle.TranslatePointToCircle(pt);
                 gd.DrawPointCross(ptOnCircle, redStyle);
                 gd.DrawLine(pt3, ptOnCircle, redStyle);
-            }, predicate: (pt) => (pt != pt3));
+            }, predicate: (pt) => pt != pt3, circles: new Circle2[1] { circle });
 
             var ptOnCircle = circle.TranslatePointToCircle(pt4);
 
