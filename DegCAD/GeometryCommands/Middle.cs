@@ -27,7 +27,7 @@ namespace DegCAD.GeometryCommands
 
             var middle = (pt1 + pt2) / 2;
 
-            return new(new IMongeItem[1] { new DrawableItems.Point(middle.X, middle.Y, double.NaN) });
+            return new(new IMongeItem[1] { new DrawableItems.Point(middle.X, middle.Y) });
         }
     }
 }

@@ -62,7 +62,7 @@ namespace DegCAD.GeometryCommands
 
             var ptOnCircle = circle.TranslatePointToCircle(pt4);
 
-            return new(new IMongeItem[1] { new DrawableItems.Point(ptOnCircle.X, ptOnCircle.Y, double.NaN) });
+            return new(new IMongeItem[1] { new DrawableItems.Point(ptOnCircle.X, ptOnCircle.Y) });
         }
     }
 }

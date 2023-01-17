@@ -45,34 +45,34 @@ namespace DegCAD.GeometryCommands
             p2.X = p1.X;
 
 
-            Point mpoint;
+            Point[] mpoints = new Point[2];
             //Sets the Y and Z coordinates depending on the first plane selected
             if (firstPlane)
             {
-                mpoint = new(p1.X, p2.Y, -p1.Y);
+                mpoints[0] = new(p1.X, p2.Y);
+                mpoints[1] = new(p1.X, p1.Y);
             } else
             {
-                mpoint = new(p1.X, p1.Y, -p2.Y);
+                mpoints[0] = new(p1.X, p1.Y);
+                mpoints[1] = new(p1.X, p2.Y);
             }
 
-            List<IMongeItem> mongeItems = new(3)
-            {
-                mpoint
-            };
+            List<IMongeItem> mongeItems = new(3);
+            mongeItems.AddRange(mpoints);
 
             //Shows the dialog to input the point name
             var lid = new LabelInput();
             lid.subscriptTbx.IsEnabled = false;
             lid.ShowDialog();
-            //Adds the labels to teh timeline item
+            //Adds the labels to the timeline item
             if (!lid.Canceled)
             {
                 mongeItems.Add(new MongeItems.Label(lid.LabelText, "1", lid.Superscript,
-                    (mpoint.X, mpoint.Y), Style.Default,
-                    (gd, s) => gd.DrawPointCross((mpoint.X, mpoint.Y), s)));
+                    mpoints[0].Coords, Style.Default,
+                    (gd, s) => gd.DrawPointCross(mpoints[0].Coords, s)));
                 mongeItems.Add(new MongeItems.Label(lid.LabelText, "2", lid.Superscript,
-                    (mpoint.X, -mpoint.Z), Style.Default,
-                    (gd, s) => gd.DrawPointCross((mpoint.X, -mpoint.Z), s)));
+                    mpoints[1].Coords, Style.Default,
+                    (gd, s) => gd.DrawPointCross(mpoints[1].Coords, s)));
             }
 
             return new(mongeItems.ToArray());

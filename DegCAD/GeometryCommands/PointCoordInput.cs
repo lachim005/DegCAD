@@ -26,22 +26,32 @@ namespace DegCAD.GeometryCommands
 
             foreach (var pt in dialog.Points)
             {
-                //Adds the monge point
-                pts.Add(new Point(pt.X, pt.Y, pt.Z));
-
-                //Adds the labels to the points
-                if (string.IsNullOrWhiteSpace(pt.Label))
-                    continue;
+                //Adds the Y projection
                 if (double.IsFinite(pt.Y))
-                    pts.Add(new Label(pt.Label, "1", "", (pt.X, pt.Y), Style.Default, (gd, s) =>
+                {
+                    pts.Add(new Point(pt.X, pt.Y));
+                    //Adds the label
+                    if (!string.IsNullOrWhiteSpace(pt.Label))
                     {
-                        gd.DrawPointCross((pt.X, pt.Y), s);
-                    }));
+                        pts.Add(new Label(pt.Label, "1", "", (pt.X, pt.Y), Style.Default, (gd, s) =>
+                        {
+                            gd.DrawPointCross((pt.X, pt.Y), s);
+                        }));
+                    }
+                }
+                //Adds the Z projection
                 if (double.IsFinite(pt.Z))
-                    pts.Add(new Label(pt.Label, "2", "", (pt.X, -pt.Z), Style.Default, (gd, s) =>
+                {
+                    pts.Add(new Point(pt.X, -pt.Z));
+                    //Adds the label
+                    if (!string.IsNullOrWhiteSpace(pt.Label))
                     {
-                        gd.DrawPointCross((pt.X, -pt.Z), s);
-                    }));
+                        pts.Add(new Label(pt.Label, "2", "", (pt.X, -pt.Z), Style.Default, (gd, s) =>
+                        {
+                            gd.DrawPointCross((pt.X, -pt.Z), s);
+                        }));
+                    }
+                }
             }
 
             return Task.FromResult<TimelineItem?>(new(pts.ToArray()));
