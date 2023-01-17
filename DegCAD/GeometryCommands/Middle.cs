@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DegCAD.Dialogs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,7 +28,22 @@ namespace DegCAD.GeometryCommands
 
             var middle = (pt1 + pt2) / 2;
 
-            return new(new IMongeItem[1] { new DrawableItems.Point(middle.X, middle.Y) });
+            List<IMongeItem> mItems = new()
+            {
+                new DrawableItems.Point(middle.X, middle.Y)
+            };
+            //Label
+            LabelInput lid = new();
+            lid.ShowDialog();
+            if (!lid.Canceled)
+            {
+                mItems.Add(new MongeItems.Label(lid.LabelText, lid.Subscript, lid.Superscript, middle, Style.Default, (gd, s) =>
+                {
+                    gd.DrawPointCross(middle, s);
+                }));
+            }
+
+            return new(mItems.ToArray());
         }
     }
 }

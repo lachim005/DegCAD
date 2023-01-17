@@ -1,6 +1,8 @@
-﻿using System;
+﻿using DegCAD.Dialogs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
@@ -62,7 +64,22 @@ namespace DegCAD.GeometryCommands
 
             var ptOnCircle = circle.TranslatePointToCircle(pt4);
 
-            return new(new IMongeItem[1] { new DrawableItems.Point(ptOnCircle.X, ptOnCircle.Y) });
+            List<IMongeItem> mItems = new()
+            {
+                new DrawableItems.Point(ptOnCircle.X, ptOnCircle.Y)
+            };
+            //Label
+            LabelInput lid = new();
+            lid.ShowDialog();
+            if (!lid.Canceled)
+            {
+                mItems.Add(new MongeItems.Label(lid.LabelText, lid.Subscript, lid.Superscript, ptOnCircle, Style.Default, (gd, s) =>
+                {
+                    gd.DrawPointCross(ptOnCircle, s);
+                }));
+            }
+
+            return new(mItems.ToArray());
         }
     }
 }
