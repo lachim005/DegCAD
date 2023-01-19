@@ -6,7 +6,37 @@
         xmlns:local="clr-namespace:DegCAD"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.CommandBindings>
+        <CommandBinding Command="New"
+                        Executed="NewCommand"/>
+        <CommandBinding Command="Open"
+                        Executed="OpenCommand"/>
+        <CommandBinding Command="Save"
+                        Executed="SaveCommand"
+                        CanExecute="CanExecuteEditorCommand"/>
+        <CommandBinding Command="SaveAs"
+                        Executed="SaveAsCommand"
+                        CanExecute="CanExecuteEditorCommand"/>
+        <CommandBinding Command="Undo"
+                        Executed="UndoCommand"
+                        CanExecute="CanExecuteEditorCommand"/>
+        <CommandBinding Command="Redo"
+                        Executed="RedoCommand"
+                        CanExecute="CanExecuteEditorCommand"/>
+    </Window.CommandBindings>
     <DockPanel>
+        <Menu DockPanel.Dock="Top" Background="White" BorderBrush="LightGray" BorderThickness="0, 0, 0, 2">
+            <MenuItem Header="Soubor">
+                <MenuItem Header="Nový" Command="New"/>
+                <MenuItem Header="Otevřít" Command="Open"/>
+                <MenuItem Header="Uložit" Command="Save"/>
+                <MenuItem Header="Uložit jako" Command="SaveAs"/>
+            </MenuItem>
+            <MenuItem Header="Úpravy">
+                <MenuItem Header="Zpět" Command="Undo"/>
+                <MenuItem Header="Znovu" Command="Redo"/>
+            </MenuItem>
+        </Menu>
         <local:CommandPallete DockPanel.Dock="Top" x:Name="cmdPallete"/>
         <local:Editor x:Name="editor"/>
     </DockPanel>
