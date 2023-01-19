@@ -9,19 +9,27 @@ namespace DegCAD
 {
     public partial class MainWindow
     {
+        private bool IsActiveEditorIdle()
+        {
+            if (ActiveEditor is null) return false;
+            if (ActiveEditor.ExecutingCommand) return false;
+            return true;
+        }
         private void CanExecuteEditorCommand(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = true;
-            if (ActiveEditor is null)
-            {
-                e.CanExecute = false;
-                return;
-            }
-            if (ActiveEditor.ExecutingCommand)
-            {
-                e.CanExecute = false;
-                return;
-            }
+            e.CanExecute = IsActiveEditorIdle();
+        }
+        private void CanUndo(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (!IsActiveEditorIdle()) return;
+            if (ActiveEditor is null) return;
+            e.CanExecute = ActiveEditor.Timeline.CanUndo;
+        }
+        private void CanRedo(object sender, CanExecuteRoutedEventArgs e)
+        {
+            if (!IsActiveEditorIdle()) return;
+            if (ActiveEditor is null) return;
+            e.CanExecute = ActiveEditor.Timeline.CanRedo;
         }
 
         private void NewCommand(object sender, ExecutedRoutedEventArgs e)
@@ -42,11 +50,11 @@ namespace DegCAD
         }
         private void UndoCommand(object sender, ExecutedRoutedEventArgs e)
         {
-            
+            ActiveEditor?.Timeline.Undo();
         }
         private void RedoCommand(object sender, ExecutedRoutedEventArgs e)
         {
-            
+            ActiveEditor?.Timeline.Redo();
         }
     }
 }

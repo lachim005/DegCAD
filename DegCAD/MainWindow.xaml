@@ -19,10 +19,10 @@
                         CanExecute="CanExecuteEditorCommand"/>
         <CommandBinding Command="Undo"
                         Executed="UndoCommand"
-                        CanExecute="CanExecuteEditorCommand"/>
+                        CanExecute="CanUndo"/>
         <CommandBinding Command="Redo"
                         Executed="RedoCommand"
-                        CanExecute="CanExecuteEditorCommand"/>
+                        CanExecute="CanRedo"/>
     </Window.CommandBindings>
     <DockPanel>
         <Menu DockPanel.Dock="Top" Background="White" BorderBrush="LightGray" BorderThickness="0, 0, 0, 2">

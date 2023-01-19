@@ -36,6 +36,7 @@ namespace DegCAD
             GeometryDrawer = new(viewPort, false);
             viewPort.ViewportChanged += ViewPortChanged;
             Timeline = new();
+            Timeline.TimelineChanged += TimelineChanged;
             Snapper = new(Timeline);
             InputMgr = new(viewPort, Snapper);
             viewPort.SizeChanged += ViewPortChanged;
@@ -57,6 +58,10 @@ namespace DegCAD
         }
 
         public void ViewPortChanged(object? sender, EventArgs e)
+        {
+            Redraw();
+        }
+        public void TimelineChanged(object? sender, EventArgs e)
         {
             Redraw();
         }
@@ -82,7 +87,6 @@ namespace DegCAD
                 return;
             Timeline.AddCommand(res);
             ExecutingCommand = false;
-            Redraw();
         }
     }
 }
