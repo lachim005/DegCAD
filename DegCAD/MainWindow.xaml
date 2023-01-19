@@ -26,15 +26,15 @@
     </Window.CommandBindings>
     <DockPanel>
         <Menu DockPanel.Dock="Top" Background="White" BorderBrush="LightGray" BorderThickness="0, 0, 0, 2">
-            <MenuItem Header="Soubor">
-                <MenuItem Header="Nový" Command="New"/>
-                <MenuItem Header="Otevřít" Command="Open"/>
-                <MenuItem Header="Uložit" Command="Save"/>
-                <MenuItem Header="Uložit jako" Command="SaveAs"/>
+            <MenuItem Header="_Soubor">
+                <MenuItem Header="_Nový" Command="New"/>
+                <MenuItem Header="_Otevřít" Command="Open"/>
+                <MenuItem Header="_Uložit" Command="Save"/>
+                <MenuItem Header="Uložit _jako" Command="SaveAs"/>
             </MenuItem>
-            <MenuItem Header="Úpravy">
-                <MenuItem Header="Zpět" Command="Undo"/>
-                <MenuItem Header="Znovu" Command="Redo"/>
+            <MenuItem Header="Úpr_avy">
+                <MenuItem Header="_Zpět" Command="Undo"/>
+                <MenuItem Header="_Opakovat" Command="Redo"/>
             </MenuItem>
         </Menu>
         <local:CommandPallete DockPanel.Dock="Top" x:Name="cmdPallete"/>
