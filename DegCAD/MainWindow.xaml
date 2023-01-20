@@ -46,8 +46,12 @@
         </Menu>
         <local:CommandPallete DockPanel.Dock="Top" x:Name="cmdPallete"/>
         <TabControl x:Name="editorTabs" TabStripPlacement="Bottom" SelectionChanged="TabSwitched">
-            <TabItem Header="Domů">
-                <TextBlock Text="Vítejte zpět" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30px"/>
+            <TabItem Header="_Domů">
+                <!-- Home page -->
+                <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
+                    <TextBlock Text="Vítejte v DegCADu" FontSize="30px"/>
+                    <Button Command="New" Content="_Nový dokument +" Padding="10px 15px" Margin="20px"/>
+                </StackPanel>
             </TabItem>
         </TabControl>
     </DockPanel>

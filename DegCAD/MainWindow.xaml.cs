@@ -25,8 +25,11 @@ namespace DegCAD
         /// The editor that the user has currently open
         /// </summary>
         public Editor? ActiveEditor { get; set; }
-        ObservableCollection<Editor> openEditors = new();
+        private readonly ObservableCollection<Editor> openEditors = new();
 
+        /// <summary>
+        /// Used for the number after "Bez názvu" in new document names
+        /// </summary>
         private int editorCounter = 1;
 
         public MainWindow()
@@ -39,10 +42,12 @@ namespace DegCAD
         private void OpenEditorsChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             var index = editorTabs.SelectedIndex;
+            //Clears the tab control without the home tab
             while (editorTabs.Items.Count > 1)
             {
                 editorTabs.Items.RemoveAt(1);
             }
+            //Creates new tabs for all the editors
             foreach (Editor editor in openEditors)
             {
                 StackPanel stp = new() { Orientation = Orientation.Horizontal};
@@ -57,18 +62,22 @@ namespace DegCAD
                 stp.Children.Add(closeBtn);
                 editorTabs.Items.Add(new TabItem() { Header = stp, Content = editor });
             }
+            //Out of bounds protection
             if (index > editorTabs.Items.Count - 1)
                 index--;
+            //Resets the selected index so it doesn't get changed by removing the previous tabs
             editorTabs.SelectedIndex = index;
         }
 
         private void TabSwitched(object sender, SelectionChangedEventArgs e)
         {
+            //Home or invalid tab got selected
             if (editorTabs.SelectedIndex < 1)
             {
                 ActiveEditor = null;
                 return;
             }
+            //Editor tab got selected
             ActiveEditor = openEditors[editorTabs.SelectedIndex - 1];
         }
     }
