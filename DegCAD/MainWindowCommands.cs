@@ -34,7 +34,7 @@ namespace DegCAD
 
         private void NewCommand(object sender, ExecutedRoutedEventArgs e)
         {
-
+            AddEditor(new());
         }
         private void OpenCommand(object sender, ExecutedRoutedEventArgs e)
         {
@@ -47,6 +47,11 @@ namespace DegCAD
         private void SaveAsCommand(object sender, ExecutedRoutedEventArgs e)
         {
 
+        }
+        private void CloseCommand(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (ActiveEditor is null) return;
+            CloseEditor(ActiveEditor);
         }
         private void UndoCommand(object sender, ExecutedRoutedEventArgs e)
         {

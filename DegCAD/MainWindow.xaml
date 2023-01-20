@@ -17,6 +17,9 @@
         <CommandBinding Command="SaveAs"
                         Executed="SaveAsCommand"
                         CanExecute="CanExecuteEditorCommand"/>
+        <CommandBinding Command="Close"
+                        Executed="CloseCommand"
+                        CanExecute="CanExecuteEditorCommand"/>
         <CommandBinding Command="Undo"
                         Executed="UndoCommand"
                         CanExecute="CanUndo"/>
@@ -24,6 +27,9 @@
                         Executed="RedoCommand"
                         CanExecute="CanRedo"/>
     </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Command="Close" Key="W" Modifiers="Ctrl"/>
+    </Window.InputBindings>
     <DockPanel>
         <Menu DockPanel.Dock="Top" Background="White" BorderBrush="LightGray" BorderThickness="0, 0, 0, 2">
             <MenuItem Header="_Soubor">
@@ -31,6 +37,7 @@
                 <MenuItem Header="_Otevřít" Command="Open"/>
                 <MenuItem Header="_Uložit" Command="Save"/>
                 <MenuItem Header="Uložit _jako" Command="SaveAs"/>
+                <MenuItem Header="_Zavřít" Command="Close" InputGestureText="Ctrl+W"/>
             </MenuItem>
             <MenuItem Header="Úpr_avy">
                 <MenuItem Header="_Zpět" Command="Undo"/>
@@ -38,6 +45,10 @@
             </MenuItem>
         </Menu>
         <local:CommandPallete DockPanel.Dock="Top" x:Name="cmdPallete"/>
-        <local:Editor x:Name="editor"/>
+        <TabControl x:Name="editorTabs" TabStripPlacement="Bottom" SelectionChanged="TabSwitched">
+            <TabItem Header="Domů">
+                <TextBlock Text="Vítejte zpět" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="30px"/>
+            </TabItem>
+        </TabControl>
     </DockPanel>
 </Window>
