@@ -30,7 +30,10 @@ namespace DegCAD
 
         public bool ExecutingCommand { get; private set; } = false;
 
-        public Editor()
+        public string FileName { get; set; }
+        public string? FolderPath { get; set; }
+
+        public Editor(string fileName)
         {
             InitializeComponent();
             GeometryDrawer = new(viewPort, false);
@@ -55,6 +58,7 @@ namespace DegCAD
                     gd.DrawPointCross((0,0), s);
                 }),
             }));
+            FileName = fileName;
         }
 
         public void ViewPortChanged(object? sender, EventArgs e)

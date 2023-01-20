@@ -34,7 +34,9 @@ namespace DegCAD
 
         private void NewCommand(object sender, ExecutedRoutedEventArgs e)
         {
-            AddEditor(new());
+            openEditors.Add(new($"Bez názvu {editorCounter}"));
+            editorTabs.SelectedIndex = openEditors.Count;
+            editorCounter++;
         }
         private void OpenCommand(object sender, ExecutedRoutedEventArgs e)
         {
@@ -51,7 +53,7 @@ namespace DegCAD
         private void CloseCommand(object sender, ExecutedRoutedEventArgs e)
         {
             if (ActiveEditor is null) return;
-            CloseEditor(ActiveEditor);
+            openEditors.Remove(ActiveEditor);
         }
         private void UndoCommand(object sender, ExecutedRoutedEventArgs e)
         {
