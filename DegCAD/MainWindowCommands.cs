@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace DegCAD
@@ -44,7 +45,18 @@ namespace DegCAD
         }
         private void SaveCommand(object sender, ExecutedRoutedEventArgs e)
         {
+            if (ActiveEditor is null) return;
 
+            ActiveEditor.FolderPath = "Foruderu";
+
+            try
+            {
+                ActiveEditor.SaveEditor();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Chyba při ukládání souboru\n\n" + ex.InnerException?.Message, MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
         private void SaveAsCommand(object sender, ExecutedRoutedEventArgs e)
         {
