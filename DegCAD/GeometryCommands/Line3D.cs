@@ -79,18 +79,13 @@ namespace DegCAD.GeometryCommands
                 gd.DrawLine(line2, double.PositiveInfinity * line2Sign, line2.GetParamFromY(0), Style.Default);
             }, lines: new ParametricLine2[1] { line1 });
 
-            Line line;
-            if (plane)
+            List<IMongeItem> mItems = new()
             {
-                line = new Line(line2, line1, Style.Default);
-            } else
-            {
-                line = new Line(line1, line2, Style.Default);
-            }
+                new LineProjection(line1, plane, Style.Default),
+                new LineProjection(line2, !plane, Style.Default)
+            };
 
-            return new TimelineItem(
-                new IMongeItem[1] {line}
-            );
+            return new TimelineItem(mItems.ToArray());
         }
     }
 }
