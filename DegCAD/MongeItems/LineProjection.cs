@@ -42,9 +42,14 @@ namespace DegCAD.MongeItems
             Style = style;
         }
 
+
         public void Draw(GeometryDrawer gd)
         {
-            gd.DrawLine(Line, double.PositiveInfinity * infinitySign, Line.GetParamFromY(0), Style);
+            Draw(gd, Style);
+        }
+        public void Draw(GeometryDrawer gd, Style s)
+        {
+            gd.DrawLine(Line, double.PositiveInfinity * infinitySign, Line.GetParamFromY(0), s);
         }
     }
 }

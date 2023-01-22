@@ -28,7 +28,11 @@ namespace DegCAD.MongeItems
 
         public void Draw(GeometryDrawer gd)
         {
-            gd.DrawLine(P1, P2, Style);
+            Draw(gd, Style);
+        }
+        public void Draw(GeometryDrawer gd, Style s)
+        {
+            gd.DrawLine(P1, P2, s);
         }
     }
 }
