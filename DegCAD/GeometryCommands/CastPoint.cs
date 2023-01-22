@@ -88,10 +88,7 @@ namespace DegCAD.GeometryCommands
             lid.ShowDialog();
             if (!lid.Canceled)
             {
-                mItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript, mPoint.Coords, Style.Default, (gd, s) =>
-                {
-                    gd.DrawPointCross(mPoint.Coords, s);
-                }));
+                mItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript, mPoint.Coords, Style.Default, mPoint));
             }
 
             return new TimelineItem(mItems.ToArray());

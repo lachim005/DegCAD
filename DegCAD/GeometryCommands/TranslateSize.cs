@@ -73,10 +73,7 @@ namespace DegCAD.GeometryCommands
             lid.ShowDialog();
             if (!lid.Canceled)
             {
-                mItems.Add(new MongeItems.Label(lid.LabelText, lid.Subscript, lid.Superscript, ptOnCircle, Style.Default, (gd, s) =>
-                {
-                    gd.DrawPointCross(ptOnCircle, s);
-                }));
+                mItems.Add(new MongeItems.Label(lid.LabelText, lid.Subscript, lid.Superscript, ptOnCircle, Style.Default, mItems[0]));
             }
 
             return new(mItems.ToArray());

@@ -68,11 +68,9 @@ namespace DegCAD.GeometryCommands
             if (!lid.Canceled)
             {
                 mongeItems.Add(new MongeItems.Label(lid.LabelText, "1", lid.Superscript,
-                    mpoints[0].Coords, Style.Default,
-                    (gd, s) => gd.DrawPointCross(mpoints[0].Coords, s)));
+                    mpoints[0].Coords, Style.Default, mpoints[0]));
                 mongeItems.Add(new MongeItems.Label(lid.LabelText, "2", lid.Superscript,
-                    mpoints[1].Coords, Style.Default,
-                    (gd, s) => gd.DrawPointCross(mpoints[1].Coords, s)));
+                    mpoints[1].Coords, Style.Default, mpoints[1]));
             }
 
             return new(mongeItems.ToArray());
