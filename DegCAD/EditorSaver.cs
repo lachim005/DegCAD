@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DegCAD.DrawableItems;
+using DegCAD.MongeItems;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
@@ -47,7 +49,7 @@ namespace DegCAD
             }
 
             var version = Assembly.GetExecutingAssembly().GetName().Version;
-            if (version is null) version = new(0, 0, 0);
+            version ??= new(0, 0, 0);
 
             string[] metaData =
             {
@@ -57,7 +59,7 @@ namespace DegCAD
 
             SaveTimelineToFile(editor.Timeline, Path.Combine(tempDir, "timeline.txt"));
 
-            string outputFile = Path.Combine(editor.FolderPath, $"{editor.FileName}.zip");
+            string outputFile = Path.Combine(editor.FolderPath, $"{editor.FileName}.dgproj");
             //Deletes the file if it exists so the archive can be created
             if (File.Exists(outputFile))
             {
@@ -71,7 +73,54 @@ namespace DegCAD
 
         private static void SaveTimelineToFile(Timeline tl, string path)
         {
+            using StreamWriter sw = new(path, false, Encoding.UTF8);
+            //Writes the default style
+            Style currentStyle = Style.Default;
+            sw.WriteLine(SerializeStyle(currentStyle));
+            foreach (var cmd in tl.CommandHistory.ToArray().Reverse())
+            {
+                foreach (var item in cmd.Items)
+                {
+                    //If the style has changed, writes it to the file
+                    if (currentStyle != item.Style)
+                    {
+                        sw.WriteLine(SerializeStyle(item.Style));
+                        currentStyle = item.Style;
+                    }
 
+                    sw.WriteLine(SerializeMongeItem(item));
+                }
+                //Ends the command
+                sw.WriteLine("ADD");
+            }
+            sw.WriteLine("END");
         }
+
+        private static string SerializeMongeItem(IMongeItem item)
+        {
+            return item switch
+            {
+                Axis => "AXS",
+
+                Point pt => $"PNT {pt.X} {pt.Y}",
+
+                LineProjection ln => $"LNE {ln.Line.Point.X} {ln.Line.Point.Y} {ln.Line.DirectionVector.X} {ln.Line.DirectionVector.Y} {ln.Plane}",
+
+                LineSegment seg => $"SEG {seg.P1.X} {seg.P1.Y} {seg.P2.X} {seg.P2.Y}",
+
+                Circle cir => $"CIR {cir.Circle2.Center.X} {cir.Circle2.Center.Y} {cir.Circle2.Radius}",
+
+                Arc arc => $"ARC {arc.Circle.Center.X} {arc.Circle.Center.Y} {arc.Circle.Radius} {arc.StartAngle} {arc.EndAngle}",
+
+                Label lbl => $"LBL {lbl.LabelText.Replace("\\", "\\\\").Replace(" ", "\\ ")} " +
+                $"{lbl.Subscript.Replace("\\", "\\\\").Replace(" ", "\\ ")} " +
+                $"{lbl.Superscript.Replace("\\", "\\\\").Replace(" ", "\\ ")} " +
+                $"{lbl.Position.X} {lbl.Position.Y}->{SerializeMongeItem(lbl.LabeledObject)}",
+
+                _ => "NUL"
+            };
+        }
+
+        private static string SerializeStyle(Style s) => $"STL {s.Color.R} {s.Color.G} {s.Color.B} {s.LineStyle}";
     }
 }
