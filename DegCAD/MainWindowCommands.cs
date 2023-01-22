@@ -35,7 +35,9 @@ namespace DegCAD
 
         private void NewCommand(object sender, ExecutedRoutedEventArgs e)
         {
-            openEditors.Add(new($"Bez názvu {editorCounter}"));
+            Editor ed = new($"Bez názvu {editorCounter}");
+            ed.AddAxis();
+            openEditors.Add(ed);
             editorTabs.SelectedIndex = openEditors.Count;
             editorCounter++;
         }
