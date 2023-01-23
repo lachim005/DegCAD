@@ -1,3 +1,4 @@
+﻿using Microsoft.Win32;
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -43,7 +44,22 @@ namespace DegCAD
         }
         private void OpenCommand(object sender, ExecutedRoutedEventArgs e)
         {
+            OpenFileDialog ofd = new();
+            ofd.Filter = "DegCAD projekt|*.dgproj|Všechny soubory|*.*";
+            if (ofd.ShowDialog() != true) return;
 
+            Editor ed;
+            try
+            {
+                ed = EditorLoader.CreateFromFile(ofd.FileName);
+            }
+            catch (Exception ex) 
+            {
+                MessageBox.Show(ex.Message + "\n\n" + ex.InnerException?.Message, "Chyba při načítání souboru", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            openEditors.Add(ed);
+            editorTabs.SelectedIndex = openEditors.Count;
         }
         private void SaveCommand(object sender, ExecutedRoutedEventArgs e)
         {
