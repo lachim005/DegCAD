@@ -6,6 +6,14 @@
         xmlns:local="clr-namespace:DegCAD.Dialogs"
         mc:Ignorable="d"
         Title="LabelInput" Height="400" Width="398">
+    <Window.CommandBindings>
+        <CommandBinding Command="Close" Executed="Cancel"/>
+        <CommandBinding Command="Save" Executed="Confirm"/>
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="Close"/>
+        <KeyBinding Key="Enter" Command="Save"/>
+    </Window.InputBindings>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -36,7 +44,7 @@
 
             </WrapPanel>
         </GroupBox>
-        <Button x:Name="cancelBtn" Grid.Row="3" Content="Zrušit" Margin="5" Click="Cancel"/>
-        <Button x:Name="confirmBtn" Grid.Row="3" Content="Potvrdit" Margin="5" Grid.Column="2" Click="Confirm"/>
+        <Button x:Name="cancelBtn" Grid.Row="3" Content="_Zrušit" Margin="5" Command="Close"/>
+        <Button x:Name="confirmBtn" Grid.Row="3" Content="_Potvrdit" Margin="5" Grid.Column="2" Command="Save"/>
     </Grid>
 </Window>

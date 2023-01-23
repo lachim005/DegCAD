@@ -35,13 +35,16 @@ namespace DegCAD.Dialogs
             AddSpecialCharacterButtons();
         }
 
-        private void Confirm(object sender, RoutedEventArgs e)
+        private void Confirm(object sender, ExecutedRoutedEventArgs e)
         {
-            Canceled = false;
+            if (!string.IsNullOrEmpty(LabelText))
+            {
+                Canceled = false;
+            }
             Close();
         }
 
-        private void Cancel(object sender, RoutedEventArgs e)
+        private void Cancel(object sender, ExecutedRoutedEventArgs e)
         {
             Close();
         }
