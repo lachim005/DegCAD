@@ -37,6 +37,16 @@ namespace DegCAD
             InitializeComponent();
             cmdPallete.GenerateCommands(this);
             openEditors.CollectionChanged += OpenEditorsChanged;
+
+            //Open editor is the user opens a file
+            var args = Environment.GetCommandLineArgs();
+            if (args.Length == 2)
+            {
+                if (System.IO.File.Exists(args[1]))
+                {
+                    OpenFile(args[1]);
+                }
+            }
         }
 
         private void OpenEditorsChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)

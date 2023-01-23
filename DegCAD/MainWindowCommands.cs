@@ -42,6 +42,21 @@ namespace DegCAD
                 MessageBox.Show(ex.Message + "\n\n" + ex.InnerException?.Message, "Chyba při ukládání souboru", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+        private void OpenFile(string path)
+        {
+            Editor ed;
+            try
+            {
+                ed = EditorLoader.CreateFromFile(path);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\n\n" + ex.InnerException?.Message, "Chyba při načítání souboru", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            openEditors.Add(ed);
+            editorTabs.SelectedIndex = openEditors.Count;
+        }
 
         private void CanExecuteEditorCommand(object sender, CanExecuteRoutedEventArgs e)
         {
@@ -74,18 +89,7 @@ namespace DegCAD
             ofd.Filter = "DegCAD projekt|*.dgproj|Všechny soubory|*.*";
             if (ofd.ShowDialog() != true) return;
 
-            Editor ed;
-            try
-            {
-                ed = EditorLoader.CreateFromFile(ofd.FileName);
-            }
-            catch (Exception ex) 
-            {
-                MessageBox.Show(ex.Message + "\n\n" + ex.InnerException?.Message, "Chyba při načítání souboru", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
-            openEditors.Add(ed);
-            editorTabs.SelectedIndex = openEditors.Count;
+            OpenFile(ofd.FileName);
         }
         private void SaveCommand(object sender, ExecutedRoutedEventArgs e)
         {
