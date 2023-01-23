@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
-﻿using System;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,31 @@ namespace DegCAD
             if (ActiveEditor.ExecutingCommand) return false;
             return true;
         }
+        private void OpenSaveFileDialog()
+        {
+            if (ActiveEditor is null) return;
+
+            SaveFileDialog sfd = new();
+            sfd.Filter = "DegCAD projekt|*.dgproj|Všechny soubory|*.*";
+            sfd.FileName = ActiveEditor.FileName + ".dgproj";
+
+            if (sfd.ShowDialog() != true) return;
+
+            ActiveEditor.FolderPath = Path.GetDirectoryName(sfd.FileName);
+            ActiveEditor.FileName = Path.GetFileNameWithoutExtension(sfd.FileName);
+        }
+        private void SaveEditor()
+        {
+            try
+            {
+                ActiveEditor?.SaveEditor();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\n\n" + ex.InnerException?.Message, "Chyba při ukládání souboru", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         private void CanExecuteEditorCommand(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = IsActiveEditorIdle();
@@ -64,21 +90,22 @@ namespace DegCAD
         private void SaveCommand(object sender, ExecutedRoutedEventArgs e)
         {
             if (ActiveEditor is null) return;
+            if (ActiveEditor.FolderPath is null) OpenSaveFileDialog();
 
-            ActiveEditor.FolderPath = "Foruderu";
+            //User has canceled the save file dialog
+            if (ActiveEditor.FolderPath is null) return;
 
-            try
-            {
-                ActiveEditor.SaveEditor();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "Chyba při ukládání souboru\n\n" + ex.InnerException?.Message, MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            SaveEditor();
         }
         private void SaveAsCommand(object sender, ExecutedRoutedEventArgs e)
         {
+            if (ActiveEditor is null) return;
+            OpenSaveFileDialog();
 
+            //User has canceled the save file dialog
+            if (ActiveEditor.FolderPath is null) return;
+
+            SaveEditor();
         }
         private void CloseCommand(object sender, ExecutedRoutedEventArgs e)
         {
