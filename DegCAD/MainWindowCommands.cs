@@ -100,6 +100,8 @@ namespace DegCAD
             if (ActiveEditor.FolderPath is null) return;
 
             SaveEditor();
+
+            UpdateTabs();
         }
         private void SaveAsCommand(object sender, ExecutedRoutedEventArgs e)
         {
@@ -110,6 +112,8 @@ namespace DegCAD
             if (ActiveEditor.FolderPath is null) return;
 
             SaveEditor();
+
+            UpdateTabs();
         }
         private void CloseCommand(object sender, ExecutedRoutedEventArgs e)
         {

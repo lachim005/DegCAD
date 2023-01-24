@@ -51,6 +51,11 @@ namespace DegCAD
 
         private void OpenEditorsChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
+            UpdateTabs();
+        }
+
+        private void UpdateTabs()
+        {
             var index = editorTabs.SelectedIndex;
             //Clears the tab control without the home tab
             while (editorTabs.Items.Count > 1)
