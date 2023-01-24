@@ -1,8 +1,11 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Input;
 
 namespace DegCAD
@@ -15,6 +18,46 @@ namespace DegCAD
             if (ActiveEditor.ExecutingCommand) return false;
             return true;
         }
+        private void OpenSaveFileDialog()
+        {
+            if (ActiveEditor is null) return;
+
+            SaveFileDialog sfd = new();
+            sfd.Filter = "DegCAD projekt|*.dgproj|Všechny soubory|*.*";
+            sfd.FileName = ActiveEditor.FileName + ".dgproj";
+
+            if (sfd.ShowDialog() != true) return;
+
+            ActiveEditor.FolderPath = Path.GetDirectoryName(sfd.FileName);
+            ActiveEditor.FileName = Path.GetFileNameWithoutExtension(sfd.FileName);
+        }
+        private void SaveEditor()
+        {
+            try
+            {
+                ActiveEditor?.SaveEditor();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\n\n" + ex.InnerException?.Message, "Chyba při ukládání souboru", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private void OpenFile(string path)
+        {
+            Editor ed;
+            try
+            {
+                ed = EditorLoader.CreateFromFile(path);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\n\n" + ex.InnerException?.Message, "Chyba při načítání souboru", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            openEditors.Add(ed);
+            editorTabs.SelectedIndex = openEditors.Count;
+        }
+
         private void CanExecuteEditorCommand(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = IsActiveEditorIdle();
@@ -34,21 +77,43 @@ namespace DegCAD
 
         private void NewCommand(object sender, ExecutedRoutedEventArgs e)
         {
-            openEditors.Add(new($"Bez názvu {editorCounter}"));
+            Editor ed = new($"Bez názvu {editorCounter}");
+            ed.AddAxis();
+            openEditors.Add(ed);
             editorTabs.SelectedIndex = openEditors.Count;
             editorCounter++;
         }
         private void OpenCommand(object sender, ExecutedRoutedEventArgs e)
         {
+            OpenFileDialog ofd = new();
+            ofd.Filter = "DegCAD projekt|*.dgproj|Všechny soubory|*.*";
+            if (ofd.ShowDialog() != true) return;
 
+            OpenFile(ofd.FileName);
         }
         private void SaveCommand(object sender, ExecutedRoutedEventArgs e)
         {
+            if (ActiveEditor is null) return;
+            if (ActiveEditor.FolderPath is null) OpenSaveFileDialog();
 
+            //User has canceled the save file dialog
+            if (ActiveEditor.FolderPath is null) return;
+
+            SaveEditor();
+
+            UpdateTabs();
         }
         private void SaveAsCommand(object sender, ExecutedRoutedEventArgs e)
         {
+            if (ActiveEditor is null) return;
+            OpenSaveFileDialog();
 
+            //User has canceled the save file dialog
+            if (ActiveEditor.FolderPath is null) return;
+
+            SaveEditor();
+
+            UpdateTabs();
         }
         private void CloseCommand(object sender, ExecutedRoutedEventArgs e)
         {

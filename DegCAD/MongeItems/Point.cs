@@ -25,7 +25,11 @@ namespace DegCAD.DrawableItems
 
         public void Draw(GeometryDrawer gd)
         {
-            gd.DrawPointCross((X, Y), Style);
+            Draw(gd, Style);
+        }
+        public void Draw(GeometryDrawer gd, Style s)
+        {
+            gd.DrawPointCross((X, Y), s);
         }
     }
 }

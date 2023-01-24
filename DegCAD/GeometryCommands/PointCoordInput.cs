@@ -33,10 +33,7 @@ namespace DegCAD.GeometryCommands
                     //Adds the label
                     if (!string.IsNullOrWhiteSpace(pt.Label))
                     {
-                        pts.Add(new Label(pt.Label, "1", "", (pt.X, pt.Y), Style.Default, (gd, s) =>
-                        {
-                            gd.DrawPointCross((pt.X, pt.Y), s);
-                        }));
+                        pts.Add(new Label(pt.Label, "1", "", (pt.X, pt.Y), Style.Default, new Point(pt.X, pt.Y)));
                     }
                 }
                 //Adds the Z projection
@@ -46,10 +43,7 @@ namespace DegCAD.GeometryCommands
                     //Adds the label
                     if (!string.IsNullOrWhiteSpace(pt.Label))
                     {
-                        pts.Add(new Label(pt.Label, "2", "", (pt.X, -pt.Z), Style.Default, (gd, s) =>
-                        {
-                            gd.DrawPointCross((pt.X, -pt.Z), s);
-                        }));
+                        pts.Add(new Label(pt.Label, "2", "", (pt.X, -pt.Z), Style.Default, new Point(pt.X, -pt.Z)));
                     }
                 }
             }

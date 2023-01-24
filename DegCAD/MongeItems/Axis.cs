@@ -23,10 +23,14 @@ namespace DegCAD.MongeItems
 
         public void Draw(GeometryDrawer gd)
         {
+            Draw(gd, Style);
+        }
+        public void Draw(GeometryDrawer gd, Style s)
+        {
             //Axis
-            gd.DrawLine(axis, double.NegativeInfinity, double.PositiveInfinity, Style);
+            gd.DrawLine(axis, double.NegativeInfinity, double.PositiveInfinity, s);
             //Zero mark
-            gd.DrawLine((0, -.2), (0, .2), Style);
+            gd.DrawLine((0, -.2), (0, .2), s);
         }
     }
 }

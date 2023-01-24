@@ -21,11 +21,14 @@ namespace DegCAD.MongeItems
         public ParametricLine2 Line { get; init; }
         private int infinitySign;
 
+        public bool Plane { get; init; }
+
         public Style Style { get; init; }
 
         public LineProjection(ParametricLine2 line, bool plane, Style style)
         {
             Line = line;
+            Plane = plane;
 
             //Calculates the infinity sign for drawing the line
             infinitySign = 1;
@@ -42,9 +45,14 @@ namespace DegCAD.MongeItems
             Style = style;
         }
 
+
         public void Draw(GeometryDrawer gd)
         {
-            gd.DrawLine(Line, double.PositiveInfinity * infinitySign, Line.GetParamFromY(0), Style);
+            Draw(gd, Style);
+        }
+        public void Draw(GeometryDrawer gd, Style s)
+        {
+            gd.DrawLine(Line, double.PositiveInfinity * infinitySign, Line.GetParamFromY(0), s);
         }
     }
 }

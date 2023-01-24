@@ -37,10 +37,7 @@ namespace DegCAD.GeometryCommands
             lid.ShowDialog();
             if (!lid.Canceled)
             {
-                mItems.Add(new MongeItems.Label(lid.LabelText, lid.Subscript, lid.Superscript, middle, Style.Default, (gd, s) =>
-                {
-                    gd.DrawPointCross(middle, s);
-                }));
+                mItems.Add(new MongeItems.Label(lid.LabelText, lid.Subscript, lid.Superscript, middle, Style.Default, mItems[0]));
             }
 
             return new(mItems.ToArray());

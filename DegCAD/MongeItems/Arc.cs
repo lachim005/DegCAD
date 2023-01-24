@@ -44,7 +44,11 @@ namespace DegCAD.MongeItems
 
         public void Draw(GeometryDrawer gd)
         {
-            gd.DrawArc(Circle, StartAngle, EndAngle, Style);
+            Draw(gd, Style);
+        }
+        public void Draw(GeometryDrawer gd, Style s)
+        {
+            gd.DrawArc(Circle, StartAngle, EndAngle, s);
         }
     }
 }

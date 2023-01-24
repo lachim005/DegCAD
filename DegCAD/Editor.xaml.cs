@@ -1,4 +1,5 @@
-﻿using DegCAD.MongeItems;
+﻿using DegCAD.DrawableItems;
+using DegCAD.MongeItems;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -45,22 +46,18 @@ namespace DegCAD
             viewPort.SizeChanged += ViewPortChanged;
             LabelManager = new(Timeline, GeometryDrawer, viewPort, this);
 
-            //Adds the axis
-            Timeline.AddCommand(new TimelineItem(new IMongeItem[3]
-            {
-                new Axis(),
-                new MongeItems.Label("x", "1, 2", "", (8,0), DegCAD.Style.Default, (gd, s) =>
-                {
-                    gd.DrawLine(new ParametricLine2((0,0), (1,0)), double.NegativeInfinity, double.PositiveInfinity, s);
-                }),
-                new MongeItems.Label("0", "", "", (0,0), DegCAD.Style.Default, (gd, s) =>
-                {
-                    gd.DrawPointCross((0,0), s);
-                }),
-            }));
             FileName = fileName;
         }
 
+        public void AddAxis()
+        {
+            Timeline.AddCommand(new TimelineItem(new IMongeItem[3]
+            {
+                new Axis(),
+                new MongeItems.Label("x", "1, 2", "", (8,0), DegCAD.Style.Default, new LineProjection(new((0,0), (1,0)), false, DegCAD.Style.Default)),
+                new MongeItems.Label("0", "", "", (0,0), DegCAD.Style.Default, new DrawableItems.Point(0,0)),
+            }));
+        }
         public void ViewPortChanged(object? sender, EventArgs e)
         {
             Redraw();

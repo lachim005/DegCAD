@@ -35,7 +35,11 @@ namespace DegCAD.MongeItems
 
         public void Draw(GeometryDrawer gd)
         {
-            gd.DrawCircle(Circle2, Style);
+            Draw(gd, Style);
+        }
+        public void Draw(GeometryDrawer gd, Style s)
+        {
+            gd.DrawCircle(Circle2, s);
         }
     }
 }
