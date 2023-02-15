@@ -20,11 +20,24 @@ namespace DegCAD
     /// </summary>
     public partial class StyleSelector : UserControl
     {
-        public Style CurrentStyle { get => new() { Color = Colors.DodgerBlue }; }
+        public Style CurrentStyle { get => new() {
+            Color = Colors.Black,
+            LineStyle = GetSelectedLineType()
+        };}
 
         public StyleSelector()
         {
             InitializeComponent();
+        }
+
+        public int GetSelectedLineType()
+        {
+            //Dash
+            if (lineType2.IsChecked == true) return 1;
+            //Dotdash
+            if (lineType3.IsChecked == true) return 2;
+            //Solid
+            return 0;
         }
     }
 }

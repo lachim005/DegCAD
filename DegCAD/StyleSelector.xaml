@@ -6,8 +6,20 @@
              xmlns:local="clr-namespace:DegCAD"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="350">
-    <StackPanel>
+    <StackPanel Margin="10">
         <Label Content="Výběr stylu"/>
-        
+        <GroupBox Header="Typ čáry" Padding="10">
+            <StackPanel>
+                <RadioButton x:Name="lineType1"  GroupName="lineType" IsChecked="True">
+                    <Line X1="0" Y1="8" X2="200" Y2="8" Stroke="Black" StrokeThickness="1" VerticalAlignment="Center"/>
+                </RadioButton>
+                <RadioButton x:Name="lineType2" GroupName="lineType">
+                    <Line X1="0" Y1="8" X2="200" Y2="8" Stroke="Black" StrokeThickness="1" StrokeDashArray="8, 8" VerticalAlignment="Center"/>
+                </RadioButton>
+                <RadioButton x:Name="lineType3" GroupName="lineType">
+                    <Line X1="0" Y1="8" X2="200" Y2="8" Stroke="Black" StrokeThickness="1" StrokeDashArray="8, 8, 1, 8" VerticalAlignment="Center"/>
+                </RadioButton>
+            </StackPanel>
+        </GroupBox>
     </StackPanel>
 </UserControl>
