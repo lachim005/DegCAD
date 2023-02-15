@@ -28,16 +28,18 @@ namespace DegCAD.GeometryCommands
 
             var middle = (pt1 + pt2) / 2;
 
+            Style curStyle = inputMgr.StyleSelector.CurrentStyle;
+
             List<IMongeItem> mItems = new()
             {
-                new DrawableItems.Point(middle.X, middle.Y)
+                new DrawableItems.Point(middle.X, middle.Y, curStyle)
             };
             //Label
             LabelInput lid = new();
             lid.ShowDialog();
             if (!lid.Canceled)
             {
-                mItems.Add(new MongeItems.Label(lid.LabelText, lid.Subscript, lid.Superscript, middle, Style.Default, mItems[0]));
+                mItems.Add(new MongeItems.Label(lid.LabelText, lid.Subscript, lid.Superscript, middle, curStyle, mItems[0]));
             }
 
             return new(mItems.ToArray());

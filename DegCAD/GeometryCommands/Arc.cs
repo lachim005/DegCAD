@@ -78,10 +78,12 @@ namespace DegCAD.GeometryCommands
                 else gd.DrawArc(circle, startAngle, endAngle, redStyle);
             }, circles: new Circle2[1] { circle }, predicate: (pt) => pt != center);
 
+            Style curStyle = inputMgr.StyleSelector.CurrentStyle;
+
             //Swaps the start and end angles if necessary
             if (swap)
-                return new(new IMongeItem[1] { new MongeItems.Arc(circle, endAngle, startAngle, Style.Default) });
-            return new(new IMongeItem[1] { new MongeItems.Arc(circle, startAngle, endAngle, Style.Default) });
+                return new(new IMongeItem[1] { new MongeItems.Arc(circle, endAngle, startAngle, curStyle) });
+            return new(new IMongeItem[1] { new MongeItems.Arc(circle, startAngle, endAngle, curStyle) });
         }
     }
 }

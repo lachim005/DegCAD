@@ -20,6 +20,8 @@ namespace DegCAD
     /// </summary>
     public partial class StyleSelector : UserControl
     {
+        public Style CurrentStyle { get => new() { Color = Colors.DodgerBlue }; }
+
         public StyleSelector()
         {
             InitializeComponent();

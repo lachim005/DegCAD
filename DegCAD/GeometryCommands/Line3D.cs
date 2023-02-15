@@ -81,8 +81,8 @@ namespace DegCAD.GeometryCommands
 
             List<IMongeItem> mItems = new()
             {
-                new LineProjection(line1, plane, Style.Default),
-                new LineProjection(line2, !plane, Style.Default)
+                new LineProjection(line1, plane, inputMgr.StyleSelector.CurrentStyle),
+                new LineProjection(line2, !plane, inputMgr.StyleSelector.CurrentStyle)
             };
 
             return new TimelineItem(mItems.ToArray());
