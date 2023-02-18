@@ -21,5 +21,12 @@
                 </RadioButton>
             </StackPanel>
         </GroupBox>
+        <GroupBox Header="Barva">
+            <StackPanel>
+                <Border Height="40" x:Name="currentColorDisplay" CornerRadius="5" Margin="10"/>
+                <WrapPanel MinHeight="100px" x:Name="colorPaletteWp">
+                </WrapPanel>
+            </StackPanel>
+        </GroupBox>
     </StackPanel>
 </UserControl>
