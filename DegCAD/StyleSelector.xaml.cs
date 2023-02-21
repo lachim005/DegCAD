@@ -95,7 +95,8 @@ namespace DegCAD
 
         private void EditColorsBtnClick(object sender, RoutedEventArgs e)
         {
-
+            Dialogs.EditColorsDialog.EditColors(ColorPalette);
+            UpdateColorPalette();
         }
     }
 }
