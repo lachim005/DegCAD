@@ -92,5 +92,10 @@ namespace DegCAD
             if (rect.Tag is not Color color) return;
             CurrentColor = color;
         }
+
+        private void EditColorsBtnClick(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
