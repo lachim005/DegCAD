@@ -45,7 +45,8 @@ namespace DegCAD.Dialogs
 
         private void EditColor(object sender, RoutedEventArgs e)
         {
-
+            var picker = new ColorPicker();
+            picker.ShowDialog();
         }
 
         private void AddColor(object sender, RoutedEventArgs e)
