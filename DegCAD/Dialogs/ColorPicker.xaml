@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DegCAD.Dialogs"
         mc:Ignorable="d"
-        Title="ColorPicker" Height="450" Width="500">
+        ResizeMode="NoResize"
+        Title="ColorPicker" Height="350" Width="500">
     <Grid Margin="15">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="256"/>
@@ -64,6 +65,38 @@
             </Polygon>
         </Canvas>
         <Border x:Name="selectedColorDisplay" Grid.Column="2"/>
-        <TextBlock x:Name="test" Grid.Row="2"/>
+        <Grid Grid.Row="1" Grid.Column="3">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="30"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Content="_R" Target="{Binding ElementName=rTbx}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <TextBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" x:Name="rTbx"/>
+            <Label Grid.Row="1" Content="_G" Target="{Binding ElementName=gTbx}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" x:Name="gTbx"/>
+            <Label Grid.Row="2" Content="_B" Target="{Binding ElementName=bTbx}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <TextBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" x:Name="bTbx"/>
+            <Separator Grid.Row="3" Grid.ColumnSpan="2"/>
+            <Label Grid.Row="4" Content="_H" Target="{Binding ElementName=hTbx}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <TextBox Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" x:Name="hTbx"/>
+            <Label Grid.Row="5" Content="_S" Target="{Binding ElementName=sTbx}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <TextBox Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" x:Name="sTbx"/>
+            <Label Grid.Row="6" Content="_V" Target="{Binding ElementName=vTbx}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <TextBox Grid.Row="6" Grid.Column="1" VerticalAlignment="Center" x:Name="vTbx"/>
+            <Separator Grid.Row="7" Grid.ColumnSpan="2"/>
+            <Label Grid.Row="8" Content="He_x" Target="{Binding ElementName=hexTbx}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+            <TextBox Grid.Row="8" Grid.Column="1" VerticalAlignment="Center" x:Name="hexTbx"/>
+        </Grid>
     </Grid>
 </Window>
