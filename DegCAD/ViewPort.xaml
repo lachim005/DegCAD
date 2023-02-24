@@ -9,7 +9,6 @@
              MouseDown="OnMouseDown"
              MouseUp="OnMouseUp"
              SizeChanged="OnSizeChanged"
-             MouseLeave="OnMouseLeave"
              MouseWheel="OnMouseWheel"
              MouseMove="OnMouseMove"
              d:DesignHeight="450" d:DesignWidth="800">
