@@ -121,9 +121,12 @@ namespace DegCAD.Dialogs
         }
         #endregion
 
-        public ColorPicker()
+        public ColorPicker() : this(Colors.Red) { }
+
+        public ColorPicker(Color color)
         {
             InitializeComponent();
+            Loaded += (s, e) => HSVSelectedColor = color;
         }
 
         #region HSV handlers
