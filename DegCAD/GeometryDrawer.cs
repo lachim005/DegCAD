@@ -111,8 +111,10 @@ namespace DegCAD
         /// </summary>
         public void DrawPointCross(Vector2 pt, Style style, double size = 0.2)
         {
-            DrawLine((pt.X - size, pt.Y), (pt.X + size, pt.Y), style);
-            DrawLine((pt.X, pt.Y - size), (pt.X, pt.Y + size), style);
+            var solidStyle = style;
+            solidStyle.LineStyle = 0;
+            DrawLine((pt.X - size, pt.Y), (pt.X + size, pt.Y), solidStyle);
+            DrawLine((pt.X, pt.Y - size), (pt.X, pt.Y + size), solidStyle);
         }
         /// <summary>
         /// Draws a string on the canvas in canvas space
