@@ -210,7 +210,22 @@ namespace DegCAD
             var sMiddle = vp.CanvasToScreen(circle.Center);
             var sRadius = vp.Scale * circle.Radius * ViewPort.unitSize;
 
-            wBmp.DrawArc(sMiddle, (int)sRadius, angle, endAngle, s.Color);
+            
+            switch (s.LineStyle)
+            {
+                case 1:
+                    //Dashed circle
+                    wBmp.DrawArcDashed(sMiddle, (int)sRadius, angle, endAngle, s.Color);
+                    break;
+                case 2:
+                    //Dot-dashed circle
+                    wBmp.DrawArcDotDash(sMiddle, (int)sRadius, angle, endAngle, s.Color);
+                    break;
+                default:
+                    //Solid circle
+                    wBmp.DrawArc(sMiddle, (int)sRadius, angle, endAngle, s.Color);
+                    break;
+            }
         }
 
 
