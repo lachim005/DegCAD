@@ -376,5 +376,143 @@ namespace DegCAD
             }
         }
 
+        public static void DrawLineSolid(this WriteableBitmap bitmap, int x0, int y0, int x1, int y1, Color color)
+        {
+            using var context = bitmap.GetBitmapContext();
+
+            int colorNumber = -0x1000000 | (color.R << 16) | (color.G << 8) | color.B;
+
+            unsafe void SetPixel(int x, int y)
+            {
+                if (x < 0 || y < 0 || x >= bitmap.Width || y >= bitmap.Height)
+                    return;
+                context.Pixels[x + context.Width * y] = colorNumber;
+            }
+
+            //Prepare values for Bresenham's algorithm
+            int dx = Math.Abs(x1 - x0);
+            int sx = x0 < x1 ? 1 : -1;
+            int dy = -Math.Abs(y1 - y0);
+            int sy = y0 < y1 ? 1 : -1;
+            int error = dx + dy;
+
+
+            while (true)
+            {
+                SetPixel(x0, y0);
+                if (x0 == x1 && y0 == y1) break;
+                int e2 = 2 * error;
+                if (e2 >= dy)
+                {
+                    if (x0 == x1) break;
+                    error += dy;
+                    x0 += sx;
+                }
+                if (e2 <= dx) {
+                    if (y0 == y1) break;
+                    error += dx;
+                    y0 += sy;
+                }
+            }
+        }
+        public static void DrawLineDashed(this WriteableBitmap bitmap, int x0, int y0, int x1, int y1, Color color, int dashLength = 10)
+        {
+            int dashCounter = 0;
+            bool draw = true;
+            using var context = bitmap.GetBitmapContext();
+
+            int colorNumber = -0x1000000 | (color.R << 16) | (color.G << 8) | color.B;
+
+            unsafe void SetPixel(int x, int y)
+            {
+                if (x < 0 || y < 0 || x >= bitmap.Width || y >= bitmap.Height)
+                    return;
+                context.Pixels[x + context.Width * y] = colorNumber;
+            }
+
+            //Prepare values for Bresenham's algorithm
+            int dx = Math.Abs(x1 - x0);
+            int sx = x0 < x1 ? 1 : -1;
+            int dy = -Math.Abs(y1 - y0);
+            int sy = y0 < y1 ? 1 : -1;
+            int error = dx + dy;
+
+
+            while (true)
+            {
+                dashCounter++;
+                if (dashCounter == dashLength)
+                {
+                    dashCounter = 0;
+                    draw = !draw;
+                }
+                if (draw)
+                    SetPixel(x0, y0);
+                if (x0 == x1 && y0 == y1) break;
+                int e2 = 2 * error;
+                if (e2 >= dy)
+                {
+                    if (x0 == x1) break;
+                    error += dy;
+                    x0 += sx;
+                }
+                if (e2 <= dx)
+                {
+                    if (y0 == y1) break;
+                    error += dx;
+                    y0 += sy;
+                }
+            }
+        }
+        public static void DrawLineDotDash(this WriteableBitmap bitmap, int x0, int y0, int x1, int y1, Color color, int dashLength = 10)
+        {
+            int dashCounter = 0;
+            bool draw = true;
+            using var context = bitmap.GetBitmapContext();
+
+            int colorNumber = -0x1000000 | (color.R << 16) | (color.G << 8) | color.B;
+
+            unsafe void SetPixel(int x, int y)
+            {
+                if (x < 0 || y < 0 || x >= bitmap.Width || y >= bitmap.Height)
+                    return;
+                context.Pixels[x + context.Width * y] = colorNumber;
+            }
+
+            //Prepare values for Bresenham's algorithm
+            int dx = Math.Abs(x1 - x0);
+            int sx = x0 < x1 ? 1 : -1;
+            int dy = -Math.Abs(y1 - y0);
+            int sy = y0 < y1 ? 1 : -1;
+            int error = dx + dy;
+
+
+            while (true)
+            {
+                dashCounter++;
+                if (dashCounter == dashLength)
+                {
+                    dashCounter = 0;
+                    draw = !draw;
+                }
+
+                if (draw || dashCounter == dashLength / 2)
+                    SetPixel(x0, y0);
+                if (x0 == x1 && y0 == y1) break;
+                int e2 = 2 * error;
+                if (e2 >= dy)
+                {
+                    if (x0 == x1) break;
+                    error += dy;
+                    x0 += sx;
+                }
+                if (e2 <= dx)
+                {
+                    if (y0 == y1) break;
+                    error += dx;
+                    y0 += sy;
+                }
+            }
+        }
     }
 }

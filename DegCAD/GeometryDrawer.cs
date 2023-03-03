@@ -56,7 +56,7 @@ namespace DegCAD
         /// <param name="from">The parameter of the beginning point of the line</param>
         /// <param name="to">The parameter of the ending point of the line</param>
         /// <param name="s">Style of the line</param>
-        public void DrawLine(ParametricLine2 line, double from, double to, Style s, int thickness = 1)
+        public void DrawLine(ParametricLine2 line, double from, double to, Style s)
         {
             if (double.IsNaN(from))
                 from = -to;
@@ -67,13 +67,13 @@ namespace DegCAD
             var p1 = line.GetPoint(ClampInfinity(line, from));
             var p2 = line.GetPoint(ClampInfinity(line, to));
 
-            DrawLine(p1, p2, s, thickness);
+            DrawLine(p1, p2, s);
         }
 
         /// <summary>
         /// Draws a line between two points in canvas space
         /// </summary>
-        public void DrawLine(Vector2 p1, Vector2 p2, Style s, int thickness = 1)
+        public void DrawLine(Vector2 p1, Vector2 p2, Style s)
         {
             //Translates the coordinates to screen space and multiplies them by the scaling factor
             var sp1 = vp.CanvasToScreen(p1);
@@ -83,16 +83,15 @@ namespace DegCAD
             {
                 case 1:
                     //Dashed line
-                    wBmp.DrawLineDotted((int)sp1.X, (int)sp1.Y, (int)sp2.X, (int)sp2.Y, 5, 5, s.Color);
+                    wBmp.DrawLineDashed((int)sp1.X, (int)sp1.Y, (int)sp2.X, (int)sp2.Y, s.Color);
+                    break;
+                case 2:
+                    //Dashed line
+                    wBmp.DrawLineDotDash((int)sp1.X, (int)sp1.Y, (int)sp2.X, (int)sp2.Y, s.Color);
                     break;
                 default:
                     //Solid line
-                    if (thickness != 1)
-                    {
-                        wBmp.DrawLineAa((int)sp1.X, (int)sp1.Y, (int)sp2.X, (int)sp2.Y, s.Color, thickness);
-                        break;
-                    }
-                    wBmp.DrawLineBresenham((int)sp1.X, (int)sp1.Y, (int)sp2.X, (int)sp2.Y, s.Color);
+                    wBmp.DrawLineSolid((int)sp1.X, (int)sp1.Y, (int)sp2.X, (int)sp2.Y, s.Color);
                     break;
             }
         }
@@ -110,10 +109,10 @@ namespace DegCAD
         /// <summary>
         /// Draws a cross on the set point
         /// </summary>
-        public void DrawPointCross(Vector2 pt, Style style, double size = 0.2, int thickness = 1)
+        public void DrawPointCross(Vector2 pt, Style style, double size = 0.2)
         {
-            DrawLine((pt.X - size, pt.Y), (pt.X + size, pt.Y), style, thickness);
-            DrawLine((pt.X, pt.Y - size), (pt.X, pt.Y + size), style, thickness);
+            DrawLine((pt.X - size, pt.Y), (pt.X + size, pt.Y), style);
+            DrawLine((pt.X, pt.Y - size), (pt.X, pt.Y + size), style);
         }
         /// <summary>
         /// Draws a string on the canvas in canvas space
