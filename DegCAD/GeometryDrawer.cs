@@ -67,7 +67,7 @@ namespace DegCAD
             var p1 = line.GetPoint(ClampInfinity(line, from));
             var p2 = line.GetPoint(ClampInfinity(line, to));
 
-            DrawLine(p1, p2, s);
+            DrawLine(p2, p1, s);
         }
 
         /// <summary>
