@@ -175,6 +175,8 @@
                 <TextBox Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" x:Name="gTbx" TextChanged="RGBTextChanged"/>
                 <Label Grid.Row="3" Content="_B" Target="{Binding ElementName=bTbx}" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Column="1"/>
                 <TextBox Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" x:Name="bTbx" TextChanged="RGBTextChanged"/>
+                <Label Grid.Row="4" Content="_Hex" Target="{Binding ElementName=hexTbx}" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Column="1"/>
+                <TextBox Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" x:Name="hexTbx" TextChanged="HexTextChanged"/>
             </Grid>
         </TabItem>
     </TabControl>

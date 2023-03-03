@@ -115,6 +115,7 @@ namespace DegCAD.Dialogs
                 Green = value.G;
                 Blue = value.B;
                 UpdateRgbTextInputs();
+                UpdateHexTextInput();
                 UpdateRgbColor();
             }
         }
@@ -235,6 +236,7 @@ namespace DegCAD.Dialogs
             var pos = e.GetPosition(rRectangle);
             Red = (byte)Math.Clamp(pos.X, 0, 255);
             UpdateRgbTextInputs();
+            UpdateHexTextInput();
         }
 
         private void GMouseDown(object sender, MouseButtonEventArgs e)
@@ -260,6 +262,7 @@ namespace DegCAD.Dialogs
             var pos = e.GetPosition(gRectangle);
             Green = (byte)Math.Clamp(pos.X, 0, 255);
             UpdateRgbTextInputs();
+            UpdateHexTextInput();
         }
 
         private void BMouseDown(object sender, MouseButtonEventArgs e)
@@ -285,6 +288,7 @@ namespace DegCAD.Dialogs
             var pos = e.GetPosition(bRectangle);
             Blue = (byte)Math.Clamp(pos.X, 0, 255);
             UpdateRgbTextInputs();
+            UpdateHexTextInput();
         }
 
         private void UpdateRgbColor()
@@ -321,6 +325,40 @@ namespace DegCAD.Dialogs
             if (byte.TryParse(rTbx.Text, out var red)) Red = red;
             if (byte.TryParse(gTbx.Text, out var green)) Green = green;
             if (byte.TryParse(bTbx.Text, out var blue)) Blue = blue;
+        }
+        private void UpdateHexTextInput()
+        {
+            if (hexTbx.Text.Length > 0)
+                hexTbx.Text = (hexTbx.Text[0] == '#') ? "#" : "";
+            else
+                hexTbx.Text = "#";
+            hexTbx.Text += Red.ToString("x2") + Green.ToString("x2") + Blue.ToString("x2");
+        }
+        private void HexTextChanged(object sender, TextChangedEventArgs e)
+        {
+            var txt = hexTbx.Text.Trim('#');
+            if (txt.Length == 6)
+            {
+                string rs = txt[..2];
+                string gs = txt[2..4];
+                string bs = txt[4..6];
+
+                try
+                {
+                    var r = Convert.ToByte(rs, 16);
+                    var g = Convert.ToByte(gs, 16);
+                    var b = Convert.ToByte(bs, 16);
+                    Red = r;
+                    Green = g;
+                    Blue = b;
+                    UpdateRgbTextInputs();
+                }
+                catch
+                {
+                    return;
+                }
+
+            }
         }
         #endregion
 
