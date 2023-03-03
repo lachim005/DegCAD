@@ -19,56 +19,61 @@ namespace DegCAD.Dialogs
     /// </summary>
     public partial class ColorPicker : Window
     {
-        private double _hue;
-        private double _saturation;
-        private double _brightness;
-        private Color _selectedColor;
+        #region HSV fields
+        private int _hue;
+        private int _saturation;
+        private int _brightness;
+        private Color _hsvSelectedColor;
 
-        public double Hue {
+        public int Hue
+        {
             get => _hue;
             set
             {
                 _hue = Math.Clamp(value, 0, 360);
-                Canvas.SetTop(hueCursor, (_hue / 360) * hueRectangle.Height);
-                UpdateColor();
-            } 
+                Canvas.SetTop(hueCursor, (_hue / 360.0) * hueRectangle.Height);
+                UpdateHSVColor();
+            }
         }
-        public double Brightness
+        public int Brightness
         {
             get => _brightness;
             set
             {
-                _brightness = Math.Clamp(value, 0, 1);
-                Canvas.SetTop(SatBrCursor, ((1 - _brightness) * brRectangle.Height) - SatBrCursor.Height / 2);
-                UpdateColor();
+                _brightness = Math.Clamp(value, 0, 100);
+                Canvas.SetTop(SatBrCursor, ((1 - _brightness / 100.0) * brRectangle.Height) - SatBrCursor.Height / 2);
+                UpdateHSVColor();
             }
         }
-        public double Saturation
+        public int Saturation
         {
             get => _saturation;
             set
             {
-                _saturation = Math.Clamp(value, 0, 1);
-                Canvas.SetLeft(SatBrCursor, (_saturation * satRectangle.Width) - SatBrCursor.Width / 2);
-                UpdateColor();
+                _saturation = Math.Clamp(value, 0, 100);
+                Canvas.SetLeft(SatBrCursor, (_saturation / 100.0 * satRectangle.Width) - SatBrCursor.Width / 2);
+                UpdateHSVColor();
             }
         }
 
-        public Color SelectedColor
+        public Color HSVSelectedColor
         {
-            get => _selectedColor;
+            get => _hsvSelectedColor;
             set
             {
-                _selectedColor = value;
-
+                _hsvSelectedColor = value;
+                (Hue, Saturation, Brightness) = ConvertToHsv(value);
+                UpdateHSVColor();
             }
-        }
+        } 
+        #endregion
 
         public ColorPicker()
         {
             InitializeComponent();
         }
 
+        #region HSV handlers
         private void SatBrMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
@@ -90,8 +95,8 @@ namespace DegCAD.Dialogs
         private void MoveSatBrCursor(object sender, MouseEventArgs e)
         {
             var pos = e.GetPosition(satRectangle);
-            Saturation = pos.X / satRectangle.Width;
-            Brightness = 1 - (pos.Y / satRectangle.Height);
+            Saturation = (int)(pos.X / satRectangle.Width * 100);
+            Brightness = 100 - (int)(pos.Y / satRectangle.Height * 100);
 
             //Change cursor color so it is always visible
             if (pos.Y > 128)
@@ -101,7 +106,9 @@ namespace DegCAD.Dialogs
             else
             {
                 SatBrCursor.Stroke = Brushes.Black;
-            }  
+            }
+
+            UpdateHsvTextInputs();
         }
 
         private void HueMouseDown(object sender, MouseButtonEventArgs e)
@@ -125,24 +132,37 @@ namespace DegCAD.Dialogs
         private void MoveHueCursor(object sender, MouseEventArgs e)
         {
             var pos = e.GetPosition(hueRectangle);
-            Hue = (pos.Y / hueRectangle.Height) * 360;
+            Hue = (int)(pos.Y / hueRectangle.Height * 360);
+            UpdateHsvTextInputs();
         }
 
-        private void UpdateColor()
+        private void UpdateHSVColor()
         {
-            _selectedColor = CreateFromHsv(Hue, Saturation, Brightness);
+            _hsvSelectedColor = CreateFromHsv(Hue, Saturation, Brightness);
 
-            selectedColorDisplay.Background = new SolidColorBrush(_selectedColor);
+            selectedColorDisplay.Background = new SolidColorBrush(_hsvSelectedColor);
             if (satRectangle.Fill is not LinearGradientBrush lgb) return;
-            lgb.GradientStops[0].Color = CreateFromHsv(Hue, 1, 1);
+            lgb.GradientStops[0].Color = CreateFromHsv(Hue, 100, 100);
         }
-        
+        private void UpdateHsvTextInputs()
+        {
+            hTbx.Text = Hue.ToString();
+            sTbx.Text = Saturation.ToString();
+            vTbx.Text = Brightness.ToString();
+        }
+        private void HSVTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (int.TryParse(hTbx.Text, out var hue)) Hue = hue;
+            if (int.TryParse(sTbx.Text, out var sat)) Saturation = sat;
+            if (int.TryParse(vTbx.Text, out var val)) Brightness = val;
+        } 
+        #endregion
 
         public Color CreateFromHsv(double hue, double sat, double val)
         {
-            var c = val * sat;
-            var x = c * (1 - Math.Abs(((hue / 60) % 2) - 1));
-            var m = val - c;
+            var c = val * sat / 10000;
+            var x = c * (1 - Math.Abs((hue / 60.0 % 2) - 1));
+            var m = val / 100 - c;
 
             (double, double, double) vl = hue switch
             {
@@ -162,7 +182,26 @@ namespace DegCAD.Dialogs
                 B = (byte)((vl.Item3 + m) * 255)
             };
         }
+        public (int, int, int) ConvertToHsv(Color c)
+        {
+            double r = c.R / 255.0;
+            double g = c.G / 255.0;
+            double b = c.B / 255.0;
 
+            var max = Math.Max(Math.Max(r, g), b);
+            var min = Math.Min(Math.Min(r, g), b);
+
+            var delta = max - min;
+            int hue = 0;
+            if (max == r) hue = (int)(60 * ((g - b / delta) % 6));
+            else if (max == g) hue = (int)(60 * (b - r / delta + 2));
+            else if (max == b) hue = (int)(60 * (r - g / delta + 4));
+
+            int sat = 0;
+            if (max != 0) sat = (int)(delta / max * 100);
+
+            return (hue, sat, (int)(max * 100));
+        }
 
     }
 }
