@@ -40,7 +40,7 @@
             </ItemsControl>
         </ScrollViewer>
 
-        <Button Content="Přidat barvu" Click="AddColor" Margin="5" Grid.Row="1"/>
-        <Button Content="Uložit" Click="SaveColors" Margin="5" Grid.Row="1" Grid.Column="1"/>
+        <Button Content="_Přidat barvu" Click="AddColor" Margin="5" Grid.Row="1"/>
+        <Button Content="_Uložit" Click="SaveColors" Margin="5" Grid.Row="1" Grid.Column="1"/>
     </Grid>
 </Window>

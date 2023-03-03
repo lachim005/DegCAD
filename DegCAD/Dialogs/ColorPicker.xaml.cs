@@ -24,7 +24,7 @@ namespace DegCAD.Dialogs
         {
             get
             {
-                if (pickerTabs.SelectedIndex == 1) return HSVSelectedColor;
+                if (pickerTabs.SelectedIndex == 0) return HSVSelectedColor;
                 else return RGBSelectedColor;
             }
         }
@@ -443,6 +443,30 @@ namespace DegCAD.Dialogs
         {
             Saved = true;
             Close();
+        }
+
+        /// <summary>
+        /// Opens the color picker dialog and lets the user change the given color
+        /// </summary>
+        /// <returns>The new color or the same color in case the user cancels the dialog</returns>
+        public static Color EditColor(Color color)
+        {
+            ColorPicker picker = new ColorPicker(color);
+            picker.ShowDialog();
+            if (!picker.Saved) return color;
+            return picker.SelectedColor;
+        }
+
+        /// <summary>
+        /// Opens the color picker dialog and lets the user choose a color
+        /// </summary>
+        /// <returns>The selected color or null if the user cancels the dialog</returns>
+        public static Color? GetColor()
+        {
+            ColorPicker picker = new ColorPicker();
+            picker.ShowDialog();
+            if (!picker.Saved) return null;
+            return picker.SelectedColor;
         }
     }
 }

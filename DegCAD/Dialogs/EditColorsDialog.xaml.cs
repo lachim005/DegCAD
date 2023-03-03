@@ -45,13 +45,19 @@ namespace DegCAD.Dialogs
 
         private void EditColor(object sender, RoutedEventArgs e)
         {
-            var picker = new ColorPicker();
-            picker.ShowDialog();
+            if (sender is not Button btn) return;
+            if (btn.DataContext is not Tuple<Color, Brush> tuple) return;
+
+            var newCol = ColorPicker.EditColor(tuple.Item1);
+            colors[colors.IndexOf(tuple)] = new(newCol, new SolidColorBrush(newCol));
         }
 
         private void AddColor(object sender, RoutedEventArgs e)
         {
-
+            var c = ColorPicker.GetColor();
+            if (c is null) return;
+            var newColor = (Color)c;
+            colors.Add(new(newColor, new SolidColorBrush(newColor)));
         }
         private void SaveColors(object sender, RoutedEventArgs e)
         {
