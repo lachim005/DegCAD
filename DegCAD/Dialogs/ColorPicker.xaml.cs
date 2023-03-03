@@ -65,7 +65,58 @@ namespace DegCAD.Dialogs
                 (Hue, Saturation, Brightness) = ConvertToHsv(value);
                 UpdateHSVColor();
             }
-        } 
+        }
+        #endregion
+
+        #region RGB fields
+        private byte _red;
+        private byte _green;
+        private byte _blue;
+        private Color _rgbSelectedColor;
+
+        public byte Red
+        {
+            get => _red;
+            set
+            {
+                _red = value;
+                Canvas.SetLeft(rCursor, value);
+                UpdateRgbColor();
+            }
+        }
+        public byte Green
+        {
+            get => _green;
+            set
+            {
+                _green = value;
+                Canvas.SetLeft(gCursor, value);
+                UpdateRgbColor();
+            }
+        }
+        public byte Blue
+        {
+            get => _blue;
+            set
+            {
+                _blue = value;
+                Canvas.SetLeft(bCursor, value);
+                UpdateRgbColor();
+            }
+        }
+        public Color RGBSelectedColor
+        {
+            get => _rgbSelectedColor;
+            set
+            {
+                _rgbSelectedColor = value;
+                Red = value.R;
+                Green = value.G;
+                Blue = value.B;
+                UpdateRgbTextInputs();
+                UpdateRgbColor();
+            }
+        }
         #endregion
 
         public ColorPicker()
@@ -140,7 +191,7 @@ namespace DegCAD.Dialogs
         {
             _hsvSelectedColor = CreateFromHsv(Hue, Saturation, Brightness);
 
-            selectedColorDisplay.Background = new SolidColorBrush(_hsvSelectedColor);
+            hsvSelectedColorDisplay.Background = new SolidColorBrush(_hsvSelectedColor);
             if (satRectangle.Fill is not LinearGradientBrush lgb) return;
             lgb.GradientStops[0].Color = CreateFromHsv(Hue, 100, 100);
         }
@@ -155,7 +206,119 @@ namespace DegCAD.Dialogs
             if (int.TryParse(hTbx.Text, out var hue)) Hue = hue;
             if (int.TryParse(sTbx.Text, out var sat)) Saturation = sat;
             if (int.TryParse(vTbx.Text, out var val)) Brightness = val;
-        } 
+        }
+        #endregion
+
+        #region RGB handlers
+        private void RMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                rRectangle.MouseMove += MoveRCursor;
+                rRectangle.CaptureMouse();
+                MoveRCursor(sender, e);
+            }
+        }
+        private void RMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                rRectangle.MouseMove -= MoveRCursor;
+                rRectangle.ReleaseMouseCapture();
+            }
+        }
+
+        private void MoveRCursor(object sender, MouseEventArgs e)
+        {
+            var pos = e.GetPosition(rRectangle);
+            Red = (byte)Math.Clamp(pos.X, 0, 255);
+            UpdateRgbTextInputs();
+        }
+
+        private void GMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                gRectangle.MouseMove += MoveGCursor;
+                gRectangle.CaptureMouse();
+                MoveGCursor(sender, e);
+            }
+        }
+        private void GMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                gRectangle.MouseMove -= MoveGCursor;
+                gRectangle.ReleaseMouseCapture();
+            }
+        }
+
+        private void MoveGCursor(object sender, MouseEventArgs e)
+        {
+            var pos = e.GetPosition(gRectangle);
+            Green = (byte)Math.Clamp(pos.X, 0, 255);
+            UpdateRgbTextInputs();
+        }
+
+        private void BMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                bRectangle.MouseMove += MoveBCursor;
+                bRectangle.CaptureMouse();
+                MoveBCursor(sender, e);
+            }
+        }
+        private void BMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                bRectangle.MouseMove -= MoveBCursor;
+                bRectangle.ReleaseMouseCapture();
+            }
+        }
+
+        private void MoveBCursor(object sender, MouseEventArgs e)
+        {
+            var pos = e.GetPosition(bRectangle);
+            Blue = (byte)Math.Clamp(pos.X, 0, 255);
+            UpdateRgbTextInputs();
+        }
+
+        private void UpdateRgbColor()
+        {
+            _rgbSelectedColor = Color.FromRgb(_red, _green, _blue);
+            rgbSelectedColorDisplay.Background = new SolidColorBrush(_rgbSelectedColor);
+
+            if (rRectangle.Fill is LinearGradientBrush rlgb)
+            {
+                rlgb.GradientStops[0].Color = Color.FromRgb(0, _green, _blue);
+                rlgb.GradientStops[1].Color = Color.FromRgb(255, _green, _blue);
+            }
+            if (gRectangle.Fill is LinearGradientBrush glgb)
+            {
+                glgb.GradientStops[0].Color = Color.FromRgb(_red, 0, _blue);
+                glgb.GradientStops[1].Color = Color.FromRgb(_red, 255, _blue);
+            }
+            if (bRectangle.Fill is LinearGradientBrush blgb)
+            {
+                blgb.GradientStops[0].Color = Color.FromRgb(_red, _green, 0);
+                blgb.GradientStops[1].Color = Color.FromRgb(_red, _green, 255);
+            }
+        }
+
+        private void UpdateRgbTextInputs()
+        {
+            rTbx.Text = Red.ToString();
+            gTbx.Text = Green.ToString();
+            bTbx.Text = Blue.ToString();
+        }
+        private void RGBTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (byte.TryParse(rTbx.Text, out var red)) Red = red;
+            if (byte.TryParse(gTbx.Text, out var green)) Green = green;
+            if (byte.TryParse(bTbx.Text, out var blue)) Blue = blue;
+        }
         #endregion
 
         public Color CreateFromHsv(double hue, double sat, double val)
