@@ -64,6 +64,7 @@ namespace DegCAD.Dialogs
                 _hsvSelectedColor = value;
                 (Hue, Saturation, Brightness) = ConvertToHsv(value);
                 UpdateHSVColor();
+                UpdateHsvTextInputs();
             }
         }
         #endregion
@@ -197,9 +198,10 @@ namespace DegCAD.Dialogs
         }
         private void UpdateHsvTextInputs()
         {
-            hTbx.Text = Hue.ToString();
-            sTbx.Text = Saturation.ToString();
-            vTbx.Text = Brightness.ToString();
+            int h = Hue, s = Saturation, b = Brightness;
+            hTbx.Text = h.ToString();
+            sTbx.Text = s.ToString();
+            vTbx.Text = b.ToString();
         }
         private void HSVTextChanged(object sender, TextChangedEventArgs e)
         {
@@ -309,9 +311,10 @@ namespace DegCAD.Dialogs
 
         private void UpdateRgbTextInputs()
         {
-            rTbx.Text = Red.ToString();
-            gTbx.Text = Green.ToString();
-            bTbx.Text = Blue.ToString();
+            byte r = Red, g = Green, b = Blue;
+            rTbx.Text = r.ToString();
+            gTbx.Text = g.ToString();
+            bTbx.Text = b.ToString();
         }
         private void RGBTextChanged(object sender, TextChangedEventArgs e)
         {
@@ -321,7 +324,7 @@ namespace DegCAD.Dialogs
         }
         #endregion
 
-        public Color CreateFromHsv(double hue, double sat, double val)
+        public static Color CreateFromHsv(double hue, double sat, double val)
         {
             var c = val * sat / 10000;
             var x = c * (1 - Math.Abs((hue / 60.0 % 2) - 1));
@@ -345,7 +348,7 @@ namespace DegCAD.Dialogs
                 B = (byte)((vl.Item3 + m) * 255)
             };
         }
-        public (int, int, int) ConvertToHsv(Color c)
+        public static (int, int, int) ConvertToHsv(Color c)
         {
             double r = c.R / 255.0;
             double g = c.G / 255.0;
@@ -356,15 +359,29 @@ namespace DegCAD.Dialogs
 
             var delta = max - min;
             int hue = 0;
-            if (max == r) hue = (int)(60 * ((g - b / delta) % 6));
-            else if (max == g) hue = (int)(60 * (b - r / delta + 2));
-            else if (max == b) hue = (int)(60 * (r - g / delta + 4));
+            if (max == r) hue = (int)(60 * (((g - b) / delta) % 6));
+            else if (max == g) hue = (int)(60 * (((b - r) / delta) + 2));
+            else if (max == b) hue = (int)(60 * (((r - g) / delta) + 4));
 
             int sat = 0;
+            if (hue < 0) hue += 360;
+
             if (max != 0) sat = (int)(delta / max * 100);
 
             return (hue, sat, (int)(max * 100));
         }
 
+        private void TabChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (pickerTabs.SelectedIndex == 0)
+            {
+                //HSV tab selected
+                HSVSelectedColor = RGBSelectedColor;
+            } else if (pickerTabs.SelectedIndex == 1)
+            {
+                //RGB tab selected
+                RGBSelectedColor = HSVSelectedColor;
+            }
+        }
     }
 }
