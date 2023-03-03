@@ -59,6 +59,28 @@ namespace DegCAD.Dialogs
             Close();
         }
 
+        #region Rearanging colors
+        private void StartColorReorderDrag(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is not FrameworkElement f) return;
+            DragDrop.DoDragDrop(f, f.DataContext, DragDropEffects.Move);
+        }
+
+        private void ColorDrop(object sender, DragEventArgs e)
+        {
+            //Gets the dragged and dropped color
+            var dragColor = e.Data.GetData(typeof(Tuple<Color, Brush>)) as Tuple<Color, Brush>;
+            if (dragColor is null) return;
+            if ((sender as FrameworkElement)?.DataContext is not Tuple<Color, Brush> dropColor) return;
+
+            int dragIndex = colors.IndexOf(dragColor);
+            int dropIndex = colors.IndexOf(dropColor);
+            if (dragIndex == -1 || dropIndex == -1) return;
+
+            colors.Move(dragIndex, dropIndex);
+        } 
+        #endregion
+
         public static void EditColors(List<Color> colors)
         {
             var dialog = new EditColorsDialog(colors);
