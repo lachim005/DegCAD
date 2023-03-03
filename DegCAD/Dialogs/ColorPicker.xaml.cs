@@ -19,6 +19,16 @@ namespace DegCAD.Dialogs
     /// </summary>
     public partial class ColorPicker : Window
     {
+        public bool Saved { get; private set; } = false;
+        public Color SelectedColor
+        {
+            get
+            {
+                if (pickerTabs.SelectedIndex == 1) return HSVSelectedColor;
+                else return RGBSelectedColor;
+            }
+        }
+
         #region HSV fields
         private int _hue;
         private int _saturation;
@@ -423,6 +433,16 @@ namespace DegCAD.Dialogs
                 //RGB tab selected
                 RGBSelectedColor = HSVSelectedColor;
             }
+        }
+
+        private void CancelBtn(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
+        private void SaveBtn(object sender, RoutedEventArgs e)
+        {
+            Saved = true;
+            Close();
         }
     }
 }
