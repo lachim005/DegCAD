@@ -54,10 +54,12 @@ namespace DegCAD
             string[] metaData =
             {
                 "DegCAD version:" + version.ToString(),
+                "Palette:True"
             };
             File.WriteAllLines(Path.Combine(tempDir, "DEG-CAD-PROJECT.txt"), metaData);
 
             SaveTimelineToFile(editor.Timeline, Path.Combine(tempDir, "timeline.txt"));
+            SavePaletteToFile(editor.styleSelector.ColorPalette, Path.Combine(tempDir, "palette.txt"));
 
             string outputFile = Path.Combine(editor.FolderPath, $"{editor.FileName}.dgproj");
             //Deletes the file if it exists so the archive can be created
@@ -94,6 +96,15 @@ namespace DegCAD
                 sw.WriteLine("ADD");
             }
             sw.WriteLine("END");
+        }
+        private static void SavePaletteToFile(List<System.Windows.Media.Color> palette, string path)
+        {
+            using StreamWriter sw = new(path, false, Encoding.UTF8);
+            //Writes the default style
+            foreach (var color in palette)
+            {
+                sw.WriteLine($"{color.R} {color.G} {color.B}");
+            }
         }
 
         private static string SerializeMongeItem(IMongeItem item)
