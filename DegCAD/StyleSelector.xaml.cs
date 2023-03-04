@@ -41,17 +41,7 @@ namespace DegCAD
             }
         }
 
-        public List<Color> ColorPalette { get; init; } = new()
-        {
-            Colors.Black,
-            Colors.Gray,
-            Colors.DarkGray,
-            Colors.LimeGreen,
-            Colors.DodgerBlue,
-            Colors.Red,
-            Colors.Gold,
-            Colors.Purple
-        };
+        public List<Color> ColorPalette { get; init; } = new();
 
         public StyleSelector()
         {
