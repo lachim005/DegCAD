@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DegCAD.Dialogs"
         mc:Ignorable="d"
-        Title="EditColorsDialog" Height="600" Width="600">
+        WindowStartupLocation="CenterScreen"
+        Title="Upravit barvy" Height="600" Width="600">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition/>

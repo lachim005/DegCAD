@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:DegCAD.Dialogs"
         mc:Ignorable="d"
         ResizeMode="NoResize"
-        Title="ColorPicker" Height="400" Width="500">
+        WindowStartupLocation="CenterScreen"
+        Title="Výběr barvy" Height="400" Width="500">
     <DockPanel Background="Transparent">
         <Grid DockPanel.Dock="Bottom" Height="50">
             <Grid.ColumnDefinitions>
