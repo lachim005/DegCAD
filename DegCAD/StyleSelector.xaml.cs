@@ -47,7 +47,23 @@ namespace DegCAD
         {
             InitializeComponent();
             UpdateColorPalette();
-            CurrentColor = Colors.DarkGray;
+            CurrentColor = Colors.Black;
+        }
+
+        public void AddDefaultColors()
+        {
+            ColorPalette.Add(Color.FromRgb(0, 0, 0));
+            ColorPalette.Add(Color.FromRgb(153, 153, 153));
+            ColorPalette.Add(Color.FromRgb(255, 0, 0));
+            ColorPalette.Add(Color.FromRgb(255, 128, 0));
+            ColorPalette.Add(Color.FromRgb(242, 203, 12));
+            ColorPalette.Add(Color.FromRgb(67, 204, 0));
+            ColorPalette.Add(Color.FromRgb(40, 204, 204));
+            ColorPalette.Add(Color.FromRgb(0, 169, 255));
+            ColorPalette.Add(Color.FromRgb(0, 0, 255));
+            ColorPalette.Add(Color.FromRgb(134, 31, 186));
+            ColorPalette.Add(Color.FromRgb(229, 68, 229));
+            UpdateColorPalette();
         }
 
         public int GetSelectedLineType()

@@ -94,6 +94,8 @@ namespace DegCAD
             {
                 if (hasPalette)
                     ReadPalette(res, Path.Combine(tempDir, "palette.txt"));
+                else
+                    res.styleSelector.AddDefaultColors();
             }
             catch (Exception ex)
             {

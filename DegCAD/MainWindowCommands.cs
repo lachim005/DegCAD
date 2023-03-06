@@ -79,6 +79,7 @@ namespace DegCAD
         {
             Editor ed = new($"Bez názvu {editorCounter}");
             ed.AddAxis();
+            ed.styleSelector.AddDefaultColors();
             openEditors.Add(ed);
             editorTabs.SelectedIndex = openEditors.Count;
             editorCounter++;
