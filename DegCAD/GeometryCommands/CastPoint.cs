@@ -68,6 +68,8 @@ namespace DegCAD.GeometryCommands
 
             List<IMongeItem> mItems = new();
 
+            Style curStyle = inputMgr.StyleSelector.CurrentStyle;
+
             //Get the point result
             var ptOnCircle = circle.TranslatePointToCircle(dirPoint);
             if (perpendicular)
@@ -77,10 +79,10 @@ namespace DegCAD.GeometryCommands
                 Vector2 perpVec = new(sth.Y, -sth.X);
                 ptOnCircle = point - perpVec;
                 //Adds a line connecting the casted point and the original point
-                mItems.Add(new MongeItems.LineSegment(ptOnCircle, point) { Style = new() { LineStyle = 0, Color = Colors.Black } });
+                mItems.Add(new MongeItems.LineSegment(ptOnCircle, point, curStyle));
             }
 
-            var mPoint = new DrawableItems.Point(ptOnCircle.X, ptOnCircle.Y);
+            var mPoint = new DrawableItems.Point(ptOnCircle.X, ptOnCircle.Y, curStyle);
             mItems.Add(mPoint);
 
             //Label
@@ -88,7 +90,7 @@ namespace DegCAD.GeometryCommands
             lid.ShowDialog();
             if (!lid.Canceled)
             {
-                mItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript, mPoint.Coords, Style.Default, mPoint));
+                mItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript, mPoint.Coords, curStyle, mPoint));
             }
 
             return new TimelineItem(mItems.ToArray());

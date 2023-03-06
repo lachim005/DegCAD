@@ -24,26 +24,28 @@ namespace DegCAD.GeometryCommands
 
             List<IMongeItem> pts = new();
 
+            Style curStyle = inputMgr.StyleSelector.CurrentStyle;
+
             foreach (var pt in dialog.Points)
             {
                 //Adds the Y projection
                 if (double.IsFinite(pt.Y))
                 {
-                    pts.Add(new Point(pt.X, pt.Y));
+                    pts.Add(new Point(pt.X, pt.Y, curStyle));
                     //Adds the label
                     if (!string.IsNullOrWhiteSpace(pt.Label))
                     {
-                        pts.Add(new Label(pt.Label, "1", "", (pt.X, pt.Y), Style.Default, new Point(pt.X, pt.Y)));
+                        pts.Add(new Label(pt.Label, "1", "", (pt.X, pt.Y), curStyle, new Point(pt.X, pt.Y)));
                     }
                 }
                 //Adds the Z projection
                 if (double.IsFinite(pt.Z))
                 {
-                    pts.Add(new Point(pt.X, -pt.Z));
+                    pts.Add(new Point(pt.X, -pt.Z, curStyle));
                     //Adds the label
                     if (!string.IsNullOrWhiteSpace(pt.Label))
                     {
-                        pts.Add(new Label(pt.Label, "2", "", (pt.X, -pt.Z), Style.Default, new Point(pt.X, -pt.Z)));
+                        pts.Add(new Label(pt.Label, "2", "", (pt.X, -pt.Z), curStyle, new Point(pt.X, -pt.Z)));
                     }
                 }
             }

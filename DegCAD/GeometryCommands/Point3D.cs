@@ -44,17 +44,18 @@ namespace DegCAD.GeometryCommands
 
             p2.X = p1.X;
 
+            Style curStyle = inputMgr.StyleSelector.CurrentStyle;
 
             Point[] mpoints = new Point[2];
             //Sets the Y and Z coordinates depending on the first plane selected
             if (firstPlane)
             {
-                mpoints[0] = new(p1.X, p2.Y);
-                mpoints[1] = new(p1.X, p1.Y);
+                mpoints[0] = new(p1.X, p2.Y, curStyle);
+                mpoints[1] = new(p1.X, p1.Y, curStyle);
             } else
             {
-                mpoints[0] = new(p1.X, p1.Y);
-                mpoints[1] = new(p1.X, p2.Y);
+                mpoints[0] = new(p1.X, p1.Y, curStyle);
+                mpoints[1] = new(p1.X, p2.Y, curStyle);
             }
 
             List<IMongeItem> mongeItems = new(3);
@@ -68,9 +69,9 @@ namespace DegCAD.GeometryCommands
             if (!lid.Canceled)
             {
                 mongeItems.Add(new MongeItems.Label(lid.LabelText, "1", lid.Superscript,
-                    mpoints[0].Coords, Style.Default, mpoints[0]));
+                    mpoints[0].Coords, curStyle, mpoints[0]));
                 mongeItems.Add(new MongeItems.Label(lid.LabelText, "2", lid.Superscript,
-                    mpoints[1].Coords, Style.Default, mpoints[1]));
+                    mpoints[1].Coords, curStyle, mpoints[1]));
             }
 
             return new(mongeItems.ToArray());

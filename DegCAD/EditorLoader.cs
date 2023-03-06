@@ -57,6 +57,8 @@ namespace DegCAD
 
             //Parse the metadata
             Version? version;
+            bool hasPalette = false;
+
             foreach (var line in metaData)
             {
                 string[] keyVal = line.Split(':');
@@ -64,6 +66,9 @@ namespace DegCAD
                 {
                     case "DegCAD version":
                         version = Version.Parse(keyVal[1]);
+                        break;
+                    case "Palette":
+                        hasPalette = bool.Parse(keyVal[1]);
                         break;
                 }
             }
@@ -82,6 +87,20 @@ namespace DegCAD
             {
                 Directory.Delete(tempDir, true);
                 throw new Exception("Chyba při čtení časové osy", ex);
+            }
+
+            //Reads and parses the palette
+            try
+            {
+                if (hasPalette)
+                    ReadPalette(res, Path.Combine(tempDir, "palette.txt"));
+                else
+                    res.styleSelector.AddDefaultColors();
+            }
+            catch (Exception ex)
+            {
+                Directory.Delete(tempDir, true);
+                throw new Exception("Chyba při čtení palety", ex);
             }
 
             //Removes the temp directory
@@ -117,6 +136,20 @@ namespace DegCAD
                 if (mItem is not null) 
                     items.Add(mItem);
             }
+        }
+        private static void ReadPalette(Editor e, string path)
+        {
+            using StreamReader sr = new(path);
+            string? line;
+            while((line = sr.ReadLine()) is not null)
+            {
+                string[] cols = line.Split(' ');
+                if (!byte.TryParse(cols[0], out var r) || !byte.TryParse(cols[1], out var g) || !byte.TryParse(cols[2], out var b))
+                    throw new Exception($"Chyba při čtení barvy \"{line}\"");
+                var col = Color.FromRgb(r, g, b);
+                e.styleSelector.ColorPalette.Add(col);
+            }
+            e.styleSelector.UpdateColorPalette();
         }
 
         private static IMongeItem? ParseMongeItem(string s, Style stl)

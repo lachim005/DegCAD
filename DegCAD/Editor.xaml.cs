@@ -42,7 +42,7 @@ namespace DegCAD
             Timeline = new();
             Timeline.TimelineChanged += TimelineChanged;
             Snapper = new(Timeline);
-            InputMgr = new(viewPort, Snapper);
+            InputMgr = new(viewPort, Snapper, styleSelector);
             viewPort.SizeChanged += ViewPortChanged;
             LabelManager = new(Timeline, GeometryDrawer, viewPort, this);
 

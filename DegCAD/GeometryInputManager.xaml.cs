@@ -25,15 +25,17 @@ namespace DegCAD
         public GeometryDrawer PreviewGd { get; set; }
         public Snapper Snapper { get; set; }
         public Style PreviewStyle { get; set; } = new Style() { Color = Color.FromRgb(0, 0, 255), LineStyle = 1 };
+        public StyleSelector StyleSelector { get; set; }
 
         private SemaphoreSlim inputSemaphore = new(1, 1);
 
-        public GeometryInputManager(ViewPort viewPort, Snapper snapper)
+        public GeometryInputManager(ViewPort viewPort, Snapper snapper, StyleSelector styleSelector)
         {
             InitializeComponent();
             PreviewGd = new(viewPort, true);
             ViewPort = viewPort;
             Snapper = snapper;
+            StyleSelector = styleSelector;
         }
 
         /// <summary>
