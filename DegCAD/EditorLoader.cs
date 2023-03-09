@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
@@ -18,6 +19,17 @@ namespace DegCAD
         {
             var tempDir = Unpack(path);
             var metadata = ReadMetadata(tempDir);
+
+            Version curVer = Assembly.GetExecutingAssembly().GetName().Version ?? new(0, 0, 0);
+            if (curVer.Major < metadata.version.Major || curVer.Minor < metadata.version.Minor)
+            {
+                System.Windows.MessageBox.Show(
+                    "Tento soubor byl vytvořen v novější verzi DegCADu. Může dojít k nesprávnému přečtení.",
+                    "Varování",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Warning
+                    );
+            }
 
             Editor res = new(Path.GetFileNameWithoutExtension(path))
             {
