@@ -67,7 +67,7 @@ namespace DegCAD
             if (sender is not Button btn) return;
             if (btn.DataContext is not Tuple<Editor> ed) return;
 
-            openEditors.Remove(new(ed.Item1));
+            openEditors.Remove(ed);
         }
     }
 }
