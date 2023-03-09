@@ -25,7 +25,7 @@ namespace DegCAD
         /// The editor that the user has currently open
         /// </summary>
         public Editor? ActiveEditor { get; set; }
-        private readonly ObservableCollection<Editor> openEditors = new();
+        private readonly ObservableCollection<Tuple<Editor>> openEditors = new();
 
         /// <summary>
         /// Used for the number after "Bez názvu" in new document names
@@ -36,7 +36,6 @@ namespace DegCAD
         {
             InitializeComponent();
             cmdPallete.GenerateCommands(this);
-            openEditors.CollectionChanged += OpenEditorsChanged;
 
             //Open editor is the user opens a file
             var args = Environment.GetCommandLineArgs();
@@ -47,53 +46,28 @@ namespace DegCAD
                     OpenFile(args[1]);
                 }
             }
-        }
 
-        private void OpenEditorsChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            UpdateTabs();
-        }
-
-        private void UpdateTabs()
-        {
-            var index = editorTabs.SelectedIndex;
-            //Clears the tab control without the home tab
-            while (editorTabs.Items.Count > 1)
-            {
-                editorTabs.Items.RemoveAt(1);
-            }
-            //Creates new tabs for all the editors
-            foreach (Editor editor in openEditors)
-            {
-                StackPanel stp = new() { Orientation = Orientation.Horizontal};
-                stp.Children.Add(new TextBlock() { Text = editor.FileName, VerticalAlignment = VerticalAlignment.Center });
-                Button closeBtn = new();
-                closeBtn.Click += (s, e) => openEditors.Remove(editor);
-                closeBtn.Content = "❌";
-                closeBtn.Background = Brushes.Transparent;
-                closeBtn.BorderThickness = new(0);
-                closeBtn.Width = 20;
-                closeBtn.Height = 20;
-                stp.Children.Add(closeBtn);
-                editorTabs.Items.Add(new TabItem() { Header = stp, Content = editor });
-            }
-            //Out of bounds protection
-            if (index > editorTabs.Items.Count - 1)
-                index--;
-            //Resets the selected index so it doesn't get changed by removing the previous tabs
-            editorTabs.SelectedIndex = index;
+            editorTabs.ItemsSource = openEditors;
         }
 
         private void TabSwitched(object sender, SelectionChangedEventArgs e)
         {
             //Home or invalid tab got selected
-            if (editorTabs.SelectedIndex < 1)
+            if (editorTabs.SelectedIndex < 0)
             {
                 ActiveEditor = null;
                 return;
             }
             //Editor tab got selected
-            ActiveEditor = openEditors[editorTabs.SelectedIndex - 1];
+            ActiveEditor = openEditors[editorTabs.SelectedIndex].Item1;
+        }
+
+        private void EditorTabCloseClick(object sender, RoutedEventArgs e)
+        {
+            if (sender is not Button btn) return;
+            if (btn.DataContext is not Tuple<Editor> ed) return;
+
+            openEditors.Remove(new(ed.Item1));
         }
     }
 }

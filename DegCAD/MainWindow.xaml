@@ -48,13 +48,31 @@
         </Menu>
         <local:CommandPallete DockPanel.Dock="Top" x:Name="cmdPallete"/>
         <TabControl x:Name="editorTabs" TabStripPlacement="Bottom" SelectionChanged="TabSwitched" Padding="0">
-            <TabItem Header="_Domů">
-                <!-- Home page -->
+            <!--TabItem Header="_Domů">
+                <!- Home page >
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                     <TextBlock Text="Vítejte v DegCADu" FontSize="30px"/>
                     <Button Command="New" Content="_Nový dokument +" Padding="10px 15px" Margin="20px"/>
                 </StackPanel>
-            </TabItem>
+            </TabItem-->
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Item1.FileName}" Margin="2, 0" VerticalAlignment="Center"/>
+                        <Button Click="EditorTabCloseClick" BorderThickness="0" Background="Transparent" Padding="5">
+                            <Canvas Width="10" Height="10">
+                                <Line X1="0" Y1="0" X2="10" Y2="10" Stroke="Black" StrokeThickness="1"/>
+                                <Line X1="0" Y1="10" X2="10" Y2="0" Stroke="Black" StrokeThickness="1"/>
+                            </Canvas>
+                        </Button>
+                    </StackPanel>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <ContentControl Content="{Binding Item1}" Focusable="False"/>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
         </TabControl>
     </DockPanel>
 </Window>
