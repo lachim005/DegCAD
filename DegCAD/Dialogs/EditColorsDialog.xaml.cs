@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -59,9 +61,35 @@ namespace DegCAD.Dialogs
             var newColor = (Color)c;
             colors.Add(new(newColor, new SolidColorBrush(newColor)));
         }
+        private void ImportColors(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog ofd = new()
+            {
+                Filter = "DegCAD projekt|*.dgproj|Všechny soubory|*.*"
+            };
+            if (ofd.ShowDialog() != true) return;
+            Editor ed;
+            try
+            {
+                ed = EditorLoader.CreateFromFile(ofd.FileName);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\n\n" + ex.InnerException?.Message, "Chyba při načítání souboru", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
+            foreach(var c in ed.styleSelector.ColorPalette)
+            {
+                colors.Add(new(c, new SolidColorBrush(c)));
+            }
+        }
         private void SaveColors(object sender, RoutedEventArgs e)
         {
             saveColors = true;
+            Close();
+        }
+        private void CancelDialog(object sender, RoutedEventArgs e)
+        {
             Close();
         }
 

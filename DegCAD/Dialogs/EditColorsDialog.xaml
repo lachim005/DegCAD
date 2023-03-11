@@ -11,6 +11,7 @@
         <Grid.RowDefinitions>
             <RowDefinition/>
             <RowDefinition Height="40px"/>
+            <RowDefinition Height="40px"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -42,6 +43,8 @@
         </ScrollViewer>
 
         <Button Content="_Přidat barvu" Click="AddColor" Margin="5" Grid.Row="1"/>
-        <Button Content="_Uložit" Click="SaveColors" Margin="5" Grid.Row="1" Grid.Column="1"/>
+        <Button Content="_Importovat barvy" Click="ImportColors" Margin="5" Grid.Row="1" Grid.Column="1"/>
+        <Button Content="_Zrušit" Click="CancelDialog" Margin="5" Grid.Row="2" Grid.Column="0"/>
+        <Button Content="_Uložit" Click="SaveColors" Margin="5" Grid.Row="2" Grid.Column="1"/>
     </Grid>
 </Window>
