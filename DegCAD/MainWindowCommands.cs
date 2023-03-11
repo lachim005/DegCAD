@@ -16,6 +16,7 @@ namespace DegCAD
         {
             if (ActiveEditor is null) return false;
             if (ActiveEditor.ExecutingCommand) return false;
+            if (ActiveEditor.LabelManager.MovingLabel) return false;
             return true;
         }
         private void OpenSaveFileDialog()
@@ -54,11 +55,11 @@ namespace DegCAD
                 MessageBox.Show(ex.Message + "\n\n" + ex.InnerException?.Message, "Chyba při načítání souboru", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            openEditors.Add(ed);
-            editorTabs.SelectedIndex = openEditors.Count;
+            openEditors.Add(new(ed));
+            editorTabs.SelectedIndex = openEditors.Count - 1;
         }
 
-        private void CanExecuteEditorCommand(object sender, CanExecuteRoutedEventArgs e)
+        public void CanExecuteEditorCommand(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = IsActiveEditorIdle();
         }
@@ -79,8 +80,9 @@ namespace DegCAD
         {
             Editor ed = new($"Bez názvu {editorCounter}");
             ed.AddAxis();
-            openEditors.Add(ed);
-            editorTabs.SelectedIndex = openEditors.Count;
+            ed.styleSelector.AddDefaultColors();
+            openEditors.Add(new(ed));
+            editorTabs.SelectedIndex = openEditors.Count - 1;
             editorCounter++;
         }
         private void OpenCommand(object sender, ExecutedRoutedEventArgs e)
@@ -100,8 +102,6 @@ namespace DegCAD
             if (ActiveEditor.FolderPath is null) return;
 
             SaveEditor();
-
-            UpdateTabs();
         }
         private void SaveAsCommand(object sender, ExecutedRoutedEventArgs e)
         {
@@ -112,13 +112,11 @@ namespace DegCAD
             if (ActiveEditor.FolderPath is null) return;
 
             SaveEditor();
-
-            UpdateTabs();
         }
         private void CloseCommand(object sender, ExecutedRoutedEventArgs e)
         {
             if (ActiveEditor is null) return;
-            openEditors.Remove(ActiveEditor);
+            openEditors.Remove(new(ActiveEditor));
         }
         private void UndoCommand(object sender, ExecutedRoutedEventArgs e)
         {

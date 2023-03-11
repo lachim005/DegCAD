@@ -13,7 +13,7 @@ namespace DegCAD
     /// </summary>
     public class Timeline
     {
-        public Stack<TimelineItem> CommandHistory { get; private set; } = new();
+        public HistoryStack<TimelineItem> CommandHistory { get; private set; } = new();
         public Stack<TimelineItem> UndoneCommands { get; private set; } = new();
 
         public event EventHandler? TimelineChanged;

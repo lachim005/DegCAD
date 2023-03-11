@@ -7,7 +7,6 @@ using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace DegCAD
 {
@@ -29,37 +28,45 @@ namespace DegCAD
                 }
             }
 
-            //Prepares the path for the temp folder so it doesn't overwrite anything
-            string tempDir = Path.Combine(editor.FolderPath, $"temp - {editor.FileName}");
-            int tempNumber = 1;
-            while (Directory.Exists(tempDir))
-            {
-                tempDir = Path.Combine(editor.FolderPath, $"temp{tempNumber} - {editor.FileName}");
-                tempNumber++;
-            }
-
-            //Create a temporary folder that will get archived
+            var tempDir = CreateTempFolder();
             try
             {
-                Directory.CreateDirectory(tempDir);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Nemohla být vytvořena dočasná složka", ex);
-            }
+                WriteMetaData(tempDir);
+                SaveTimelineToFile(editor.Timeline, Path.Combine(tempDir, "timeline.txt"));
+                SavePaletteToFile(editor.styleSelector.ColorPalette, Path.Combine(tempDir, "palette.txt"));
 
+                string outputFile = Path.Combine(editor.FolderPath, $"{editor.FileName}.dgproj");
+                Pack(outputFile, tempDir);
+            }
+            finally
+            {
+                //Remove the temporary directory
+                Directory.Delete(tempDir, true);
+            }
+        }
+
+        private static void WriteMetaData(string tempDir)
+        {
             var version = Assembly.GetExecutingAssembly().GetName().Version;
             version ??= new(0, 0, 0);
 
             string[] metaData =
             {
                 "DegCAD version:" + version.ToString(),
+                "Palette:True"
             };
             File.WriteAllLines(Path.Combine(tempDir, "DEG-CAD-PROJECT.txt"), metaData);
+        }
 
-            SaveTimelineToFile(editor.Timeline, Path.Combine(tempDir, "timeline.txt"));
+        public static string CreateTempFolder()
+        {
+            var tmp = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
+            Directory.CreateDirectory(tmp);
+            return tmp;
+        }
 
-            string outputFile = Path.Combine(editor.FolderPath, $"{editor.FileName}.dgproj");
+        public static void Pack(string outputFile, string tempDir)
+        {
             //Deletes the file if it exists so the archive can be created
             if (File.Exists(outputFile))
             {
@@ -67,8 +74,6 @@ namespace DegCAD
             }
             //Create the output file
             ZipFile.CreateFromDirectory(tempDir, outputFile);
-            //Remove the temporary directory
-            Directory.Delete(tempDir, true);
         }
 
         private static void SaveTimelineToFile(Timeline tl, string path)
@@ -77,7 +82,7 @@ namespace DegCAD
             //Writes the default style
             Style currentStyle = Style.Default;
             sw.WriteLine(SerializeStyle(currentStyle));
-            foreach (var cmd in tl.CommandHistory.ToArray().Reverse())
+            foreach (var cmd in tl.CommandHistory)
             {
                 foreach (var item in cmd.Items)
                 {
@@ -94,6 +99,15 @@ namespace DegCAD
                 sw.WriteLine("ADD");
             }
             sw.WriteLine("END");
+        }
+        private static void SavePaletteToFile(List<System.Windows.Media.Color> palette, string path)
+        {
+            using StreamWriter sw = new(path, false, Encoding.UTF8);
+            //Writes the default style
+            foreach (var color in palette)
+            {
+                sw.WriteLine($"{color.R} {color.G} {color.B}");
+            }
         }
 
         private static string SerializeMongeItem(IMongeItem item)

@@ -2,6 +2,7 @@
 using DegCAD.MongeItems;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -21,18 +22,45 @@ namespace DegCAD
     /// <summary>
     /// Interaction logic for Editor.xaml
     /// </summary>
-    public partial class Editor : UserControl
+    public partial class Editor : UserControl, INotifyPropertyChanged
     {
-        public GeometryDrawer GeometryDrawer { get; set; }
-        public GeometryInputManager InputMgr { get; set; }
-        public Timeline Timeline { get; set; }
-        public Snapper Snapper { get; set; }
-        public LabelManager LabelManager { get; set; }
+        private string _fileName;
+        private string? _folderPath;
+        private bool _executingCommand = false;
 
-        public bool ExecutingCommand { get; private set; } = false;
+        public GeometryDrawer GeometryDrawer { get; protected set; }
+        public GeometryInputManager InputMgr { get; protected set; }
+        public Timeline Timeline { get; protected set; }
+        public Snapper Snapper { get; protected set; }
+        public LabelManager LabelManager { get; protected set; }
 
-        public string FileName { get; set; }
-        public string? FolderPath { get; set; }
+        public bool ExecutingCommand {
+            get => _executingCommand;
+            private set
+            {
+                _executingCommand = value;
+                PropertyChanged?.Invoke(this, new(nameof(ExecutingCommand)));
+            }
+        }
+        public string FileName
+        {
+            get => _fileName;
+            set
+            {
+                _fileName = value;
+                PropertyChanged?.Invoke(this, new(nameof(FileName)));
+            }
+
+        }
+        public string? FolderPath
+        {
+            get => _folderPath;
+            set
+            {
+                _folderPath = value;
+                PropertyChanged?.Invoke(this, new(nameof(FolderPath)));
+            }
+        }
 
         public Editor(string fileName)
         {
@@ -42,12 +70,14 @@ namespace DegCAD
             Timeline = new();
             Timeline.TimelineChanged += TimelineChanged;
             Snapper = new(Timeline);
-            InputMgr = new(viewPort, Snapper);
+            InputMgr = new(viewPort, Snapper, styleSelector);
             viewPort.SizeChanged += ViewPortChanged;
             LabelManager = new(Timeline, GeometryDrawer, viewPort, this);
 
-            FileName = fileName;
+            _fileName = fileName;
         }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public void AddAxis()
         {

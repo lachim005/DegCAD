@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
@@ -16,61 +17,23 @@ namespace DegCAD
     {
         public static Editor CreateFromFile(string path)
         {
-            if (!File.Exists(path))
+            var tempDir = Unpack(path);
+            var metadata = ReadMetadata(tempDir);
+
+            Version curVer = Assembly.GetExecutingAssembly().GetName().Version ?? new(0, 0, 0);
+            if (curVer.Major < metadata.version.Major || curVer.Minor < metadata.version.Minor)
             {
-                throw new FileNotFoundException($"Soubror {path} nebyl nalezen");
+                System.Windows.MessageBox.Show(
+                    "Tento soubor byl vytvořen v novější verzi DegCADu. Může dojít k nesprávnému přečtení.",
+                    "Varování",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Warning
+                    );
             }
 
-            var dir = Path.GetDirectoryName(path);
-            var fileName = Path.GetFileNameWithoutExtension(path);
-            if (dir is null || fileName is null) throw new Exception("Špatná cesta");
-
-            //Prepares the path for the temp folder so it doesn't overwrite anything
-            string tempDir = Path.Combine(dir, $"temp - {fileName}");
-            int tempNumber = 1;
-            while (Directory.Exists(tempDir))
+            Editor res = new(Path.GetFileNameWithoutExtension(path))
             {
-                tempDir = Path.Combine(dir, $"temp{tempNumber} - {fileName}");
-                tempNumber++;
-            }
-
-            //Extract the zip
-            try
-            {
-                ZipFile.ExtractToDirectory(path, tempDir);
-            } catch (Exception ex)
-            {
-                throw new Exception("Soubor nemohl být rozbalen", ex);
-            }
-
-            //Read the metadata
-            string[] metaData;
-            try
-            {
-                metaData = File.ReadAllLines(Path.Combine(tempDir, "DEG-CAD-PROJECT.txt"));
-            }
-            catch (Exception ex)
-            {
-                Directory.Delete(tempDir, true);
-                throw new Exception("Soubor DEG-CAD-PROJECT nemohl být přečten", ex);
-            }
-
-            //Parse the metadata
-            Version? version;
-            foreach (var line in metaData)
-            {
-                string[] keyVal = line.Split(':');
-                switch (keyVal[0])
-                {
-                    case "DegCAD version":
-                        version = Version.Parse(keyVal[1]);
-                        break;
-                }
-            }
-
-            Editor res = new(fileName)
-            {
-                FolderPath = dir
+                FolderPath = Path.GetDirectoryName(path)
             };
 
             //Reads and parses the timeline
@@ -84,12 +47,82 @@ namespace DegCAD
                 throw new Exception("Chyba při čtení časové osy", ex);
             }
 
+            //Reads and parses the palette
+            try
+            {
+                if (metadata.hasPalette)
+                    ReadPalette(res, Path.Combine(tempDir, "palette.txt"));
+                else
+                    res.styleSelector.AddDefaultColors();
+            }
+            catch (Exception ex)
+            {
+                Directory.Delete(tempDir, true);
+                throw new Exception("Chyba při čtení palety", ex);
+            }
+
             //Removes the temp directory
             Directory.Delete(tempDir, true);
             return res;
         }
 
-        private static void ReadTimeline(Editor e, string path)
+        public static Metadata ReadMetadata(string tempDir)
+        {
+            //Read the metadata
+            string[] metaData;
+            try
+            {
+                metaData = File.ReadAllLines(Path.Combine(tempDir, "DEG-CAD-PROJECT.txt"));
+            }
+            catch (Exception ex)
+            {
+                Directory.Delete(tempDir, true);
+                throw new Exception("Soubor DEG-CAD-PROJECT nemohl být přečten", ex);
+            }
+
+            //Parse the metadata
+            Metadata md = new();
+
+            foreach (var line in metaData)
+            {
+                string[] keyVal = line.Split(':');
+                switch (keyVal[0])
+                {
+                    case "DegCAD version":
+                        md.version = Version.Parse(keyVal[1]);
+                        break;
+                    case "Palette":
+                        md.hasPalette = bool.Parse(keyVal[1]);
+                        break;
+                }
+            }
+
+            return md;
+        }
+
+        public static string Unpack(string path)
+        {
+            if (!File.Exists(path))
+            {
+                throw new FileNotFoundException($"Soubror {path} nebyl nalezen");
+            }
+
+            string tempDir = EditorSaver.CreateTempFolder();
+
+            //Extract the zip
+            try
+            {
+                ZipFile.ExtractToDirectory(path, tempDir);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Soubor nemohl být rozbalen", ex);
+            }
+
+            return tempDir;
+        }
+
+        public static void ReadTimeline(Editor e, string path)
         {
             using StreamReader sr = new(path);
 
@@ -117,6 +150,20 @@ namespace DegCAD
                 if (mItem is not null) 
                     items.Add(mItem);
             }
+        }
+        public static void ReadPalette(Editor e, string path)
+        {
+            using StreamReader sr = new(path);
+            string? line;
+            while((line = sr.ReadLine()) is not null)
+            {
+                string[] cols = line.Split(' ');
+                if (!byte.TryParse(cols[0], out var r) || !byte.TryParse(cols[1], out var g) || !byte.TryParse(cols[2], out var b))
+                    throw new Exception($"Chyba při čtení barvy \"{line}\"");
+                var col = Color.FromRgb(r, g, b);
+                e.styleSelector.ColorPalette.Add(col);
+            }
+            e.styleSelector.UpdateColorPalette();
         }
 
         private static IMongeItem? ParseMongeItem(string s, Style stl)
@@ -248,5 +295,11 @@ namespace DegCAD
             }
             yield return sb.ToString();
         }
+    }
+
+    public record Metadata
+    {
+        public Version version = new Version(0,0,0);
+        public bool hasPalette = false;
     }
 }

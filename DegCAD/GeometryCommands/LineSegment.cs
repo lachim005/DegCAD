@@ -22,7 +22,7 @@ namespace DegCAD.GeometryCommands
                 gd.DrawLine(p1, p, Style.Default);
             });
 
-            var lseg = new MongeItems.LineSegment(p1, p2);
+            var lseg = new MongeItems.LineSegment(p1, p2, inputMgr.StyleSelector.CurrentStyle);
 
             return new(
                 new IMongeItem[1] { lseg }

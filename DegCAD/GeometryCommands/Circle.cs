@@ -22,7 +22,7 @@ namespace DegCAD.GeometryCommands
                 gd.DrawCircle(center, pt, Style.Default);
             }, predicate: (pt) => pt != center);
 
-            return new TimelineItem(new IMongeItem[1] { new MongeItems.Circle(new Circle2(center, pointOnCircle), Style.Default) });
+            return new TimelineItem(new IMongeItem[1] { new MongeItems.Circle(new Circle2(center, pointOnCircle), inputMgr.StyleSelector.CurrentStyle) });
         }
     }
 }

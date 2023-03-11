@@ -64,16 +64,18 @@ namespace DegCAD.GeometryCommands
 
             var ptOnCircle = circle.TranslatePointToCircle(pt4);
 
+            Style curStyle = inputMgr.StyleSelector.CurrentStyle;
+
             List<IMongeItem> mItems = new()
             {
-                new DrawableItems.Point(ptOnCircle.X, ptOnCircle.Y)
+                new DrawableItems.Point(ptOnCircle.X, ptOnCircle.Y, curStyle)
             };
             //Label
             LabelInput lid = new();
             lid.ShowDialog();
             if (!lid.Canceled)
             {
-                mItems.Add(new MongeItems.Label(lid.LabelText, lid.Subscript, lid.Superscript, ptOnCircle, Style.Default, mItems[0]));
+                mItems.Add(new MongeItems.Label(lid.LabelText, lid.Subscript, lid.Superscript, ptOnCircle, curStyle, mItems[0]));
             }
 
             return new(mItems.ToArray());

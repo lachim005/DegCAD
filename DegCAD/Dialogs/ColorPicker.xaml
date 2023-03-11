@@ -1,0 +1,194 @@
+﻿<Window x:Class="DegCAD.Dialogs.ColorPicker"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DegCAD.Dialogs"
+        mc:Ignorable="d"
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        Title="Výběr barvy" Height="400" Width="500">
+    <DockPanel Background="Transparent">
+        <Grid DockPanel.Dock="Bottom" Height="50">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Button Content="_Zrušit" Click="CancelBtn" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="50, 5"/>
+            <Button Content="_Uložit" Click="SaveBtn" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="50, 5" Grid.Column="1"/>
+        </Grid>
+        <TabControl Background="Transparent" Padding="15" SelectionChanged="TabChanged" x:Name="pickerTabs">
+            <TabItem Header="HSV">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="256"/>
+                        <ColumnDefinition Width="80"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="206"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Canvas Width="256" Height="256" Grid.RowSpan="2">
+                        <Rectangle Width="256" Height="256" x:Name="satRectangle">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush StartPoint="1,0.5" EndPoint="0,0.5">
+                                    <GradientStop Color="Red" Offset="0"/>
+                                    <GradientStop Color="White" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Rectangle Width="256" Height="256" x:Name="brRectangle" MouseDown="SatBrMouseDown" MouseUp="SatBrMouseUp">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush StartPoint="0.5,0" EndPoint="0.5,1">
+                                    <GradientStop Color="#00000000" Offset="0"/>
+                                    <GradientStop Color="Black" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Ellipse Width="10" Height="10" Stroke="Black" x:Name="SatBrCursor"></Ellipse>
+                    </Canvas>
+                    <Canvas Width="30" Height="256" Grid.Column="1" Grid.RowSpan="2">
+                        <Rectangle Width="30" Height="256" MouseDown="HueMouseDown" MouseUp="HueMouseUp" x:Name="hueRectangle">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                    <GradientStop Color="#ff0000"/>
+                                    <GradientStop Color="#ffff00" Offset="0.166"/>
+                                    <GradientStop Color="#00ff00" Offset="0.333"/>
+                                    <GradientStop Color="#00ffff" Offset="0.5"/>
+                                    <GradientStop Color="#0000ff" Offset="0.666"/>
+                                    <GradientStop Color="#ff00ff" Offset="0.833"/>
+                                    <GradientStop Color="#ff0000" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Polygon Fill="Gray" x:Name="hueCursor">
+                            <Polygon.Points>
+                                <Point X="-10" Y="5"/>
+                                <Point X="-10" Y="-5"/>
+                                <Point X="0" Y="0"/>
+                                <Point X="30" Y="0"/>
+                                <Point X="40" Y="5"/>
+                                <Point X="40" Y="-5"/>
+                                <Point X="30" Y="0"/>
+                                <Point X="0" Y="0"/>
+                            </Polygon.Points>
+                        </Polygon>
+                    </Canvas>
+                    <Border x:Name="hsvSelectedColorDisplay" Grid.Column="2"/>
+                    <Grid Grid.Row="1" Grid.Column="3">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Label Grid.Row="0" Content="_H" Target="{Binding ElementName=hTbx}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                        <TextBox Grid.Row="0" Grid.Column="1" VerticalAlignment="Center" x:Name="hTbx" TextChanged="HSVTextChanged"/>
+                        <Label Grid.Row="1" Content="_S" Target="{Binding ElementName=sTbx}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                        <TextBox Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" x:Name="sTbx" TextChanged="HSVTextChanged"/>
+                        <Label Grid.Row="2" Content="_V" Target="{Binding ElementName=vTbx}" VerticalAlignment="Center" HorizontalAlignment="Right"/>
+                        <TextBox Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" x:Name="vTbx" TextChanged="HSVTextChanged"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="RGB">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="50"/>
+                        <RowDefinition Height="50"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="256"/>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Border Grid.Column="3" x:Name="rgbSelectedColorDisplay"/>
+                    <Canvas Grid.Row="1" Height="20">
+                        <Rectangle Height="20" Width="256" x:Name="rRectangle" MouseDown="RMouseDown" MouseUp="RMouseUp">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush>
+                                    <GradientStop Color="#000000"/>
+                                    <GradientStop Color="#ff0000" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Polygon Fill="Gray" x:Name="rCursor">
+                            <Polygon.Points>
+                                <Point X="-5" Y="-10"/>
+                                <Point X="5" Y="-10"/>
+                                <Point X="0" Y="0"/>
+                                <Point X="0" Y="20"/>
+                                <Point X="-5" Y="30"/>
+                                <Point X="5" Y="30"/>
+                                <Point X="0" Y="20"/>
+                                <Point X="0" Y="0"/>
+                            </Polygon.Points>
+                        </Polygon>
+                    </Canvas>
+                    <Canvas Grid.Row="2" Height="20">
+                        <Rectangle Height="20" Width="256" x:Name="gRectangle" MouseDown="GMouseDown" MouseUp="GMouseUp">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush>
+                                    <GradientStop Color="#000000"/>
+                                    <GradientStop Color="#00ff00" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Polygon Fill="Gray" x:Name="gCursor">
+                            <Polygon.Points>
+                                <Point X="-5" Y="-10"/>
+                                <Point X="5" Y="-10"/>
+                                <Point X="0" Y="0"/>
+                                <Point X="0" Y="20"/>
+                                <Point X="-5" Y="30"/>
+                                <Point X="5" Y="30"/>
+                                <Point X="0" Y="20"/>
+                                <Point X="0" Y="0"/>
+                            </Polygon.Points>
+                        </Polygon>
+                    </Canvas>
+                    <Canvas Grid.Row="3" Height="20">
+                        <Rectangle Height="20" Width="256" x:Name="bRectangle" MouseDown="BMouseDown" MouseUp="BMouseUp">
+                            <Rectangle.Fill>
+                                <LinearGradientBrush>
+                                    <GradientStop Color="#000000"/>
+                                    <GradientStop Color="#0000ff" Offset="1"/>
+                                </LinearGradientBrush>
+                            </Rectangle.Fill>
+                        </Rectangle>
+                        <Polygon Fill="Gray" x:Name="bCursor">
+                            <Polygon.Points>
+                                <Point X="-5" Y="-10"/>
+                                <Point X="5" Y="-10"/>
+                                <Point X="0" Y="0"/>
+                                <Point X="0" Y="20"/>
+                                <Point X="-5" Y="30"/>
+                                <Point X="5" Y="30"/>
+                                <Point X="0" Y="20"/>
+                                <Point X="0" Y="0"/>
+                            </Polygon.Points>
+                        </Polygon>
+                    </Canvas>
+
+                    <Label Grid.Row="1" Content="_R" Target="{Binding ElementName=rTbx}" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Column="1"/>
+                    <TextBox Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" x:Name="rTbx" TextChanged="RGBTextChanged"/>
+                    <Label Grid.Row="2" Content="_G" Target="{Binding ElementName=gTbx}" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Column="1"/>
+                    <TextBox Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" x:Name="gTbx" TextChanged="RGBTextChanged"/>
+                    <Label Grid.Row="3" Content="_B" Target="{Binding ElementName=bTbx}" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Column="1"/>
+                    <TextBox Grid.Row="3" Grid.Column="2" VerticalAlignment="Center" x:Name="bTbx" TextChanged="RGBTextChanged"/>
+                    <Label Grid.Row="4" Content="_Hex" Target="{Binding ElementName=hexTbx}" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Column="1"/>
+                    <TextBox Grid.Row="4" Grid.Column="2" VerticalAlignment="Center" x:Name="hexTbx" TextChanged="HexTextChanged"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</Window>
