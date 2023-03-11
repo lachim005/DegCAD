@@ -56,10 +56,12 @@ namespace DegCAD
             if (editorTabs.SelectedIndex < 0)
             {
                 ActiveEditor = null;
+                homePage.Visibility = Visibility.Visible;
                 return;
             }
             //Editor tab got selected
             ActiveEditor = openEditors[editorTabs.SelectedIndex].Item1;
+            homePage.Visibility = Visibility.Hidden;
         }
 
         private void EditorTabCloseClick(object sender, RoutedEventArgs e)
