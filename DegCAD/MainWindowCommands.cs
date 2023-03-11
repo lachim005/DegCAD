@@ -16,6 +16,7 @@ namespace DegCAD
         {
             if (ActiveEditor is null) return false;
             if (ActiveEditor.ExecutingCommand) return false;
+            if (ActiveEditor.LabelManager.MovingLabel) return false;
             return true;
         }
         private void OpenSaveFileDialog()
@@ -58,7 +59,7 @@ namespace DegCAD
             editorTabs.SelectedIndex = openEditors.Count - 1;
         }
 
-        private void CanExecuteEditorCommand(object sender, CanExecuteRoutedEventArgs e)
+        public void CanExecuteEditorCommand(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = IsActiveEditorIdle();
         }

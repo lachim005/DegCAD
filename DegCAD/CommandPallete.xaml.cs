@@ -44,7 +44,7 @@ namespace DegCAD
                 });
 
                 //Binds the new command to the main window. Can execute if active editor isn't null
-                mw.CommandBindings.Add(new(rcmd, cmd.ExecuteHandler, (s, e) => e.CanExecute = mw.ActiveEditor is not null && !mw.ActiveEditor.LabelManager.MovingLabel));
+                mw.CommandBindings.Add(new(rcmd, cmd.ExecuteHandler, mw.CanExecuteEditorCommand));
 
                 //Adds a button for every command to the toolbar
                 cmdButtons.Children.Add(new Button() { Content = cmd.Name, ToolTip = cmd.Description, Command=rcmd });

@@ -26,6 +26,7 @@ namespace DegCAD
     {
         private string _fileName;
         private string? _folderPath;
+        private bool _executingCommand = false;
 
         public GeometryDrawer GeometryDrawer { get; protected set; }
         public GeometryInputManager InputMgr { get; protected set; }
@@ -33,8 +34,14 @@ namespace DegCAD
         public Snapper Snapper { get; protected set; }
         public LabelManager LabelManager { get; protected set; }
 
-        public bool ExecutingCommand { get; private set; } = false;
-
+        public bool ExecutingCommand {
+            get => _executingCommand;
+            private set
+            {
+                _executingCommand = value;
+                PropertyChanged?.Invoke(this, new(nameof(ExecutingCommand)));
+            }
+        }
         public string FileName
         {
             get => _fileName;
@@ -45,13 +52,14 @@ namespace DegCAD
             }
 
         }
-        public string? FolderPath { 
-            get => _folderPath; 
+        public string? FolderPath
+        {
+            get => _folderPath;
             set
             {
                 _folderPath = value;
                 PropertyChanged?.Invoke(this, new(nameof(FolderPath)));
-            } 
+            }
         }
 
         public Editor(string fileName)
