@@ -8,7 +8,7 @@ namespace DegCAD.GeometryCommands
 {
     public class LineSegment : IGeometryCommand
     {
-        public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr)
+        public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
             var p1 = await inputMgr.GetPoint((p, gd) =>
             {

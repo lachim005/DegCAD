@@ -16,7 +16,7 @@ namespace DegCAD.GeometryCommands
         public Vector2 p2;
         bool firstPlane;
 
-        public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr)
+        public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
             Style previewStyle = new() { Color = Color.FromRgb(0, 0, 255), LineStyle = 1 };
             ParametricLine2 xLine = new((0, 0), (0, 1));

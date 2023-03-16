@@ -10,7 +10,7 @@ namespace DegCAD.GeometryCommands
 {
     public class Middle : IGeometryCommand
     {
-        public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr)
+        public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
             Style redStyle = new() { Color = Colors.Red };
 

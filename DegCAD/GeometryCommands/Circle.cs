@@ -8,7 +8,7 @@ namespace DegCAD.GeometryCommands
 {
     public class Circle : IGeometryCommand
     {
-        public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr)
+        public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
             Vector2 center = await inputMgr.GetPoint((pt, gd) =>
             {

@@ -11,7 +11,7 @@ namespace DegCAD.GeometryCommands
 {
     internal class PointCoordInput : IGeometryCommand
     {
-        public Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr)
+        public Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
             //The dialog is used to enter the point coordinates
             var dialog = new PointCoordinateInputDialog();

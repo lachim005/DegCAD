@@ -10,7 +10,7 @@ namespace DegCAD.GeometryCommands
 {
     internal class PerpendicularLine : IGeometryCommand
     {
-        public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr)
+        public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
             Style lineSelStyle = new() { Color = Colors.Red };
 

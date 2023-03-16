@@ -11,7 +11,7 @@ namespace DegCAD.GeometryCommands
 {
     internal class ParallelLine : IGeometryCommand
     {
-        public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr)
+        public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
             Style lineSelStyle = new() { Color = Colors.Red };
 

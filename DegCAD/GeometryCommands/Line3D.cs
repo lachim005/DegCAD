@@ -10,7 +10,7 @@ namespace DegCAD.GeometryCommands
 {
     public class Line3D : IGeometryCommand
     {
-        public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr)
+        public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
             ParametricLine2 line1 = new();
             int line1Sign = 1;

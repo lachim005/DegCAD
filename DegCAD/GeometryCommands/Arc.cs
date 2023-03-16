@@ -11,7 +11,7 @@ namespace DegCAD.GeometryCommands
 {
     public class Arc : IGeometryCommand
     {
-        public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr)
+        public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
             //Defines some styles
             var blueStyle = new Style() { Color = Colors.Blue, LineStyle = 1 };
