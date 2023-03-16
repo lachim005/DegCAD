@@ -8,6 +8,7 @@
         mc:Ignorable="d"
         AllowDrop="True"
         Drop="WindowDrop"
+        Closing="WindowClosing"
         Title="DegCAD" Height="450" Width="800">
     <Window.CommandBindings>
         <CommandBinding Command="New"

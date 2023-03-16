@@ -19,25 +19,25 @@ namespace DegCAD
             if (ActiveEditor.LabelManager.MovingLabel) return false;
             return true;
         }
-        private void OpenSaveFileDialog()
+        private void OpenSaveFileDialog(Editor editor)
         {
-            if (ActiveEditor is null) return;
+            if (editor is null) return;
 
             SaveFileDialog sfd = new();
             sfd.Filter = "DegCAD projekt|*.dgproj|Všechny soubory|*.*";
-            sfd.FileName = ActiveEditor.FileName + ".dgproj";
+            sfd.FileName = editor.FileName + ".dgproj";
 
             if (sfd.ShowDialog() != true) return;
 
-            ActiveEditor.FolderPath = Path.GetDirectoryName(sfd.FileName);
-            ActiveEditor.FileName = Path.GetFileNameWithoutExtension(sfd.FileName);
+            editor.FolderPath = Path.GetDirectoryName(sfd.FileName);
+            editor.FileName = Path.GetFileNameWithoutExtension(sfd.FileName);
         }
-        private async void SaveEditorAsync()
+        private async void SaveEditorAsync(Editor editor)
         {
             await Task.Delay(1);
             try
             {
-                ActiveEditor?.SaveEditor();
+                editor?.SaveEditor();
             }
             catch (Exception ex)
             {
@@ -100,22 +100,22 @@ namespace DegCAD
         private void SaveCommand(object sender, ExecutedRoutedEventArgs e)
         {
             if (ActiveEditor is null) return;
-            if (ActiveEditor.FolderPath is null) OpenSaveFileDialog();
+            if (ActiveEditor.FolderPath is null) OpenSaveFileDialog(ActiveEditor);
 
             //User has canceled the save file dialog
             if (ActiveEditor.FolderPath is null) return;
 
-            SaveEditorAsync();
+            SaveEditorAsync(ActiveEditor);
         }
         private void SaveAsCommand(object sender, ExecutedRoutedEventArgs e)
         {
             if (ActiveEditor is null) return;
-            OpenSaveFileDialog();
+            OpenSaveFileDialog(ActiveEditor);
 
             //User has canceled the save file dialog
             if (ActiveEditor.FolderPath is null) return;
 
-            SaveEditorAsync();
+            SaveEditorAsync(ActiveEditor);
         }
         private void CloseCommand(object sender, ExecutedRoutedEventArgs e)
         {

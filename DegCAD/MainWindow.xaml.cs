@@ -88,5 +88,34 @@ namespace DegCAD
                 OpenFileAsync(file);
             }
         }
+
+        private void WindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            for (int i = 0; i < openEditors.Count; i++)
+            {
+                editorTabs.SelectedIndex = i;
+                var current = openEditors[i].Item1;
+                if (!current.Changed) continue;
+                var save = MessageBox.Show(
+                    this,
+                    $"Soubor {current.FileName} nebyl uložen. Chcete ho před ukončením uložit?",
+                    "DegCAD",
+                    MessageBoxButton.YesNoCancel,
+                    MessageBoxImage.Warning
+                    );
+                switch (save)
+                {
+                    case MessageBoxResult.Yes:
+                        if (current.FolderPath is null) OpenSaveFileDialog(current);
+                        SaveEditorAsync(current);
+                        break;
+                    case MessageBoxResult.No:
+                        continue;
+                    case MessageBoxResult.Cancel:
+                        e.Cancel = true;
+                        return;
+                }
+            }
+        }
     }
 }
