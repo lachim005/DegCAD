@@ -9,6 +9,15 @@
 	<AssemblyFileVersion>0.1.0</AssemblyFileVersion>
 	<AssemblyVersion>0.1.0</AssemblyVersion>
 	<Version>0.1.0</Version>
+	<ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebugType>embedded</DebugType>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <DebugType>embedded</DebugType>
   </PropertyGroup>
 
   <ItemGroup>
