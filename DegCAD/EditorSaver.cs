@@ -42,6 +42,7 @@ namespace DegCAD
             {
                 //Remove the temporary directory
                 Directory.Delete(tempDir, true);
+                editor.Changed = false;
             }
         }
 

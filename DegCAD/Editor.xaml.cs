@@ -27,6 +27,7 @@ namespace DegCAD
         private string _fileName;
         private string? _folderPath;
         private bool _executingCommand = false;
+        private bool _changed = false;
 
         public GeometryDrawer GeometryDrawer { get; protected set; }
         public GeometryInputManager InputMgr { get; protected set; }
@@ -34,7 +35,8 @@ namespace DegCAD
         public Snapper Snapper { get; protected set; }
         public LabelManager LabelManager { get; protected set; }
 
-        public bool ExecutingCommand {
+        public bool ExecutingCommand
+        {
             get => _executingCommand;
             private set
             {
@@ -59,6 +61,16 @@ namespace DegCAD
             {
                 _folderPath = value;
                 PropertyChanged?.Invoke(this, new(nameof(FolderPath)));
+            }
+        }
+
+        public bool Changed 
+        { 
+            get => _changed;
+            set
+            {
+                _changed = value;
+                PropertyChanged?.Invoke(this, new(nameof(Changed)));
             }
         }
 
@@ -95,6 +107,7 @@ namespace DegCAD
         public void TimelineChanged(object? sender, EventArgs e)
         {
             Redraw();
+            Changed = true;
         }
 
         public void Redraw()

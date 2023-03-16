@@ -57,6 +57,7 @@ namespace DegCAD
                 MessageBox.Show(ex.Message + "\n\n" + ex.InnerException?.Message, "Chyba při načítání souboru", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
+            ed.Changed = false;
             openEditors.Add(new(ed));
             editorTabs.SelectedIndex = openEditors.Count - 1;
         }
@@ -83,6 +84,7 @@ namespace DegCAD
             Editor ed = new($"Bez názvu {editorCounter}");
             ed.AddAxis();
             ed.styleSelector.AddDefaultColors();
+            ed.Changed = false;
             openEditors.Add(new(ed));
             editorTabs.SelectedIndex = openEditors.Count - 1;
             editorCounter++;
