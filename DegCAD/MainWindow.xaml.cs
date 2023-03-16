@@ -71,5 +71,22 @@ namespace DegCAD
 
             openEditors.Remove(ed);
         }
+
+        private void WindowDrop(object sender, DragEventArgs e)
+        {
+            if (!e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Handled = false;
+                return;
+            }
+            var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (files is null) return;
+            e.Handled = true;
+
+            foreach (var file in files)
+            {
+                OpenFileAsync(file);
+            }
+        }
     }
 }
