@@ -8,11 +8,11 @@
              d:DesignHeight="23" d:DesignWidth="800">
     <StatusBar Grid.Row="1" Grid.ColumnSpan="3">
         <StatusBarItem>
-            <TextBlock x:Name="cmdName" Visibility="Collapsed"/>
+            <TextBlock x:Name="cmdName" Text="Command name"/>
         </StatusBarItem>
-        <Separator/>
+        <Separator x:Name="cmdSeparator"/>
         <StatusBarItem>
-            <TextBlock x:Name="cmdHelp" Visibility="Collapsed"/>
+            <TextBlock x:Name="cmdHelp" Text="Command step description"/>
         </StatusBarItem>
     </StatusBar>
 </UserControl>

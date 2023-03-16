@@ -35,18 +35,21 @@ namespace DegCAD
         public EditorStatusBar()
         {
             InitializeComponent();
+            HideCommandStatus();
         }
 
         public void ShowCommandStatus()
         {
             cmdName.Visibility = Visibility.Visible;    
             cmdHelp.Visibility = Visibility.Visible;
+            cmdSeparator.Visibility = Visibility.Visible;
         }
 
         public void HideCommandStatus()
         {
             cmdName.Visibility = Visibility.Collapsed;
             cmdHelp.Visibility = Visibility.Collapsed;
+            cmdSeparator.Visibility = Visibility.Collapsed;
         }
     }
 }
