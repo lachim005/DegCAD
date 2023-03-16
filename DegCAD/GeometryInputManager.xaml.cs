@@ -19,7 +19,7 @@ namespace DegCAD
     /// <summary>
     /// Interaction logic for GeometryInputManager.xaml
     /// </summary>
-    public partial class GeometryInputManager : UserControl
+    public class GeometryInputManager
     {
         public ViewPort ViewPort { get; set; }
         public GeometryDrawer PreviewGd { get; set; }
@@ -31,7 +31,6 @@ namespace DegCAD
 
         public GeometryInputManager(ViewPort viewPort, Snapper snapper, StyleSelector styleSelector)
         {
-            InitializeComponent();
             PreviewGd = new(viewPort, true);
             ViewPort = viewPort;
             Snapper = snapper;
