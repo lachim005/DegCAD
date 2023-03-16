@@ -43,7 +43,7 @@ namespace DegCAD
             {
                 if (System.IO.File.Exists(args[1]))
                 {
-                    OpenFile(args[1]);
+                    OpenFileAsync(args[1]);
                 }
             }
 

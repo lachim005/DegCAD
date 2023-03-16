@@ -32,8 +32,9 @@ namespace DegCAD
             ActiveEditor.FolderPath = Path.GetDirectoryName(sfd.FileName);
             ActiveEditor.FileName = Path.GetFileNameWithoutExtension(sfd.FileName);
         }
-        private void SaveEditor()
+        private async void SaveEditorAsync()
         {
+            await Task.Delay(1);
             try
             {
                 ActiveEditor?.SaveEditor();
@@ -43,8 +44,9 @@ namespace DegCAD
                 MessageBox.Show(ex.Message + "\n\n" + ex.InnerException?.Message, "Chyba při ukládání souboru", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-        private void OpenFile(string path)
+        private async void OpenFileAsync(string path)
         {
+            await Task.Delay(1);
             Editor ed;
             try
             {
@@ -91,7 +93,7 @@ namespace DegCAD
             ofd.Filter = "DegCAD projekt|*.dgproj|Všechny soubory|*.*";
             if (ofd.ShowDialog() != true) return;
 
-            OpenFile(ofd.FileName);
+            OpenFileAsync(ofd.FileName);
         }
         private void SaveCommand(object sender, ExecutedRoutedEventArgs e)
         {
@@ -101,7 +103,7 @@ namespace DegCAD
             //User has canceled the save file dialog
             if (ActiveEditor.FolderPath is null) return;
 
-            SaveEditor();
+            SaveEditorAsync();
         }
         private void SaveAsCommand(object sender, ExecutedRoutedEventArgs e)
         {
@@ -111,7 +113,7 @@ namespace DegCAD
             //User has canceled the save file dialog
             if (ActiveEditor.FolderPath is null) return;
 
-            SaveEditor();
+            SaveEditorAsync();
         }
         private void CloseCommand(object sender, ExecutedRoutedEventArgs e)
         {
