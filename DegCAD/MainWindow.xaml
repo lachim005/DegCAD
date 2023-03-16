@@ -54,6 +54,21 @@
                 <TabControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
+                            <Canvas VerticalAlignment="Center" Margin="0, 0, 0, 0" Width="10" Height="5">
+                                <Ellipse Width="6" Height="6" Fill="Black" Canvas.Left="2"/>
+                                <Canvas.Style>
+                                    <Style>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Item1.Changed}" Value="True">
+                                                <Setter Property="Canvas.Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Item1.Changed}" Value="False">
+                                                <Setter Property="Canvas.Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Canvas.Style>
+                            </Canvas>
                             <TextBlock Text="{Binding Item1.FileName}" Margin="2, 0" VerticalAlignment="Center"/>
                             <Button Click="EditorTabCloseClick" BorderThickness="0" Background="Transparent" Padding="5">
                                 <Canvas Width="10" Height="10">
