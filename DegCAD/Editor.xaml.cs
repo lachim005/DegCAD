@@ -113,9 +113,13 @@ namespace DegCAD
         {
             Debug.WriteLine($"Executing command: {command}");
             ExecutingCommand = true;
+
             statusBar.ShowCommandStatus();
             var res = await command.ExecuteAsync(InputMgr.PreviewGd, InputMgr, statusBar);
             statusBar.HideCommandStatus();
+            statusBar.CommandName = "";
+            statusBar.CommandHelp = "";
+
             if (res is null)
                 return;
             Timeline.AddCommand(res);
