@@ -12,18 +12,22 @@ namespace DegCAD.GeometryCommands
     {
         public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
+            esb.CommandName = "Průměty přímky";
+
             ParametricLine2 line1 = new();
             int line1Sign = 1;
             ParametricLine2 line2 = new();
             int line2Sign = 1;
 
             //First projection
+            esb.CommandHelp = "Vyberte první bod prvního průmětu, pravým tlačítkem změníte průmětnu";
             (Vector2 pt1, bool plane) = await inputMgr.GetPointWithPlane((p, gd, plane) =>
             {
                 gd.DrawPlane(plane);
                 
                 gd.DrawPointCross(p, Style.Default);
             });
+            esb.CommandHelp = "Vyberte druhý bod prvního průmětu, pravým tlačítkem změníte průmětnu";
             (Vector2 pt2, plane) = await inputMgr.GetPointWithPlane((p, gd, plane) =>
             {
                 gd.DrawPlane(plane);
@@ -45,6 +49,7 @@ namespace DegCAD.GeometryCommands
             }, plane);
 
             //Second projection
+            esb.CommandHelp = "Vyberte první bod druhého průmětu";
             Vector2 pt3 = await inputMgr.GetPoint((p, gd) =>
             {
                 gd.DrawPlane(!plane);
@@ -55,6 +60,7 @@ namespace DegCAD.GeometryCommands
 
                 gd.DrawLine(line1, double.PositiveInfinity * line1Sign, line1.GetParamFromY(0), Style.Default);
             }, lines: new ParametricLine2[1] {line1});
+            esb.CommandHelp = "Vyberte druhý bod druhého průmětu";
             Vector2 pt4 = await inputMgr.GetPoint((p, gd) =>
             {
                 gd.DrawPlane(!plane);

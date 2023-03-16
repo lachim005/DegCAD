@@ -10,11 +10,15 @@ namespace DegCAD.GeometryCommands
     {
         public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
+            esb.CommandName = "Úsečka";
+
+            esb.CommandHelp = "Vyberte počáteční bod úsečky";
             var p1 = await inputMgr.GetPoint((p, gd) =>
             {
                 gd.DrawPointCross(p, Style.Default);
             });
 
+            esb.CommandHelp = "Vyberte koncový bod úsečky";
             var p2 = await inputMgr.GetPoint((p, gd) =>
             {
                 gd.DrawPointCross(p1, Style.Default);

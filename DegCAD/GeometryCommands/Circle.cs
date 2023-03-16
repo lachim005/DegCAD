@@ -10,11 +10,15 @@ namespace DegCAD.GeometryCommands
     {
         public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
+            esb.CommandName = "Kružnice";
+
+            esb.CommandHelp = "Vyberte střed kružnice";
             Vector2 center = await inputMgr.GetPoint((pt, gd) =>
             {
                 gd.DrawPointCross(pt, Style.Default);
             });
 
+            esb.CommandHelp = "Vyberte průměr kružnice";
             Vector2 pointOnCircle = await inputMgr.GetPoint((pt, gd) =>
             {
                 gd.DrawPointCross(center, Style.Default);

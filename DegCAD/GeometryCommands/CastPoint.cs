@@ -16,8 +16,10 @@ namespace DegCAD.GeometryCommands
             var blueStyle = new Style() { Color = Colors.Blue, LineStyle = 1 };
             var redStyle = new Style() { Color = Colors.Red };
             var greenStyle = new Style() { Color = Colors.Green };
+            esb.CommandName = "Sklopit bod";
 
             //Get point to cast
+            esb.CommandHelp = "Vyberte bod, který chcete sklopit";
             var point = await inputMgr.GetPoint((pt, gd) =>
             {
                 gd.DrawPointCross(pt, Style.Default);
@@ -27,6 +29,7 @@ namespace DegCAD.GeometryCommands
             var secondProjectionLine = new ParametricLine2(point, (1, 0));
 
             //Get the second projection of the point
+            esb.CommandHelp = "Vyberte druhý průmět bodu, který chcete sklopit";
             var secondProjection = await inputMgr.GetPoint((pt, gd) =>
             {
                 gd.DrawPointCross(point, Style.Default);
@@ -40,6 +43,7 @@ namespace DegCAD.GeometryCommands
             });
 
             //Get the direction
+            esb.CommandHelp = "Vyberte směr, kterým chcete bod sklopit, pravým tlačítkem přepnete kolmý směr";
             (var dirPoint, var perpendicular) = await inputMgr.GetPointWithPlane((pt, gd, perp) =>
             {
                 gd.DrawLine(secondProjectionLine, double.NegativeInfinity, double.PositiveInfinity, redStyle);
@@ -86,6 +90,7 @@ namespace DegCAD.GeometryCommands
             mItems.Add(mPoint);
 
             //Label
+            esb.CommandHelp = "Zadejte název sklopeného bodu";
             LabelInput lid = new();
             lid.ShowDialog();
             if (!lid.Canceled)

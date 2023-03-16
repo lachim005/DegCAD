@@ -20,7 +20,9 @@ namespace DegCAD.GeometryCommands
         {
             Style previewStyle = new() { Color = Color.FromRgb(0, 0, 255), LineStyle = 1 };
             ParametricLine2 xLine = new((0, 0), (0, 1));
+            esb.CommandName = "Průmety bodu";
 
+            esb.CommandHelp = "Vyberte první průmět bodu, pravým tlačítkem myši změníte průmětnu";
             (p1, firstPlane) = await inputMgr.GetPointWithPlane((p, gd, pl) =>
             {
                 gd.DrawPlane(pl);
@@ -31,6 +33,7 @@ namespace DegCAD.GeometryCommands
                 gd.DrawPointCross(p, Style.Default);
             });
 
+            esb.CommandHelp = "Vyberte druhý průmět bodu";
             p2 = await inputMgr.GetPoint((p, gd) =>
             {
                 gd.DrawPlane(!firstPlane);
@@ -61,6 +64,7 @@ namespace DegCAD.GeometryCommands
             List<IMongeItem> mongeItems = new(3);
             mongeItems.AddRange(mpoints);
 
+            esb.CommandHelp = "Zadejte název bodu";
             //Shows the dialog to input the point name
             var lid = new LabelInput();
             lid.subscriptTbx.IsEnabled = false;

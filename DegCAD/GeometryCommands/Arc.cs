@@ -16,12 +16,15 @@ namespace DegCAD.GeometryCommands
             //Defines some styles
             var blueStyle = new Style() { Color = Colors.Blue, LineStyle = 1 };
             var redStyle = new Style() { Color = Colors.Red };
+            esb.CommandName = "Oblouk";
 
+            esb.CommandHelp = "Vyberte střed kružnice, na které bude oblouk ležet";
             Vector2 center = await inputMgr.GetPoint((pt, gd) =>
             {
                 gd.DrawPointCross(pt, Style.Default);
             });
 
+            esb.CommandHelp = "Vyberte průměr kružnice, na které bude oblouk ležet";
             Vector2 radiusPoint = await inputMgr.GetPoint((pt, gd) =>
             {
                 gd.DrawPointCross(center, Style.Default);
@@ -33,6 +36,7 @@ namespace DegCAD.GeometryCommands
 
             Vector2 startPoint = (0,0);
 
+            esb.CommandHelp = "Vyberte počáteční bod oblouku";
             Vector2 pt1 = await inputMgr.GetPoint((pt, gd) =>
             {
                 gd.DrawPointCross(center, Style.Default);
@@ -55,6 +59,7 @@ namespace DegCAD.GeometryCommands
 
             double endAngle = 0;
 
+            esb.CommandHelp = "Vyberte koncový bod oblouku, pravým tlačítkem myši změníte směr oblouku";
             (var pt2, var swap) = await inputMgr.GetPointWithPlane((pt, gd, swap) =>
             {
                 gd.DrawPointCross(center, Style.Default);

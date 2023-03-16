@@ -13,16 +13,20 @@ namespace DegCAD.GeometryCommands
     {
         public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
+            esb.CommandName = "Přenést vzdálenost";
+
             //Defines some styles
             var blueStyle = new Style() { Color = Colors.Blue, LineStyle = 1 };
             var redStyle = new Style() { Color = Colors.Red };
             var greenStyle = new Style() { Color = Colors.YellowGreen };
 
+            esb.CommandHelp = "Vyberte první bod vzdálenosti, kterou chcete přenést";
             Vector2 pt1 = await inputMgr.GetPoint((pt, gd) =>
             {
                 gd.DrawPointCross(pt, Style.Default);
             });
 
+            esb.CommandHelp = "Vyberte druhý bod vzdálenosti, kterou chcete přenést";
             Vector2 pt2 = await inputMgr.GetPoint((pt, gd) =>
             {
                 gd.DrawPointCross(pt1, Style.Default);
@@ -34,6 +38,7 @@ namespace DegCAD.GeometryCommands
 
             var distance = pt2 - pt1;
 
+            esb.CommandHelp = "Vyberte bod, ze kterého chcete vzdálenost vynést";
             Vector2 pt3 = await inputMgr.GetPoint((pt, gd) =>
             {
                 gd.DrawPointCross(pt1, Style.Default);
@@ -47,6 +52,7 @@ namespace DegCAD.GeometryCommands
 
             var circle = new Circle2(pt3, distance.Length);
 
+            esb.CommandHelp = "Vyberte směr, kterým chcete vzdálenost vynést";
             Vector2 pt4 = await inputMgr.GetPoint((pt, gd) =>
             {
                 gd.DrawPointCross(pt1, Style.Default);
@@ -71,6 +77,7 @@ namespace DegCAD.GeometryCommands
                 new DrawableItems.Point(ptOnCircle.X, ptOnCircle.Y, curStyle)
             };
             //Label
+            esb.CommandHelp = "Zadejte název bodu";
             LabelInput lid = new();
             lid.ShowDialog();
             if (!lid.Canceled)

@@ -13,6 +13,9 @@ namespace DegCAD.GeometryCommands
     {
         public Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
+            esb.CommandName = "Vynést body";
+            esb.CommandHelp = "Zadejte souřadnice a názvy bodů, které chcete vynést";
+
             //The dialog is used to enter the point coordinates
             var dialog = new PointCoordinateInputDialog();
             dialog.ShowDialog();

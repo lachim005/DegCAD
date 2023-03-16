@@ -13,8 +13,10 @@ namespace DegCAD.GeometryCommands
     {
         public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
+            esb.CommandName = "Rovnoběžka";
             Style lineSelStyle = new() { Color = Colors.Red };
 
+            esb.CommandHelp = "Vyberte přímku, ke které chcete sestrojit rovnoběžku";
             ParametricLine2 line = await inputMgr.GetLine((p, l, gd) =>
             {
                 if (l is not null)
@@ -23,6 +25,7 @@ namespace DegCAD.GeometryCommands
                 }
             });
 
+            esb.CommandHelp = "Vyberte bod, kterým bude rovnoběžka procházet, pravým tlačítkem myši změníte průmětnu";
             (Vector2 point, bool plane) = await inputMgr.GetPointWithPlane((pt, gd, plane) =>
             {
                 gd.DrawPlane(plane);

@@ -12,12 +12,15 @@ namespace DegCAD.GeometryCommands
     {
         public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
+            esb.CommandName = "Střed";
             Style redStyle = new() { Color = Colors.Red };
 
+            esb.CommandHelp = "Vyberte první bod";
             Vector2 pt1 = await inputMgr.GetPoint((pt, gd) =>
             {
                 gd.DrawPointCross(pt, Style.Default);
             });
+            esb.CommandHelp = "Vyberte druhý bod";
             Vector2 pt2 = await inputMgr.GetPoint((pt, gd) =>
             {
                 gd.DrawPointCross(pt1, Style.Default);
@@ -35,6 +38,7 @@ namespace DegCAD.GeometryCommands
                 new DrawableItems.Point(middle.X, middle.Y, curStyle)
             };
             //Label
+            esb.CommandHelp = "Zadejte název bodu";
             LabelInput lid = new();
             lid.ShowDialog();
             if (!lid.Canceled)
