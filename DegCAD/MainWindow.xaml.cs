@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -116,6 +117,27 @@ namespace DegCAD
                         return;
                 }
             }
+        }
+
+        private void StartTabReorderDrag(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is not FrameworkElement f) return;
+            DragDrop.DoDragDrop(f, f.DataContext, DragDropEffects.Move);
+        }
+        private void TabDrop(object sender, DragEventArgs e)
+        {
+            //Gets the dragged and dropped tab
+            var dragTab = e.Data.GetData(typeof(Tuple<Editor>)) as Tuple<Editor>;
+            if (dragTab is null) return;
+            if ((sender as FrameworkElement)?.DataContext is not Tuple<Editor> dropTab) return;
+
+            int dragIndex = openEditors.IndexOf(dragTab);
+            int dropIndex = openEditors.IndexOf(dropTab);
+            if (dragIndex == -1 || dropIndex == -1) return;
+            if (dragIndex == dropIndex) return;
+
+            openEditors.Move(dragIndex, dropIndex);
+            editorTabs.SelectedIndex = dropIndex;
         }
     }
 }

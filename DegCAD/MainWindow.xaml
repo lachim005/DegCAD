@@ -54,7 +54,7 @@
             <TabControl x:Name="editorTabs" TabStripPlacement="Bottom" SelectionChanged="TabSwitched" Padding="0">
                 <TabControl.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
+                        <StackPanel Orientation="Horizontal" Drop="TabDrop" PreviewDragOver="TabDrop" AllowDrop="True">
                             <Canvas VerticalAlignment="Center" Margin="0, 0, 0, 0" Width="10" Height="5">
                                 <Ellipse Width="6" Height="6" Fill="Black" Canvas.Left="2"/>
                                 <Canvas.Style>
@@ -70,7 +70,7 @@
                                     </Style>
                                 </Canvas.Style>
                             </Canvas>
-                            <TextBlock Text="{Binding Item1.FileName}" Margin="2, 0" VerticalAlignment="Center"/>
+                            <TextBlock Text="{Binding Item1.FileName}" Margin="2, 0" VerticalAlignment="Center" PreviewMouseLeftButtonDown="StartTabReorderDrag"/>
                             <Button Click="EditorTabCloseClick" BorderThickness="0" Background="Transparent" Padding="5">
                                 <Canvas Width="10" Height="10">
                                     <Line X1="0" Y1="0" X2="10" Y2="10" Stroke="Black" StrokeThickness="1"/>
