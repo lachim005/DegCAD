@@ -54,7 +54,7 @@
             <TabControl x:Name="editorTabs" TabStripPlacement="Bottom" SelectionChanged="TabSwitched" Padding="0">
                 <TabControl.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal" Drop="TabDrop" PreviewDragOver="TabDrop" AllowDrop="True">
+                        <StackPanel Orientation="Horizontal" Drop="TabDrop" PreviewDragOver="TabDrop" AllowDrop="True" MouseDown="StackPanel_MouseDown">
                             <Canvas VerticalAlignment="Center" Margin="0, 0, 0, 0" Width="10" Height="5">
                                 <Ellipse Width="6" Height="6" Fill="Black" Canvas.Left="2"/>
                                 <Canvas.Style>

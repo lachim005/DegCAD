@@ -139,5 +139,15 @@ namespace DegCAD
             openEditors.Move(dragIndex, dropIndex);
             editorTabs.SelectedIndex = dropIndex;
         }
+
+        private void StackPanel_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is not FrameworkElement f) return;
+            if (f.DataContext is not Tuple<Editor> tab) return;
+            if (e.ChangedButton == MouseButton.Middle)
+            {
+                openEditors.Remove(tab);
+            }
+        }
     }
 }
