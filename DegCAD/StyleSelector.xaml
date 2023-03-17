@@ -10,15 +10,15 @@
         <Label Content="Výběr stylu"/>
         <GroupBox Header="Typ čáry" Padding="10">
             <StackPanel>
-                <RadioButton x:Name="lineType1"  GroupName="lineType" IsChecked="True">
-                    <Line X1="0" Y1="8" X2="200" Y2="8" Stroke="Black" StrokeThickness="1" VerticalAlignment="Center"/>
-                </RadioButton>
-                <RadioButton x:Name="lineType2" GroupName="lineType">
-                    <Line X1="0" Y1="8" X2="200" Y2="8" Stroke="Black" StrokeThickness="1" StrokeDashArray="8, 8" VerticalAlignment="Center"/>
-                </RadioButton>
-                <RadioButton x:Name="lineType3" GroupName="lineType">
-                    <Line X1="0" Y1="8" X2="200" Y2="8" Stroke="Black" StrokeThickness="1" StrokeDashArray="8, 8, 1, 8" VerticalAlignment="Center"/>
-                </RadioButton>
+                <Button x:Name="lineType1" Height="25" Click="LineTypeBtnClick" Tag="0" IsEnabled="False">
+                    <Line X1="0" Y1="0" X2="200" Y2="0" Stroke="Black" StrokeThickness="1" VerticalAlignment="Center"/>
+                </Button>
+                <Button x:Name="lineType2" Height="25" Click="LineTypeBtnClick" Tag="1">
+                    <Line X1="0" Y1="0" X2="200" Y2="0" Stroke="Black" StrokeThickness="1" StrokeDashArray="8, 8" VerticalAlignment="Center"/>
+                </Button>
+                <Button x:Name="lineType3" Height="25" Click="LineTypeBtnClick" Tag="2">
+                    <Line X1="0" Y1="0" X2="200" Y2="0" Stroke="Black" StrokeThickness="1" StrokeDashArray="8, 8, 1, 8" VerticalAlignment="Center"/>
+                </Button>
             </StackPanel>
         </GroupBox>
         <GroupBox Header="Barva" Padding="10">

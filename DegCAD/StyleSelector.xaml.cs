@@ -27,7 +27,7 @@ namespace DegCAD
             get => new()
             {
                 Color = CurrentColor,
-                LineStyle = GetSelectedLineType()
+                LineStyle = SelectedLineType
             };
         }
 
@@ -40,6 +40,8 @@ namespace DegCAD
                 currentColorDisplay.Background = new SolidColorBrush(value);
             }
         }
+
+        public int SelectedLineType { get; private set; }
 
         public List<Color> ColorPalette { get; init; } = new();
 
@@ -64,16 +66,6 @@ namespace DegCAD
             ColorPalette.Add(Color.FromRgb(134, 31, 186));
             ColorPalette.Add(Color.FromRgb(229, 68, 229));
             UpdateColorPalette();
-        }
-
-        public int GetSelectedLineType()
-        {
-            //Dash
-            if (lineType2.IsChecked == true) return 1;
-            //Dotdash
-            if (lineType3.IsChecked == true) return 2;
-            //Solid
-            return 0;
         }
 
         public void UpdateColorPalette()
@@ -103,6 +95,26 @@ namespace DegCAD
         {
             Dialogs.EditColorsDialog.EditColors(ColorPalette);
             UpdateColorPalette();
+        }
+
+        private void LineTypeBtnClick(object sender, RoutedEventArgs e)
+        {
+            lineType1.IsEnabled = true;
+            lineType2.IsEnabled = true;
+            lineType3.IsEnabled = true;
+            if (sender == lineType2)
+            {
+                SelectedLineType = 1;
+                lineType2.IsEnabled = false;
+            } else if (sender  == lineType3)
+            {
+                SelectedLineType = 2;
+                lineType3.IsEnabled = false;
+            } else
+            {
+                SelectedLineType = 0;
+                lineType1.IsEnabled = false;
+            }
         }
     }
 }
