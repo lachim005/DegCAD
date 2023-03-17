@@ -1,0 +1,63 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Canvas x:Key="cmdPointIcon">
+
+    </Canvas>
+    <Canvas x:Key="cmdPointProjectionsIcon">
+        
+    </Canvas>
+    <Canvas x:Key="cmdPointAddProjectionIcon">
+        
+    </Canvas>
+    <Canvas x:Key="cmdPointInputIcon">
+
+    </Canvas>
+    <Canvas x:Key="cmdMiddleIcon">
+
+    </Canvas>
+    <Canvas x:Key="cmdLineProjectionIcon">
+
+    </Canvas>
+    <Canvas x:Key="cmdLineProjectionsIcon">
+
+    </Canvas>
+    <Canvas x:Key="cmdPerpendicularLineIcon">
+
+    </Canvas>
+    <Canvas x:Key="cmdParallelLineIcon">
+
+    </Canvas>
+    <Canvas x:Key="cmdSegmentIcon">
+
+    </Canvas>
+    <Canvas x:Key="cmdSegmentOnLineIcon">
+
+    </Canvas>
+    <Canvas x:Key="cmdPerpendicularSegmentIcon">
+
+    </Canvas>
+    <Canvas x:Key="cmdParallelSegmentIcon">
+
+    </Canvas>
+    <Canvas x:Key="cmdCircleIcon">
+
+    </Canvas>
+    <Canvas x:Key="cmdArcIcon">
+
+    </Canvas>
+    <Canvas x:Key="cmdEllipseIcon">
+
+    </Canvas>
+    <Canvas x:Key="cmdParabolaIcon">
+
+    </Canvas>
+    <Canvas x:Key="cmdHyperbolaIcon">
+
+    </Canvas>
+    <Canvas x:Key="cmdTranslateSizeIcon">
+
+    </Canvas>
+    <Canvas x:Key="cmdCastPointIcon">
+
+    </Canvas>
+</ResourceDictionary>
