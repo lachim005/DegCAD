@@ -65,7 +65,21 @@ namespace DegCAD
             mw?.CommandBindings.Add(new(rcmd, cmd.ExecuteHandler, mw.CanExecuteEditorCommand));
 
             //Adds a button for every command to the toolbar
-            cmdButtons.Children.Add(new Button() { Content = cmd.Name, ToolTip = cmd.Description, Command=rcmd });
+            StackPanel stp = new();
+            if (cmd.IconName is not null)
+                stp.Children.Add(new ContentControl()
+                {
+                    Content = FindResource(cmd.IconName),
+                    Width = 60,
+                    Height = 60
+                });
+            stp.Children.Add(new TextBlock() { 
+                Text = cmd.Name, 
+                TextWrapping = TextWrapping.Wrap,
+                TextAlignment = TextAlignment.Center,
+            });
+            Button cmdButton = new() { Width = 70, Content = stp };
+            cmdButtons.Children.Add(cmdButton);
         }
     }
 }

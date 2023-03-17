@@ -19,16 +19,17 @@ namespace DegCAD
         public Key Key { get; set; }
         public ModifierKeys ModifierKey { get; set; }
         public ExecutedRoutedEventHandler ExecuteHandler { get; set; }
+        public string? IconName { get; set; }
 
 
-
-        public GeometryCommandData(string name, string description, Key key, ModifierKeys modifierKey, ExecutedRoutedEventHandler executeHandler)
+        public GeometryCommandData(string name, string description, Key key, ModifierKeys modifierKey, ExecutedRoutedEventHandler executeHandler, string? iconName = null)
         {
             Name = name;
             Description = description;
             Key = key;
             ModifierKey = modifierKey;
             ExecuteHandler = executeHandler;
+            IconName = iconName;
         }
     }
 }
