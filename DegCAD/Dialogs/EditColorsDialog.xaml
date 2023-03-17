@@ -21,7 +21,7 @@
             <ItemsControl x:Name="colorsList" Background="White">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid Height="30" Margin="5" AllowDrop="True" Background="Transparent" Drop="ColorDrop">
+                        <Grid Height="30" Margin="5" AllowDrop="True" Background="Transparent" PreviewDragOver="ColorDrop" Drop="ColorDrop">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="30"/>
                                 <ColumnDefinition/>
