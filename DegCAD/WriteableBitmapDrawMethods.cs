@@ -65,11 +65,11 @@ namespace DegCAD
 
             int colorNumber = -0x1000000 | (color.R << 16) | (color.G << 8) | color.B;
 
-            unsafe void SetPixel(int x, int y)
+            unsafe void SetPixel(int x, int y, bool draw)
             {
                 if (x < 0 || y < 0 || x >= bitmap.Width || y >= bitmap.Height)
                     return;
-                context.Pixels[x + context.Width * y] = colorNumber;
+                context.Pixels[x + context.Width * y] = draw ? colorNumber : 0;
             }
 
             while (x >= y)
@@ -80,17 +80,16 @@ namespace DegCAD
                     dashCounter = 0;
                     draw = !draw;
                 }
-                if (draw)
-                {
-                    SetPixel((int)center.X + x, (int)center.Y + y);
-                    SetPixel((int)center.X - x, (int)center.Y + y);
-                    SetPixel((int)center.X + x, (int)center.Y - y);
-                    SetPixel((int)center.X - x, (int)center.Y - y);
-                    SetPixel((int)center.X + y, (int)center.Y + x);
-                    SetPixel((int)center.X - y, (int)center.Y + x);
-                    SetPixel((int)center.X + y, (int)center.Y - x);
-                    SetPixel((int)center.X - y, (int)center.Y - x);
-                }
+
+                SetPixel((int)center.X + x, (int)center.Y + y, draw);
+                SetPixel((int)center.X - x, (int)center.Y + y, draw);
+                SetPixel((int)center.X + x, (int)center.Y - y, draw);
+                SetPixel((int)center.X - x, (int)center.Y - y, draw);
+                SetPixel((int)center.X + y, (int)center.Y + x, draw);
+                SetPixel((int)center.X - y, (int)center.Y + x, draw);
+                SetPixel((int)center.X + y, (int)center.Y - x, draw);
+                SetPixel((int)center.X - y, (int)center.Y - x, draw);
+
                 y++;
                 if (decisionOver2 <= 0)
                 {
@@ -117,11 +116,11 @@ namespace DegCAD
 
             int ColorNumber = -0x1000000 | (color.R << 16) | (color.G << 8) | color.B;
 
-            unsafe void SetPixel(int x, int y)
+            unsafe void SetPixel(int x, int y, bool draw)
             {
                 if (x < 0 || y < 0 || x >= bitmap.Width || y >= bitmap.Height)
                     return;
-                context.Pixels[x + context.Width * y] = ColorNumber;
+                context.Pixels[x + context.Width * y] = draw ? ColorNumber : 0;
             }
 
             while (x >= y)
@@ -132,17 +131,16 @@ namespace DegCAD
                     dashCounter = 0;
                     draw = !draw;
                 }
-                if (draw || dashCounter == dashLength / 2)
-                {
-                    SetPixel((int)center.X + x, (int)center.Y + y);
-                    SetPixel((int)center.X - x, (int)center.Y + y);
-                    SetPixel((int)center.X + x, (int)center.Y - y);
-                    SetPixel((int)center.X - x, (int)center.Y - y);
-                    SetPixel((int)center.X + y, (int)center.Y + x);
-                    SetPixel((int)center.X - y, (int)center.Y + x);
-                    SetPixel((int)center.X + y, (int)center.Y - x);
-                    SetPixel((int)center.X - y, (int)center.Y - x);
-                }
+                bool shouldDraw = draw || dashCounter == dashLength / 2;
+                SetPixel((int)center.X + x, (int)center.Y + y, shouldDraw);
+                SetPixel((int)center.X - x, (int)center.Y + y, shouldDraw);
+                SetPixel((int)center.X + x, (int)center.Y - y, shouldDraw);
+                SetPixel((int)center.X - x, (int)center.Y - y, shouldDraw);
+                SetPixel((int)center.X + y, (int)center.Y + x, shouldDraw);
+                SetPixel((int)center.X - y, (int)center.Y + x, shouldDraw);
+                SetPixel((int)center.X + y, (int)center.Y - x, shouldDraw);
+                SetPixel((int)center.X - y, (int)center.Y - x, shouldDraw);
+                
                 y++;
                 if (decisionOver2 <= 0)
                 {
@@ -241,7 +239,7 @@ namespace DegCAD
             int colorNumber = -0x1000000 | (color.R << 16) | (color.G << 8) | color.B;
 
 
-            unsafe void SetPixel(int x, int y)
+            unsafe void SetPixel(int x, int y, bool draw)
             {
                 //Checks if the pixel is inside of the canvas
                 if (x < 0 || y < 0 || x >= bitmap.Width || y >= bitmap.Height)
@@ -261,7 +259,7 @@ namespace DegCAD
                 if (angle > endAngle) return;
 
                 //Draws the pixel
-                context.Pixels[x + context.Width * y] = colorNumber;
+                context.Pixels[x + context.Width * y] = draw ? colorNumber : 0;
             }
 
             //Bresenham's algorithm
@@ -274,17 +272,15 @@ namespace DegCAD
                     draw = !draw;
                 }
 
-                if (draw)
-                {
-                    SetPixel((int)center.X + x, (int)center.Y + y);
-                    SetPixel((int)center.X - x, (int)center.Y + y);
-                    SetPixel((int)center.X + x, (int)center.Y - y);
-                    SetPixel((int)center.X - x, (int)center.Y - y);
-                    SetPixel((int)center.X + y, (int)center.Y + x);
-                    SetPixel((int)center.X - y, (int)center.Y + x);
-                    SetPixel((int)center.X + y, (int)center.Y - x);
-                    SetPixel((int)center.X - y, (int)center.Y - x); 
-                }
+                SetPixel((int)center.X + x, (int)center.Y + y, draw);
+                SetPixel((int)center.X - x, (int)center.Y + y, draw);
+                SetPixel((int)center.X + x, (int)center.Y - y, draw);
+                SetPixel((int)center.X - x, (int)center.Y - y, draw);
+                SetPixel((int)center.X + y, (int)center.Y + x, draw);
+                SetPixel((int)center.X - y, (int)center.Y + x, draw);
+                SetPixel((int)center.X + y, (int)center.Y - x, draw);
+                SetPixel((int)center.X - y, (int)center.Y - x, draw); 
+                
 
                 y++;
                 if (decisionOver2 <= 0)
@@ -318,7 +314,7 @@ namespace DegCAD
             int colorNumber = -0x1000000 | (color.R << 16) | (color.G << 8) | color.B;
 
 
-            unsafe void SetPixel(int x, int y)
+            unsafe void SetPixel(int x, int y, bool draw)
             {
                 //Checks if the pixel is inside of the canvas
                 if (x < 0 || y < 0 || x >= bitmap.Width || y >= bitmap.Height)
@@ -338,7 +334,7 @@ namespace DegCAD
                 if (angle > endAngle) return;
 
                 //Draws the pixel
-                context.Pixels[x + context.Width * y] = colorNumber;
+                context.Pixels[x + context.Width * y] = draw ? colorNumber : 0;
             }
 
             //Bresenham's algorithm
@@ -351,17 +347,16 @@ namespace DegCAD
                     draw = !draw;
                 }
 
-                if (draw || dashCounter == dashLength / 2)
-                {
-                    SetPixel((int)center.X + x, (int)center.Y + y);
-                    SetPixel((int)center.X - x, (int)center.Y + y);
-                    SetPixel((int)center.X + x, (int)center.Y - y);
-                    SetPixel((int)center.X - x, (int)center.Y - y);
-                    SetPixel((int)center.X + y, (int)center.Y + x);
-                    SetPixel((int)center.X - y, (int)center.Y + x);
-                    SetPixel((int)center.X + y, (int)center.Y - x);
-                    SetPixel((int)center.X - y, (int)center.Y - x); 
-                }
+               bool shouldDraw = draw || dashCounter == dashLength / 2;
+               SetPixel((int)center.X + x, (int)center.Y + y, shouldDraw);
+               SetPixel((int)center.X - x, (int)center.Y + y, shouldDraw);
+               SetPixel((int)center.X + x, (int)center.Y - y, shouldDraw);
+               SetPixel((int)center.X - x, (int)center.Y - y, shouldDraw);
+               SetPixel((int)center.X + y, (int)center.Y + x, shouldDraw);
+               SetPixel((int)center.X - y, (int)center.Y + x, shouldDraw);
+               SetPixel((int)center.X + y, (int)center.Y - x, shouldDraw);
+               SetPixel((int)center.X - y, (int)center.Y - x, shouldDraw); 
+                
 
                 y++;
                 if (decisionOver2 <= 0)
@@ -423,11 +418,11 @@ namespace DegCAD
 
             int colorNumber = -0x1000000 | (color.R << 16) | (color.G << 8) | color.B;
 
-            unsafe void SetPixel(int x, int y)
+            unsafe void SetPixel(int x, int y, bool draw)
             {
                 if (x < 0 || y < 0 || x >= bitmap.Width || y >= bitmap.Height)
                     return;
-                context.Pixels[x + context.Width * y] = colorNumber;
+                context.Pixels[x + context.Width * y] = draw ? colorNumber : 0;
             }
 
             //Prepare values for Bresenham's algorithm
@@ -446,8 +441,9 @@ namespace DegCAD
                     dashCounter = 0;
                     draw = !draw;
                 }
-                if (draw)
-                    SetPixel(x0, y0);
+                
+                SetPixel(x0, y0, draw);
+
                 if (x0 == x1 && y0 == y1) break;
                 int e2 = 2 * error;
                 if (e2 >= dy)
@@ -472,11 +468,11 @@ namespace DegCAD
 
             int colorNumber = -0x1000000 | (color.R << 16) | (color.G << 8) | color.B;
 
-            unsafe void SetPixel(int x, int y)
+            unsafe void SetPixel(int x, int y, bool draw)
             {
                 if (x < 0 || y < 0 || x >= bitmap.Width || y >= bitmap.Height)
                     return;
-                context.Pixels[x + context.Width * y] = colorNumber;
+                context.Pixels[x + context.Width * y] = draw ? colorNumber : 0;
             }
 
             //Prepare values for Bresenham's algorithm
@@ -496,8 +492,8 @@ namespace DegCAD
                     draw = !draw;
                 }
 
-                if (draw || dashCounter == dashLength / 2)
-                    SetPixel(x0, y0);
+                SetPixel(x0, y0, draw || dashCounter == dashLength / 2);
+
                 if (x0 == x1 && y0 == y1) break;
                 int e2 = 2 * error;
                 if (e2 >= dy)
