@@ -13,7 +13,15 @@
         <Line X1="30" Y1="40" X2="30" Y2="50" Stroke="Red"/>
     </Canvas>
     <Canvas x:Key="cmdPointAddProjectionIcon">
-        
+        <Line X1="10" Y1="30" X2="27" Y2="30" Stroke="Gray"/>
+        <Line X1="33" Y1="30" X2="50" Y2="30" Stroke="Gray"/>
+        <Line X1="25" Y1="15" X2="35" Y2="15" Stroke="Red"/>
+        <Line X1="30" Y1="10" X2="30" Y2="20" Stroke="Red"/>
+        <Line X1="25" Y1="45" X2="35" Y2="45" Stroke="Black"/>
+        <Line X1="30" Y1="40" X2="30" Y2="50" Stroke="Black"/>
+        <Line X1="30" Y1="37" X2="30" Y2="22" Stroke="Red"/>
+        <Line X1="30" Y1="22" X2="27" Y2="28" Stroke="Red"/>
+        <Line X1="30" Y1="22" X2="33" Y2="28" Stroke="Red"/>
     </Canvas>
     <Canvas x:Key="cmdPointInputIcon">
         <TextBlock Text="A[x,y,z]" FontSize="16" Canvas.Top="8" Canvas.Left="6" Foreground="Black"/>

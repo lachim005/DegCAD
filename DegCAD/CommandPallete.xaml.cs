@@ -39,6 +39,7 @@ namespace DegCAD
 
             AddCommand(new("Bod", "Umístí do projektu pojmenovaný bod", Key.None, ModifierKeys.None, (_, _) => executeCommand(new Point2D()), "cmdPointIcon"));
             AddCommand(new("Průměty bodu", "Umístí do půdorysny a nárysny průměty bodu", Key.B, ModifierKeys.Control, (_, _) => executeCommand(new Point3D()), "cmdPointProjectionsIcon"));
+            AddCommand(new("Doplnit průmět", "Doplní k průmětu bodu průmět v druhé průmětně", Key.None, ModifierKeys.None, (_, _) => executeCommand(new AddPointProjection()), "cmdPointAddProjectionIcon"));
             AddCommand(new("Střed", "Střed mezi dvěma body", Key.S, ModifierKeys.Control, (_, _) => executeCommand(new Middle()), "cmdMiddleIcon"));
             AddCommand(new("Vynést body", "Umístí body podle zadaných souřadnic", Key.B, ModifierKeys.Control | ModifierKeys.Shift, (_, _) => executeCommand(new PointCoordInput()), "cmdPointInputIcon"));
             AddSeparator();
