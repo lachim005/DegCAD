@@ -78,7 +78,7 @@ namespace DegCAD
                 TextWrapping = TextWrapping.Wrap,
                 TextAlignment = TextAlignment.Center,
             });
-            Button cmdButton = new() { Width = 70, Content = stp };
+            Button cmdButton = new() { Width = 70, Content = stp, Command = rcmd };
             cmdButtons.Children.Add(cmdButton);
         }
     }
