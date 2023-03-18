@@ -14,8 +14,8 @@
         
     </Canvas>
     <Canvas x:Key="cmdPointInputIcon">
-        <TextBlock Text="A[x,y,z]" FontSize="16" Canvas.Top="0" Canvas.Left="5" Foreground="Black"/>
-        <TextBlock Text="B[x,y,z]" FontSize="16" Canvas.Top="20" Canvas.Left="5" Foreground="Black"/>
+        <TextBlock Text="A[x,y,z]" FontSize="16" Canvas.Top="8" Canvas.Left="6" Foreground="Black"/>
+        <TextBlock Text="B[x,y,z]" FontSize="16" Canvas.Top="28" Canvas.Left="6" Foreground="Black"/>
     </Canvas>
     <Canvas x:Key="cmdMiddleIcon">
         <Line X1="5" Y1="20" X2="15" Y2="20" Stroke="Black"/>
