@@ -7,6 +7,7 @@
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary x:Name="cmdIcons" Source="Assets/CommandIcons.xaml"/>
+                <ResourceDictionary x:Name="AppStyles" Source="Assets/AppStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
