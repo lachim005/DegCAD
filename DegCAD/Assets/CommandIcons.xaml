@@ -1,7 +1,9 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Canvas x:Key="cmdPointIcon">
-
+        <Line X1="20" Y1="30" X2="40" Y2="30" Stroke="Red"/>
+        <Line X1="30" Y1="20" X2="30" Y2="40" Stroke="Red"/>
+        <TextBlock Text="A" Foreground="Red" FontSize="16" Canvas.Left="35" Canvas.Top="32"/>
     </Canvas>
     <Canvas x:Key="cmdPointProjectionsIcon">
         <Line X1="10" Y1="30" X2="50" Y2="30" Stroke="Gray"/>
