@@ -129,6 +129,7 @@ namespace DegCAD
 
             statusBar.ShowCommandStatus();
             var res = await command.ExecuteAsync(InputMgr.PreviewGd, InputMgr, statusBar);
+            ExecutingCommand = false;
             statusBar.HideCommandStatus();
             statusBar.CommandName = "";
             statusBar.CommandHelp = "";
@@ -136,7 +137,6 @@ namespace DegCAD
             if (res is null)
                 return;
             Timeline.AddCommand(res);
-            ExecutingCommand = false;
         }
     }
 }
