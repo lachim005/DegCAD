@@ -73,7 +73,13 @@
         
     </Canvas>
     <Canvas x:Key="cmdParallelSegmentIcon">
-
+        <Line X1="10" Y1="15" X2="50" Y2="15" Stroke="Gray"/>
+        <Line X1="15" Y1="15" X2="30" Y2="50" Stroke="Black"/>
+        <Line X1="33" Y1="21" X2="42" Y2="43" Stroke="Red"/>
+        <Line X1="28" Y1="21" X2="38" Y2="21" Stroke="Black"/>
+        <Line X1="33" Y1="16" X2="33" Y2="26" Stroke="Black"/>
+        <Line X1="37" Y1="43" X2="47" Y2="43" Stroke="Black"/>
+        <Line X1="42" Y1="38" X2="42" Y2="48" Stroke="Black"/>
     </Canvas>
     <Canvas x:Key="cmdCircleIcon">
         <Ellipse Canvas.Top="10" Canvas.Left="10" Width="40" Height="40" Stroke="Red"/>

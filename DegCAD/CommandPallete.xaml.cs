@@ -49,6 +49,7 @@ namespace DegCAD
             AddCommand(new("Kolmice", "Kolmice na danou přímku", Key.K, ModifierKeys.Control, (_, _) => executeCommand(new PerpendicularLine()), "cmdPerpendicularLineIcon"));
             AddSeparator();
             AddCommand(new("Úsečka", "Úsečka mezi dvěma body", Key.U, ModifierKeys.Control, (_, _) => executeCommand(new LineSegment()), "cmdSegmentIcon"));
+            AddCommand(new("Rovnoběžná úsečka", "Úsečka mezi dvěma body rovnoběžná s jinou přímkou", Key.None, ModifierKeys.None, (_, _) => executeCommand(new ParallelSegment()), "cmdParallelSegmentIcon"));
             AddSeparator();
             AddCommand(new("Kružnice", "Kružnice dána středem a bodem na ní", Key.O, ModifierKeys.Control, (_, _) => executeCommand(new Circle()), "cmdCircleIcon"));
             AddCommand(new("Oblouk", "Oblouk dán středem, bodem na kružnici a dvěma úhly", Key.O, ModifierKeys.Control | ModifierKeys.Shift, (_, _) => executeCommand(new Arc()), "cmdArcIcon"));
