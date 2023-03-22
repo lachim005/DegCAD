@@ -107,5 +107,11 @@ namespace DegCAD
             };
             cmdButtons.Children.Add(r);
         }
+
+        private void ScrollViewer_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (sender is not ScrollViewer scrollViewer) return;
+            scrollViewer.ScrollToHorizontalOffset(scrollViewer.ContentHorizontalOffset - e.Delta);
+        }
     }
 }
