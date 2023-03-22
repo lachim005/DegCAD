@@ -19,9 +19,11 @@
 
         <local:ViewPort x:Name="viewPort"/>
         <GridSplitter Grid.Column="1" Width="2" HorizontalAlignment="Stretch"/>
-        <StackPanel Grid.Column="2">
-            <local:StyleSelector x:Name="styleSelector"/>
-        </StackPanel>
+        <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <local:StyleSelector x:Name="styleSelector"/>
+            </StackPanel>
+        </ScrollViewer>
         <local:EditorStatusBar Grid.Row="1" Grid.ColumnSpan="3" x:Name="statusBar"/>
     </Grid>
 </UserControl>
