@@ -67,7 +67,13 @@
         <Line X1="50" Y1="35" X2="50" Y2="45" Stroke="Black"/>
     </Canvas>
     <Canvas x:Key="cmdSegmentOnLineIcon">
-
+        <Line X1="20" Y1="25" X2="40" Y2="35" Stroke="Red"/>
+        <Line X1="20" Y1="25" X2="10" Y2="20" Stroke="Blue"/>
+        <Line X1="50" Y1="40" X2="40" Y2="35" Stroke="Blue"/>
+        <Line X1="15" Y1="25" X2="25" Y2="25" Stroke="Black"/>
+        <Line X1="20" Y1="20" X2="20" Y2="30" Stroke="Black"/>
+        <Line X1="35" Y1="35" X2="45" Y2="35" Stroke="Black"/>
+        <Line X1="40" Y1="30" X2="40" Y2="40" Stroke="Black"/>
     </Canvas>
     <Canvas x:Key="cmdPerpendicularSegmentIcon">
         <Line X1="10" Y1="15" X2="50" Y2="15" Stroke="Gray"/>
