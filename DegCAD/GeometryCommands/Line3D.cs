@@ -1,4 +1,5 @@
-﻿using DegCAD.MongeItems;
+﻿using DegCAD.Dialogs;
+using DegCAD.MongeItems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -85,11 +86,23 @@ namespace DegCAD.GeometryCommands
                 gd.DrawLine(line2, double.PositiveInfinity * line2Sign, line2.GetParamFromY(0), Style.Default);
             }, lines: new ParametricLine2[1] { line1 });
 
+            var curStyle = inputMgr.StyleSelector.CurrentStyle;
+
             List<IMongeItem> mItems = new()
             {
-                new LineProjection(line1, plane, inputMgr.StyleSelector.CurrentStyle),
-                new LineProjection(line2, !plane, inputMgr.StyleSelector.CurrentStyle)
+                new LineProjection(line1, plane, curStyle),
+                new LineProjection(line2, !plane, curStyle)
             };
+
+            esb.CommandHelp = "Zadejte název přímky";
+            LabelInput lid = new();
+            lid.subscriptTbx.IsEnabled = false;
+            lid.ShowDialog();
+            if (!lid.Canceled)
+            {
+                mItems.Add(new Label(lid.LabelText, plane ? "2" : "1", lid.Superscript, (pt2 + pt1) / 2, curStyle, mItems[0])); 
+                mItems.Add(new Label(lid.LabelText, !plane ? "2" : "1", lid.Superscript, (pt3 + pt4) / 2, curStyle, mItems[1]));
+            }
 
             return new TimelineItem(mItems.ToArray());
         }

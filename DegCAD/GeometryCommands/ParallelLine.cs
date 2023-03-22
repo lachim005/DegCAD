@@ -6,6 +6,9 @@ using System.Windows.Media;
 using System.Threading.Tasks;
 using System.Numerics;
 using DegCAD.MongeItems;
+using DegCAD.Dialogs;
+using System.Security.Policy;
+using System.Windows.Shapes;
 
 namespace DegCAD.GeometryCommands
 {
@@ -44,7 +47,23 @@ namespace DegCAD.GeometryCommands
                 gd.DrawLine(line, double.PositiveInfinity * lineSign, line.GetParamFromY(0), Style.Default);
             });
 
-            return new(new IMongeItem[1] {new LineProjection(line, plane, inputMgr.StyleSelector.CurrentStyle) });
+            var curStyle = inputMgr.StyleSelector.CurrentStyle;
+
+            List<IMongeItem> mItems = new()
+            {
+                new LineProjection(line, plane, inputMgr.StyleSelector.CurrentStyle)
+            };
+
+            esb.CommandHelp = "Zadejte název přímky";
+            LabelInput lid = new();
+            lid.subscriptTbx.Text = plane ? "2" : "1";
+            lid.ShowDialog();
+            if (!lid.Canceled)
+            {
+                mItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript, line.Point + line.DirectionVector.ChangeLength(2), curStyle, mItems[0]));
+            }
+
+            return new(mItems.ToArray());
         }
     }
 }
