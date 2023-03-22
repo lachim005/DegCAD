@@ -36,7 +36,7 @@
         <KeyBinding Command="SaveAs" Key="S" Modifiers="Ctrl+Shift"/>
     </Window.InputBindings>
     <DockPanel>
-        <Menu DockPanel.Dock="Top" Background="White" BorderBrush="LightGray" BorderThickness="0, 0, 0, 2">
+        <Menu DockPanel.Dock="Top" Background="White" BorderBrush="#f0f0f0" BorderThickness="0, 0, 0, 2">
             <MenuItem Header="_Soubor">
                 <MenuItem Header="_Nový" Command="New"/>
                 <MenuItem Header="_Otevřít" Command="Open"/>
@@ -51,7 +51,7 @@
         </Menu>
         <local:CommandPallete DockPanel.Dock="Top" x:Name="cmdPallete"/>
         <Grid>
-            <TabControl x:Name="editorTabs" TabStripPlacement="Bottom" SelectionChanged="TabSwitched" Padding="0">
+            <TabControl x:Name="editorTabs" TabStripPlacement="Bottom" SelectionChanged="TabSwitched" Padding="0" BorderThickness="2" BorderBrush="#f0f0f0">
                 <TabControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal" Drop="TabDrop" PreviewDragOver="TabDrop" AllowDrop="True" MouseDown="StackPanel_MouseDown">

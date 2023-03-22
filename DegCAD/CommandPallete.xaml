@@ -5,9 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DegCAD"
              mc:Ignorable="d"
-             Height="50"
-             d:DesignHeight="50" d:DesignWidth="800">
+             d:DesignHeight="100" d:DesignWidth="800">
     <Grid>
-        <StackPanel x:Name="cmdButtons" Orientation="Horizontal"/>
+        <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" PreviewMouseWheel="ScrollViewer_MouseWheel" Background="Transparent">
+            <StackPanel x:Name="cmdButtons" Orientation="Horizontal" Height="100"/>
+        </ScrollViewer>
     </Grid>
 </UserControl>
