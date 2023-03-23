@@ -69,8 +69,8 @@ namespace DegCAD
         {
             if (sender is not Button btn) return;
             if (btn.DataContext is not Tuple<Editor> ed) return;
-
-            openEditors.Remove(ed);
+            if (CanCloseEditor(ed.Item1))
+                openEditors.Remove(ed);
         }
 
         private void WindowDrop(object sender, DragEventArgs e)
@@ -96,25 +96,9 @@ namespace DegCAD
             {
                 editorTabs.SelectedIndex = i;
                 var current = openEditors[i].Item1;
-                if (!current.Changed) continue;
-                var save = MessageBox.Show(
-                    this,
-                    $"Soubor {current.FileName} nebyl uložen. Chcete ho před ukončením uložit?",
-                    "DegCAD",
-                    MessageBoxButton.YesNoCancel,
-                    MessageBoxImage.Warning
-                    );
-                switch (save)
+                if (!CanCloseEditor(current))
                 {
-                    case MessageBoxResult.Yes:
-                        if (current.FolderPath is null) OpenSaveFileDialog(current);
-                        SaveEditorAsync(current);
-                        break;
-                    case MessageBoxResult.No:
-                        continue;
-                    case MessageBoxResult.Cancel:
-                        e.Cancel = true;
-                        return;
+                    e.Cancel = true;
                 }
             }
         }
@@ -148,6 +132,30 @@ namespace DegCAD
             {
                 openEditors.Remove(tab);
             }
+        }
+
+        private bool CanCloseEditor(Editor current)
+        {
+            if (!current.Changed) return true;
+            var save = MessageBox.Show(
+                this,
+                $"Chcete uložit soubor {current.FileName}?",
+                "DegCAD",
+                MessageBoxButton.YesNoCancel,
+                MessageBoxImage.Warning
+                );
+            switch (save)
+            {
+                case MessageBoxResult.Yes:
+                    if (current.FolderPath is null) OpenSaveFileDialog(current);
+                    SaveEditorAsync(current);
+                    return true;
+                case MessageBoxResult.No:
+                    return true;
+                case MessageBoxResult.Cancel:
+                    return false;
+            }
+            return false;
         }
     }
 }

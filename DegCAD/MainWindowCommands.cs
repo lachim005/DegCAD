@@ -120,7 +120,8 @@ namespace DegCAD
         private void CloseCommand(object sender, ExecutedRoutedEventArgs e)
         {
             if (ActiveEditor is null) return;
-            openEditors.Remove(new(ActiveEditor));
+            if (CanCloseEditor(ActiveEditor))
+                openEditors.Remove(new(ActiveEditor));
         }
         private void UndoCommand(object sender, ExecutedRoutedEventArgs e)
         {
