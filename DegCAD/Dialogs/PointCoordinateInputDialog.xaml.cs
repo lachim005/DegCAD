@@ -75,7 +75,15 @@ namespace DegCAD.Dialogs
         {
             if (inputValues.Count > 0)
             {
-                Points = inputValues.ToList();
+                var list = inputValues.ToList();
+                if (reverseXDirection.IsChecked == true)
+                {
+                    foreach (var pt in list)
+                    {
+                        pt.X = -pt.X;
+                    }
+                }
+                Points = list;
                 Canceled = false;
             }
             Close();

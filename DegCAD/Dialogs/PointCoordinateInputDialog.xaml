@@ -5,12 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DegCAD.Dialogs"
         mc:Ignorable="d"
-        Height="360" Width="500"
+        Height="400" Width="500"
         Title="Souřadnice bodů" MinHeight="360" MinWidth="500">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="60"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -26,7 +27,22 @@
                 <DataGridTextColumn Binding="{Binding Z}" Header="Z" Width="50"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="cancelBtn" Grid.Row="2" Content="Zrušit" Margin="5" Click="Cancel"/>
-        <Button x:Name="confirmBtn" Grid.Row="2" Content="Potvrdit" Margin="5" Grid.Column="2" Click="Confirm"/>
+
+        <Label Content="Kladný směr osy x:" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5"/>
+        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Margin="5">
+            <RadioButton GroupName="xDirection" IsChecked="True" VerticalAlignment="Center" x:Name="reverseXDirection"/>
+            <Canvas VerticalAlignment="Center" Width="40">
+                <Line X1="5" Y1="0" X2="35" Y2="0" Stroke="Black"/>
+                <Line X1="5" Y1="0" X2="10" Y2="5" Stroke="Black"/>
+                <Line X1="5" Y1="0" X2="10" Y2="-5" Stroke="Black"/>
+                <Line X1="35" Y1="0" X2="30" Y2="5" Stroke="Black"/>
+                <Line X1="35" Y1="0" X2="30" Y2="-5" Stroke="Black"/>
+                <Line X1="20" Y1="10" X2="20" Y2="-10" Stroke="Black"/>
+            </Canvas>
+            <RadioButton GroupName="xDirection" VerticalAlignment="Center"/>
+        </StackPanel>
+
+        <Button x:Name="cancelBtn" Grid.Row="3" Content="Zrušit" Margin="5" Click="Cancel"/>
+        <Button x:Name="confirmBtn" Grid.Row="3" Content="Potvrdit" Margin="5" Grid.Column="2" Click="Confirm"/>
     </Grid>
 </Window>
