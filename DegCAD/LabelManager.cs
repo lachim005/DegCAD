@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DegCAD.Dialogs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -27,6 +28,7 @@ namespace DegCAD
             ViewPort.MouseMove += ViewPortMouseMove;
             ViewPort.MouseDown += ViewPortMouseDown;
             ViewPort.MouseUp += ViewPortMouseUp;
+            ViewPort.MouseDoubleClick += ViewPortMouseDoubleClick;
         }
 
         public MongeItems.Label? HoveredLabel { get; private set; }
@@ -122,6 +124,26 @@ namespace DegCAD
             MovingLabel = false;
             Editor.Redraw();
             DetectHoveredLabel(e.GetPosition(ViewPort));
+        }
+
+        private void ViewPortMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton != MouseButton.Left) return;
+            if (HoveredLabel is null) return;
+
+            LabelInput lid = new();
+            lid.labelTextTbx.Text = HoveredLabel.LabelText;
+            lid.subscriptTbx.Text = HoveredLabel.Subscript;
+            lid.superscriptTbx.Text = HoveredLabel.Superscript;
+            lid.ShowDialog();
+            if (!lid.Canceled)
+            {
+                HoveredLabel.LabelText = lid.LabelText;
+                HoveredLabel.Subscript = lid.Subscript;
+                HoveredLabel.Superscript = lid.Superscript;
+            }
+            HoveredLabel = null;
+            Editor.Redraw();
         }
     }
 }
