@@ -196,15 +196,24 @@ namespace DegCAD
             {
                 case 1:
                     //Dashed circle
-                    wBmp.DrawCircleDashed(sMiddle, (int)sRadius, s.Color);
+                    if (s.Thickness > 1)
+                        wBmp.DrawCircleDashedThick(sMiddle, (int)sRadius, s.Color, s.Thickness);
+                    else
+                        wBmp.DrawCircleDashed(sMiddle, (int)sRadius, s.Color);
                     break;
                 case 2:
                     //Dot-dashed circle
-                    wBmp.DrawCircleDotDash(sMiddle, (int)sRadius, s.Color);
+                    if (s.Thickness > 1)
+                        wBmp.DrawCircleDotDashThick(sMiddle, (int)sRadius, s.Color, s.Thickness);
+                    else
+                        wBmp.DrawCircleDotDash(sMiddle, (int)sRadius, s.Color);
                     break;
                 default:
                     //Solid circle
-                    wBmp.DrawCircle(sMiddle, (int)sRadius, s.Color);
+                    if (s.Thickness > 1)
+                        wBmp.DrawCircleThick(sMiddle, (int)sRadius, s.Color, s.Thickness);
+                    else
+                        wBmp.DrawCircle(sMiddle, (int)sRadius, s.Color);
                     break;
             }
 
