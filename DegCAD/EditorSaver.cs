@@ -136,6 +136,6 @@ namespace DegCAD
             };
         }
 
-        private static string SerializeStyle(Style s) => $"STL {s.Color.R} {s.Color.G} {s.Color.B} {s.LineStyle}";
+        private static string SerializeStyle(Style s) => $"STL {s.Color.R} {s.Color.G} {s.Color.B} {s.LineStyle} {s.Thickness}";
     }
 }

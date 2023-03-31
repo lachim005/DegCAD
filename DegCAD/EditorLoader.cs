@@ -39,7 +39,7 @@ namespace DegCAD
             //Reads and parses the timeline
             try
             {
-                ReadTimeline(res, Path.Combine(tempDir, "timeline.txt"));
+                ReadTimeline(res, Path.Combine(tempDir, "timeline.txt"), metadata);
             }
             catch (Exception ex)
             {
@@ -122,7 +122,7 @@ namespace DegCAD
             return tempDir;
         }
 
-        public static void ReadTimeline(Editor e, string path)
+        public static void ReadTimeline(Editor e, string path, Metadata md)
         {
             using StreamReader sr = new(path);
 
@@ -141,7 +141,7 @@ namespace DegCAD
                     case "END":
                         return;
                     case "STL":
-                        currentStyle = STL(line[4..]);
+                        currentStyle = STL(line[4..], md);
                         continue;
                     case "NUL":
                         continue;
@@ -184,18 +184,24 @@ namespace DegCAD
         }
 
         #region Command parsers
-        private static Style STL(string s)
+        private static Style STL(string s, Metadata md)
         {
             string[] vals = s.Split(' ');
             Color c = Color.FromRgb(
                 byte.Parse(vals[0]),
                 byte.Parse(vals[1]),
                 byte.Parse(vals[2]));
-            return new Style()
+            var stl = new Style()
             {
                 Color = c,
                 LineStyle = int.Parse(vals[3])
             };
+            if (md.version > new Version(0,3,0))
+            {
+                stl.Thickness = int.Parse(vals[4]);
+            }
+
+            return stl;
         }
         private static Point PNT(string s, Style stl)
         {
