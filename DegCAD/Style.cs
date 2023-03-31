@@ -12,6 +12,7 @@ namespace DegCAD
     {
         public Color Color { get; set; }
         public int LineStyle { get; set; }
+        public int Thickness { get; set; }
 
         public static Style Default => new Style() { Color = Colors.Black, LineStyle = 0 };
 
@@ -20,6 +21,7 @@ namespace DegCAD
             if (obj is not Style s) return false;
             if (!s.Color.Equals(Color)) return false;
             if (s.LineStyle != LineStyle) return false;
+            if (s.Thickness != Thickness) return false;
             return true;
         }
 
