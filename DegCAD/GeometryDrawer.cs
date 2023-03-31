@@ -83,15 +83,24 @@ namespace DegCAD
             {
                 case 1:
                     //Dashed line
-                    wBmp.DrawLineDashed((int)sp1.X, (int)sp1.Y, (int)sp2.X, (int)sp2.Y, s.Color);
+                    if (s.Thickness > 1)
+                        wBmp.DrawLineDashedThick((int)sp1.X, (int)sp1.Y, (int)sp2.X, (int)sp2.Y, s.Color, s.Thickness);
+                    else
+                        wBmp.DrawLineDashed((int)sp1.X, (int)sp1.Y, (int)sp2.X, (int)sp2.Y, s.Color);
                     break;
                 case 2:
-                    //Dashed line
-                    wBmp.DrawLineDotDash((int)sp1.X, (int)sp1.Y, (int)sp2.X, (int)sp2.Y, s.Color);
+                    //Dot-dashed line
+                    if (s.Thickness > 1)
+                        wBmp.DrawLineDotDashThick((int)sp1.X, (int)sp1.Y, (int)sp2.X, (int)sp2.Y, s.Color, s.Thickness);
+                    else
+                        wBmp.DrawLineDotDash((int)sp1.X, (int)sp1.Y, (int)sp2.X, (int)sp2.Y, s.Color);
                     break;
                 default:
                     //Solid line
-                    wBmp.DrawLineSolid((int)sp1.X, (int)sp1.Y, (int)sp2.X, (int)sp2.Y, s.Color);
+                    if (s.Thickness > 1)
+                        wBmp.DrawLineSolidThick((int)sp1.X, (int)sp1.Y, (int)sp2.X, (int)sp2.Y, s.Color, s.Thickness);
+                    else
+                        wBmp.DrawLineSolid((int)sp1.X, (int)sp1.Y, (int)sp2.X, (int)sp2.Y, s.Color);
                     break;
             }
         }

@@ -11,6 +11,7 @@ namespace DegCAD
 {
     public static class WriteableBitmapDrawMethods
     {
+        #region Circle
         public static void DrawCircle(this WriteableBitmap bitmap, Vector2 center, int radius, Color color)
         {
             // Initialize the variables for the Bresenham's algorithm
@@ -140,7 +141,7 @@ namespace DegCAD
                 SetPixel((int)center.X - y, (int)center.Y + x, shouldDraw);
                 SetPixel((int)center.X + y, (int)center.Y - x, shouldDraw);
                 SetPixel((int)center.X - y, (int)center.Y - x, shouldDraw);
-                
+
                 y++;
                 if (decisionOver2 <= 0)
                 {
@@ -153,7 +154,9 @@ namespace DegCAD
                 }
             }
         }
-        
+        #endregion
+
+        #region Arc
         public static void DrawArc(this WriteableBitmap bitmap, Vector2 center, int radius, double startAngle, double endAngle, Color color)
         {
             //Uses the same algorithm to draw the circle but draws the pixels
@@ -279,8 +282,8 @@ namespace DegCAD
                 SetPixel((int)center.X + y, (int)center.Y + x, draw);
                 SetPixel((int)center.X - y, (int)center.Y + x, draw);
                 SetPixel((int)center.X + y, (int)center.Y - x, draw);
-                SetPixel((int)center.X - y, (int)center.Y - x, draw); 
-                
+                SetPixel((int)center.X - y, (int)center.Y - x, draw);
+
 
                 y++;
                 if (decisionOver2 <= 0)
@@ -347,16 +350,16 @@ namespace DegCAD
                     draw = !draw;
                 }
 
-               bool shouldDraw = draw || dashCounter == dashLength / 2;
-               SetPixel((int)center.X + x, (int)center.Y + y, shouldDraw);
-               SetPixel((int)center.X - x, (int)center.Y + y, shouldDraw);
-               SetPixel((int)center.X + x, (int)center.Y - y, shouldDraw);
-               SetPixel((int)center.X - x, (int)center.Y - y, shouldDraw);
-               SetPixel((int)center.X + y, (int)center.Y + x, shouldDraw);
-               SetPixel((int)center.X - y, (int)center.Y + x, shouldDraw);
-               SetPixel((int)center.X + y, (int)center.Y - x, shouldDraw);
-               SetPixel((int)center.X - y, (int)center.Y - x, shouldDraw); 
-                
+                bool shouldDraw = draw || dashCounter == dashLength / 2;
+                SetPixel((int)center.X + x, (int)center.Y + y, shouldDraw);
+                SetPixel((int)center.X - x, (int)center.Y + y, shouldDraw);
+                SetPixel((int)center.X + x, (int)center.Y - y, shouldDraw);
+                SetPixel((int)center.X - x, (int)center.Y - y, shouldDraw);
+                SetPixel((int)center.X + y, (int)center.Y + x, shouldDraw);
+                SetPixel((int)center.X - y, (int)center.Y + x, shouldDraw);
+                SetPixel((int)center.X + y, (int)center.Y - x, shouldDraw);
+                SetPixel((int)center.X - y, (int)center.Y - x, shouldDraw);
+
 
                 y++;
                 if (decisionOver2 <= 0)
@@ -370,7 +373,9 @@ namespace DegCAD
                 }
             }
         }
+        #endregion
 
+        #region Line
         public static void DrawLineSolid(this WriteableBitmap bitmap, int x0, int y0, int x1, int y1, Color color)
         {
             using var context = bitmap.GetBitmapContext();
@@ -403,7 +408,8 @@ namespace DegCAD
                     error += dy;
                     x0 += sx;
                 }
-                if (e2 <= dx) {
+                if (e2 <= dx)
+                {
                     if (y0 == y1) break;
                     error += dx;
                     y0 += sy;
@@ -441,7 +447,7 @@ namespace DegCAD
                     dashCounter = 0;
                     draw = !draw;
                 }
-                
+
                 SetPixel(x0, y0, draw);
 
                 if (x0 == x1 && y0 == y1) break;
@@ -510,5 +516,75 @@ namespace DegCAD
                 }
             }
         }
+        #endregion
+
+        #region Thick line
+        public static void DrawLineSolidThick(this WriteableBitmap bitmap, int x0, int y0, int x1, int y1, Color color, int thickness = 2)
+        {
+            bitmap.DrawLineSolid(x0, y0, x1, y1, color);
+            int dy = Math.Abs(y1 - y0);
+            int dx = Math.Abs(x0 - x1);
+            if (dx < dy)
+            {
+                for (int i = 1; i < thickness; i++)
+                {
+                    bitmap.DrawLineSolid(x0 - i, y0, x1 - i, y1, color);
+                    bitmap.DrawLineSolid(x0 + i, y0, x1 + i, y1, color);
+                }
+            }
+            else
+            {
+                for (int i = 1; i < thickness; i++)
+                {
+                    bitmap.DrawLineSolid(x0, y0 - i, x1, y1 - i, color);
+                    bitmap.DrawLineSolid(x0, y0 + i, x1, y1 + i, color);
+                }
+            }
+        }
+        public static void DrawLineDashedThick(this WriteableBitmap bitmap, int x0, int y0, int x1, int y1, Color color, int thickness = 2, int dashLength = 10)
+        {
+            bitmap.DrawLineDashed(x0, y0, x1, y1, color, dashLength);
+            int dy = Math.Abs(y1 - y0);
+            int dx = Math.Abs(x0 - x1);
+            if (dx < dy)
+            {
+                for (int i = 1; i < thickness; i++)
+                {
+                    bitmap.DrawLineDashed(x0 - i, y0, x1 - i, y1, color, dashLength);
+                    bitmap.DrawLineDashed(x0 + i, y0, x1 + i, y1, color, dashLength);
+                }
+            }
+            else
+            {
+                for (int i = 1; i < thickness; i++)
+                {
+                    bitmap.DrawLineDashed(x0, y0 - i, x1, y1 - i, color, dashLength);
+                    bitmap.DrawLineDashed(x0, y0 + i, x1, y1 + i, color, dashLength);
+                }
+            }
+        }
+        public static void DrawLineDotDashThick(this WriteableBitmap bitmap, int x0, int y0, int x1, int y1, Color color, int thickness = 2, int dashLength = 10)
+        {
+            bitmap.DrawLineDotDash(x0, y0, x1, y1, color, dashLength);
+            int dy = Math.Abs(y1 - y0);
+            int dx = Math.Abs(x0 - x1);
+            if (dx < dy)
+            {
+                for (int i = 1; i < thickness; i++)
+                {
+                    bitmap.DrawLineDotDash(x0 - i, y0, x1 - i, y1, color, dashLength);
+                    bitmap.DrawLineDotDash(x0 + i, y0, x1 + i, y1, color, dashLength);
+                }
+            }
+            else
+            {
+                for (int i = 1; i < thickness; i++)
+                {
+                    bitmap.DrawLineDotDash(x0, y0 - i, x1, y1 - i, color, dashLength);
+                    bitmap.DrawLineDotDash(x0, y0 + i, x1, y1 + i, color, dashLength);
+                }
+            }
+        } 
+        #endregion
     }
 }
