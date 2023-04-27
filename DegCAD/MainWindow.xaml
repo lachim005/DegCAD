@@ -48,6 +48,9 @@
                 <MenuItem Header="_Zpět" Command="Undo"/>
                 <MenuItem Header="_Opakovat" Command="Redo"/>
             </MenuItem>
+            <MenuItem Header="Nápo_věda">
+                <MenuItem Header="_O programu" Click="AboutClick"/>
+            </MenuItem>
         </Menu>
         <local:CommandPallete DockPanel.Dock="Top" x:Name="cmdPallete"/>
         <Grid>

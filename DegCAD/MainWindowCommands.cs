@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using DegCAD.Dialogs;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -130,6 +131,10 @@ namespace DegCAD
         private void RedoCommand(object sender, ExecutedRoutedEventArgs e)
         {
             ActiveEditor?.Timeline.Redo();
+        }
+        private void AboutClick(object sender, RoutedEventArgs e)
+        {
+            AboutDialog.Open();
         }
     }
 }
