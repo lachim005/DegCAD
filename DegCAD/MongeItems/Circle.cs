@@ -41,5 +41,10 @@ namespace DegCAD.MongeItems
         {
             gd.DrawCircle(Circle2, s);
         }
+
+        public void AddToViewportLayer(ViewportLayer vpl)
+        {
+
+        }
     }
 }

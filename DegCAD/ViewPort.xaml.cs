@@ -72,9 +72,9 @@ namespace DegCAD
             InitializeComponent();
             Layers.CollectionChanged += LayersChanged;
 
-            Layers.Add(new());
-            Layers.Add(new());
-            Layers.Add(new());
+            Layers.Add(new(this));
+            Layers.Add(new(this));
+            Layers.Add(new(this));
         }
 
         private void LayersChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)

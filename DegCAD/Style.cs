@@ -15,6 +15,12 @@ namespace DegCAD
         public int Thickness { get; set; }
 
         public static Style Default => new Style() { Color = Colors.Black, LineStyle = 0 };
+        public static double[][] StrokeDashArrays = new double[3][]
+        {
+            new double[0],
+            new double[2] {20, 20},
+            new double[2] {20, 20}
+        };
 
         public override bool Equals(object? obj)
         {

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace DegCAD.MongeItems
 {
@@ -24,15 +27,30 @@ namespace DegCAD.MongeItems
             Style = style;
             SnapableLines = new ParametricLine2[1] { ParametricLine2.From2Points(p1, p2) };
             SnapablePoints = new Vector2[2] { p1, p2 };
+            _line.Stroke = new SolidColorBrush(style.Color);
+            _line.StrokeThickness = style.Thickness+1;
+            _line.StrokeDashArray = new(Style.StrokeDashArrays[style.LineStyle]);
         }
 
-        public void Draw(ViewportLayer gd)
+        private readonly Line _line = new();
+
+        public void Draw(ViewportLayer vpl)
         {
-            Draw(gd, Style);
+            Draw(vpl, Style);
         }
-        public void Draw(ViewportLayer gd, Style s)
+        public void Draw(ViewportLayer vpl, Style s)
         {
-            gd.DrawLine(P1, P2, s);
+            Vector2 screenP1 = vpl.Viewport.CanvasToScreen(P1);
+            Vector2 screenP2 = vpl.Viewport.CanvasToScreen(P2);
+            _line.X1 = screenP1.X;
+            _line.Y1 = screenP1.Y;
+            _line.X2 = screenP2.X;
+            _line.Y2 = screenP2.Y;
+        }
+
+        public void AddToViewportLayer(ViewportLayer vpl)
+        {
+            vpl.Canvas.Children.Add(_line);
         }
     }
 }

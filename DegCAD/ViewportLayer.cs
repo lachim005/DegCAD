@@ -15,13 +15,21 @@ namespace DegCAD
     public class ViewportLayer
     {
         public Canvas Canvas { get; init; }
+        public ViewPort Viewport { get; init; }
 
-        public ViewportLayer()
+        public ViewportLayer(ViewPort viewport)
         {
             Canvas = new();
+            Viewport = viewport;
         }
 
         #region Old GD
+        public ViewportLayer()
+        {
+            Canvas = new();
+            Viewport = new();
+        }
+
         public void Clear()
         {
             

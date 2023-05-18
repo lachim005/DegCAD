@@ -147,8 +147,11 @@ namespace DegCAD
                         continue;
                 }
                 var mItem = ParseMongeItem(line, currentStyle);
-                if (mItem is not null) 
+                if (mItem is not null)
+                {
+                    mItem.AddToViewportLayer(e.viewPort.Layers[1]);
                     items.Add(mItem);
+                }
             }
         }
         public static void ReadPalette(Editor e, string path)

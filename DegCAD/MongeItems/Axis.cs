@@ -21,6 +21,11 @@ namespace DegCAD.MongeItems
 
         public Style Style { get; } = Style.Default;
 
+        public void AddToViewportLayer(ViewportLayer vpl)
+        {
+            
+        }
+
         public void Draw(ViewportLayer gd)
         {
             Draw(gd, Style);

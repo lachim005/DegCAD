@@ -31,5 +31,10 @@ namespace DegCAD.DrawableItems
         {
             gd.DrawPointCross((X, Y), s);
         }
+
+        public void AddToViewportLayer(ViewportLayer vpl)
+        {
+
+        }
     }
 }

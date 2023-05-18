@@ -50,5 +50,10 @@ namespace DegCAD.MongeItems
         {
             gd.DrawArc(Circle, StartAngle, EndAngle, s);
         }
+
+        public void AddToViewportLayer(ViewportLayer vpl)
+        {
+
+        }
     }
 }

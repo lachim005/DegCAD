@@ -56,5 +56,10 @@ namespace DegCAD.MongeItems
         {
             LabeledObject.Draw(gd, style);
         }
+
+        public void AddToViewportLayer(ViewportLayer vpl)
+        {
+
+        }
     }
 }

@@ -14,5 +14,6 @@ namespace DegCAD
         public ParametricLine2[] SnapableLines { get; }
         public Circle2[] SnapableCircles { get; }
         public Style Style { get; }
+        public void AddToViewportLayer(ViewportLayer vpl);
     }
 }

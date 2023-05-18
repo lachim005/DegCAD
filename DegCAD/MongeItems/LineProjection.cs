@@ -54,5 +54,10 @@ namespace DegCAD.MongeItems
         {
             gd.DrawLine(Line, double.PositiveInfinity * infinitySign, Line.GetParamFromY(0), s);
         }
+
+        public void AddToViewportLayer(ViewportLayer vpl)
+        {
+
+        }
     }
 }
