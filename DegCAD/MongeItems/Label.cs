@@ -38,12 +38,12 @@ namespace DegCAD.MongeItems
             LabeledObject = labeledObject;
         }
 
-        public void Draw(GeometryDrawer gd)
+        public void Draw(ViewportLayer gd)
         {
             Draw(gd, Style);
         }
 
-        public void Draw(GeometryDrawer gd, Style style)
+        public void Draw(ViewportLayer gd, Style style)
         {
             var endPos = gd.DrawString(LabelText, Position, 16, style);
             Size = endPos - Position;
@@ -52,7 +52,7 @@ namespace DegCAD.MongeItems
             gd.DrawString(Subscript, (endPos.X, Position.Y + .3), 8, style);
         }
 
-        public void DrawLabeledObject(GeometryDrawer gd, Style style)
+        public void DrawLabeledObject(ViewportLayer gd, Style style)
         {
             LabeledObject.Draw(gd, style);
         }

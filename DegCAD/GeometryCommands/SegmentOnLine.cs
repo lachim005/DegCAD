@@ -9,7 +9,7 @@ namespace DegCAD.GeometryCommands
 {
     public class SegmentOnLine : IGeometryCommand
     {
-        public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
+        public async Task<TimelineItem?> ExecuteAsync(ViewportLayer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
             Style blueStyle = new() { Color = Colors.Blue };
             Style redStyle = new() { Color = Colors.Red };

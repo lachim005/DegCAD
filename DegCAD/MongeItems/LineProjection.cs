@@ -46,11 +46,11 @@ namespace DegCAD.MongeItems
         }
 
 
-        public void Draw(GeometryDrawer gd)
+        public void Draw(ViewportLayer gd)
         {
             Draw(gd, Style);
         }
-        public void Draw(GeometryDrawer gd, Style s)
+        public void Draw(ViewportLayer gd, Style s)
         {
             gd.DrawLine(Line, double.PositiveInfinity * infinitySign, Line.GetParamFromY(0), s);
         }

@@ -11,7 +11,7 @@ namespace DegCAD.GeometryCommands
 {
     public class AddPointProjection : IGeometryCommand
     {
-        public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
+        public async Task<TimelineItem?> ExecuteAsync(ViewportLayer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
             esb.CommandName = "Doplnit průmět";
             Style previewStyle = new() { Color = Color.FromRgb(0, 0, 255), LineStyle = 1 };

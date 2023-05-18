@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -58,29 +59,31 @@ namespace DegCAD
         /// <summary>
         /// Pixel width of the canvas
         /// </summary>
-        public int CWidth => GeometryWBmp.PixelWidth;
+        public int CWidth => (int)ActualWidth;
         /// <summary>
         /// Pixel height of the canvas
         /// </summary>
-        public int CHeight => GeometryWBmp.PixelHeight;
-        /// <summary>
-        /// The writable bitmap that gets displayed on the screen
-        /// </summary>
-        public WriteableBitmap GeometryWBmp { get; private set; }
-        public WriteableBitmap PreviewWBmp { get; private set; }
-        public WriteableBitmap BackgroundWBmp { get; private set; }
+        public int CHeight => (int)ActualHeight;
 
+        public ObservableCollection<ViewportLayer> Layers { get; init; } = new();
 
         public ViewPort()
         {
             InitializeComponent();
-            //Create a new Writable bitmap and displays it
-            GeometryWBmp = BitmapFactory.New((int)ActualWidth, (int)ActualHeight);
-            PreviewWBmp = BitmapFactory.New((int)ActualWidth, (int)ActualHeight);
-            BackgroundWBmp = BitmapFactory.New((int)ActualWidth, (int)ActualHeight);
-            geometryDisplay.Source = GeometryWBmp;
-            previewDisplay.Source = PreviewWBmp;
-            backgroundDisplay.Source = BackgroundWBmp;
+            Layers.CollectionChanged += LayersChanged;
+
+            Layers.Add(new());
+            Layers.Add(new());
+            Layers.Add(new());
+        }
+
+        private void LayersChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            vpLayers.Children.Clear();
+            foreach(var layer in Layers)
+            {
+                vpLayers.Children.Add(layer.Canvas);
+            }
         }
 
         protected void OnMouseWheel(object sender, MouseWheelEventArgs e)
@@ -161,14 +164,6 @@ namespace DegCAD
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            //If the viewport gets resized, resizes the writable bitmap to fit it perfectly
-            GeometryWBmp = BitmapFactory.New((int)ActualWidth, (int)ActualHeight);
-            PreviewWBmp = BitmapFactory.New((int)ActualWidth, (int)ActualHeight);
-            BackgroundWBmp = BitmapFactory.New((int)ActualWidth, (int)ActualHeight);
-            geometryDisplay.Source = GeometryWBmp;
-            previewDisplay.Source = PreviewWBmp;
-            backgroundDisplay.Source = BackgroundWBmp;
-
             Vector2 mousePos = Mouse.GetPosition(this);
             ViewportChanged?.Invoke(this, new(ScreenToCanvas(mousePos), mousePos));
         }

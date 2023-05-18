@@ -22,7 +22,7 @@ namespace DegCAD
     public class GeometryInputManager
     {
         public ViewPort ViewPort { get; set; }
-        public GeometryDrawer PreviewGd { get; set; }
+        public ViewportLayer PreviewGd { get; set; }
         public Snapper Snapper { get; set; }
         public Style PreviewStyle { get; set; } = new Style() { Color = Color.FromRgb(0, 0, 255), LineStyle = 1 };
         public StyleSelector StyleSelector { get; set; }
@@ -31,7 +31,7 @@ namespace DegCAD
 
         public GeometryInputManager(ViewPort viewPort, Snapper snapper, StyleSelector styleSelector)
         {
-            PreviewGd = new(viewPort, true);
+            PreviewGd = new();
             ViewPort = viewPort;
             Snapper = snapper;
             StyleSelector = styleSelector;
@@ -41,7 +41,7 @@ namespace DegCAD
         /// Gets a point from the user
         /// </summary>
         /// <param name="preview">Action that will get executed to redraw the preview of the inputed point</param>
-        public async Task<Vector2> GetPoint(Action<Vector2, GeometryDrawer> preview, Vector2[]? points = null, ParametricLine2[]? lines = null, Circle2[]? circles = null, Predicate<Vector2>? predicate = null)
+        public async Task<Vector2> GetPoint(Action<Vector2, ViewportLayer> preview, Vector2[]? points = null, ParametricLine2[]? lines = null, Circle2[]? circles = null, Predicate<Vector2>? predicate = null)
         {
             await inputSemaphore.WaitAsync();
 
@@ -100,7 +100,7 @@ namespace DegCAD
             return mposClick;
         }
 
-        public async Task<(Vector2, bool)> GetPointWithPlane(Action<Vector2, GeometryDrawer, bool> preview, bool defaultPlane = false, Vector2[]? points = null, ParametricLine2[]? lines = null, Circle2[]? circles = null, Predicate<Vector2>? predicate = null)
+        public async Task<(Vector2, bool)> GetPointWithPlane(Action<Vector2, ViewportLayer, bool> preview, bool defaultPlane = false, Vector2[]? points = null, ParametricLine2[]? lines = null, Circle2[]? circles = null, Predicate<Vector2>? predicate = null)
         {
             await inputSemaphore.WaitAsync();
 
@@ -171,7 +171,7 @@ namespace DegCAD
         /// <summary>
         /// Gets a line from the user
         /// </summary>
-        public async Task<ParametricLine2> GetLine(Action<Vector2, ParametricLine2?, GeometryDrawer> preview)
+        public async Task<ParametricLine2> GetLine(Action<Vector2, ParametricLine2?, ViewportLayer> preview)
         {
             await inputSemaphore.WaitAsync();
 

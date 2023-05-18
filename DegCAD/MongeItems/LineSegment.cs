@@ -26,11 +26,11 @@ namespace DegCAD.MongeItems
             SnapablePoints = new Vector2[2] { p1, p2 };
         }
 
-        public void Draw(GeometryDrawer gd)
+        public void Draw(ViewportLayer gd)
         {
             Draw(gd, Style);
         }
-        public void Draw(GeometryDrawer gd, Style s)
+        public void Draw(ViewportLayer gd, Style s)
         {
             gd.DrawLine(P1, P2, s);
         }

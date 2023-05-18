@@ -8,7 +8,7 @@ namespace DegCAD.GeometryCommands
 {
     public class LineSegment : IGeometryCommand
     {
-        public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
+        public async Task<TimelineItem?> ExecuteAsync(ViewportLayer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
             esb.CommandName = "Úsečka";
 

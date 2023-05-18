@@ -11,7 +11,7 @@ namespace DegCAD.GeometryCommands
 {
     internal class PointCoordInput : IGeometryCommand
     {
-        public Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
+        public Task<TimelineItem?> ExecuteAsync(ViewportLayer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
             esb.CommandName = "Vynést body";
             esb.CommandHelp = "Zadejte souřadnice a názvy bodů, které chcete vynést";

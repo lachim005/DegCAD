@@ -11,7 +11,7 @@ namespace DegCAD.GeometryCommands
 {
     public class CastPoint : IGeometryCommand
     {
-        public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
+        public async Task<TimelineItem?> ExecuteAsync(ViewportLayer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
             var blueStyle = new Style() { Color = Colors.Blue, LineStyle = 1 };
             var redStyle = new Style() { Color = Colors.Red };

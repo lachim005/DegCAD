@@ -29,7 +29,7 @@ namespace DegCAD
         private bool _executingCommand = false;
         private bool _changed = false;
 
-        public GeometryDrawer GeometryDrawer { get; protected set; }
+        public ViewportLayer GeometryDrawer { get; protected set; }
         public GeometryInputManager InputMgr { get; protected set; }
         public Timeline Timeline { get; protected set; }
         public Snapper Snapper { get; protected set; }
@@ -77,7 +77,7 @@ namespace DegCAD
         public Editor(string fileName)
         {
             InitializeComponent();
-            GeometryDrawer = new(viewPort, false);
+            GeometryDrawer = new();
             viewPort.ViewportChanged += ViewPortChanged;
             Timeline = new();
             Timeline.TimelineChanged += TimelineChanged;
@@ -112,14 +112,7 @@ namespace DegCAD
 
         public void Redraw()
         {
-            GeometryDrawer.Clear();
-            foreach (var cmd in Timeline.CommandHistory)
-            {
-                for (int i = 0; i < cmd.Items.Length; i++)
-                {
-                    cmd.Items[i].Draw(GeometryDrawer);
-                }
-            }
+            
         }
 
         public async void ExecuteCommand(IGeometryCommand command)

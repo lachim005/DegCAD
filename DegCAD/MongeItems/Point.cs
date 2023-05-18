@@ -23,11 +23,11 @@ namespace DegCAD.DrawableItems
             SnapablePoints = new Vector2[1] { new(X, Y) };
         }
 
-        public void Draw(GeometryDrawer gd)
+        public void Draw(ViewportLayer gd)
         {
             Draw(gd, Style);
         }
-        public void Draw(GeometryDrawer gd, Style s)
+        public void Draw(ViewportLayer gd, Style s)
         {
             gd.DrawPointCross((X, Y), s);
         }

@@ -10,7 +10,7 @@ namespace DegCAD.GeometryCommands
 {
     public class ParallelSegment : IGeometryCommand
     {
-        public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
+        public async Task<TimelineItem?> ExecuteAsync(ViewportLayer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
             Style blueStyle = new Style() { Color = Colors.Blue, LineStyle = 1 };
             Style redStyle = new Style() { Color = Colors.Red };

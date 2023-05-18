@@ -21,11 +21,11 @@ namespace DegCAD.MongeItems
 
         public Style Style { get; } = Style.Default;
 
-        public void Draw(GeometryDrawer gd)
+        public void Draw(ViewportLayer gd)
         {
             Draw(gd, Style);
         }
-        public void Draw(GeometryDrawer gd, Style s)
+        public void Draw(ViewportLayer gd, Style s)
         {
             //Axis
             gd.DrawLine(axis, double.NegativeInfinity, double.PositiveInfinity, s);

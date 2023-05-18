@@ -14,11 +14,11 @@ namespace DegCAD
     public class LabelManager
     {
         public Timeline Timeline { get; init; }
-        public GeometryDrawer GeometryDrawer { get; init; }
+        public ViewportLayer GeometryDrawer { get; init; }
         public ViewPort ViewPort { get; init; }
         public Editor Editor { get; init; }
 
-        public LabelManager(Timeline timeline, GeometryDrawer geometryDrawer, ViewPort viewPort, Editor editor)
+        public LabelManager(Timeline timeline, ViewportLayer geometryDrawer, ViewPort viewPort, Editor editor)
         {
             Timeline = timeline;
             GeometryDrawer = geometryDrawer;
