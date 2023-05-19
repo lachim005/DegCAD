@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Shapes;
 
 namespace DegCAD.MongeItems
 {
@@ -40,24 +42,28 @@ namespace DegCAD.MongeItems
             if (plane)
                 infinitySign *= -1;
 
+            _line.SetStyle(style);
 
             SnapableLines = new ParametricLine2[1] { line };
             Style = style;
         }
 
 
-        public void Draw(ViewportLayer gd)
+        private readonly Line _line = new();
+
+        public void Draw(ViewportLayer vpl)
         {
-            Draw(gd, Style);
+            Draw(vpl, Style);
         }
-        public void Draw(ViewportLayer gd, Style s)
+        public void Draw(ViewportLayer vpl, Style s)
         {
-            gd.DrawLine(Line, double.PositiveInfinity * infinitySign, Line.GetParamFromY(0), s);
+            _line.SetLineProjection(vpl, Line, Plane, infinitySign);
+            Debug.WriteLine($"({_line.X1}, {_line.Y1}), ({_line.X2}, {_line.Y2})");
         }
 
         public void AddToViewportLayer(ViewportLayer vpl)
         {
-
+            vpl.Canvas.Children.Add(_line);
         }
     }
 }

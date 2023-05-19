@@ -27,9 +27,7 @@ namespace DegCAD.MongeItems
             Style = style;
             SnapableLines = new ParametricLine2[1] { ParametricLine2.From2Points(p1, p2) };
             SnapablePoints = new Vector2[2] { p1, p2 };
-            _line.Stroke = new SolidColorBrush(style.Color);
-            _line.StrokeThickness = style.Thickness+1;
-            _line.StrokeDashArray = new(Style.StrokeDashArrays[style.LineStyle]);
+            _line.SetStyle(Style);
         }
 
         private readonly Line _line = new();
@@ -40,12 +38,7 @@ namespace DegCAD.MongeItems
         }
         public void Draw(ViewportLayer vpl, Style s)
         {
-            Vector2 screenP1 = vpl.Viewport.CanvasToScreen(P1);
-            Vector2 screenP2 = vpl.Viewport.CanvasToScreen(P2);
-            _line.X1 = screenP1.X;
-            _line.Y1 = screenP1.Y;
-            _line.X2 = screenP2.X;
-            _line.Y2 = screenP2.Y;
+            _line.SetLineSegment(vpl, P1, P2);
         }
 
         public void AddToViewportLayer(ViewportLayer vpl)
