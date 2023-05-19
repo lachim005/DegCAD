@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -47,7 +48,28 @@ namespace DegCAD
         }
         #endregion
 
+        #region Line
+        /// <summary>
+        /// Sets the style of the ellipse
+        /// </summary>
+        public static void SetStyle(this Ellipse el, Style style)
+        {
+            el.Stroke = new SolidColorBrush(style.Color);
+            el.StrokeThickness = style.Thickness + 1;
+            el.StrokeDashArray = new(Style.StrokeDashArrays[style.LineStyle]);
+        }
 
+        public static void SetCircle(this Ellipse el, ViewportLayer vpl, Circle2 c)
+        {
+            Vector2 sCenter = vpl.Viewport.CanvasToScreen(c.Center);
+            double radius = vpl.Viewport.Scale * ViewPort.unitSize * c.Radius;
+
+            el.Width = 2 * radius;
+            el.Height = 2 * radius;
+            Canvas.SetLeft(el, sCenter.X - radius);
+            Canvas.SetTop(el, sCenter.Y - radius);
+        }
+        #endregion
 
 
 

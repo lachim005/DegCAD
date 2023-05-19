@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Shapes;
 
 namespace DegCAD.MongeItems
 {
@@ -31,20 +32,24 @@ namespace DegCAD.MongeItems
             SnapableLines = new ParametricLine2[0];
             SnapablePoints = new Vector2[1] { circle.Center };
             SnapableCircles = new Circle2[1] { circle };
+
+            _circle.SetStyle(style);
         }
 
-        public void Draw(ViewportLayer gd)
+        Ellipse _circle = new();
+
+        public void Draw(ViewportLayer vpl)
         {
-            Draw(gd, Style);
+            Draw(vpl, Style);
         }
-        public void Draw(ViewportLayer gd, Style s)
+        public void Draw(ViewportLayer vpl, Style s)
         {
-            gd.DrawCircle(Circle2, s);
+            _circle.SetCircle(vpl, Circle2);
         }
 
         public void AddToViewportLayer(ViewportLayer vpl)
         {
-
+            vpl.Canvas.Children.Add(_circle);
         }
     }
 }
