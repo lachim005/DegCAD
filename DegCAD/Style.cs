@@ -18,8 +18,8 @@ namespace DegCAD
         public static double[][] StrokeDashArrays = new double[3][]
         {
             new double[0],
-            new double[2] {20, 20},
-            new double[2] {20, 20}
+            new double[2] {15, 15},
+            new double[4] {15, 7, 2, 7}
         };
 
         public override bool Equals(object? obj)
