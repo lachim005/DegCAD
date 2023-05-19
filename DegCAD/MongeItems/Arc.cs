@@ -1,8 +1,11 @@
-﻿using System;
+﻿using DegCAD.GeometryCommands;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace DegCAD.MongeItems
 {
@@ -40,20 +43,24 @@ namespace DegCAD.MongeItems
             };
             SnapableLines = new ParametricLine2[0];
             SnapableCircles = new Circle2[1] { circle };
+
+            _arc.SetStyle(style);
         }
 
-        public void Draw(ViewportLayer gd)
+        Path _arc = new();
+
+        public void Draw(ViewportLayer vpl)
         {
-            Draw(gd, Style);
+            Draw(vpl, Style);
         }
-        public void Draw(ViewportLayer gd, Style s)
+        public void Draw(ViewportLayer vpl, Style s)
         {
-            gd.DrawArc(Circle, StartAngle, EndAngle, s);
+            _arc.SetArc(vpl, Circle, StartAngle, EndAngle);
         }
 
         public void AddToViewportLayer(ViewportLayer vpl)
         {
-
+            vpl.Canvas.Children.Add(_arc);
         }
     }
 }

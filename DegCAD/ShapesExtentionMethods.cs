@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
@@ -48,7 +50,7 @@ namespace DegCAD
         }
         #endregion
 
-        #region Line
+        #region Circle
         /// <summary>
         /// Sets the style of the ellipse
         /// </summary>
@@ -58,7 +60,9 @@ namespace DegCAD
             el.StrokeThickness = style.Thickness + 1;
             el.StrokeDashArray = new(Style.StrokeDashArrays[style.LineStyle]);
         }
-
+        /// <summary>
+        /// Sets the screen coordinates of the ellipse to fit a circle
+        /// </summary>
         public static void SetCircle(this Ellipse el, ViewportLayer vpl, Circle2 c)
         {
             Vector2 sCenter = vpl.Viewport.CanvasToScreen(c.Center);
@@ -71,8 +75,38 @@ namespace DegCAD
         }
         #endregion
 
+        #region Path
+        /// <summary>
+        /// Sets the style of the path
+        /// </summary>
+        public static void SetStyle(this Path pth, Style style)
+        {
+            pth.Stroke = new SolidColorBrush(style.Color);
+            pth.StrokeThickness = style.Thickness + 1;
+            pth.StrokeDashArray = new(Style.StrokeDashArrays[style.LineStyle]);
+        }
+        /// <summary>
+        /// Sets the data of the path to fit an arc
+        /// </summary>
+        public static void SetArc(this Path pth, ViewportLayer vpl, Circle2 c, double startAngle, double endAngle)
+        {
+            double radius = vpl.Viewport.Scale * ViewPort.unitSize * c.Radius;
 
+            var center = vpl.Viewport.CanvasToScreen(c.Center);
 
+            var start = PolarToCartesian(center, radius, endAngle);
+            var end = PolarToCartesian(center, radius, startAngle);
+
+            startAngle *= 180/Math.PI;
+            endAngle *= 180/Math.PI;
+
+            var largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+
+            string arc = $"M {start.X}#{start.Y} A {radius}#{radius} 0 {largeArcFlag} 0 {end.X}#{end.Y}".Replace(',', '.').Replace('#', ',');
+
+            pth.Data = Geometry.Parse(arc);
+        }
+        #endregion
 
 
 
@@ -96,6 +130,13 @@ namespace DegCAD
                 }
             }
             return par;
+        }
+        private static Vector2 PolarToCartesian(Vector2 center, double radius, double angleInRadians)
+        {
+            return (
+            center.X + (radius * Math.Cos(angleInRadians)),
+            center.Y + (radius * Math.Sin(angleInRadians))
+            );
         }
     }
 }

@@ -18,12 +18,18 @@ namespace DegCAD.DrawableItems
         public Point(double x, double y) : this(x, y, Style.Default) { }
         public Point(double x, double y, Style style)
         {
+            style.LineStyle = 0;
+
             X = x;
             Y = y;
             Style = style;
 
             //Adds snapable points
             SnapablePoints = new Vector2[1] { new(X, Y) };
+
+
+            _line1.SetStyle(style);
+            _line2.SetStyle(style);
         }
 
         private readonly Line _line1 = new();
