@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Shapes;
 
 namespace DegCAD.MongeItems
 {
@@ -21,21 +23,29 @@ namespace DegCAD.MongeItems
 
         public Style Style { get; } = Style.Default;
 
-        public void AddToViewportLayer(ViewportLayer vpl)
+        private readonly Line _line = new();
+        private readonly Line _zeroMark = new();
+
+        public Axis()
         {
-            
+            _line.SetStyle(Style);
+            _zeroMark.SetStyle(Style);
         }
 
-        public void Draw(ViewportLayer gd)
+        public void Draw(ViewportLayer vpl)
         {
-            Draw(gd, Style);
+            Draw(vpl, Style);
         }
-        public void Draw(ViewportLayer gd, Style s)
+        public void Draw(ViewportLayer vpl, Style s)
         {
-            //Axis
-            gd.DrawLine(axis, double.NegativeInfinity, double.PositiveInfinity, s);
-            //Zero mark
-            gd.DrawLine((0, -.2), (0, .2), s);
+            _line.SetParaLine(vpl, axis, double.NegativeInfinity, double.PositiveInfinity);
+            _zeroMark.SetLineSegment(vpl, (0, .2), (0, -.2));
+        }
+
+        public void AddToViewportLayer(ViewportLayer vpl)
+        {
+            vpl.Canvas.Children.Add(_line);
+            vpl.Canvas.Children.Add(_zeroMark);
         }
     }
 }

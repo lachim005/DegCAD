@@ -36,10 +36,10 @@ namespace DegCAD
         /// <summary>
         /// Sets the screen coordinates of the line to fit a line projection
         /// </summary>
-        public static void SetLineProjection(this Line ln, ViewportLayer vpl, ParametricLine2 pl, bool plane, int infinitySign)
+        public static void SetParaLine(this Line ln, ViewportLayer vpl, ParametricLine2 pl, double from, double to)
         {
-            Vector2 screenP1 = vpl.Viewport.CanvasToScreen(pl.GetPoint(pl.GetParamFromY(0)));
-            Vector2 screenP2 = vpl.Viewport.CanvasToScreen(pl.GetPoint(ClampInfinity(pl, double.PositiveInfinity * infinitySign, vpl)));
+            Vector2 screenP1 = vpl.Viewport.CanvasToScreen(pl.GetPoint(ClampInfinity(pl, from, vpl)));
+            Vector2 screenP2 = vpl.Viewport.CanvasToScreen(pl.GetPoint(ClampInfinity(pl, to, vpl)));
             ln.X1 = screenP1.X;
             ln.Y1 = screenP1.Y;
             ln.X2 = screenP2.X;

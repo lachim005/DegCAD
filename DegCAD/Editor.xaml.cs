@@ -89,11 +89,13 @@ namespace DegCAD
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public void AddAxis()
+        public void AddAxis(ViewportLayer vpl)
         {
+            var axis = new Axis();
+            axis.AddToViewportLayer(vpl);
             Timeline.AddCommand(new TimelineItem(new IMongeItem[3]
             {
-                new Axis(),
+                axis,
                 new MongeItems.Label("x", "1, 2", "", (8,0), DegCAD.Style.Default, new LineProjection(new((0,0), (1,0)), false, DegCAD.Style.Default)),
                 new MongeItems.Label("0", "", "", (0,0), DegCAD.Style.Default, new DrawableItems.Point(0,0)),
             }));

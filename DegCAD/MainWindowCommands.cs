@@ -83,7 +83,7 @@ namespace DegCAD
         private void NewCommand(object sender, ExecutedRoutedEventArgs e)
         {
             Editor ed = new($"Bez názvu {editorCounter}");
-            ed.AddAxis();
+            ed.AddAxis(ed.viewPort.Layers[1]);
             ed.styleSelector.AddDefaultColors();
             ed.Changed = false;
             openEditors.Add(new(ed));

@@ -57,8 +57,7 @@ namespace DegCAD.MongeItems
         }
         public void Draw(ViewportLayer vpl, Style s)
         {
-            _line.SetLineProjection(vpl, Line, Plane, infinitySign);
-            Debug.WriteLine($"({_line.X1}, {_line.Y1}), ({_line.X2}, {_line.Y2})");
+            _line.SetParaLine(vpl, Line, Line.GetParamFromY(0), double.PositiveInfinity * infinitySign);
         }
 
         public void AddToViewportLayer(ViewportLayer vpl)

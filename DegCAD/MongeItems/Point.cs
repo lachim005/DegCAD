@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
+using System.Numerics;
+using System.Windows.Shapes;
 
 namespace DegCAD.DrawableItems
 {
@@ -23,18 +26,23 @@ namespace DegCAD.DrawableItems
             SnapablePoints = new Vector2[1] { new(X, Y) };
         }
 
-        public void Draw(ViewportLayer gd)
+        private readonly Line _line1 = new();
+        private readonly Line _line2 = new();
+
+        public void Draw(ViewportLayer vpl)
         {
-            Draw(gd, Style);
+            Draw(vpl, Style);
         }
-        public void Draw(ViewportLayer gd, Style s)
+        public void Draw(ViewportLayer vpl, Style s)
         {
-            gd.DrawPointCross((X, Y), s);
+            _line1.SetLineSegment(vpl, (Coords.X, Coords.Y + .2), (Coords.X, Coords.Y - .2));
+            _line2.SetLineSegment(vpl, (Coords.X + .2, Coords.Y), (Coords.X - .2, Coords.Y));
         }
 
         public void AddToViewportLayer(ViewportLayer vpl)
         {
-
+            vpl.Canvas.Children.Add(_line1);
+            vpl.Canvas.Children.Add(_line2);
         }
     }
 }
