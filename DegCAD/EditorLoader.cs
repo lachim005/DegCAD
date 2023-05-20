@@ -175,7 +175,7 @@ namespace DegCAD
 
             return itemName switch
             {
-                "AXS" => new Axis(),
+                "AXS" => new Axis(stl),
                 "PNT" => PNT(s[4..], stl),
                 "LNE" => LNE(s[4..], stl),
                 "SEG" => SEG(s[4..], stl),

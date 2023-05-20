@@ -87,8 +87,8 @@ namespace DegCAD
                 HoveredLabel = hoveredLabel;
             }
             //Highlights the label with the mouse over it
-            hoveredLabel.Draw(GeometryDrawer, hoverStyle);
-            hoveredLabel.DrawLabeledObject(GeometryDrawer, hoverStyle);
+            //hoveredLabel.Draw(GeometryDrawer, hoverStyle);
+            //hoveredLabel.DrawLabeledObject(GeometryDrawer, hoverStyle);
         }
         private void MoveLabel(object sender, MouseEventArgs e)
         {
@@ -98,7 +98,7 @@ namespace DegCAD
             if (HoveredLabel is null) return;
             HoveredLabel.Position = pos + startMoveOffset;
             Editor.Redraw();
-            HoveredLabel.Draw(GeometryDrawer, hoverStyle);
+            //HoveredLabel.Draw(GeometryDrawer, hoverStyle);
             HoveredLabel.DrawLabeledObject(GeometryDrawer, hoverStyle);
             return;
         }

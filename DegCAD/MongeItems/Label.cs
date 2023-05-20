@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DegCAD.GeometryCommands;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -18,6 +19,7 @@ namespace DegCAD.MongeItems
     /// </summary>
     public class Label : IMongeItem
     {
+        private Style _style;
         private string _labelText = "";
         private string _subscript = "";
         private string _superscript = "";
@@ -58,22 +60,30 @@ namespace DegCAD.MongeItems
 
         public Circle2[] SnapableCircles { get; } = new Circle2[0];
 
-        public Style Style { get; init; }
+        public Style Style
+        {
+            get => _style;
+            set
+            {
+                _style = value;
+                _lblTbl.Foreground = new SolidColorBrush(value.Color);
+                _subTbl.Foreground = new SolidColorBrush(value.Color);
+                _supTbl.Foreground = new SolidColorBrush(value.Color);
+            }
+        }
 
         public IMongeItem LabeledObject { get; init; }
 
-        public Label(string labelText, string subscript, string superscript, Vector2 position, Style style, IMongeItem labeledObject)
+        public Label(string labelText, string subscript, string superscript, Vector2 position, Style style, IMongeItem labeledObject, ViewportLayer? vpl = null)
         {
-            _lblTbl.Foreground = new SolidColorBrush(style.Color);
-            _subTbl.Foreground = new SolidColorBrush(style.Color);
-            _supTbl.Foreground = new SolidColorBrush(style.Color);
-
             LabelText = labelText;
             Subscript = subscript;
             Superscript = superscript;
             Position = position;
             Style = style;
             LabeledObject = labeledObject;
+
+            if (vpl is not null) AddToViewportLayer(vpl);
         }
 
         TextBlock _lblTbl = new() { FontFamily = new("Tahoma"), TextAlignment = TextAlignment.Right };
@@ -82,11 +92,6 @@ namespace DegCAD.MongeItems
 
 
         public void Draw(ViewportLayer vpl)
-        {
-            Draw(vpl, Style);
-        }
-
-        public void Draw(ViewportLayer vpl, Style style)
         {
             double fontSize = 16 * vpl.Viewport.Scale;
 
@@ -107,7 +112,7 @@ namespace DegCAD.MongeItems
 
         public void DrawLabeledObject(ViewportLayer gd, Style style)
         {
-            LabeledObject.Draw(gd, style);
+            LabeledObject.Draw(gd);
         }
 
         public void AddToViewportLayer(ViewportLayer vpl)

@@ -91,8 +91,7 @@ namespace DegCAD
 
         public void AddAxis(ViewportLayer vpl)
         {
-            var axis = new Axis();
-            axis.AddToViewportLayer(vpl);
+            var axis = new Axis(DegCAD.Style.Default, vpl);
             Timeline.AddCommand(new TimelineItem(new IMongeItem[3]
             {
                 axis,

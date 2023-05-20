@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DegCAD.GeometryCommands;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,19 +13,29 @@ namespace DegCAD.MongeItems
     /// </summary>
     public class Circle : IMongeItem
     {
+        private Style _style;
+
         public Vector2[] SnapablePoints { get; init; }
         public ParametricLine2[] SnapableLines { get; init; }
         public Circle2[] SnapableCircles { get; init; }
         public Circle2 Circle2 { get; init; }
-        public Style Style { get; init; }
+        public Style Style
+        {
+            get => _style;
+            set
+            {
+                _style = value;
+                _circle.SetStyle(value);
+            }
+        }
 
-        public Circle(Vector2 center, Vector2 pointOnCircle, Style style)
-            : this(new Circle2(center, pointOnCircle), style)
+        public Circle(Vector2 center, Vector2 pointOnCircle, Style style, ViewportLayer? vpl = null)
+            : this(new Circle2(center, pointOnCircle), style, vpl)
         {
 
         }
 
-        public Circle(Circle2 circle, Style style)
+        public Circle(Circle2 circle, Style style, ViewportLayer? vpl = null)
         {
             Style = style;
             Circle2 = circle;
@@ -33,16 +44,12 @@ namespace DegCAD.MongeItems
             SnapablePoints = new Vector2[1] { circle.Center };
             SnapableCircles = new Circle2[1] { circle };
 
-            _circle.SetStyle(style);
+            if (vpl is not null) AddToViewportLayer(vpl);
         }
 
         Ellipse _circle = new();
 
         public void Draw(ViewportLayer vpl)
-        {
-            Draw(vpl, Style);
-        }
-        public void Draw(ViewportLayer vpl, Style s)
         {
             _circle.SetCircle(vpl, Circle2);
         }

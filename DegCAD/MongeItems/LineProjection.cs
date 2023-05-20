@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DegCAD.GeometryCommands;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -14,6 +15,8 @@ namespace DegCAD.MongeItems
     /// </summary>
     public class LineProjection : IMongeItem
     {
+        private Style _style;
+
         public Vector2[] SnapablePoints { get; } = new Vector2[0];
 
         public Circle2[] SnapableCircles { get; } = new Circle2[0];
@@ -25,9 +28,17 @@ namespace DegCAD.MongeItems
 
         public bool Plane { get; init; }
 
-        public Style Style { get; init; }
+        public Style Style
+        {
+            get => _style;
+            set
+            {
+                _style = value;
+                _line.SetStyle(value);
+            }
+        }
 
-        public LineProjection(ParametricLine2 line, bool plane, Style style)
+        public LineProjection(ParametricLine2 line, bool plane, Style style, ViewportLayer? vpl = null)
         {
             Line = line;
             Plane = plane;
@@ -42,20 +53,17 @@ namespace DegCAD.MongeItems
             if (plane)
                 infinitySign *= -1;
 
-            _line.SetStyle(style);
 
             SnapableLines = new ParametricLine2[1] { line };
             Style = style;
+
+            if (vpl is not null) AddToViewportLayer(vpl);
         }
 
 
         private readonly Line _line = new();
 
         public void Draw(ViewportLayer vpl)
-        {
-            Draw(vpl, Style);
-        }
-        public void Draw(ViewportLayer vpl, Style s)
         {
             _line.SetParaLine(vpl, Line, Line.GetParamFromY(0), double.PositiveInfinity * infinitySign);
         }

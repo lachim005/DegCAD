@@ -7,16 +7,27 @@ namespace DegCAD.DrawableItems
 {
     internal class Point : IMongeItem
     {
+        private Style _style;
+
         public double X { get; init; }
         public double Y { get; init; }
         public Vector2 Coords => new Vector2(X, Y);
-        public Style Style { get; init; } = Style.Default;
+        public Style Style
+        {
+            get => _style;
+            set
+            {
+                _style = value;
+                _line1.SetStyle(value);
+                _line2.SetStyle(value);
+            }
+        }
         public Vector2[] SnapablePoints { get; init; }
         public ParametricLine2[] SnapableLines { get; } = new ParametricLine2[0];
         public Circle2[] SnapableCircles { get; } = new Circle2[0];
 
-        public Point(double x, double y) : this(x, y, Style.Default) { }
-        public Point(double x, double y, Style style)
+        public Point(double x, double y, ViewportLayer? vpl = null) : this(x, y, Style.Default, vpl) { }
+        public Point(double x, double y, Style style, ViewportLayer? vpl = null)
         {
             style.LineStyle = 0;
 
@@ -27,9 +38,7 @@ namespace DegCAD.DrawableItems
             //Adds snapable points
             SnapablePoints = new Vector2[1] { new(X, Y) };
 
-
-            _line1.SetStyle(style);
-            _line2.SetStyle(style);
+            if (vpl is not null) AddToViewportLayer(vpl);
         }
 
         private readonly Line _line1 = new();
