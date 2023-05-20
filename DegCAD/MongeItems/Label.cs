@@ -1,8 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
+using System.Windows.Media;
+using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace DegCAD.MongeItems
 {
@@ -11,9 +18,36 @@ namespace DegCAD.MongeItems
     /// </summary>
     public class Label : IMongeItem
     {
-        public string LabelText { get; set; }
-        public string Subscript { get; set; }
-        public string Superscript { get; set; }
+        private string _labelText = "";
+        private string _subscript = "";
+        private string _superscript = "";
+
+        public string LabelText 
+        {
+            get => _labelText;
+            set { 
+                _labelText = value;
+                _lblTbl.Text = _labelText;
+            } 
+        }
+        public string Subscript
+        {
+            get => _subscript;
+            set
+            {
+                _subscript = value;
+                _subTbl.Text = _subscript;
+            }
+        }
+        public string Superscript
+        {
+            get => _superscript;
+            set
+            {
+                _superscript = value;
+                _supTbl.Text = _superscript;
+            }
+        }
 
         public Vector2 Position { get; set; }
         public Vector2 Size { get; private set; }
@@ -30,6 +64,10 @@ namespace DegCAD.MongeItems
 
         public Label(string labelText, string subscript, string superscript, Vector2 position, Style style, IMongeItem labeledObject)
         {
+            _lblTbl.Foreground = new SolidColorBrush(style.Color);
+            _subTbl.Foreground = new SolidColorBrush(style.Color);
+            _supTbl.Foreground = new SolidColorBrush(style.Color);
+
             LabelText = labelText;
             Subscript = subscript;
             Superscript = superscript;
@@ -38,18 +76,33 @@ namespace DegCAD.MongeItems
             LabeledObject = labeledObject;
         }
 
-        public void Draw(ViewportLayer gd)
+        TextBlock _lblTbl = new() { FontFamily = new("Tahoma"), TextAlignment = TextAlignment.Right };
+        TextBlock _supTbl = new() { FontFamily = new("Tahoma"), TextAlignment = TextAlignment.Right };
+        TextBlock _subTbl = new() { FontFamily = new("Tahoma"), TextAlignment = TextAlignment.Right };
+
+
+        public void Draw(ViewportLayer vpl)
         {
-            Draw(gd, Style);
+            Draw(vpl, Style);
         }
 
-        public void Draw(ViewportLayer gd, Style style)
+        public void Draw(ViewportLayer vpl, Style style)
         {
-            /*var endPos = gd.DrawString(LabelText, Position, 16, style);
-            Size = endPos - Position;
-            endPos.X -= .1;
-            gd.DrawString(Superscript, (endPos.X, Position.Y), 8, style);
-            gd.DrawString(Subscript, (endPos.X, Position.Y + .3), 8, style);*/
+            double fontSize = 16 * vpl.Viewport.Scale;
+
+            _lblTbl.FontSize = fontSize;
+            _subTbl.FontSize = fontSize * .5;
+            _supTbl.FontSize = fontSize * .5;
+
+
+            var screenPos = vpl.Viewport.CanvasToScreen(Position);
+
+            Canvas.SetTop(_lblTbl, screenPos.Y);
+            Canvas.SetRight(_lblTbl, vpl.Canvas.ActualWidth - screenPos.X);
+            Canvas.SetTop(_supTbl, screenPos.Y - fontSize * .1);
+            Canvas.SetLeft(_supTbl, screenPos.X + fontSize * .05);
+            Canvas.SetTop(_subTbl, screenPos.Y + fontSize * .6);
+            Canvas.SetLeft(_subTbl, screenPos.X + fontSize * .05);
         }
 
         public void DrawLabeledObject(ViewportLayer gd, Style style)
@@ -59,7 +112,10 @@ namespace DegCAD.MongeItems
 
         public void AddToViewportLayer(ViewportLayer vpl)
         {
-
+            vpl.Canvas.Children.Add(_lblTbl);
+            vpl.Canvas.Children.Add(_supTbl);
+            vpl.Canvas.Children.Add(_subTbl);
+            LabeledObject.AddToViewportLayer(vpl);
         }
     }
 }
