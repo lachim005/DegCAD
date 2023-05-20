@@ -65,7 +65,10 @@ namespace DegCAD.MongeItems
 
         public void Draw(ViewportLayer vpl)
         {
-            _line.SetParaLine(vpl, Line, Line.GetParamFromY(0), double.PositiveInfinity * infinitySign);
+            if (Line.DirectionVector.Y == 0)
+                _line.SetParaLine(vpl, Line, double.NegativeInfinity, double.PositiveInfinity);
+            else
+                _line.SetParaLine(vpl, Line, Line.GetParamFromY(0), double.PositiveInfinity * infinitySign);
         }
 
         public void AddToViewportLayer(ViewportLayer vpl)

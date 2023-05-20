@@ -32,7 +32,6 @@ namespace DegCAD
         public GeometryInputManager InputMgr { get; protected set; }
         public Timeline Timeline { get; protected set; }
         public Snapper Snapper { get; protected set; }
-        public LabelManager LabelManager { get; protected set; }
 
         public bool ExecutingCommand
         {
@@ -82,7 +81,6 @@ namespace DegCAD
             Snapper = new(Timeline);
             InputMgr = new(viewPort, Snapper, styleSelector);
             viewPort.SizeChanged += ViewPortChanged;
-            LabelManager = new(Timeline, viewPort.Layers[1], viewPort, this);
 
             _fileName = fileName;
         }

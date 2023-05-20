@@ -1,6 +1,7 @@
 ﻿using DegCAD.GeometryCommands;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
@@ -82,8 +84,14 @@ namespace DegCAD.MongeItems
             Position = position;
             Style = style;
             LabeledObject = labeledObject;
+            LabeledObject.Style = Style.HighlightStyle;
+            LabeledObject.SetVisibility(Visibility.Hidden);
 
             if (vpl is not null) AddToViewportLayer(vpl);
+
+            _lblTbl.MouseEnter += LabelMouseEnter;
+            _lblTbl.MouseLeave += LabelMouseLeave;
+            _lblTbl.MouseLeftButtonDown += LabelMouseLeftButtonDown;
         }
 
         TextBlock _lblTbl = new() { FontFamily = new("Tahoma"), TextAlignment = TextAlignment.Right };
@@ -108,11 +116,8 @@ namespace DegCAD.MongeItems
             Canvas.SetLeft(_supTbl, screenPos.X + fontSize * .05);
             Canvas.SetTop(_subTbl, screenPos.Y + fontSize * .6);
             Canvas.SetLeft(_subTbl, screenPos.X + fontSize * .05);
-        }
 
-        public void DrawLabeledObject(ViewportLayer gd, Style style)
-        {
-            LabeledObject.Draw(gd);
+            LabeledObject.Draw(vpl.Viewport.Layers[2]);
         }
 
         public void AddToViewportLayer(ViewportLayer vpl)
@@ -120,7 +125,9 @@ namespace DegCAD.MongeItems
             vpl.Canvas.Children.Add(_lblTbl);
             vpl.Canvas.Children.Add(_supTbl);
             vpl.Canvas.Children.Add(_subTbl);
-            LabeledObject.AddToViewportLayer(vpl);
+            LabeledObject.AddToViewportLayer(vpl.Viewport.Layers[2]);
+            vpl.Canvas.MouseMove += CanvasMouseMove;
+            _vpl = vpl;
         }
 
         public void SetVisibility(Visibility visibility)
@@ -130,5 +137,50 @@ namespace DegCAD.MongeItems
             _supTbl.Visibility = visibility;
             LabeledObject.SetVisibility(visibility);
         }
+
+        #region Handling labels
+
+        Style _prevStyle;
+
+        private void LabelMouseEnter(object sender, MouseEventArgs e)
+        {
+            LabeledObject.SetVisibility(Visibility.Visible);
+            _prevStyle = Style;
+            Style = Style.HighlightStyle;
+        }
+        private void LabelMouseLeave(object sender, MouseEventArgs e)
+        {
+            LabeledObject.SetVisibility(Visibility.Hidden);
+            Style = _prevStyle;
+        }
+
+        Vector2? dragStart = null;
+        Vector2? dragStartPos = null;
+        ViewportLayer? _vpl;
+        private void LabelMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (_vpl is null) return;
+            dragStart = _vpl.Viewport.ScreenToCanvas(e.GetPosition(_vpl.Canvas));
+            dragStartPos = Position;
+            _vpl.Canvas.CaptureMouse();
+        }
+        private void CanvasMouseMove(object sender, MouseEventArgs e)
+        {
+            if (dragStart is null) return;
+            if (dragStartPos is null) return;
+            if (e.LeftButton == MouseButtonState.Released)
+            {
+                dragStart = null;
+                _vpl?.Canvas.ReleaseMouseCapture();
+                return;
+            }
+            if (_vpl is null) return;
+
+            Position = (Vector2)(dragStartPos + (_vpl.Viewport.ScreenToCanvas(e.GetPosition(sender as Canvas)) - dragStart));
+            Debug.WriteLine(Position);
+
+            Draw(_vpl);
+        }
+        #endregion
     }
 }

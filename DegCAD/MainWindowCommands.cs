@@ -17,7 +17,6 @@ namespace DegCAD
         {
             if (ActiveEditor is null) return false;
             if (ActiveEditor.ExecutingCommand) return false;
-            if (ActiveEditor.LabelManager.MovingLabel) return false;
             return true;
         }
         private void OpenSaveFileDialog(Editor editor)

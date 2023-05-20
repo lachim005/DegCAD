@@ -15,6 +15,8 @@ namespace DegCAD
         public int Thickness { get; set; }
 
         public static Style Default => new Style() { Color = Colors.Black, LineStyle = 0 };
+        public static Style HighlightStyle => new Style() { Color = Colors.Red, Thickness = 3 };
+
         public static double[][] StrokeDashArrays = new double[3][]
         {
             new double[0],
