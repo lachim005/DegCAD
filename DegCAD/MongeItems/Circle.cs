@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Shapes;
 
 namespace DegCAD.MongeItems
@@ -57,6 +58,11 @@ namespace DegCAD.MongeItems
         public void AddToViewportLayer(ViewportLayer vpl)
         {
             vpl.Canvas.Children.Add(_circle);
+        }
+
+        public void SetVisibility(Visibility visibility)
+        {
+            _circle.Visibility = visibility;
         }
     }
 }

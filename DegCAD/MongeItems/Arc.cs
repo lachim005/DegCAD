@@ -69,5 +69,10 @@ namespace DegCAD.MongeItems
         {
             vpl.Canvas.Children.Add(_arc);
         }
+
+        public void SetVisibility(Visibility visibility)
+        {
+            _arc.Visibility = visibility;
+        }
     }
 }

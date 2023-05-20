@@ -122,5 +122,13 @@ namespace DegCAD.MongeItems
             vpl.Canvas.Children.Add(_subTbl);
             LabeledObject.AddToViewportLayer(vpl);
         }
+
+        public void SetVisibility(Visibility visibility)
+        {
+            _lblTbl.Visibility = visibility;
+            _subTbl.Visibility = visibility;
+            _supTbl.Visibility = visibility;
+            LabeledObject.SetVisibility(visibility);
+        }
     }
 }

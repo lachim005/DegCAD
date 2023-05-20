@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -52,6 +53,11 @@ namespace DegCAD.MongeItems
         public void AddToViewportLayer(ViewportLayer vpl)
         {
             vpl.Canvas.Children.Add(_line);
+        }
+
+        public void SetVisibility(Visibility visibility)
+        {
+            _line.Visibility = visibility;
         }
     }
 }

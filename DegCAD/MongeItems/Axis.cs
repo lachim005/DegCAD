@@ -57,5 +57,11 @@ namespace DegCAD.MongeItems
             vpl.Canvas.Children.Add(_line);
             vpl.Canvas.Children.Add(_zeroMark);
         }
+
+        public void SetVisibility(Visibility visibility)
+        {
+            _line.Visibility = visibility;
+            _zeroMark.Visibility = visibility;
+        }
     }
 }

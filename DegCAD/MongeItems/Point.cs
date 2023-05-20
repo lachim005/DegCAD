@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Numerics;
+using System.Windows;
 using System.Windows.Shapes;
 
 namespace DegCAD.DrawableItems
@@ -58,6 +59,12 @@ namespace DegCAD.DrawableItems
         {
             vpl.Canvas.Children.Add(_line1);
             vpl.Canvas.Children.Add(_line2);
+        }
+
+        public void SetVisibility(Visibility visibility)
+        {
+            _line1.Visibility = visibility;
+            _line2.Visibility = visibility;
         }
     }
 }
