@@ -199,7 +199,7 @@ namespace DegCAD
                 Color = c,
                 LineStyle = int.Parse(vals[3])
             };
-            if (md.version > new Version(0,3,0))
+            if (md.version >= new Version(0,4,0))
             {
                 stl.Thickness = int.Parse(vals[4]);
             }
