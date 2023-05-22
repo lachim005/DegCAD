@@ -66,5 +66,7 @@ namespace DegCAD.DrawableItems
             _line1.Visibility = visibility;
             _line2.Visibility = visibility;
         }
+
+        public IMongeItem Clone() => new Point(X, Y, Style);
     }
 }

@@ -64,5 +64,7 @@ namespace DegCAD.MongeItems
         {
             _circle.Visibility = visibility;
         }
+
+        public IMongeItem Clone() => new Circle(Circle2, Style);
     }
 }

@@ -139,6 +139,8 @@ namespace DegCAD.MongeItems
             LabeledObject.SetVisibility(visibility);
         }
 
+        public IMongeItem Clone() => new Label(LabelText, Subscript, Superscript, Position, Style, LabeledObject.Clone());
+
         #region Handling labels
 
         Style _prevStyle;

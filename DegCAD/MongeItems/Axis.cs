@@ -63,5 +63,7 @@ namespace DegCAD.MongeItems
             _line.Visibility = visibility;
             _zeroMark.Visibility = visibility;
         }
+
+        public IMongeItem Clone() => new Axis(Style);
     }
 }

@@ -74,5 +74,7 @@ namespace DegCAD.MongeItems
         {
             _arc.Visibility = visibility;
         }
+
+        public IMongeItem Clone() => new Arc(Circle, StartAngle, EndAngle, Style);
     }
 }

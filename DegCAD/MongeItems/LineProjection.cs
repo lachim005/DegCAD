@@ -80,5 +80,7 @@ namespace DegCAD.MongeItems
         {
             _line.Visibility = visibility;
         }
+
+        public IMongeItem Clone() => new LineProjection(Line, Plane, Style);
     }
 }

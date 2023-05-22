@@ -16,5 +16,6 @@ namespace DegCAD
         public Style Style { get; set; }
         public void AddToViewportLayer(ViewportLayer vpl);
         public void SetVisibility(Visibility visibility);
+        public IMongeItem Clone();
     }
 }

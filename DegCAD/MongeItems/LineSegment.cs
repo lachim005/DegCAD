@@ -59,5 +59,7 @@ namespace DegCAD.MongeItems
         {
             _line.Visibility = visibility;
         }
+
+        public IMongeItem Clone() => new LineSegment(P1, P2, Style);
     }
 }
