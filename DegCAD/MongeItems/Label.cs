@@ -55,7 +55,6 @@ namespace DegCAD.MongeItems
         }
 
         public Vector2 Position { get; set; }
-        public Vector2 Size { get; private set; }
 
         public Vector2[] SnapablePoints { get; } = new Vector2[0];
 

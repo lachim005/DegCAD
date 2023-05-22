@@ -16,6 +16,9 @@ namespace DegCAD.MongeItems
     public class Arc : IMongeItem
     {
         private Style _style;
+        private Circle2 _circle2;
+        private double _startAngle;
+        private double _endAngle;
 
 
         public Vector2[] SnapablePoints { get; init; }
@@ -24,10 +27,37 @@ namespace DegCAD.MongeItems
 
         public Circle2[] SnapableCircles { get; init; }
 
-        public Circle2 Circle { get; init; }
+        public Circle2 Circle
+        {
+            get => _circle2;
+            set
+            {
+                _circle2 = value;
+                SnapableCircles[0] = _circle2;
+                SnapablePoints[0] = _circle2.Center;
+                SnapablePoints[1] = _circle2.CalculatePointWithAngle(StartAngle);
+                SnapablePoints[2] = _circle2.CalculatePointWithAngle(EndAngle);
+            }
+        }
         public Vector2 Center => Circle.Center;
-        public double StartAngle { get; init; }
-        public double EndAngle { get; init; }
+        public double StartAngle
+        {
+            get => _startAngle;
+            set
+            {
+                _startAngle = value;
+                SnapablePoints[1] = _circle2.CalculatePointWithAngle(_startAngle);
+            }
+        }
+        public double EndAngle
+        {
+            get => _endAngle;
+            set
+            {
+                _endAngle = value;
+                SnapablePoints[2] = _circle2.CalculatePointWithAngle(_endAngle);
+            }
+        }
         public Style Style { 
             get => _style; 
             set
@@ -36,9 +66,6 @@ namespace DegCAD.MongeItems
                 _arc.SetStyle(value);
             }
         }
-
-        public Arc(Vector2 center, Vector2 point, double startPoint, double endPoint, Style style, ViewportLayer? vpl = null)
-            : this(new Circle2(center, point), startPoint, endPoint, style, vpl) { }
 
         public Arc(Circle2 circle, double startPoint, double endPoint, Style style, ViewportLayer? vpl = null)
         {

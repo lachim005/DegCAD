@@ -9,10 +9,39 @@ namespace DegCAD.DrawableItems
     internal class Point : IMongeItem
     {
         private Style _style;
+        private double _x;
+        private double _y;
 
-        public double X { get; init; }
-        public double Y { get; init; }
-        public Vector2 Coords => new Vector2(X, Y);
+        public double X 
+        { 
+            get => _x;
+            set
+            {
+                _x = value;
+                SnapablePoints[0].X = _x;
+            }
+        }
+        public double Y
+        {
+            get => _y;
+            set
+            {
+                _y = value;
+                SnapablePoints[0].Y = _y;
+            }
+        }
+        public Vector2 Coords
+        {
+            set
+            {
+                X = value.X;
+                Y = value.Y;
+            }
+            get
+            {
+                return (X, Y);
+            }
+        }
         public Style Style
         {
             get => _style;
@@ -23,7 +52,7 @@ namespace DegCAD.DrawableItems
                 _line2.SetStyle(value);
             }
         }
-        public Vector2[] SnapablePoints { get; init; }
+        public Vector2[] SnapablePoints { get; private set; }
         public ParametricLine2[] SnapableLines { get; } = new ParametricLine2[0];
         public Circle2[] SnapableCircles { get; } = new Circle2[0];
 
@@ -32,12 +61,12 @@ namespace DegCAD.DrawableItems
         {
             style.LineStyle = 0;
 
-            X = x;
-            Y = y;
-            Style = style;
-
             //Adds snapable points
-            SnapablePoints = new Vector2[1] { new(X, Y) };
+            SnapablePoints = new Vector2[1] { new(x, y) };
+
+            _x = x;
+            _y = y;
+            Style = style;
 
             if (vpl is not null) AddToViewportLayer(vpl);
         }

@@ -15,11 +15,21 @@ namespace DegCAD.MongeItems
     public class Circle : IMongeItem
     {
         private Style _style;
+        private Circle2 _circle2;
 
         public Vector2[] SnapablePoints { get; init; }
-        public ParametricLine2[] SnapableLines { get; init; }
+        public ParametricLine2[] SnapableLines { get; } = new ParametricLine2[0];
         public Circle2[] SnapableCircles { get; init; }
-        public Circle2 Circle2 { get; init; }
+        public Circle2 Circle2
+        {
+            get => _circle2;
+            set
+            {
+                _circle2 = value;
+                SnapableCircles[0] = _circle2;
+                SnapablePoints[0] = _circle2.Center;
+            }
+        }
         public Style Style
         {
             get => _style;
@@ -30,18 +40,11 @@ namespace DegCAD.MongeItems
             }
         }
 
-        public Circle(Vector2 center, Vector2 pointOnCircle, Style style, ViewportLayer? vpl = null)
-            : this(new Circle2(center, pointOnCircle), style, vpl)
-        {
-
-        }
-
         public Circle(Circle2 circle, Style style, ViewportLayer? vpl = null)
         {
             Style = style;
-            Circle2 = circle;
+            _circle2 = circle;
 
-            SnapableLines = new ParametricLine2[0];
             SnapablePoints = new Vector2[1] { circle.Center };
             SnapableCircles = new Circle2[1] { circle };
 

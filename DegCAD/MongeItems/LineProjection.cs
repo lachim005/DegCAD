@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -16,17 +17,36 @@ namespace DegCAD.MongeItems
     public class LineProjection : IMongeItem
     {
         private Style _style;
+        private ParametricLine2 _paraLine;
+        private bool _plane;
 
         public Vector2[] SnapablePoints { get; } = new Vector2[0];
 
         public Circle2[] SnapableCircles { get; } = new Circle2[0];
 
-        public ParametricLine2[] SnapableLines { get; init; }
+        public ParametricLine2[] SnapableLines { get; private set; }
 
-        public ParametricLine2 Line { get; init; }
+        public ParametricLine2 Line
+        {
+            get => _paraLine;
+            set
+            {
+                _paraLine = value;
+                SnapableLines[0] = _paraLine;
+                RecalculateInfinitySign();
+            }
+        }
         private int infinitySign;
 
-        public bool Plane { get; init; }
+        public bool Plane
+        {
+            get => _plane;
+            set
+            {
+                _plane = value;
+                RecalculateInfinitySign();
+            }
+        }
 
         public Style Style
         {
@@ -40,21 +60,13 @@ namespace DegCAD.MongeItems
 
         public LineProjection(ParametricLine2 line, bool plane, Style style, ViewportLayer? vpl = null)
         {
-            Line = line;
-            Plane = plane;
+            _paraLine = line;
+            _plane = plane;
 
-            //Calculates the infinity sign for drawing the line
-            infinitySign = 1;
-            if (Line.DirectionVector.Y * Line.DirectionVector.X < 0)
-            {
-                infinitySign = -1;
-            }
-
-            if (plane)
-                infinitySign *= -1;
-
-
+            RecalculateInfinitySign();
             SnapableLines = new ParametricLine2[1] { line };
+
+
             Style = style;
 
             if (vpl is not null) AddToViewportLayer(vpl);
@@ -82,5 +94,18 @@ namespace DegCAD.MongeItems
         }
 
         public IMongeItem Clone() => new LineProjection(Line, Plane, Style);
+
+        private void RecalculateInfinitySign()
+        {
+            //Calculates the infinity sign for drawing the line
+            infinitySign = 1;
+            if (Line.DirectionVector.Y * Line.DirectionVector.X < 0)
+            {
+                infinitySign = -1;
+            }
+
+            if (_plane)
+                infinitySign *= -1;
+        }
     }
 }

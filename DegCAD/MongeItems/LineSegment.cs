@@ -14,9 +14,29 @@ namespace DegCAD.MongeItems
     public class LineSegment : IMongeItem
     {
         private Style _style;
+        private Vector2 _p1;
+        private Vector2 _p2;
 
-        public Vector2 P1 { get; init; }
-        public Vector2 P2 { get; init; }
+        public Vector2 P1
+        {
+            get => _p1;
+            set
+            {
+                _p1 = value;
+                SnapablePoints[0] = _p1;
+                SnapableLines[0] = ParametricLine2.From2Points(_p1, _p2);
+            }
+        }
+        public Vector2 P2
+        {
+            get => _p2;
+            set
+            {
+                _p2 = value;
+                SnapablePoints[1] = _p2;
+                SnapableLines[0] = ParametricLine2.From2Points(_p1, _p2);
+            }
+        }
         public Style Style
         {
             get => _style;
@@ -27,18 +47,19 @@ namespace DegCAD.MongeItems
             }
         }
 
-        public Vector2[] SnapablePoints { get; init; }
-        public ParametricLine2[] SnapableLines { get; init; }
+        public Vector2[] SnapablePoints { get; private set; }
+        public ParametricLine2[] SnapableLines { get; private set; }
         public Circle2[] SnapableCircles { get; } = new Circle2[0];
 
         public LineSegment(Vector2 p1, Vector2 p2, ViewportLayer? vpl = null) : this(p1, p2, Style.Default, vpl) { }
         public LineSegment(Vector2 p1, Vector2 p2, Style style, ViewportLayer? vpl = null)
         {
-            P1 = p1;
-            P2 = p2;
-            Style = style;
             SnapableLines = new ParametricLine2[1] { ParametricLine2.From2Points(p1, p2) };
             SnapablePoints = new Vector2[2] { p1, p2 };
+
+            _p1 = p1;
+            _p2 = p2;
+            Style = style;
 
             if (vpl is not null) AddToViewportLayer(vpl);
         }
