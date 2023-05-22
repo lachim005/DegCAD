@@ -69,11 +69,6 @@ namespace DegCAD.MongeItems
 
         public Arc(Circle2 circle, double startPoint, double endPoint, Style style, ViewportLayer? vpl = null)
         {
-            Circle = circle;
-            StartAngle = startPoint;
-            EndAngle = endPoint;
-            Style = style;
-
             SnapablePoints = new Vector2[3] {
                 Circle.Center,
                 circle.CalculatePointWithAngle(startPoint),
@@ -81,6 +76,13 @@ namespace DegCAD.MongeItems
             };
             SnapableLines = new ParametricLine2[0];
             SnapableCircles = new Circle2[1] { circle };
+
+
+            _circle2 = circle;
+            _startAngle = startPoint;
+            _endAngle = endPoint;
+
+            Style = style;
 
             if (vpl is not null) AddToViewportLayer(vpl);
         }

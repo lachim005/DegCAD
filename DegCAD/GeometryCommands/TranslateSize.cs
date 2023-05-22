@@ -74,7 +74,7 @@ namespace DegCAD.GeometryCommands
 
             List<IMongeItem> mItems = new()
             {
-                new DrawableItems.Point(ptOnCircle.X, ptOnCircle.Y, curStyle)
+                new MongeItems.Point(ptOnCircle.X, ptOnCircle.Y, curStyle)
             };
             //Label
             esb.CommandHelp = "Zadejte název bodu";

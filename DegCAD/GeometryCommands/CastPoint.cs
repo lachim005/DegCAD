@@ -86,7 +86,7 @@ namespace DegCAD.GeometryCommands
                 mItems.Add(new MongeItems.LineSegment(ptOnCircle, point, curStyle));
             }
 
-            var mPoint = new DrawableItems.Point(ptOnCircle.X, ptOnCircle.Y, curStyle);
+            var mPoint = new MongeItems.Point(ptOnCircle.X, ptOnCircle.Y, curStyle);
             mItems.Add(mPoint);
 
             //Label
