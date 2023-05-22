@@ -4,7 +4,7 @@ using System.Numerics;
 using System.Windows;
 using System.Windows.Shapes;
 
-namespace DegCAD.DrawableItems
+namespace DegCAD.MongeItems
 {
     internal class Point : IMongeItem
     {

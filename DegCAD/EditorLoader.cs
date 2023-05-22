@@ -1,5 +1,4 @@
-﻿using DegCAD.DrawableItems;
-using DegCAD.MongeItems;
+﻿using DegCAD.MongeItems;
 using System;
 using System.Collections.Generic;
 using System.IO;

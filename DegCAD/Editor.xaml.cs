@@ -1,5 +1,4 @@
-﻿using DegCAD.DrawableItems;
-using DegCAD.MongeItems;
+﻿using DegCAD.MongeItems;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -94,7 +93,7 @@ namespace DegCAD
             {
                 axis,
                 new MongeItems.Label("x", "1, 2", "", (8,0), DegCAD.Style.Default, new LineProjection(new((0,0), (1,0)), false, DegCAD.Style.Default)),
-                new MongeItems.Label("0", "", "", (0,0), DegCAD.Style.Default, new DrawableItems.Point(0,0)),
+                new MongeItems.Label("0", "", "", (0,0), DegCAD.Style.Default, new MongeItems.Point(0,0)),
             }));
         }
         public void ViewPortChanged(object? sender, EventArgs e)
