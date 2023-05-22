@@ -1,4 +1,5 @@
-﻿using DegCAD.GeometryCommands;
+﻿using DegCAD.Dialogs;
+using DegCAD.GeometryCommands;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -156,13 +157,32 @@ namespace DegCAD.MongeItems
 
         Vector2? dragStart = null;
         Vector2? dragStartPos = null;
+        bool startedMoving = false;
         ViewportLayer? _vpl;
         private void LabelMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (e.ClickCount == 2)
+            {
+                //Rename label
+                LabelInput lid = new();
+                lid.labelTextTbx.Text = LabelText;
+                lid.subscriptTbx.Text = Subscript;
+                lid.superscriptTbx.Text = Superscript;
+                lid.ShowDialog();
+                if (!lid.Canceled)
+                {
+                    LabelText = lid.LabelText;
+                    Subscript = lid.Subscript;
+                    Superscript = lid.Superscript;
+                }
+                if (_vpl is not null)
+                    Draw(_vpl);
+            }
+
             if (_vpl is null) return;
             dragStart = _vpl.Viewport.ScreenToCanvas(e.GetPosition(_vpl.Canvas));
             dragStartPos = Position;
-            _vpl.Canvas.CaptureMouse();
+            startedMoving = false;
         }
         private void CanvasMouseMove(object sender, MouseEventArgs e)
         {
@@ -177,7 +197,12 @@ namespace DegCAD.MongeItems
             if (_vpl is null) return;
 
             Position = (Vector2)(dragStartPos + (_vpl.Viewport.ScreenToCanvas(e.GetPosition(sender as Canvas)) - dragStart));
-            Debug.WriteLine(Position);
+
+            if (!startedMoving)
+            {
+                _vpl.Canvas.CaptureMouse();
+                startedMoving = true;
+            }
 
             Draw(_vpl);
         }
