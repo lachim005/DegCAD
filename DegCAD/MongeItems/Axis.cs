@@ -57,6 +57,11 @@ namespace DegCAD.MongeItems
             vpl.Canvas.Children.Add(_line);
             vpl.Canvas.Children.Add(_zeroMark);
         }
+        public void RemoveFromViewportLayer(ViewportLayer vpl)
+        {
+            vpl.Canvas.Children.Remove(_line);
+            vpl.Canvas.Children.Remove(_zeroMark);
+        }
 
         public void SetVisibility(Visibility visibility)
         {

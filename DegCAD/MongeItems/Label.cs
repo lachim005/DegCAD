@@ -129,6 +129,15 @@ namespace DegCAD.MongeItems
             vpl.Canvas.MouseMove += CanvasMouseMove;
             _vpl = vpl;
         }
+        public void RemoveFromViewportLayer(ViewportLayer vpl)
+        {
+            vpl.Canvas.Children.Remove(_lblTbl);
+            vpl.Canvas.Children.Remove(_supTbl);
+            vpl.Canvas.Children.Remove(_subTbl);
+            LabeledObject.RemoveFromViewportLayer(vpl);
+            vpl.Canvas.MouseMove -= CanvasMouseMove;
+            _vpl = null;
+        }
 
         public void SetVisibility(Visibility visibility)
         {

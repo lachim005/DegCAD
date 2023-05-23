@@ -62,7 +62,10 @@ namespace DegCAD.MongeItems
         {
             vpl.Canvas.Children.Add(_circle);
         }
-
+        public void RemoveFromViewportLayer(ViewportLayer vpl)
+        {
+            vpl.Canvas.Children.Remove(_circle);
+        }
         public void SetVisibility(Visibility visibility)
         {
             _circle.Visibility = visibility;

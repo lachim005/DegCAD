@@ -98,6 +98,10 @@ namespace DegCAD.MongeItems
         {
             vpl.Canvas.Children.Add(_arc);
         }
+        public void RemoveFromViewportLayer(ViewportLayer vpl)
+        {
+            vpl.Canvas.Children.Remove(_arc);
+        }
 
         public void SetVisibility(Visibility visibility)
         {

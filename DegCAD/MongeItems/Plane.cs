@@ -51,6 +51,11 @@ namespace DegCAD.MongeItems
             vpl.Canvas.Children.Add(_rectangle);
         }
 
+        public void RemoveFromViewportLayer(ViewportLayer vpl)
+        {
+            vpl.Canvas.Children.Remove(_rectangle);
+        }
+
         public IMongeItem Clone() => new Plane(TopPlane, _vpl);
 
 
