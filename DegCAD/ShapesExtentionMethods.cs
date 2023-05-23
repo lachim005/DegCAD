@@ -22,6 +22,9 @@ namespace DegCAD
             ln.Stroke = new SolidColorBrush(style.Color);
             ln.StrokeThickness = style.Thickness + 1;
             ln.StrokeDashArray = new(Style.StrokeDashArrays[style.LineStyle]);
+            ln.StrokeStartLineCap = PenLineCap.Round;
+            ln.StrokeDashCap = PenLineCap.Round;
+            ln.StrokeEndLineCap = PenLineCap.Round;
         }
         /// <summary>
         /// Sets the screen coordinates of the line to fit a line segment
@@ -59,6 +62,9 @@ namespace DegCAD
             el.Stroke = new SolidColorBrush(style.Color);
             el.StrokeThickness = style.Thickness + 1;
             el.StrokeDashArray = new(Style.StrokeDashArrays[style.LineStyle]);
+            el.StrokeStartLineCap = PenLineCap.Round;
+            el.StrokeDashCap = PenLineCap.Round;
+            el.StrokeEndLineCap = PenLineCap.Round;
         }
         /// <summary>
         /// Sets the screen coordinates of the ellipse to fit a circle
@@ -84,6 +90,9 @@ namespace DegCAD
             pth.Stroke = new SolidColorBrush(style.Color);
             pth.StrokeThickness = style.Thickness + 1;
             pth.StrokeDashArray = new(Style.StrokeDashArrays[style.LineStyle]);
+            pth.StrokeStartLineCap = PenLineCap.Round;
+            pth.StrokeDashCap = PenLineCap.Round;
+            pth.StrokeEndLineCap = PenLineCap.Round;
         }
         /// <summary>
         /// Sets the data of the path to fit an arc
