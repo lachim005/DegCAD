@@ -10,48 +10,49 @@ namespace DegCAD.GeometryCommands
 {
     public class Line2D : IGeometryCommand
     {
-        public async Task<TimelineItem?> ExecuteAsync(ViewportLayer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
+        public async Task<TimelineItem?> ExecuteAsync(ViewportLayer previewVpl, ViewportLayer vpl, ViewportLayer bgVpl, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
             esb.CommandName = "Průmět přímky";
 
-            ParametricLine2 line1 = new();
-            int line1Sign = 1;
-
-            //First projection
             esb.CommandHelp = "Vyberte první bod průmětu, pravým tlačítkem změníte průmětnu";
+
+            Plane mPlane = new(false, bgVpl);
+            Point mPt1 = new(0, 0, previewVpl);
+
             (Vector2 pt1, bool plane) = await inputMgr.GetPointWithPlane((p, gd, plane) =>
             {
-                gd.DrawPlane(plane);
-
-                gd.DrawPointCross(p, Style.Default);
+                mPlane.TopPlane = plane;
+                mPlane.Draw(bgVpl);
+                mPt1.Coords = p;
+                mPt1.Draw(previewVpl);
             });
+
             esb.CommandHelp = "Vyberte druhý bod průmětu, pravým tlačítkem změníte průmětnu";
+
+            Point mPt2 = new(0, 0, previewVpl);
+            ParametricLine2 line1 = new((0, 0), (1, 1));
+            LineProjection mLine = new(line1, plane, Style.HighlightStyle, previewVpl);
+
             (Vector2 pt2, plane) = await inputMgr.GetPointWithPlane((p, gd, plane) =>
             {
-                gd.DrawPlane(plane);
-
-                gd.DrawPointCross(pt1, Style.Default);
-                gd.DrawPointCross(p, Style.Default);
+                mPlane.TopPlane = plane;
+                mPlane.Draw(bgVpl);
+                mPt2.Coords = p;
+                mPt2.Draw(previewVpl);
+                mPt1.Draw(previewVpl);
 
                 line1 = ParametricLine2.From2Points(pt1, p);
-
-                //Calculates the infinity sign
-                line1Sign = plane ? -1 : 1;
-                if (line1.DirectionVector.Y * line1.DirectionVector.X < 0)
-                {
-                    line1.DirectionVector = -line1.DirectionVector;
-                    line1Sign *= -1;
-                }
-
-                gd.DrawLine(line1, double.PositiveInfinity * line1Sign, line1.GetParamFromY(0), Style.Default);
-            }, plane);
+                mLine.Line = line1;
+                mLine.Plane = plane;
+                mLine.Draw(previewVpl);
+            }, plane, predicate: (pt) => pt != pt1);
 
 
             var curStyle = inputMgr.StyleSelector.CurrentStyle;
 
             List<IMongeItem> mItems = new()
             {
-                new LineProjection(line1, plane, curStyle)
+                new LineProjection(line1, plane, curStyle, vpl)
             };
 
             esb.CommandHelp = "Zadejte název přímky";
@@ -60,7 +61,7 @@ namespace DegCAD.GeometryCommands
             lid.ShowDialog();
             if (!lid.Canceled)
             {
-                mItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript, (pt2 + pt1) / 2, curStyle, mItems[0]));
+                mItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript, (pt2 + pt1) / 2, curStyle, mItems[0].Clone(), vpl));
             }
 
 

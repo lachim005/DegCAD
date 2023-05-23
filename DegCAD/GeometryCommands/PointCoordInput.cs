@@ -10,7 +10,7 @@ namespace DegCAD.GeometryCommands
 {
     internal class PointCoordInput : IGeometryCommand
     {
-        public Task<TimelineItem?> ExecuteAsync(ViewportLayer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
+        public Task<TimelineItem?> ExecuteAsync(ViewportLayer previewVpl, ViewportLayer vpl, ViewportLayer bgVpl, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
             esb.CommandName = "Vynést body";
             esb.CommandHelp = "Zadejte souřadnice a názvy bodů, které chcete vynést";
@@ -33,21 +33,21 @@ namespace DegCAD.GeometryCommands
                 //Adds the Y projection
                 if (double.IsFinite(pt.Y))
                 {
-                    pts.Add(new Point(pt.X, pt.Y, curStyle));
+                    pts.Add(new Point(pt.X, pt.Y, curStyle, vpl));
                     //Adds the label
                     if (!string.IsNullOrWhiteSpace(pt.Label))
                     {
-                        pts.Add(new Label(pt.Label, "1", "", (pt.X, pt.Y), curStyle, new Point(pt.X, pt.Y)));
+                        pts.Add(new Label(pt.Label, "1", "", (pt.X, pt.Y), curStyle, new Point(pt.X, pt.Y), vpl));
                     }
                 }
                 //Adds the Z projection
                 if (double.IsFinite(pt.Z))
                 {
-                    pts.Add(new Point(pt.X, -pt.Z, curStyle));
+                    pts.Add(new Point(pt.X, -pt.Z, curStyle, vpl));
                     //Adds the label
                     if (!string.IsNullOrWhiteSpace(pt.Label))
                     {
-                        pts.Add(new Label(pt.Label, "2", "", (pt.X, -pt.Z), curStyle, new Point(pt.X, -pt.Z)));
+                        pts.Add(new Label(pt.Label, "2", "", (pt.X, -pt.Z), curStyle, new Point(pt.X, -pt.Z), vpl));
                     }
                 }
             }

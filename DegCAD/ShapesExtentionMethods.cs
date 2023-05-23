@@ -100,7 +100,8 @@ namespace DegCAD
             startAngle *= 180/Math.PI;
             endAngle *= 180/Math.PI;
 
-            var largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+            if (endAngle < startAngle) endAngle += 360;
+            var largeArcFlag = (endAngle - startAngle) <= 180 ? "0" : "1";
 
             string arc = $"M {start.X}#{start.Y} A {radius}#{radius} 0 {largeArcFlag} 0 {end.X}#{end.Y}".Replace(',', '.').Replace('#', ',');
 

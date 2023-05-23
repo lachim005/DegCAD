@@ -125,7 +125,7 @@ namespace DegCAD.MongeItems
             vpl.Canvas.Children.Add(_lblTbl);
             vpl.Canvas.Children.Add(_supTbl);
             vpl.Canvas.Children.Add(_subTbl);
-            LabeledObject.AddToViewportLayer(vpl.Viewport.Layers[2]);
+            LabeledObject.AddToViewportLayer(vpl);
             vpl.Canvas.MouseMove += CanvasMouseMove;
             _vpl = vpl;
         }

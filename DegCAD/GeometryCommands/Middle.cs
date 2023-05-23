@@ -1,4 +1,5 @@
 ﻿using DegCAD.Dialogs;
+using DegCAD.MongeItems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,23 +11,36 @@ namespace DegCAD.GeometryCommands
 {
     public class Middle : IGeometryCommand
     {
-        public async Task<TimelineItem?> ExecuteAsync(ViewportLayer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
+        public async Task<TimelineItem?> ExecuteAsync(ViewportLayer previewVpl, ViewportLayer vpl, ViewportLayer bgVpl, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
             esb.CommandName = "Střed";
-            Style redStyle = new() { Color = Colors.Red };
+            
 
             esb.CommandHelp = "Vyberte první bod";
+
+            Point mPt1 = new(0, 0, Style.Default, previewVpl);
+
             Vector2 pt1 = await inputMgr.GetPoint((pt, gd) =>
             {
-                gd.DrawPointCross(pt, Style.Default);
+                mPt1.Coords = pt;
+                mPt1.Draw(previewVpl);
             });
+
             esb.CommandHelp = "Vyberte druhý bod";
+
+
+            Point mPt2 = new(0, 0, Style.Default, previewVpl);
+            Point mPtMid = new(0, 0, Style.HighlightStyle, previewVpl);
+
             Vector2 pt2 = await inputMgr.GetPoint((pt, gd) =>
             {
-                gd.DrawPointCross(pt1, Style.Default);
-                gd.DrawPointCross(pt, Style.Default);
+                mPt1.Draw(previewVpl);
 
-                gd.DrawPointCross((pt1 + pt) / 2, redStyle);
+                mPt2.Coords = pt;
+                mPt2.Draw(previewVpl);
+
+                mPtMid.Coords = (pt1 + pt) / 2;
+                mPtMid.Draw(previewVpl);
             });
 
             var middle = (pt1 + pt2) / 2;
@@ -35,7 +49,7 @@ namespace DegCAD.GeometryCommands
 
             List<IMongeItem> mItems = new()
             {
-                new MongeItems.Point(middle.X, middle.Y, curStyle)
+                new Point(middle.X, middle.Y, curStyle, vpl)
             };
             //Label
             esb.CommandHelp = "Zadejte název bodu";
@@ -43,7 +57,7 @@ namespace DegCAD.GeometryCommands
             lid.ShowDialog();
             if (!lid.Canceled)
             {
-                mItems.Add(new MongeItems.Label(lid.LabelText, lid.Subscript, lid.Superscript, middle, curStyle, mItems[0]));
+                mItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript, middle, curStyle, mItems[0].Clone(), vpl));
             }
 
             return new(mItems.ToArray());

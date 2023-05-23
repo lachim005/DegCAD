@@ -8,6 +8,6 @@ namespace DegCAD
 {
     public interface IGeometryCommand
     {
-        Task<TimelineItem?> ExecuteAsync(ViewportLayer gd, GeometryInputManager inputMgr, EditorStatusBar esb);
+        Task<TimelineItem?> ExecuteAsync(ViewportLayer previewVpl, ViewportLayer vpl, ViewportLayer bgVpl, GeometryInputManager inputMgr, EditorStatusBar esb);
     }
 }

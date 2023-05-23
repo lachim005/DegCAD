@@ -16,6 +16,8 @@ namespace DegCAD
 
         public static Style Default => new Style() { Color = Colors.Black, LineStyle = 0 };
         public static Style HighlightStyle => new Style() { Color = Colors.Red, Thickness = 3 };
+        public static Style BlueDashStyle => new() { Color = Color.FromRgb(0, 0, 255), LineStyle = 1 };
+        public static Style GreenStyle => new Style() { Color = Colors.YellowGreen, Thickness = 1 };
 
         public static double[][] StrokeDashArrays = new double[3][]
         {

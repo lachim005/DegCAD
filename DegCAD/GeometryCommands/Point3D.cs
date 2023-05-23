@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using DegCAD.MongeItems;
 using System.Diagnostics;
 using DegCAD.Dialogs;
+using System.Windows.Shapes;
 
 namespace DegCAD.GeometryCommands
 {
@@ -16,33 +17,44 @@ namespace DegCAD.GeometryCommands
         public Vector2 p2;
         bool firstPlane;
 
-        public async Task<TimelineItem?> ExecuteAsync(ViewportLayer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
+        public async Task<TimelineItem?> ExecuteAsync(ViewportLayer previewVpl, ViewportLayer vpl, ViewportLayer bgVpl, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
-            Style previewStyle = new() { Color = Color.FromRgb(0, 0, 255), LineStyle = 1 };
-            ParametricLine2 xLine = new((0, 0), (0, 1));
             esb.CommandName = "Průmety bodu";
-
+            
             esb.CommandHelp = "Vyberte první průmět bodu, pravým tlačítkem myši změníte průmětnu";
+
+            Point ptProj1 = new(0, 0, previewVpl);
+            Plane plane = new(false, bgVpl);
+
+            ParametricLine2 xLine = new((0, 0), (0, 1));
+            Line xLineShape = new();
+            xLineShape.SetStyle(Style.BlueDashStyle);
+            previewVpl.Canvas.Children.Add(xLineShape);
+
             (p1, firstPlane) = await inputMgr.GetPointWithPlane((p, gd, pl) =>
             {
-                gd.DrawPlane(pl);
-                //X line
+                ptProj1.Coords = p;
+                ptProj1.Draw(previewVpl);
+
                 xLine.Point = p;
-                gd.DrawLine(xLine, double.NegativeInfinity, double.PositiveInfinity, previewStyle);
-                //Point 1 cross
-                gd.DrawPointCross(p, Style.Default);
+                xLineShape.SetParaLine(previewVpl, xLine, double.NegativeInfinity, double.PositiveInfinity);
+                plane.TopPlane = pl;
+                plane.Draw(bgVpl);
             });
 
             esb.CommandHelp = "Vyberte druhý průmět bodu";
+
+            plane.TopPlane = !firstPlane;
+            plane.Draw(bgVpl);
+            Point ptProj2 = new(p1.X, 0, previewVpl);
+
             p2 = await inputMgr.GetPoint((p, gd) =>
             {
-                gd.DrawPlane(!firstPlane);
-                //X line
-                gd.DrawLine(xLine, double.NegativeInfinity, double.PositiveInfinity, previewStyle);
-                //Point 1 cross
-                gd.DrawPointCross(p1, Style.Default);
-                //Point 2 cross
-                gd.DrawPointCross((p1.X, p.Y), Style.Default);
+                ptProj2.Y = p.Y;
+                ptProj2.Draw(previewVpl);
+                ptProj1.Draw(previewVpl);
+                plane.Draw(previewVpl);
+                xLineShape.SetParaLine(previewVpl, xLine, double.NegativeInfinity, double.PositiveInfinity);
             }, lines: new ParametricLine2[1] { new(p1, (0, 1)) });
 
             p2.X = p1.X;
@@ -53,12 +65,12 @@ namespace DegCAD.GeometryCommands
             //Sets the Y and Z coordinates depending on the first plane selected
             if (firstPlane)
             {
-                mpoints[0] = new(p1.X, p2.Y, curStyle);
-                mpoints[1] = new(p1.X, p1.Y, curStyle);
+                mpoints[0] = new(p1.X, p2.Y, curStyle, vpl);
+                mpoints[1] = new(p1.X, p1.Y, curStyle, vpl);
             } else
             {
-                mpoints[0] = new(p1.X, p1.Y, curStyle);
-                mpoints[1] = new(p1.X, p2.Y, curStyle);
+                mpoints[0] = new(p1.X, p1.Y, curStyle, vpl);
+                mpoints[1] = new(p1.X, p2.Y, curStyle, vpl);
             }
 
             List<IMongeItem> mongeItems = new(3);
@@ -72,10 +84,10 @@ namespace DegCAD.GeometryCommands
             //Adds the labels to the timeline item
             if (!lid.Canceled)
             {
-                mongeItems.Add(new MongeItems.Label(lid.LabelText, "1", lid.Superscript,
-                    mpoints[0].Coords, curStyle, mpoints[0]));
-                mongeItems.Add(new MongeItems.Label(lid.LabelText, "2", lid.Superscript,
-                    mpoints[1].Coords, curStyle, mpoints[1]));
+                mongeItems.Add(new Label(lid.LabelText, "1", lid.Superscript,
+                    mpoints[0].Coords, curStyle, mpoints[0].Clone(), vpl));
+                mongeItems.Add(new Label(lid.LabelText, "2", lid.Superscript,
+                    mpoints[1].Coords, curStyle, mpoints[1].Clone(), vpl));
             }
 
             return new(mongeItems.ToArray());

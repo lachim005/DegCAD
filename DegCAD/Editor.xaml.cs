@@ -123,7 +123,9 @@ namespace DegCAD
             ExecutingCommand = true;
 
             statusBar.ShowCommandStatus();
-            var res = await command.ExecuteAsync(InputMgr.PreviewGd, InputMgr, statusBar);
+            var res = await command.ExecuteAsync(viewPort.Layers[2],viewPort.Layers[1], viewPort.Layers[0], InputMgr, statusBar);
+            viewPort.Layers[2].Canvas.Children.Clear();
+            viewPort.Layers[0].Canvas.Children.Clear();
             ExecutingCommand = false;
             statusBar.HideCommandStatus();
             statusBar.CommandName = "";
