@@ -20,7 +20,7 @@ namespace DegCAD.GeometryCommands
 
             Point mPt1 = new(0, 0, previewVpl);
 
-            Vector2 pt1 = await inputMgr.GetPoint((pt, gd) =>
+            Vector2 pt1 = await inputMgr.GetPoint((pt) =>
             {
                 mPt1.Coords = pt;
                 mPt1.Draw(previewVpl);
@@ -31,7 +31,7 @@ namespace DegCAD.GeometryCommands
             Point mPt2 = new(0, 0, previewVpl);
             MongeItems.LineSegment mSelSeg = new(pt1, pt1, Style.HighlightStyle, previewVpl);
 
-            Vector2 pt2 = await inputMgr.GetPoint((pt, gd) =>
+            Vector2 pt2 = await inputMgr.GetPoint((pt) =>
             {
                 mPt1.Draw(previewVpl);
 
@@ -51,7 +51,7 @@ namespace DegCAD.GeometryCommands
             var circle = new Circle2(pt2, pt1);
             MongeItems.Circle mCircle = new(circle, Style.BlueDashStyle, previewVpl);
 
-            Vector2 pt3 = await inputMgr.GetPoint((pt, gd) =>
+            Vector2 pt3 = await inputMgr.GetPoint((pt) =>
             {
                 mPt1.Draw(previewVpl);
                 mPt2.Draw(previewVpl);
@@ -70,7 +70,7 @@ namespace DegCAD.GeometryCommands
             Point mPt4 = new(0, 0, previewVpl);
             MongeItems.LineSegment mDirSeg = new(pt3, pt3, Style.HighlightStyle, previewVpl);
 
-            Vector2 pt4 = await inputMgr.GetPoint((pt, gd) =>
+            Vector2 pt4 = await inputMgr.GetPoint((pt) =>
             {
                 mPt1.Draw(previewVpl);
                 mPt2.Draw(previewVpl);

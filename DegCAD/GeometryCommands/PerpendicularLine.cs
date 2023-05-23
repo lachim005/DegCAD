@@ -25,7 +25,7 @@ namespace DegCAD.GeometryCommands
             selectedLine.SetStyle(Style.HighlightStyle);
             previewVpl.Canvas.Children.Add(selectedLine);
 
-            ParametricLine2 line = await inputMgr.GetLine((p, l, gd) =>
+            ParametricLine2 line = await inputMgr.GetLine((p, l) =>
             {
                 if (l is not null)
                 {
@@ -48,7 +48,7 @@ namespace DegCAD.GeometryCommands
             Plane mPlane = new(false, bgVpl);
             Point mLinePoint = new(0, 0, previewVpl);
 
-            (Vector2 point, bool plane) = await inputMgr.GetPointWithPlane((pt, gd, plane) =>
+            (Vector2 point, bool plane) = await inputMgr.GetPointWithPlane((pt, plane) =>
             {
                 mPlane.TopPlane = plane;
                 mPlane.Draw(bgVpl);

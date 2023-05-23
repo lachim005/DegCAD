@@ -23,7 +23,7 @@ namespace DegCAD.GeometryCommands
             selectedLine.SetStyle(Style.HighlightStyle);
             previewVpl.Canvas.Children.Add(selectedLine);
 
-            ParametricLine2 line = await inputMgr.GetLine((p, l, gd) =>
+            ParametricLine2 line = await inputMgr.GetLine((p, l) =>
             {
                 if (l is not null)
                 {
@@ -42,7 +42,7 @@ namespace DegCAD.GeometryCommands
             selectedLine.Visibility = Visibility.Visible;
             Point mLinePoint = new(0, 0, previewVpl);
 
-            Vector2 linePoint = await inputMgr.GetPoint((pt, gd) =>
+            Vector2 linePoint = await inputMgr.GetPoint((pt) =>
             {
                 line.Point = pt;
                 mLinePoint.Coords = pt;
@@ -54,7 +54,7 @@ namespace DegCAD.GeometryCommands
 
             Point mSegPt1 = new(0, 0, previewVpl);
 
-            var p1 = await inputMgr.GetPoint((pt, gd) =>
+            var p1 = await inputMgr.GetPoint((pt) =>
             {
                 pt = line.GetClosestPoint(pt);
                 mLinePoint.Draw(previewVpl);
@@ -71,7 +71,7 @@ namespace DegCAD.GeometryCommands
             Point mSegPt2 = new(0, 0, previewVpl);
             MongeItems.LineSegment mLineSeg = new(p1, p1, Style.HighlightStyle, previewVpl);
 
-            var p2 = await inputMgr.GetPoint((pt, gd) =>
+            var p2 = await inputMgr.GetPoint((pt) =>
             {
                 pt = line.GetClosestPoint(pt);
                 mLinePoint.Draw(previewVpl);

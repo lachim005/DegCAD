@@ -17,7 +17,7 @@ namespace DegCAD.GeometryCommands
 
             Point mCenterPt = new(0, 0, previewVpl);
 
-            Vector2 center = await inputMgr.GetPoint((pt, gd) =>
+            Vector2 center = await inputMgr.GetPoint((pt) =>
             {
                 mCenterPt.Coords = pt;
                 mCenterPt.Draw(previewVpl);
@@ -28,7 +28,7 @@ namespace DegCAD.GeometryCommands
             Point mCirclePt = new(0, 0, previewVpl);
             MongeItems.Circle mCircle = new(new(), Style.HighlightStyle, previewVpl);
 
-            Vector2 pointOnCircle = await inputMgr.GetPoint((pt, gd) =>
+            Vector2 pointOnCircle = await inputMgr.GetPoint((pt) =>
             {
                 mCenterPt.Draw(previewVpl);
 

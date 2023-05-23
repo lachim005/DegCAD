@@ -20,7 +20,7 @@ namespace DegCAD.GeometryCommands
 
             Point mPt1 = new(0, 0, previewVpl);
 
-            Vector2 point = await inputMgr.GetPoint((pt, gd) =>
+            Vector2 point = await inputMgr.GetPoint((pt) =>
             {
                 mPt1.Coords = pt;
                 mPt1.Draw(previewVpl);
@@ -39,7 +39,7 @@ namespace DegCAD.GeometryCommands
 
             Point mPt2 = new(0, 0, previewVpl);
 
-            var secondProjection = await inputMgr.GetPoint((pt, gd) =>
+            var secondProjection = await inputMgr.GetPoint((pt) =>
             {
                 mPt1.Draw(previewVpl);
 
@@ -60,7 +60,7 @@ namespace DegCAD.GeometryCommands
             MongeItems.LineSegment mPerpendicularSeg = new(point, point, Style.GreenStyle, previewVpl);
             MongeItems.LineSegment mDirectionSegment = new(point, point, Style.HighlightStyle, previewVpl);
 
-            (var dirPoint, var perpendicular) = await inputMgr.GetPointWithPlane((pt, gd, perp) =>
+            (var dirPoint, var perpendicular) = await inputMgr.GetPointWithPlane((pt, perp) =>
             {
                 mPt1.Draw(previewVpl);
                 secondProjectionLine.SetParaLine(previewVpl, secondProjParaLine, double.NegativeInfinity, double.PositiveInfinity);

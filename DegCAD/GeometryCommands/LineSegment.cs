@@ -17,7 +17,7 @@ namespace DegCAD.GeometryCommands
 
             MongeItems.Point mPt1 = new(0, 0, previewVpl);
 
-            var p1 = await inputMgr.GetPoint((p, gd) =>
+            var p1 = await inputMgr.GetPoint((p) =>
             {
                 mPt1.Coords = p;
                 mPt1.Draw(previewVpl);
@@ -28,7 +28,7 @@ namespace DegCAD.GeometryCommands
             MongeItems.Point mPt2 = new(0, 0, previewVpl);
             MongeItems.LineSegment lineSegment = new(p1, p1, Style.HighlightStyle, previewVpl);
 
-            var p2 = await inputMgr.GetPoint((p, gd) =>
+            var p2 = await inputMgr.GetPoint((p) =>
             {
                 mPt1.Draw(previewVpl);
 

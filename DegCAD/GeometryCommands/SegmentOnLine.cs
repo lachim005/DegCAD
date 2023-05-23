@@ -19,7 +19,7 @@ namespace DegCAD.GeometryCommands
 
             Point mLinePt1 = new(0, 0, previewVpl);
 
-            var lp1 = await inputMgr.GetPoint((pt, gd) =>
+            var lp1 = await inputMgr.GetPoint((pt) =>
             {
                 mLinePt1.Coords = pt;
                 mLinePt1.Draw(previewVpl);
@@ -34,7 +34,7 @@ namespace DegCAD.GeometryCommands
             selectedLine.SetStyle(Style.BlueDashStyle);
             previewVpl.Canvas.Children.Add(selectedLine);
 
-            var lp2 = await inputMgr.GetPoint((pt, gd) =>
+            var lp2 = await inputMgr.GetPoint((pt) =>
             {
                 mLinePt2.Coords = pt;
                 mLinePt2.Draw(previewVpl);
@@ -50,7 +50,7 @@ namespace DegCAD.GeometryCommands
 
             Point mSegPt1 = new(0, 0, previewVpl);
 
-            var p1 = await inputMgr.GetPoint((pt, gd) =>
+            var p1 = await inputMgr.GetPoint((pt) =>
             {
                 pt = line.GetClosestPoint(pt);
 
@@ -69,7 +69,7 @@ namespace DegCAD.GeometryCommands
             Point mSegPt2 = new(0, 0, previewVpl);
             MongeItems.LineSegment mSeg = new(p1, p1, Style.HighlightStyle, previewVpl);
 
-            var p2 = await inputMgr.GetPoint((pt, gd) =>
+            var p2 = await inputMgr.GetPoint((pt) =>
             {
                 pt = line.GetClosestPoint(pt);
 

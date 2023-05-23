@@ -20,7 +20,7 @@ namespace DegCAD.GeometryCommands
 
             Point mPt1 = new(0, 0, Style.Default, previewVpl);
 
-            Vector2 pt1 = await inputMgr.GetPoint((pt, gd) =>
+            Vector2 pt1 = await inputMgr.GetPoint((pt) =>
             {
                 mPt1.Coords = pt;
                 mPt1.Draw(previewVpl);
@@ -32,7 +32,7 @@ namespace DegCAD.GeometryCommands
             Point mPt2 = new(0, 0, Style.Default, previewVpl);
             Point mPtMid = new(0, 0, Style.HighlightStyle, previewVpl);
 
-            Vector2 pt2 = await inputMgr.GetPoint((pt, gd) =>
+            Vector2 pt2 = await inputMgr.GetPoint((pt) =>
             {
                 mPt1.Draw(previewVpl);
 

@@ -22,7 +22,6 @@ namespace DegCAD
     public class GeometryInputManager
     {
         public ViewPort ViewPort { get; set; }
-        public ViewportLayer PreviewGd { get; set; }
         public Snapper Snapper { get; set; }
         public Style PreviewStyle { get; set; } = new Style() { Color = Color.FromRgb(0, 0, 255), LineStyle = 1 };
         public StyleSelector StyleSelector { get; set; }
@@ -31,7 +30,6 @@ namespace DegCAD
 
         public GeometryInputManager(ViewPort viewPort, Snapper snapper, StyleSelector styleSelector)
         {
-            PreviewGd = new();
             ViewPort = viewPort;
             Snapper = snapper;
             StyleSelector = styleSelector;
@@ -41,17 +39,16 @@ namespace DegCAD
         /// Gets a point from the user
         /// </summary>
         /// <param name="preview">Action that will get executed to redraw the preview of the inputed point</param>
-        public async Task<Vector2> GetPoint(Action<Vector2, ViewportLayer> preview, Vector2[]? points = null, ParametricLine2[]? lines = null, Circle2[]? circles = null, Predicate<Vector2>? predicate = null)
+        public async Task<Vector2> GetPoint(Action<Vector2> preview, Vector2[]? points = null, ParametricLine2[]? lines = null, Circle2[]? circles = null, Predicate<Vector2>? predicate = null)
         {
             await inputSemaphore.WaitAsync();
 
             //Redraws the preview of the point
             void DrawPreview(Vector2 canvasPos)
             {
-                PreviewGd.Clear();
                 Vector2 snapPos = Snapper.Snap(canvasPos, points, lines, circles);
                 if (predicate is not null && !predicate(snapPos)) return;
-                preview(snapPos, PreviewGd);
+                preview(snapPos);
             }
 
             //Saves the previewPoint handler so it can be unasigned later
@@ -93,14 +90,13 @@ namespace DegCAD
             ViewPort.VPMouseMoved -= previewPoint;
             ViewPort.MouseDown -= viewPortClick;
             ViewPort.ViewportChanged -= previewPoint;
-            PreviewGd.Clear();
 
             inputSemaphore.Release();
 
             return mposClick;
         }
 
-        public async Task<(Vector2, bool)> GetPointWithPlane(Action<Vector2, ViewportLayer, bool> preview, bool defaultPlane = false, Vector2[]? points = null, ParametricLine2[]? lines = null, Circle2[]? circles = null, Predicate<Vector2>? predicate = null)
+        public async Task<(Vector2, bool)> GetPointWithPlane(Action<Vector2, bool> preview, bool defaultPlane = false, Vector2[]? points = null, ParametricLine2[]? lines = null, Circle2[]? circles = null, Predicate<Vector2>? predicate = null)
         {
             await inputSemaphore.WaitAsync();
 
@@ -109,10 +105,9 @@ namespace DegCAD
             //Redraws the preview of the point
             void DrawPreview(Vector2 canvasPos)
             {
-                PreviewGd.Clear();
                 Vector2 snapPos = Snapper.Snap(canvasPos, points, lines, circles);
                 if (predicate is not null && !predicate(snapPos)) return;
-                preview(snapPos, PreviewGd, plane);
+                preview(snapPos, plane);
             }
 
             //Saves the previewPoint handler so it can be unasigned later
@@ -144,7 +139,6 @@ namespace DegCAD
                 {
                     //Switches the plane
                     plane = !plane;
-                    PreviewGd.Clear();
                     DrawPreview(ViewPort.ScreenToCanvas(Mouse.GetPosition(ViewPort)));
                 }
             };
@@ -161,7 +155,6 @@ namespace DegCAD
             ViewPort.VPMouseMoved -= previewPoint;
             ViewPort.MouseDown -= viewPortClick;
             ViewPort.ViewportChanged -= previewPoint;
-            PreviewGd.Clear();
 
             inputSemaphore.Release();
 
@@ -171,17 +164,16 @@ namespace DegCAD
         /// <summary>
         /// Gets a line from the user
         /// </summary>
-        public async Task<ParametricLine2> GetLine(Action<Vector2, ParametricLine2?, ViewportLayer> preview)
+        public async Task<ParametricLine2> GetLine(Action<Vector2, ParametricLine2?> preview)
         {
             await inputSemaphore.WaitAsync();
 
             //Saves the previewPoint handler so it can be unasigned later
             EventHandler<VPMouseEventArgs> previewPoint = (s, e) =>
             {
-                PreviewGd.Clear();
                 Vector2 snapPos = Snapper.Snap(e.CanvasPos);
                 ParametricLine2? selectedLine = Snapper.SelectLine(e.CanvasPos);
-                preview(snapPos, selectedLine, PreviewGd);
+                preview(snapPos, selectedLine);
             };
 
             //Redraws the preview when the user moves the mouse or zooms/pans the viewport
@@ -209,7 +201,7 @@ namespace DegCAD
 
             //Draws the preview so it doesn't appear after the user moves their mouse
             Vector2 mousePos = ViewPort.ScreenToCanvas(Mouse.GetPosition(ViewPort));
-            preview(mousePos, Snapper.SelectLine(mousePos), PreviewGd);
+            preview(mousePos, Snapper.SelectLine(mousePos));
 
             //Awaits the user click
             var mposClick = await result.Task;
@@ -218,7 +210,6 @@ namespace DegCAD
             ViewPort.VPMouseMoved -= previewPoint;
             ViewPort.MouseDown -= viewPortClick;
             ViewPort.ViewportChanged -= previewPoint;
-            PreviewGd.Clear();
 
             inputSemaphore.Release();
 

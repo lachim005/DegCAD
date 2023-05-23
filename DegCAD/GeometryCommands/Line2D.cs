@@ -19,7 +19,7 @@ namespace DegCAD.GeometryCommands
             Plane mPlane = new(false, bgVpl);
             Point mPt1 = new(0, 0, previewVpl);
 
-            (Vector2 pt1, bool plane) = await inputMgr.GetPointWithPlane((p, gd, plane) =>
+            (Vector2 pt1, bool plane) = await inputMgr.GetPointWithPlane((p, plane) =>
             {
                 mPlane.TopPlane = plane;
                 mPlane.Draw(bgVpl);
@@ -33,7 +33,7 @@ namespace DegCAD.GeometryCommands
             ParametricLine2 line1 = new((0, 0), (1, 1));
             LineProjection mLine = new(line1, plane, Style.HighlightStyle, previewVpl);
 
-            (Vector2 pt2, plane) = await inputMgr.GetPointWithPlane((p, gd, plane) =>
+            (Vector2 pt2, plane) = await inputMgr.GetPointWithPlane((p, plane) =>
             {
                 mPlane.TopPlane = plane;
                 mPlane.Draw(bgVpl);

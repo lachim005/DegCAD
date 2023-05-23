@@ -20,7 +20,7 @@ namespace DegCAD.GeometryCommands
             //Point cross
             Point mPt = new(0, 0, Style.Default, previewVpl);
 
-            var pt = await inputMgr.GetPoint((pt, gd) =>
+            var pt = await inputMgr.GetPoint((pt) =>
             {
                 mPt.Coords = pt;
                 mPt.Draw(previewVpl);

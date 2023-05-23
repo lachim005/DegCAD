@@ -31,7 +31,7 @@ namespace DegCAD.GeometryCommands
             xLineShape.SetStyle(Style.BlueDashStyle);
             previewVpl.Canvas.Children.Add(xLineShape);
 
-            (p1, firstPlane) = await inputMgr.GetPointWithPlane((p, gd, pl) =>
+            (p1, firstPlane) = await inputMgr.GetPointWithPlane((p, pl) =>
             {
                 ptProj1.Coords = p;
                 ptProj1.Draw(previewVpl);
@@ -48,7 +48,7 @@ namespace DegCAD.GeometryCommands
             plane.Draw(bgVpl);
             Point ptProj2 = new(p1.X, 0, previewVpl);
 
-            p2 = await inputMgr.GetPoint((p, gd) =>
+            p2 = await inputMgr.GetPoint((p) =>
             {
                 ptProj2.Y = p.Y;
                 ptProj2.Draw(previewVpl);
