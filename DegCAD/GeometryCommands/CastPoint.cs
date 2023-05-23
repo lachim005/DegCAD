@@ -23,7 +23,7 @@ namespace DegCAD.GeometryCommands
             Vector2 point = await inputMgr.GetPoint((pt) =>
             {
                 mPt1.Coords = pt;
-                mPt1.Draw(previewVpl);
+                mPt1.Draw();
             });
 
             //Get the second projection of the point
@@ -41,17 +41,17 @@ namespace DegCAD.GeometryCommands
 
             var secondProjection = await inputMgr.GetPoint((pt) =>
             {
-                mPt1.Draw(previewVpl);
+                mPt1.Draw();
 
                 circle.Radius = Math.Abs(pt.Y);
                 mCircle.Circle2 = circle;
-                mCircle.Draw(previewVpl);
+                mCircle.Draw();
 
                 secondProjParaLine.Point = pt;
                 secondProjectionLine.SetParaLine(previewVpl, secondProjParaLine, double.NegativeInfinity, double.PositiveInfinity);
 
                 mPt2.Coords = pt;
-                mPt2.Draw(previewVpl);
+                mPt2.Draw();
             });
 
             //Get the direction
@@ -62,10 +62,10 @@ namespace DegCAD.GeometryCommands
 
             (var dirPoint, var perpendicular) = await inputMgr.GetPointWithPlane((pt, perp) =>
             {
-                mPt1.Draw(previewVpl);
+                mPt1.Draw();
                 secondProjectionLine.SetParaLine(previewVpl, secondProjParaLine, double.NegativeInfinity, double.PositiveInfinity);
 
-                mCircle.Draw(previewVpl);
+                mCircle.Draw();
 
                 var ptOnCircle = circle.TranslatePointToCircle(pt);
                 var sth = ptOnCircle - point;
@@ -75,7 +75,7 @@ namespace DegCAD.GeometryCommands
                     mPerpendicularSeg.SetVisibility(System.Windows.Visibility.Visible);
                     mPerpendicularSeg.P1 = ptOnCircle;
                     mPerpendicularSeg.P2 = point - sth;
-                    mPerpendicularSeg.Draw(previewVpl);
+                    mPerpendicularSeg.Draw();
 
                     //Calculates the perpendicular coordinate of the point
                     Vector2 perpVec = new(sth.Y, -sth.X);
@@ -91,8 +91,8 @@ namespace DegCAD.GeometryCommands
                     mPt2.Coords = ptOnCircle;
                 }
 
-                mPt2.Draw(previewVpl);
-                mDirectionSegment.Draw(previewVpl);
+                mPt2.Draw();
+                mDirectionSegment.Draw();
             }, defaultPlane: true , circles: new Circle2[1] { circle }, predicate: (pt) => pt != point);
 
             List<IMongeItem> mItems = new();

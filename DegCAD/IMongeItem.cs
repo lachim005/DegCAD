@@ -9,13 +9,13 @@ namespace DegCAD
 {
     public interface IMongeItem
     {
-        void Draw(ViewportLayer vpl);
+        void Draw();
         public Vector2[] SnapablePoints { get; }
         public ParametricLine2[] SnapableLines { get; }
         public Circle2[] SnapableCircles { get; }
         public Style Style { get; set; }
         public void AddToViewportLayer(ViewportLayer vpl);
-        public void RemoveFromViewportLayer(ViewportLayer vpl);
+        public void RemoveFromViewportLayer();
         public void SetVisibility(Visibility visibility);
         public IMongeItem Clone();
     }

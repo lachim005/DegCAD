@@ -17,6 +17,7 @@ namespace DegCAD.MongeItems
     public class LineProjection : IMongeItem
     {
         private Style _style;
+        private ViewportLayer? _vpl;
         private ParametricLine2 _paraLine;
         private bool _plane;
 
@@ -75,21 +76,25 @@ namespace DegCAD.MongeItems
 
         private readonly Line _line = new();
 
-        public void Draw(ViewportLayer vpl)
+        public void Draw()
         {
+            if (_vpl is null) return;
             if (Line.DirectionVector.Y == 0)
-                _line.SetParaLine(vpl, Line, double.NegativeInfinity, double.PositiveInfinity);
+                _line.SetParaLine(_vpl, Line, double.NegativeInfinity, double.PositiveInfinity);
             else
-                _line.SetParaLine(vpl, Line, Line.GetParamFromY(0), double.PositiveInfinity * infinitySign);
+                _line.SetParaLine(_vpl, Line, Line.GetParamFromY(0), double.PositiveInfinity * infinitySign);
         }
 
         public void AddToViewportLayer(ViewportLayer vpl)
         {
             vpl.Canvas.Children.Add(_line);
+            _vpl = vpl;
         }
-        public void RemoveFromViewportLayer(ViewportLayer vpl)
+        public void RemoveFromViewportLayer()
         {
-            vpl.Canvas.Children.Remove(_line);
+            if (_vpl is null) return;
+            _vpl.Canvas.Children.Remove(_line);
+            _vpl = null;
         }
 
         public void SetVisibility(Visibility visibility)

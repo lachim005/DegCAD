@@ -50,15 +50,15 @@ namespace DegCAD.GeometryCommands
             (Vector2 point, bool plane) = await inputMgr.GetPointWithPlane((pt, plane) =>
             {
                 mPlane.TopPlane = plane;
-                mPlane.Draw(bgVpl);
+                mPlane.Draw();
 
                 mLinePoint.Coords = pt;
-                mLinePoint.Draw(previewVpl);
+                mLinePoint.Draw();
 
                 line.Point = pt;
                 mLineProjection.Line = line;
                 mLineProjection.Plane = plane;
-                mLineProjection.Draw(previewVpl);
+                mLineProjection.Draw();
             });
 
             var curStyle = inputMgr.StyleSelector.CurrentStyle;

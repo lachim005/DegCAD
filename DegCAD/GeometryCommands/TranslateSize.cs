@@ -23,7 +23,7 @@ namespace DegCAD.GeometryCommands
             Vector2 pt1 = await inputMgr.GetPoint((pt) =>
             {
                 mPt1.Coords = pt;
-                mPt1.Draw(previewVpl);
+                mPt1.Draw();
             });
 
             esb.CommandHelp = "Vyberte druhý bod vzdálenosti, kterou chcete přenést";
@@ -33,13 +33,13 @@ namespace DegCAD.GeometryCommands
 
             Vector2 pt2 = await inputMgr.GetPoint((pt) =>
             {
-                mPt1.Draw(previewVpl);
+                mPt1.Draw();
 
                 mPt2.Coords = pt;
-                mPt2.Draw(previewVpl);
+                mPt2.Draw();
 
                 mSelSeg.P2 = pt;
-                mSelSeg.Draw(previewVpl);
+                mSelSeg.Draw();
             });
 
             var distance = pt2 - pt1;
@@ -53,16 +53,16 @@ namespace DegCAD.GeometryCommands
 
             Vector2 pt3 = await inputMgr.GetPoint((pt) =>
             {
-                mPt1.Draw(previewVpl);
-                mPt2.Draw(previewVpl);
-                mSelSeg.Draw(previewVpl);
+                mPt1.Draw();
+                mPt2.Draw();
+                mSelSeg.Draw();
 
                 mPt3.Coords = pt;
-                mPt3.Draw(previewVpl);
+                mPt3.Draw();
 
                 circle.Center = pt;
                 mCircle.Circle2 = circle;
-                mCircle.Draw(previewVpl);
+                mCircle.Draw();
             });
 
             esb.CommandHelp = "Vyberte směr, kterým chcete vzdálenost vynést";
@@ -72,19 +72,19 @@ namespace DegCAD.GeometryCommands
 
             Vector2 pt4 = await inputMgr.GetPoint((pt) =>
             {
-                mPt1.Draw(previewVpl);
-                mPt2.Draw(previewVpl);
-                mPt3.Draw(previewVpl);
-                mSelSeg.Draw(previewVpl);
-                mCircle.Draw(previewVpl);
+                mPt1.Draw();
+                mPt2.Draw();
+                mPt3.Draw();
+                mSelSeg.Draw();
+                mCircle.Draw();
 
                 pt = circle.TranslatePointToCircle(pt);
 
                 mDirSeg.P2 = pt;
-                mDirSeg.Draw(previewVpl);
+                mDirSeg.Draw();
 
                 mPt4.Coords = pt;
-                mPt4.Draw(previewVpl);
+                mPt4.Draw();
             }, predicate: (pt) => pt != pt3, circles: new Circle2[1] { circle });
 
             var ptOnCircle = circle.TranslatePointToCircle(pt4);

@@ -23,7 +23,7 @@ namespace DegCAD.GeometryCommands
             Vector2 pt1 = await inputMgr.GetPoint((pt) =>
             {
                 mPt1.Coords = pt;
-                mPt1.Draw(previewVpl);
+                mPt1.Draw();
             });
 
             esb.CommandHelp = "Vyberte druhý bod";
@@ -34,13 +34,13 @@ namespace DegCAD.GeometryCommands
 
             Vector2 pt2 = await inputMgr.GetPoint((pt) =>
             {
-                mPt1.Draw(previewVpl);
+                mPt1.Draw();
 
                 mPt2.Coords = pt;
-                mPt2.Draw(previewVpl);
+                mPt2.Draw();
 
                 mPtMid.Coords = (pt1 + pt) / 2;
-                mPtMid.Draw(previewVpl);
+                mPtMid.Draw();
             });
 
             var middle = (pt1 + pt2) / 2;

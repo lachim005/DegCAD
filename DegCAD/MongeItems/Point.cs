@@ -10,6 +10,7 @@ namespace DegCAD.MongeItems
     internal class Point : IMongeItem
     {
         private Style _style;
+        private ViewportLayer? _vpl;
         private double _x;
         private double _y;
 
@@ -75,25 +76,25 @@ namespace DegCAD.MongeItems
         private readonly Line _line1 = new();
         private readonly Line _line2 = new();
 
-        public void Draw(ViewportLayer vpl)
+        public void Draw()
         {
-            Draw(vpl, Style);
-        }
-        public void Draw(ViewportLayer vpl, Style s)
-        {
-            _line1.SetLineSegment(vpl, (Coords.X, Coords.Y + .2), (Coords.X, Coords.Y - .2));
-            _line2.SetLineSegment(vpl, (Coords.X + .2, Coords.Y), (Coords.X - .2, Coords.Y));
+            if (_vpl is null) return;
+            _line1.SetLineSegment(_vpl, (Coords.X, Coords.Y + .2), (Coords.X, Coords.Y - .2));
+            _line2.SetLineSegment(_vpl, (Coords.X + .2, Coords.Y), (Coords.X - .2, Coords.Y));
         }
 
         public void AddToViewportLayer(ViewportLayer vpl)
         {
             vpl.Canvas.Children.Add(_line1);
             vpl.Canvas.Children.Add(_line2);
+            _vpl = vpl;
         }
-        public void RemoveFromViewportLayer(ViewportLayer vpl)
+        public void RemoveFromViewportLayer()
         {
-            vpl.Canvas.Children.Remove(_line1);
-            vpl.Canvas.Children.Remove(_line2);
+            if (_vpl is null) return;
+            _vpl.Canvas.Children.Remove(_line1);
+            _vpl.Canvas.Children.Remove(_line2);
+            _vpl = null;
         }
         public void SetVisibility(Visibility visibility)
         {

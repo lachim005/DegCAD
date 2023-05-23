@@ -20,7 +20,7 @@ namespace DegCAD.GeometryCommands
             var p1 = await inputMgr.GetPoint((p) =>
             {
                 mPt1.Coords = p;
-                mPt1.Draw(previewVpl);
+                mPt1.Draw();
             });
 
             esb.CommandHelp = "Vyberte koncový bod úsečky";
@@ -30,12 +30,12 @@ namespace DegCAD.GeometryCommands
 
             var p2 = await inputMgr.GetPoint((p) =>
             {
-                mPt1.Draw(previewVpl);
+                mPt1.Draw();
 
                 mPt2.Coords = p;
-                mPt2.Draw(previewVpl);
+                mPt2.Draw();
                 lineSegment.P2 = p;
-                lineSegment.Draw(previewVpl);
+                lineSegment.Draw();
             });
 
             var lseg = new MongeItems.LineSegment(p1, p2, inputMgr.StyleSelector.CurrentStyle, vpl);

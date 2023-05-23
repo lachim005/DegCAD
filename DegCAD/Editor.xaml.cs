@@ -112,7 +112,7 @@ namespace DegCAD
             {
                 for (int i = 0; i < cmd.Items.Length; i++)
                 {
-                    cmd.Items[i].Draw(viewPort.Layers[1]);
+                    cmd.Items[i].Draw();
                 }
             }
         }

@@ -16,6 +16,7 @@ namespace DegCAD.MongeItems
     public class Arc : IMongeItem
     {
         private Style _style;
+        private ViewportLayer? _vpl;
         private Circle2 _circle2;
         private double _startAngle;
         private double _endAngle;
@@ -89,18 +90,22 @@ namespace DegCAD.MongeItems
 
         Path _arc = new();
 
-        public void Draw(ViewportLayer vpl)
+        public void Draw()
         {
-            _arc.SetArc(vpl, Circle, StartAngle, EndAngle);
+            if (_vpl is null) return;
+            _arc.SetArc(_vpl, Circle, StartAngle, EndAngle);
         }
 
         public void AddToViewportLayer(ViewportLayer vpl)
         {
             vpl.Canvas.Children.Add(_arc);
+            _vpl = vpl;
         }
-        public void RemoveFromViewportLayer(ViewportLayer vpl)
+        public void RemoveFromViewportLayer()
         {
-            vpl.Canvas.Children.Remove(_arc);
+            if (_vpl is null) return;
+            _vpl.Canvas.Children.Remove(_arc);
+            _vpl = null;
         }
 
         public void SetVisibility(Visibility visibility)

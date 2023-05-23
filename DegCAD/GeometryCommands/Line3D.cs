@@ -23,9 +23,9 @@ namespace DegCAD.GeometryCommands
             (Vector2 pt1, bool plane) = await inputMgr.GetPointWithPlane((p, plane) =>
             {
                 mPlane.TopPlane = plane;
-                mPlane.Draw(bgVpl);
+                mPlane.Draw();
                 mPt1.Coords = p;
-                mPt1.Draw(previewVpl);
+                mPt1.Draw();
             });
 
             esb.CommandHelp = "Vyberte druhý bod prvního průmětu, pravým tlačítkem změníte průmětnu";
@@ -37,15 +37,15 @@ namespace DegCAD.GeometryCommands
             (Vector2 pt2, plane) = await inputMgr.GetPointWithPlane((p, plane) =>
             {
                 mPlane.TopPlane = plane;
-                mPlane.Draw(bgVpl);
+                mPlane.Draw();
                 mPt2.Coords = p;
-                mPt2.Draw(previewVpl);
-                mPt1.Draw(previewVpl);
+                mPt2.Draw();
+                mPt1.Draw();
 
                 line1 = ParametricLine2.From2Points(pt1, p);
                 mLine1.Line = line1;
                 mLine1.Plane = plane;
-                mLine1.Draw(previewVpl);
+                mLine1.Draw();
             }, plane, predicate: (pt) => pt != pt1);
 
             esb.CommandHelp = "Vyberte první bod druhého průmětu";
@@ -55,13 +55,13 @@ namespace DegCAD.GeometryCommands
 
             Vector2 pt3 = await inputMgr.GetPoint((p) =>
             {
-                mPlane.Draw(bgVpl);
-                mLine1.Draw(previewVpl);
+                mPlane.Draw();
+                mLine1.Draw();
 
                 mPt3.Coords = p;
-                mPt3.Draw(previewVpl);
-                mPt2.Draw(previewVpl);
-                mPt1.Draw(previewVpl);
+                mPt3.Draw();
+                mPt2.Draw();
+                mPt1.Draw();
             }, lines: new ParametricLine2[1] {line1});
 
             esb.CommandHelp = "Vyberte druhý bod druhého průmětu";
@@ -72,18 +72,18 @@ namespace DegCAD.GeometryCommands
 
             Vector2 pt4 = await inputMgr.GetPoint((p) =>
             {
-                mPlane.Draw(bgVpl);
-                mLine1.Draw(previewVpl);
+                mPlane.Draw();
+                mLine1.Draw();
 
                 mPt4.Coords = p;
-                mPt4.Draw(previewVpl);
-                mPt3.Draw(previewVpl);
-                mPt2.Draw(previewVpl);
-                mPt1.Draw(previewVpl);
+                mPt4.Draw();
+                mPt3.Draw();
+                mPt2.Draw();
+                mPt1.Draw();
 
                 line2 = ParametricLine2.From2Points(pt3, p);
                 mLine2.Line = line2;
-                mLine2.Draw(previewVpl);
+                mLine2.Draw();
             }, lines: new ParametricLine2[1] { line1 }, predicate: (pt) => pt != pt3);
 
             var curStyle = inputMgr.StyleSelector.CurrentStyle;

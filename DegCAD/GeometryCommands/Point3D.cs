@@ -34,26 +34,26 @@ namespace DegCAD.GeometryCommands
             (p1, firstPlane) = await inputMgr.GetPointWithPlane((p, pl) =>
             {
                 ptProj1.Coords = p;
-                ptProj1.Draw(previewVpl);
+                ptProj1.Draw();
 
                 xLine.Point = p;
                 xLineShape.SetParaLine(previewVpl, xLine, double.NegativeInfinity, double.PositiveInfinity);
                 plane.TopPlane = pl;
-                plane.Draw(bgVpl);
+                plane.Draw();
             });
 
             esb.CommandHelp = "Vyberte druhý průmět bodu";
 
             plane.TopPlane = !firstPlane;
-            plane.Draw(bgVpl);
+            plane.Draw();
             Point ptProj2 = new(p1.X, 0, previewVpl);
 
             p2 = await inputMgr.GetPoint((p) =>
             {
                 ptProj2.Y = p.Y;
-                ptProj2.Draw(previewVpl);
-                ptProj1.Draw(previewVpl);
-                plane.Draw(previewVpl);
+                ptProj2.Draw();
+                ptProj1.Draw();
+                plane.Draw();
                 xLineShape.SetParaLine(previewVpl, xLine, double.NegativeInfinity, double.PositiveInfinity);
             }, lines: new ParametricLine2[1] { new(p1, (0, 1)) });
 

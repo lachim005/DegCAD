@@ -14,6 +14,7 @@ namespace DegCAD.MongeItems
     public class LineSegment : IMongeItem
     {
         private Style _style;
+        private ViewportLayer? _vpl;
         private Vector2 _p1;
         private Vector2 _p2;
 
@@ -66,18 +67,22 @@ namespace DegCAD.MongeItems
 
         private readonly Line _line = new();
 
-        public void Draw(ViewportLayer vpl)
+        public void Draw()
         {
-            _line.SetLineSegment(vpl, P1, P2);
+            if (_vpl is null) return;
+            _line.SetLineSegment(_vpl, P1, P2);
         }
 
         public void AddToViewportLayer(ViewportLayer vpl)
         {
             vpl.Canvas.Children.Add(_line);
+            _vpl = vpl;
         }
-        public void RemoveFromViewportLayer(ViewportLayer vpl)
+        public void RemoveFromViewportLayer()
         {
-            vpl.Canvas.Children.Remove(_line);
+            if (_vpl is null) return;
+            _vpl.Canvas.Children.Remove(_line);
+            _vpl = null;
         }
 
         public void SetVisibility(Visibility visibility)

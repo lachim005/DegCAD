@@ -23,7 +23,7 @@ namespace DegCAD.GeometryCommands
             var pt = await inputMgr.GetPoint((pt) =>
             {
                 mPt.Coords = pt;
-                mPt.Draw(previewVpl);
+                mPt.Draw();
             });
 
             List<IMongeItem> mongeItems = new(2)

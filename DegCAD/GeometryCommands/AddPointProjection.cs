@@ -28,7 +28,7 @@ namespace DegCAD.GeometryCommands
             var p1 = await inputMgr.GetPoint((p) =>
             {
                 ptProj1.Coords = p;
-                ptProj1.Draw(previewVpl);
+                ptProj1.Draw();
 
                 xLine.Point = p;
                 xLineShape.SetParaLine(previewVpl, xLine, double.NegativeInfinity, double.PositiveInfinity);
@@ -42,11 +42,11 @@ namespace DegCAD.GeometryCommands
             (var p2, var pl) = await inputMgr.GetPointWithPlane((p, pl) =>
             {
                 ptProj2.Y = p.Y;
-                ptProj2.Draw(previewVpl);
+                ptProj2.Draw();
                 plane.TopPlane = pl;
-                plane.Draw(bgVpl);
+                plane.Draw();
 
-                ptProj1.Draw(previewVpl);
+                ptProj1.Draw();
                 xLineShape.SetParaLine(previewVpl, xLine, double.NegativeInfinity, double.PositiveInfinity);
             }, defaultPlane: p1.Y > 0 , lines: new ParametricLine2[1] { new(p1, (0, 1)) });
 

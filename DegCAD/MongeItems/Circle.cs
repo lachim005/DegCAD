@@ -15,6 +15,7 @@ namespace DegCAD.MongeItems
     public class Circle : IMongeItem
     {
         private Style _style;
+        private ViewportLayer? _vpl;
         private Circle2 _circle2;
 
         public Vector2[] SnapablePoints { get; init; }
@@ -53,18 +54,22 @@ namespace DegCAD.MongeItems
 
         Ellipse _circle = new();
 
-        public void Draw(ViewportLayer vpl)
+        public void Draw()
         {
-            _circle.SetCircle(vpl, Circle2);
+            if (_vpl is null) return;
+            _circle.SetCircle(_vpl, Circle2);
         }
 
         public void AddToViewportLayer(ViewportLayer vpl)
         {
             vpl.Canvas.Children.Add(_circle);
+            _vpl = vpl;
         }
-        public void RemoveFromViewportLayer(ViewportLayer vpl)
+        public void RemoveFromViewportLayer()
         {
-            vpl.Canvas.Children.Remove(_circle);
+            if (_vpl is null) return;
+            _vpl.Canvas.Children.Remove(_circle);
+            _vpl = null;
         }
         public void SetVisibility(Visibility visibility)
         {

@@ -22,7 +22,7 @@ namespace DegCAD.GeometryCommands
             Vector2 center = await inputMgr.GetPoint((pt) =>
             {
                 mCenterPt.Coords = pt;
-                mCenterPt.Draw(previewVpl);
+                mCenterPt.Draw();
             });
 
             esb.CommandHelp = "Vyberte průměr kružnice, na které bude oblouk ležet";
@@ -32,13 +32,13 @@ namespace DegCAD.GeometryCommands
 
             Vector2 radiusPoint = await inputMgr.GetPoint((pt) =>
             {
-                mCenterPt.Draw(previewVpl);
+                mCenterPt.Draw();
 
                 mCirclePt.Coords = pt;
-                mCirclePt.Draw(previewVpl);
+                mCirclePt.Draw();
 
                 mCircle.Circle2 = new(center, pt);
-                mCircle.Draw(previewVpl);
+                mCircle.Draw();
             }, predicate: (pt) => pt != center);
 
             Circle2 circle = new(center, radiusPoint);
@@ -51,13 +51,13 @@ namespace DegCAD.GeometryCommands
 
             Vector2 pt1 = await inputMgr.GetPoint((pt) =>
             {
-                mCenterPt.Draw(previewVpl);
-                mCirclePt.Draw(previewVpl);
-                mCircle.Draw(previewVpl);
+                mCenterPt.Draw();
+                mCirclePt.Draw();
+                mCircle.Draw();
 
                 pt = circle.TranslatePointToCircle(pt);
                 mStartPt.Coords = pt;
-                mStartPt.Draw(previewVpl);
+                mStartPt.Draw();
             }, circles: new Circle2[1] { circle }, predicate: (pt) => pt != center);
 
             Vector2 startPoint = circle.TranslatePointToCircle(pt1);
@@ -76,10 +76,10 @@ namespace DegCAD.GeometryCommands
 
             (var pt2, var swap) = await inputMgr.GetPointWithPlane((pt, swap) =>
             {
-                mCenterPt.Draw(previewVpl);
-                mCirclePt.Draw(previewVpl);
-                mCircle.Draw(previewVpl);
-                mStartPt.Draw(previewVpl);
+                mCenterPt.Draw();
+                mCirclePt.Draw();
+                mCircle.Draw();
+                mStartPt.Draw();
 
                 //Calculates a point on the circle in the direction set by the current point
                 var endPoint = circle.TranslatePointToCircle(pt);
@@ -87,7 +87,7 @@ namespace DegCAD.GeometryCommands
 
 
                 mEndPt.Coords = endPoint;
-                mEndPt.Draw(previewVpl);
+                mEndPt.Draw();
 
                 //Calculates the end angle and adjusts it by it's quadrant
                 endAngle = Math.Atan(endVec.Y / endVec.X);
@@ -106,7 +106,7 @@ namespace DegCAD.GeometryCommands
                     mArc.EndAngle = endAngle;
                 }
 
-                mArc.Draw(previewVpl);
+                mArc.Draw();
             }, circles: new Circle2[1] { circle }, predicate: (pt) => pt != center);
 
             Style curStyle = inputMgr.StyleSelector.CurrentStyle;

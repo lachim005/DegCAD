@@ -46,7 +46,7 @@ namespace DegCAD.GeometryCommands
             {
                 line.Point = pt;
                 mLinePoint.Coords = pt;
-                mLinePoint.Draw(previewVpl);
+                mLinePoint.Draw();
                 selectedLine.SetParaLine(previewVpl, line, double.NegativeInfinity, double.PositiveInfinity);
             });
 
@@ -57,10 +57,10 @@ namespace DegCAD.GeometryCommands
             var p1 = await inputMgr.GetPoint((pt) =>
             {
                 pt = line.GetClosestPoint(pt);
-                mLinePoint.Draw(previewVpl);
+                mLinePoint.Draw();
 
                 mSegPt1.Coords = pt;
-                mSegPt1.Draw(previewVpl);
+                mSegPt1.Draw();
                 selectedLine.SetParaLine(previewVpl, line, double.NegativeInfinity, double.PositiveInfinity);
             }, lines: new ParametricLine2[1] { line });
 
@@ -74,14 +74,14 @@ namespace DegCAD.GeometryCommands
             var p2 = await inputMgr.GetPoint((pt) =>
             {
                 pt = line.GetClosestPoint(pt);
-                mLinePoint.Draw(previewVpl);
+                mLinePoint.Draw();
 
                 mSegPt2.Coords = pt;
-                mSegPt2.Draw(previewVpl);
-                mSegPt1.Draw(previewVpl);
+                mSegPt2.Draw();
+                mSegPt1.Draw();
 
                 mLineSeg.P2 = pt;
-                mLineSeg.Draw(previewVpl);
+                mLineSeg.Draw();
 
                 selectedLine.SetParaLine(previewVpl, line, double.NegativeInfinity, double.PositiveInfinity);
             }, lines: new ParametricLine2[1] { line });

@@ -22,9 +22,9 @@ namespace DegCAD.GeometryCommands
             (Vector2 pt1, bool plane) = await inputMgr.GetPointWithPlane((p, plane) =>
             {
                 mPlane.TopPlane = plane;
-                mPlane.Draw(bgVpl);
+                mPlane.Draw();
                 mPt1.Coords = p;
-                mPt1.Draw(previewVpl);
+                mPt1.Draw();
             });
 
             esb.CommandHelp = "Vyberte druhý bod průmětu, pravým tlačítkem změníte průmětnu";
@@ -36,15 +36,15 @@ namespace DegCAD.GeometryCommands
             (Vector2 pt2, plane) = await inputMgr.GetPointWithPlane((p, plane) =>
             {
                 mPlane.TopPlane = plane;
-                mPlane.Draw(bgVpl);
+                mPlane.Draw();
                 mPt2.Coords = p;
-                mPt2.Draw(previewVpl);
-                mPt1.Draw(previewVpl);
+                mPt2.Draw();
+                mPt1.Draw();
 
                 line1 = ParametricLine2.From2Points(pt1, p);
                 mLine.Line = line1;
                 mLine.Plane = plane;
-                mLine.Draw(previewVpl);
+                mLine.Draw();
             }, plane, predicate: (pt) => pt != pt1);
 
 

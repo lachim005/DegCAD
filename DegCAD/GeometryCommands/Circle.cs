@@ -20,7 +20,7 @@ namespace DegCAD.GeometryCommands
             Vector2 center = await inputMgr.GetPoint((pt) =>
             {
                 mCenterPt.Coords = pt;
-                mCenterPt.Draw(previewVpl);
+                mCenterPt.Draw();
             });
 
             esb.CommandHelp = "Vyberte průměr kružnice";
@@ -30,13 +30,13 @@ namespace DegCAD.GeometryCommands
 
             Vector2 pointOnCircle = await inputMgr.GetPoint((pt) =>
             {
-                mCenterPt.Draw(previewVpl);
+                mCenterPt.Draw();
 
                 mCirclePt.Coords = pt;
-                mCirclePt.Draw(previewVpl);
+                mCirclePt.Draw();
 
                 mCircle.Circle2 = new(center, pt);
-                mCircle.Draw(previewVpl);
+                mCircle.Draw();
             }, predicate: (pt) => pt != center);
 
             return new TimelineItem(new IMongeItem[1] { new MongeItems.Circle(new Circle2(center, pointOnCircle), inputMgr.StyleSelector.CurrentStyle, vpl) });

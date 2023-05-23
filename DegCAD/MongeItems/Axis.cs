@@ -16,6 +16,7 @@ namespace DegCAD.MongeItems
     public class Axis : IMongeItem
     {
         private Style _style = Style.Default;
+        private ViewportLayer? _vpl;
 
         static ParametricLine2 axis = new((0, 0), (1, 0));
 
@@ -46,21 +47,25 @@ namespace DegCAD.MongeItems
             if (vpl is not null) AddToViewportLayer(vpl);
         }
 
-        public void Draw(ViewportLayer vpl)
+        public void Draw()
         {
-            _line.SetParaLine(vpl, axis, double.NegativeInfinity, double.PositiveInfinity);
-            _zeroMark.SetLineSegment(vpl, (0, .2), (0, -.2));
+            if (_vpl is null) return;
+            _line.SetParaLine(_vpl, axis, double.NegativeInfinity, double.PositiveInfinity);
+            _zeroMark.SetLineSegment(_vpl, (0, .2), (0, -.2));
         }
 
         public void AddToViewportLayer(ViewportLayer vpl)
         {
             vpl.Canvas.Children.Add(_line);
             vpl.Canvas.Children.Add(_zeroMark);
+            _vpl = vpl;
         }
-        public void RemoveFromViewportLayer(ViewportLayer vpl)
+        public void RemoveFromViewportLayer()
         {
-            vpl.Canvas.Children.Remove(_line);
-            vpl.Canvas.Children.Remove(_zeroMark);
+            if (_vpl is null) return;
+            _vpl.Canvas.Children.Remove(_line);
+            _vpl.Canvas.Children.Remove(_zeroMark);
+            _vpl = null;
         }
 
         public void SetVisibility(Visibility visibility)

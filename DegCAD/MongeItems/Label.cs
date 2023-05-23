@@ -99,25 +99,26 @@ namespace DegCAD.MongeItems
         TextBlock _subTbl = new() { FontFamily = new("Tahoma"), TextAlignment = TextAlignment.Right };
 
 
-        public void Draw(ViewportLayer vpl)
+        public void Draw()
         {
-            double fontSize = 16 * vpl.Viewport.Scale;
+            if (_vpl is null) return;
+            double fontSize = 16 * _vpl.Viewport.Scale;
 
             _lblTbl.FontSize = fontSize;
             _subTbl.FontSize = fontSize * .5;
             _supTbl.FontSize = fontSize * .5;
 
 
-            var screenPos = vpl.Viewport.CanvasToScreen(Position);
+            var screenPos = _vpl.Viewport.CanvasToScreen(Position);
 
             Canvas.SetTop(_lblTbl, screenPos.Y);
-            Canvas.SetRight(_lblTbl, vpl.Canvas.ActualWidth - screenPos.X);
+            Canvas.SetRight(_lblTbl, _vpl.Canvas.ActualWidth - screenPos.X);
             Canvas.SetTop(_supTbl, screenPos.Y - fontSize * .1);
             Canvas.SetLeft(_supTbl, screenPos.X + fontSize * .05);
             Canvas.SetTop(_subTbl, screenPos.Y + fontSize * .6);
             Canvas.SetLeft(_subTbl, screenPos.X + fontSize * .05);
 
-            LabeledObject.Draw(vpl.Viewport.Layers[2]);
+            LabeledObject.Draw();
         }
 
         public void AddToViewportLayer(ViewportLayer vpl)
@@ -129,13 +130,14 @@ namespace DegCAD.MongeItems
             vpl.Canvas.MouseMove += CanvasMouseMove;
             _vpl = vpl;
         }
-        public void RemoveFromViewportLayer(ViewportLayer vpl)
+        public void RemoveFromViewportLayer()
         {
-            vpl.Canvas.Children.Remove(_lblTbl);
-            vpl.Canvas.Children.Remove(_supTbl);
-            vpl.Canvas.Children.Remove(_subTbl);
-            LabeledObject.RemoveFromViewportLayer(vpl);
-            vpl.Canvas.MouseMove -= CanvasMouseMove;
+            if (_vpl is null) return;
+            _vpl.Canvas.Children.Remove(_lblTbl);
+            _vpl.Canvas.Children.Remove(_supTbl);
+            _vpl.Canvas.Children.Remove(_subTbl);
+            LabeledObject.RemoveFromViewportLayer();
+            _vpl.Canvas.MouseMove -= CanvasMouseMove;
             _vpl = null;
         }
 
@@ -186,7 +188,7 @@ namespace DegCAD.MongeItems
                     Superscript = lid.Superscript;
                 }
                 if (_vpl is not null)
-                    Draw(_vpl);
+                    Draw();
             }
 
             if (_vpl is null) return;
@@ -214,7 +216,7 @@ namespace DegCAD.MongeItems
                 startedMoving = true;
             }
 
-            Draw(_vpl);
+            Draw();
         }
         #endregion
     }
