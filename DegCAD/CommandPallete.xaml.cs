@@ -55,6 +55,7 @@ namespace DegCAD
             AddSeparator();
             AddCommand(new("Kružnice", "Kružnice dána středem a bodem na ní", Key.O, ModifierKeys.Control, (_, _) => executeCommand(new Circle()), "cmdCircleIcon"));
             AddCommand(new("Oblouk", "Oblouk dán středem, bodem na kružnici a dvěma úhly", Key.O, ModifierKeys.Control | ModifierKeys.Shift, (_, _) => executeCommand(new Arc()), "cmdArcIcon"));
+            AddCommand(new("Elipsa", "Elipsa dána středem hlavním a vedlejším vrcholem", Key.E, ModifierKeys.Control, (_, _) => executeCommand(new GeometryCommands.Ellipse()), "cmdCircleIcon"));
             AddSeparator();
             AddCommand(new("Přenést vzdálenost", "Přenese vzdálenost mezi dvěma body", Key.V, ModifierKeys.Control, (_, _) => executeCommand(new TranslateSize()), "cmdTranslateSizeIcon"));
             AddCommand(new("Sklopit bod", "Sklopí bod pomocí jeho druhého průmětu", Key.S, ModifierKeys.Control | ModifierKeys.Shift, (_, _) => executeCommand(new CastPoint()), "cmdCastPointIcon"));
