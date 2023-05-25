@@ -52,7 +52,7 @@ namespace DegCAD.MongeItems
             if (vpl is not null) AddToViewportLayer(vpl);
         }
 
-        Ellipse _circle = new();
+        System.Windows.Shapes.Ellipse _circle = new();
 
         public void Draw()
         {

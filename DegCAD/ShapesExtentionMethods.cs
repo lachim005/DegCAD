@@ -79,6 +79,39 @@ namespace DegCAD
             Canvas.SetLeft(el, sCenter.X - radius);
             Canvas.SetTop(el, sCenter.Y - radius);
         }
+        public static void SetEllipse(this Ellipse el, ViewportLayer vpl, Vector2 center, Vector2 p1, Vector2 p2)
+        {
+            center = vpl.Viewport.CanvasToScreen(center);
+            p1 = vpl.Viewport.CanvasToScreen(p1);
+            p2 = vpl.Viewport.CanvasToScreen(p2);
+
+
+
+            var l1vec = p1 - center;
+            ParametricLine2 axis = new(center, (l1vec.Y, -l1vec.X));
+            var l2vec = axis.GetClosestPoint(p2) - center;
+
+            el.Width = l1vec.Length * 2;
+            el.Height = l2vec.Length * 2;
+
+
+            Canvas.SetLeft(el, center.X - l1vec.Length);
+            Canvas.SetTop(el, center.Y - l2vec.Length);
+
+
+            //Calculates the end angle and adjusts it by it's quadrant
+            var endAngle = Math.Atan(l1vec.Y / l1vec.X) / Math.PI * 180;
+            if (l1vec.X < 0) endAngle += 180;
+            else if (l1vec.Y < 0) endAngle += 360;
+
+            if (el.RenderTransform is not RotateTransform rotTr)
+                return;
+            
+            rotTr.CenterX = el.Width/2;
+            rotTr.CenterY = el.Height/2;
+            double angle = DateTime.Now.Second;
+            rotTr.Angle = endAngle;
+        }
         #endregion
 
         #region Path
