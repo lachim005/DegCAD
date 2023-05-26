@@ -126,6 +126,8 @@ namespace DegCAD
 
                 Arc arc => $"ARC {arc.Circle.Center.X} {arc.Circle.Center.Y} {arc.Circle.Radius} {arc.StartAngle} {arc.EndAngle}",
 
+                Ellipse ell => $"ELL {ell.Center.X} {ell.Center.Y} {ell.P1.X} {ell.P1.Y} {ell.P2.X} {ell.P2.Y}",
+
                 Label lbl => $"LBL {lbl.LabelText.Replace("\\", "\\\\").Replace(" ", "\\ ")} " +
                 $"{lbl.Subscript.Replace("\\", "\\\\").Replace(" ", "\\ ")} " +
                 $"{lbl.Superscript.Replace("\\", "\\\\").Replace(" ", "\\ ")} " +
