@@ -110,7 +110,9 @@
         <Line X1="45" Y1="40" X2="55" Y2="40" Stroke="Black"/>
     </Canvas>
     <Canvas x:Key="cmdEllipseIcon">
-        
+        <Ellipse Canvas.Top="20" Canvas.Left="10" Width="40" Height="20" Stroke="Red"/>
+        <Line X1="10" Y1="30" X2="50" Y2="30" Stroke="Black"/>
+        <Line X1="30" Y1="20" X2="30" Y2="40" Stroke="Black"/>
     </Canvas>
     <Canvas x:Key="cmdParabolaIcon">
 
