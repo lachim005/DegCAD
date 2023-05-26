@@ -92,8 +92,8 @@ namespace DegCAD
             Timeline.AddCommand(new TimelineItem(new IMongeItem[3]
             {
                 axis,
-                new MongeItems.Label("x", "1, 2", "", (8,0), DegCAD.Style.Default, new LineProjection(new((0,0), (1,0)), false, DegCAD.Style.Default)),
-                new MongeItems.Label("0", "", "", (0,0), DegCAD.Style.Default, new MongeItems.Point(0,0)),
+                new MongeItems.Label("x", "1, 2", "", (8,0), DegCAD.Style.Default, new LineProjection(new((0,0), (1,0)), false, DegCAD.Style.Default), vpl),
+                new MongeItems.Label("0", "", "", (0,0), DegCAD.Style.Default, new MongeItems.Point(0,0), vpl),
             }));
         }
         public void ViewPortChanged(object? sender, EventArgs e)
