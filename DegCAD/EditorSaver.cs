@@ -128,6 +128,8 @@ namespace DegCAD
 
                 Ellipse ell => $"ELL {ell.Center.X} {ell.Center.Y} {ell.P1.X} {ell.P1.Y} {ell.P2.X} {ell.P2.Y}",
 
+                Parabola pbl => $"PBL {pbl.Focus.X} {pbl.Focus.Y} {pbl.Vertex.X} {pbl.Vertex.Y} {pbl.Infinite} {pbl.End.X} {pbl.End.Y}",
+
                 Label lbl => $"LBL {lbl.LabelText.Replace("\\", "\\\\").Replace(" ", "\\ ")} " +
                 $"{lbl.Subscript.Replace("\\", "\\\\").Replace(" ", "\\ ")} " +
                 $"{lbl.Superscript.Replace("\\", "\\\\").Replace(" ", "\\ ")} " +

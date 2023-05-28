@@ -149,6 +149,19 @@ namespace DegCAD
 
             pth.Data = Geometry.Parse(arc);
         }
+        /// <summary>
+        /// Sets the data of the path to fit a parabola
+        /// </summary>
+        public static void SetParabola(this Path pth, ViewportLayer vpl, MongeItems.Parabola pb)
+        {
+            var ep1 = vpl.Viewport.CanvasToScreen(pb.EndPoint1);
+            var ep2 = vpl.Viewport.CanvasToScreen(pb.EndPoint2);
+            var cp = vpl.Viewport.CanvasToScreen(pb.ControlPoint);
+
+            string para = $"M {ep1.X} {ep1.Y} Q {cp.X} {cp.Y} {ep2.X} {ep2.Y}".Replace(',', '.');
+
+            pth.Data = Geometry.Parse(para);
+        }
         #endregion
 
 

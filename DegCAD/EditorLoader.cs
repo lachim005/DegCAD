@@ -181,6 +181,7 @@ namespace DegCAD
                 "CIR" => CIR(s[4..], stl),
                 "ARC" => ARC(s[4..], stl),
                 "ELL" => ELL(s[4..], stl),
+                "PBL" => PBL(s[4..], stl),
                 "LBL" => LBL(s[4..], stl),
                 _ => null
             };
@@ -267,6 +268,22 @@ namespace DegCAD
                 (double.Parse(vals[0]), double.Parse(vals[1])),
                 (double.Parse(vals[2]), double.Parse(vals[3])),
                 (double.Parse(vals[4]), double.Parse(vals[5])),
+                stl
+            );
+        }
+        private static Parabola PBL(string s, Style stl)
+        {
+            string[] vals = s.Split(' ');
+            if (bool.Parse(vals[4]))
+                return new(
+                    (double.Parse(vals[0]), double.Parse(vals[1])),
+                    (double.Parse(vals[2]), double.Parse(vals[3])),
+                    stl
+                );
+            return new(
+                (double.Parse(vals[0]), double.Parse(vals[1])),
+                (double.Parse(vals[2]), double.Parse(vals[3])),
+                (double.Parse(vals[5]), double.Parse(vals[6])),
                 stl
             );
         }
