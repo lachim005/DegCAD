@@ -13,28 +13,28 @@ namespace DegCAD.GeometryCommands
         {
             esb.CommandName = "Parabola";
 
-            esb.CommandHelp = "Vyberte ohnisko paraboly";
+            esb.CommandHelp = "Vyberte vrchol paraboly";
 
             Point mfocusPt = new(0, 0, previewVpl);
 
-            Vector2 focusPt = await inputMgr.GetPoint((pt) =>
+            Vector2 vertexPt = await inputMgr.GetPoint((pt) =>
             {
                 mfocusPt.Coords = pt;
                 mfocusPt.Draw();
             });
 
-            esb.CommandHelp = "Vyberte vrchol paraboly";
+            esb.CommandHelp = "Vyberte ohnisko paraboly";
 
             Point mVertexPt = new(0, 0, previewVpl);
-            MongeItems.Parabola mInfiniteParabola = new(focusPt, focusPt, Style.BlueDashStyle, previewVpl);
+            MongeItems.Parabola mInfiniteParabola = new(vertexPt, vertexPt, Style.BlueDashStyle, previewVpl);
 
-            Vector2 vertexPt = await inputMgr.GetPoint((pt) =>
+            Vector2 focusPt = await inputMgr.GetPoint((pt) =>
             {
                 mVertexPt.Coords = pt;
                 mVertexPt.Draw();
                 mfocusPt.Draw();
 
-                mInfiniteParabola.Vertex = pt;
+                mInfiniteParabola.Focus = pt;
                 mInfiniteParabola.Draw();
             });
 
