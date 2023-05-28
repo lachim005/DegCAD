@@ -26,33 +26,41 @@ namespace DegCAD.GeometryCommands
             esb.CommandHelp = "Vyberte vrchol paraboly";
 
             Point mVertexPt = new(0, 0, previewVpl);
+            MongeItems.Parabola mInfiniteParabola = new(focusPt, focusPt, Style.BlueDashStyle, previewVpl);
 
             Vector2 vertexPt = await inputMgr.GetPoint((pt) =>
             {
                 mVertexPt.Coords = pt;
                 mVertexPt.Draw();
                 mfocusPt.Draw();
+
+                mInfiniteParabola.Vertex = pt;
+                mInfiniteParabola.Draw();
             });
 
-            esb.CommandHelp = "Vyberte konec paraboly";
+            esb.CommandHelp = "Vyberte konec paraboly, pravým tlačítkem vyberete konečnou, nebo nekonečnou parabolu";
 
             Point mEndPt = new(0, 0, previewVpl);
             MongeItems.Parabola mParabola = new(focusPt, vertexPt, vertexPt, Style.HighlightStyle, previewVpl);
 
 
-            Vector2 endPt = await inputMgr.GetPoint((pt) =>
+            (Vector2 endPt, bool infinite) = await inputMgr.GetPointWithPlane((pt, pl) =>
             {
                 mEndPt.Coords = pt;
                 mEndPt.Draw();
                 mVertexPt.Draw();
                 mfocusPt.Draw();
+                mInfiniteParabola.Draw();
 
+                mParabola.Infinite = pl;
                 mParabola.End = pt;
                 mParabola.Draw();
             });
 
             Style curStyle = inputMgr.StyleSelector.CurrentStyle;
 
+            if (infinite)
+                return new(new IMongeItem[1] { new MongeItems.Parabola(focusPt, vertexPt, curStyle, vpl) });
             return new(new IMongeItem[1] { new MongeItems.Parabola(focusPt, vertexPt, endPt, curStyle, vpl) });
         }
     }

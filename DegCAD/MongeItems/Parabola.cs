@@ -118,6 +118,8 @@ namespace DegCAD.MongeItems
             if (_vpl is null) return;
             if (!Infinite)
                 _parabola.SetParabola(_vpl, this);
+            else
+                _parabola.SetInfiniteParabola(_vpl, this);
         }
 
         public void AddToViewportLayer(ViewportLayer vpl)

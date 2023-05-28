@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -157,6 +158,66 @@ namespace DegCAD
             var ep1 = vpl.Viewport.CanvasToScreen(pb.EndPoint1);
             var ep2 = vpl.Viewport.CanvasToScreen(pb.EndPoint2);
             var cp = vpl.Viewport.CanvasToScreen(pb.ControlPoint);
+
+            string para = $"M {ep1.X} {ep1.Y} Q {cp.X} {cp.Y} {ep2.X} {ep2.Y}".Replace(',', '.');
+
+            pth.Data = Geometry.Parse(para);
+        }
+        /// <summary>
+        /// Sets the data of the path to fit an infinite parabola
+        /// </summary>
+        public static void SetInfiniteParabola(this Path pth, ViewportLayer vpl, MongeItems.Parabola pb)
+        {
+            var vertex = vpl.Viewport.CanvasToScreen(pb.Vertex);
+            var focus = vpl.Viewport.CanvasToScreen(pb.Focus);
+
+            Vector2 v1 = vertex - focus;
+            ParametricLine2 axis = new(vertex, v1);
+
+            //Selects a corner of the screen depending on the slope of the axis
+            Vector2 end;
+            if (Math.Sign(v1.X) == 1 && Math.Sign(v1.Y) == 1)
+                end = (0, 0);
+            else if (Math.Sign(v1.X) == -1 && Math.Sign(v1.Y) == 1)
+                end = (vpl.Viewport.ActualWidth, 0);
+            else if (Math.Sign(v1.X) == -1 && Math.Sign(v1.Y) == -1)
+                end = (vpl.Viewport.ActualWidth, vpl.Viewport.ActualHeight);
+            else if (Math.Sign(v1.X) == 1 && Math.Sign(v1.Y) == -1)
+                end = (0, vpl.Viewport.ActualHeight);
+            else if (Math.Sign(v1.X) == -1 || Math.Sign(v1.Y) == -1)
+                end = (vpl.Viewport.ActualWidth, vpl.Viewport.ActualHeight);
+            else end = (0, 0);
+
+
+
+            ParametricLine2 controlLine = new(vertex + v1, (v1.Y, -v1.X));
+            double rad = (end - controlLine.GetClosestPoint(end)).Length;
+            Circle2 c1 = new(focus, rad);
+            ParametricLine2 endLine = new(end, controlLine.DirectionVector);
+            var iPts = c1.FindIntersections(endLine);
+
+            Vector2 ep1;
+            Vector2 ep2;
+            Vector2 cp;
+
+            if (iPts is null)
+            {
+                ep1 = vertex;
+                ep2 = vertex;
+                cp = vertex;
+            } else
+            {
+                ep1 = iPts.Value.Item1;
+                ep2 = iPts.Value.Item2;
+
+                var q = controlLine.GetClosestPoint(ep1);
+                ParametricLine2 p = new(q, focus - q);
+                ParametricLine2 vertexLine = new(vertex, controlLine.DirectionVector);
+                var P = p.FindIntersection(vertexLine);
+                ParametricLine2 t = new(P, ep1 - P);
+                cp = axis.FindIntersection(t);
+            }
+
 
             string para = $"M {ep1.X} {ep1.Y} Q {cp.X} {cp.Y} {ep2.X} {ep2.Y}".Replace(',', '.');
 
