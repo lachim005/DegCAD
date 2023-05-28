@@ -47,9 +47,7 @@ namespace DegCAD
         {
             get
             {
-                if (thickLineCheckbox.IsChecked == true)
-                    return 2;
-                return 0;
+                return (int)thicknessSlider.Value - 1;
             }
         }
 

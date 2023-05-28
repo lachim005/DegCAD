@@ -19,7 +19,8 @@
                 <Button x:Name="lineType3" Height="25" Click="LineTypeBtnClick" Tag="2">
                     <Line X1="0" Y1="0" X2="200" Y2="0" Stroke="Black" StrokeThickness="1" StrokeDashArray="8, 8, 1, 8" VerticalAlignment="Center"/>
                 </Button>
-                <CheckBox Margin="0,10,0,0" x:Name="thickLineCheckbox">Tlustá</CheckBox>
+                <Label Content="_Tloušťka čáry" Target="{Binding ElementName=thicknessSlider}"/>
+                <Slider x:Name="thicknessSlider" Minimum="1" Maximum="5" TickFrequency="1" IsSnapToTickEnabled="True" ToolTip="{Binding ElementName=thicknessSlider, Path=Value}"/>
             </StackPanel>
         </GroupBox>
         <GroupBox Header="Barva" Padding="10">
