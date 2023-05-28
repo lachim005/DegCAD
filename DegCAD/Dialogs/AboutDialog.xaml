@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:DegCAD.Dialogs"
         mc:Ignorable="d"
         ResizeMode="NoResize"
-        Title="AboutDialog" Height="300" Width="500">
+        Title="O programu" Height="300" Width="500">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
