@@ -45,6 +45,6 @@
             </WrapPanel>
         </GroupBox>
         <Button x:Name="cancelBtn" Grid.Row="3" Content="_Zrušit" Margin="5" Command="Close"/>
-        <Button x:Name="confirmBtn" Grid.Row="3" Content="_Potvrdit" Margin="5" Grid.Column="2" Command="Save"/>
+        <Button x:Name="confirmBtn" Grid.Row="3" Content="_Potvrdit" Margin="5" Grid.Column="2" Command="Save" Style="{StaticResource accentBtn}"/>
     </Grid>
 </Window>

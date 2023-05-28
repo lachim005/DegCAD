@@ -10,13 +10,13 @@
         <Label Content="Výběr stylu"/>
         <GroupBox Header="Typ čáry" Padding="10">
             <StackPanel>
-                <Button x:Name="lineType1" Height="25" Click="LineTypeBtnClick" Tag="0" IsEnabled="False">
+                <Button x:Name="lineType1" Click="LineTypeBtnClick" Tag="0" IsEnabled="False" Style="{StaticResource selectableBtnStyle}">
                     <Line X1="0" Y1="0" X2="200" Y2="0" Stroke="Black" StrokeThickness="1" VerticalAlignment="Center"/>
                 </Button>
-                <Button x:Name="lineType2" Height="25" Click="LineTypeBtnClick" Tag="1">
+                <Button x:Name="lineType2" Click="LineTypeBtnClick" Tag="1" Style="{StaticResource selectableBtnStyle}">
                     <Line X1="0" Y1="0" X2="200" Y2="0" Stroke="Black" StrokeThickness="1" StrokeDashArray="8, 8" VerticalAlignment="Center"/>
                 </Button>
-                <Button x:Name="lineType3" Height="25" Click="LineTypeBtnClick" Tag="2">
+                <Button x:Name="lineType3" Click="LineTypeBtnClick" Tag="2" Style="{StaticResource selectableBtnStyle}">
                     <Line X1="0" Y1="0" X2="200" Y2="0" Stroke="Black" StrokeThickness="1" StrokeDashArray="8, 8, 1, 8" VerticalAlignment="Center"/>
                 </Button>
                 <Label Content="_Tloušťka čáry" Target="{Binding ElementName=thicknessSlider}"/>
@@ -28,7 +28,7 @@
                 <Border Height="40" x:Name="currentColorDisplay" CornerRadius="5" Margin="0,0,0,10"/>
                 <WrapPanel MinHeight="100px" x:Name="colorPaletteWp">
                 </WrapPanel>
-                <Button Content="Upravit barvy" Margin="0,10,0,0" Height="30" Click="EditColorsBtnClick"/>
+                <Button Content="Upravit barvy" Margin="0,10,0,0" Click="EditColorsBtnClick"/>
             </StackPanel>
         </GroupBox>
     </StackPanel>
