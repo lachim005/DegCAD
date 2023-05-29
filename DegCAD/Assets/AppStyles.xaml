@@ -27,6 +27,8 @@
     <SolidColorBrush x:Key="accentColorDisabled" Color="#12588e"/>
 
     
+    <!-- Buttons -->
+    <!--#region Buttons -->
     <Style TargetType="{x:Type Button}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
         <Setter Property="Background" Value="{StaticResource elementBg}"/>
@@ -158,8 +160,11 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <!--#endregion-->
+
     
-    
+    <!-- Tabs -->
+    <!--#region Tabs -->
     <Style TargetType="{x:Type TabItem}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
         <Setter Property="Foreground" Value="Black"/>
@@ -290,7 +295,10 @@
             </Setter.Value>
         </Setter>
     </Style>
+    <!--#endregion-->
 
+    <!-- Textbox -->
+    <!--#region Textbox -->
     <Style TargetType="{x:Type TextBox}">
         <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
         <Setter Property="BorderBrush" Value="{StaticResource border}"/>
@@ -333,7 +341,10 @@
             </MultiTrigger>
         </Style.Triggers>
     </Style>
-
+    <!--#endregion-->
+ 
+    <!-- Slider -->
+    <!--#region Slider -->
     <Style x:Key="RepeatButtonTransparent" TargetType="{x:Type RepeatButton}">
         <Setter Property="OverridesDefaultStyle" Value="true"/>
         <Setter Property="Background" Value="Transparent"/>
@@ -579,7 +590,10 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    <!--#endregion-->
 
+    <!-- Menu -->
+    <!--#region Menu -->
     <Style TargetType="{x:Type Menu}">
         <Setter Property="Background" Value="{StaticResource bg}"/>
         <Setter Property="FontFamily" Value="{DynamicResource {x:Static SystemFonts.MenuFontFamilyKey}}"/>
@@ -875,4 +889,5 @@
             </Trigger>
         </Style.Triggers>
     </Style>
+    <!--#endregion-->
 </ResourceDictionary>
