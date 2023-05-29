@@ -126,10 +126,12 @@ namespace DegCAD
 
         private void StackPanel_MouseDown(object sender, MouseButtonEventArgs e)
         {
+            if (e.ChangedButton != MouseButton.Middle) return;
             if (sender is not FrameworkElement f) return;
             if (f.DataContext is not Tuple<Editor> tab) return;
-            if (e.ChangedButton == MouseButton.Middle)
+            if (CanCloseEditor(tab.Item1))
             {
+
                 openEditors.Remove(tab);
             }
         }
