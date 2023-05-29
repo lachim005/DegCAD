@@ -52,9 +52,9 @@
                 <MenuItem Header="_O programu" Click="AboutClick"/>
             </MenuItem>
         </Menu>
-        <local:CommandPallete DockPanel.Dock="Top" x:Name="cmdPallete"/>
+        <local:CommandPallete DockPanel.Dock="Top" x:Name="cmdPallete" BorderBrush="#f0f0f0" BorderThickness="0,0,0,2"/>
         <Grid>
-            <TabControl x:Name="editorTabs" TabStripPlacement="Bottom" SelectionChanged="TabSwitched" Padding="0" BorderThickness="2" BorderBrush="#f0f0f0">
+            <TabControl x:Name="editorTabs" TabStripPlacement="Bottom" SelectionChanged="TabSwitched" Padding="0">
                 <TabControl.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal" Drop="TabDrop" PreviewDragOver="TabDrop" AllowDrop="True" MouseDown="StackPanel_MouseDown">
