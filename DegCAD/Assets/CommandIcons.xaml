@@ -121,7 +121,10 @@
         <Line X1="30" Y1="40" X2="30" Y2="50" Stroke="Black"/>
     </Canvas>
     <Canvas x:Key="cmdHyperbolaIcon">
-
+        <Path Data="M 15 15 Q 30 75 45 15" Stroke="Red"/>
+        <Line X1="25" Y1="30" X2="35" Y2="30" Stroke="Black"/>
+        <Line X1="30" Y1="25" X2="30" Y2="35" Stroke="Black"/>
+        <Line X1="30" Y1="40" X2="30" Y2="50" Stroke="Black"/>
     </Canvas>
     <Canvas x:Key="cmdTranslateSizeIcon">
         <Line X1="10" Y1="45" X2="32" Y2="45" Stroke="Blue"/>
