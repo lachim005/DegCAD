@@ -218,28 +218,28 @@
                     </Grid>
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Bottom">
-                            <Setter Property="CornerRadius" TargetName="innerBorder" Value="0,0,5,5"/>
+                            <Setter Property="CornerRadius" TargetName="innerBorder" Value="0,0,7,7"/>
                             <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,0,1,1"/>
                             <Setter Property="Margin" TargetName="templateRoot" Value="2, 0"/>
                             <Setter Property="BorderThickness" TargetName="accentStripe" Value="0,3,0,0"/>
                             <Setter Property="Margin" TargetName="accentStripe" Value="0,-1,0,0"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Top">
-                            <Setter Property="CornerRadius" TargetName="innerBorder" Value="5,5,0,0"/>
+                            <Setter Property="CornerRadius" TargetName="innerBorder" Value="7,7,0,0"/>
                             <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,1,0"/>
                             <Setter Property="Margin" TargetName="templateRoot" Value="2, 0"/>
                             <Setter Property="BorderThickness" TargetName="accentStripe" Value="0,0,0,3"/>
                             <Setter Property="Margin" TargetName="accentStripe" Value="0,0,0,-1"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Left">
-                            <Setter Property="CornerRadius" TargetName="innerBorder" Value="5,0,0,5"/>
+                            <Setter Property="CornerRadius" TargetName="innerBorder" Value="7,0,0,7"/>
                             <Setter Property="BorderThickness" TargetName="innerBorder" Value="1,1,0,1"/>
                             <Setter Property="Margin" TargetName="templateRoot" Value="0, 2"/>
                             <Setter Property="BorderThickness" TargetName="accentStripe" Value="0,0,3,0"/>
                             <Setter Property="Margin" TargetName="accentStripe" Value="0,0,-1,0"/>
                         </DataTrigger>
                         <DataTrigger Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource AncestorType={x:Type TabControl}}}" Value="Right">
-                            <Setter Property="CornerRadius" TargetName="innerBorder" Value="0,5,5,0"/>
+                            <Setter Property="CornerRadius" TargetName="innerBorder" Value="0,7,7,0"/>
                             <Setter Property="BorderThickness" TargetName="innerBorder" Value="0,1,1,1"/>
                             <Setter Property="Margin" TargetName="templateRoot" Value="0, 2"/>
                             <Setter Property="BorderThickness" TargetName="accentStripe" Value="3,0,0,0"/>
