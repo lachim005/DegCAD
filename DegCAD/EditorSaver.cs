@@ -130,6 +130,8 @@ namespace DegCAD
 
                 Parabola pbl => $"PBL {pbl.Focus.X} {pbl.Focus.Y} {pbl.Vertex.X} {pbl.Vertex.Y} {pbl.Infinite} {pbl.End.X} {pbl.End.Y}",
 
+                Hyperbola hbl => $"HBL {hbl.Center.X} {hbl.Center.Y} {hbl.Vertex.X} {hbl.Vertex.Y} {hbl.Point.X} {hbl.Point.Y}",
+
                 Label lbl => $"LBL {lbl.LabelText.Replace("\\", "\\\\").Replace(" ", "\\ ")} " +
                 $"{lbl.Subscript.Replace("\\", "\\\\").Replace(" ", "\\ ")} " +
                 $"{lbl.Superscript.Replace("\\", "\\\\").Replace(" ", "\\ ")} " +
