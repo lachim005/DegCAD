@@ -74,7 +74,7 @@
                                 </Canvas.Style>
                             </Canvas>
                             <TextBlock Text="{Binding Item1.FileName}" Margin="2, 0" VerticalAlignment="Center" PreviewMouseLeftButtonDown="StartTabReorderDrag"/>
-                            <Button Click="EditorTabCloseClick" BorderThickness="0" Style="{StaticResource cmdPaletteBtnStyle}" Width="20" Height="20" Background="Transparent" Padding="5">
+                            <Button Click="EditorTabCloseClick" BorderThickness="0" Style="{StaticResource closeBtn}" Width="20" Height="20" Padding="5">
                                 <Canvas Width="10" Height="10">
                                     <Line X1="0" Y1="0" X2="10" Y2="10" Stroke="Black" StrokeThickness="1"/>
                                     <Line X1="0" Y1="10" X2="10" Y2="0" Stroke="Black" StrokeThickness="1"/>

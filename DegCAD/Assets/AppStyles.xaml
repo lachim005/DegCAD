@@ -26,7 +26,7 @@
     <SolidColorBrush x:Key="accentColorClick" Color="#12588e"/>
     <SolidColorBrush x:Key="accentColorDisabled" Color="#12588e"/>
 
-    
+
     <!-- Buttons -->
     <!--#region Buttons -->
     <Style TargetType="{x:Type Button}">
@@ -89,6 +89,42 @@
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Foreground" Value="{StaticResource disabledFg}"/>
                             <Setter Property="Background" Value="{StaticResource accentColorDisabled}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <Style x:Key="closeBtn" TargetType="{x:Type Button}">
+        <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="3"/>
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="Height" Value="27"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border" CornerRadius="5" BorderBrush="Transparent" BorderThickness="1" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                        <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background" TargetName="border" Value="{StaticResource hoverBg}"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource border}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="true">
+                            <Setter Property="Background" TargetName="border" Value="{StaticResource clickBg}"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource border}"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Foreground" Value="{StaticResource disabledFg}"/>
+                            <Setter Property="Background" Value="{StaticResource disabledBg}"/>
+                            <Setter Property="BorderBrush" TargetName="border" Value="{StaticResource disabledBg}"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
