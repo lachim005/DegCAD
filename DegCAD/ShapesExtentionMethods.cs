@@ -223,6 +223,19 @@ namespace DegCAD
 
             pth.Data = Geometry.Parse(para);
         }
+        public static void SetHyperbola(this Path pth, ViewportLayer vpl, MongeItems.Hyperbola hb)
+        {
+            var ep1 = vpl.Viewport.CanvasToScreen(hb.EndPoint1);
+            var ep2 = vpl.Viewport.CanvasToScreen(hb.EndPoint2);
+            var cp1 = vpl.Viewport.CanvasToScreen(hb.ControlPoint1);
+            var cp2 = vpl.Viewport.CanvasToScreen(hb.ControlPoint2);
+            var vertex = vpl.Viewport.CanvasToScreen(hb.Vertex);
+
+
+            string hyper = $"M {ep1.X} {ep1.Y} Q {cp1.X} {cp1.Y} {vertex.X} {vertex.Y} Q {cp2.X} {cp2.Y} {ep2.X} {ep2.Y}".Replace(',', '.');
+
+            pth.Data = Geometry.Parse(hyper);
+        }
         #endregion
 
 

@@ -57,6 +57,7 @@ namespace DegCAD
             AddCommand(new("Oblouk", "Oblouk dán středem, bodem na kružnici a dvěma úhly", Key.O, ModifierKeys.Control | ModifierKeys.Shift, (_, _) => executeCommand(new Arc()), "cmdArcIcon"));
             AddCommand(new("Elipsa", "Elipsa dána středem hlavním a vedlejším vrcholem", Key.E, ModifierKeys.Control, (_, _) => executeCommand(new GeometryCommands.Ellipse()), "cmdEllipseIcon"));
             AddCommand(new("Parabola", "Parabola dána ohniskem a vrcholem", Key.Q, ModifierKeys.Control, (_, _) => executeCommand(new GeometryCommands.Parabola()), "cmdParabolaIcon"));
+            AddCommand(new("Hyperbola", "Větev hyperboly dána středem, vrcholem a koncovým bodem na hyperbole. Zobrazení hyperboly je pouze přibližné.", Key.H, ModifierKeys.Control, (_, _) => executeCommand(new Hyperbola()), "cmdHyperbolaIcon"));
             AddSeparator();
             AddCommand(new("Přenést vzdálenost", "Přenese vzdálenost mezi dvěma body", Key.V, ModifierKeys.Control, (_, _) => executeCommand(new TranslateSize()), "cmdTranslateSizeIcon"));
             AddCommand(new("Sklopit bod", "Sklopí bod pomocí jeho druhého průmětu", Key.S, ModifierKeys.Control | ModifierKeys.Shift, (_, _) => executeCommand(new CastPoint()), "cmdCastPointIcon"));
