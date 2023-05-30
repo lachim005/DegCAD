@@ -8,8 +8,8 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
             <RowDefinition Height="23"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" MinWidth="100"/>
@@ -17,13 +17,13 @@
             <ColumnDefinition Width="350" MinWidth="150"/>
         </Grid.ColumnDefinitions>
 
-        <local:ViewPort x:Name="viewPort"/>
-        <GridSplitter Grid.Column="1" Width="2" HorizontalAlignment="Stretch"/>
-        <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto">
+        <local:ViewPort x:Name="viewPort" Grid.Row="1"/>
+        <GridSplitter Grid.Column="1" Grid.Row="1" Width="2" HorizontalAlignment="Stretch"/>
+        <ScrollViewer Grid.Column="2" Grid.Row="1" VerticalScrollBarVisibility="Auto">
             <StackPanel>
                 <local:StyleSelector x:Name="styleSelector"/>
             </StackPanel>
         </ScrollViewer>
-        <local:EditorStatusBar Grid.Row="1" Grid.ColumnSpan="3" x:Name="statusBar"/>
+        <local:EditorStatusBar Grid.ColumnSpan="3" x:Name="statusBar"/>
     </Grid>
 </UserControl>
