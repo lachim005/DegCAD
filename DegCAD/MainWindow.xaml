@@ -9,7 +9,7 @@
         AllowDrop="True"
         Drop="WindowDrop"
         Closing="WindowClosing"
-        Title="DegCAD" Height="450" Width="800">
+        Title="DegCAD" MinHeight="600" MinWidth="900">
     <Window.CommandBindings>
         <CommandBinding Command="New"
                         Executed="NewCommand"/>
@@ -91,8 +91,14 @@
             </TabControl>
             <!-- Home page -->
             <StackPanel x:Name="homePage" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock Text="Vítejte v DegCADu" FontSize="30px"/>
-                <Button Command="New" Content="_Nový dokument +" Padding="10 0" Margin="20px" Style="{StaticResource accentBtn}"/>
+                <TextBlock Text="Vítejte v DegCADu" FontSize="30px" Margin="0,0,0,80"/>
+                <Button Command="New" x:Name="homeNewBtn" Height="232" Width="168" Margin="5px">
+                    <Canvas>
+                        <Line X1="0" Y1="-30" X2="0" Y2="30" Stroke="{StaticResource border}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
+                        <Line X1="-30" Y1="0" X2="30" Y2="0" Stroke="{StaticResource border}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
+                    </Canvas>
+                </Button>
+                <Label Content="_Nový dokument" Target="{Binding ElementName=homeNewBtn}" HorizontalAlignment="Center"/>
             </StackPanel>
         </Grid>
     </DockPanel>
