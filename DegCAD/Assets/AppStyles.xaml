@@ -1140,4 +1140,26 @@
         </Style.Triggers>
     </Style>
     <!--#endregion-->
+
+    <!-- Scrollbar -->
+    <!--#region Scrollbar-->
+    <Style x:Key="{x:Type ToolTip}" TargetType="ToolTip">
+        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="HasDropShadow" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToolTip">
+                    <Border Name="Border" BorderThickness="1" CornerRadius="5" Width="{TemplateBinding Width}" Background="{StaticResource bg}"  BorderBrush="{StaticResource border}"  Height="{TemplateBinding Height}">
+                        <ContentPresenter Margin="4" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="HasDropShadow" Value="true">
+                            <Setter TargetName="Border" Property="SnapsToDevicePixels" Value="true" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    <!--#endregion-->
 </ResourceDictionary>
