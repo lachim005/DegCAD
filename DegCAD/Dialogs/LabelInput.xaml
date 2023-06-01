@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DegCAD.Dialogs"
         mc:Ignorable="d"
-        Title="Pojmenovat" Height="400" Width="398">
+        Title="Pojmenovat" Height="400" Width="398" MinHeight="400" MinWidth="398">
     <Window.CommandBindings>
         <CommandBinding Command="Close" Executed="Cancel"/>
         <CommandBinding Command="Save" Executed="Confirm"/>
