@@ -1141,8 +1141,8 @@
     </Style>
     <!--#endregion-->
 
-    <!-- Scrollbar -->
-    <!--#region Scrollbar-->
+    <!-- ToolTip -->
+    <!--#region ToolTip-->
     <Style x:Key="{x:Type ToolTip}" TargetType="ToolTip">
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="HasDropShadow" Value="True" />
