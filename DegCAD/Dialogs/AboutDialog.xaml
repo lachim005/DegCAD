@@ -6,22 +6,40 @@
         xmlns:local="clr-namespace:DegCAD.Dialogs"
         mc:Ignorable="d"
         ResizeMode="NoResize"
-        Title="O programu" Height="300" Width="500">
+        WindowStartupLocation="CenterScreen"
+        SizeToContent="Width"
+        Height="300"
+        Title="O programu">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="60"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="40"/>
         </Grid.ColumnDefinitions>
         <TextBlock Text="DegCAD" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" FontWeight="Bold" Grid.ColumnSpan="2" />
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" Name="aboutStp">
-            <TextBlock x:Name="versionTb"/>
+            <TextBlock x:Name="versionTb" Text="Verze: X.X.X.X"/>
+            <TextBlock Text="Vytvořil: Michal Šebesta"/>
+            <TextBlock>
+                Repozitář:
+                <Hyperlink NavigateUri="https://github.com/lachim005/DegCAD" RequestNavigate="Hyperlink_RequestNavigate">
+                    https://github.com/lachim005/DegCAD
+                </Hyperlink>
+            </TextBlock>
+            <TextBlock>
+                Vydáno pod licencí 
+                <Hyperlink NavigateUri="https://github.com/lachim005/DegCAD/blob/master/LICENSE.txt" RequestNavigate="Hyperlink_RequestNavigate">
+                    MIT
+                </Hyperlink>
+            </TextBlock>
         </StackPanel>
-        <Button Content="OK" Style="{StaticResource accentBtn}" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="2" Padding="25,0" Margin="0,0,30,0" Click="CloseClick"/>
+        <Button Content="OK" Style="{StaticResource accentBtn}" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="2" Padding="25,0" Margin="0" Click="CloseClick"/>
         <Image Grid.Row="1" Width="100" Source="/DegCAD;component/Assets/logo.ico" Height="100"/>
     </Grid>
 </Window>
