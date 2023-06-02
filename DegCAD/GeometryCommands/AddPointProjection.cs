@@ -1,42 +1,53 @@
 ﻿using DegCAD.Dialogs;
-using DegCAD.DrawableItems;
+using DegCAD.MongeItems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace DegCAD.GeometryCommands
 {
     public class AddPointProjection : IGeometryCommand
     {
-        public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
+        public async Task<TimelineItem?> ExecuteAsync(ViewportLayer previewVpl, ViewportLayer vpl, ViewportLayer bgVpl, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
             esb.CommandName = "Doplnit průmět";
-            Style previewStyle = new() { Color = Color.FromRgb(0, 0, 255), LineStyle = 1 };
-            ParametricLine2 xLine = new((0, 0), (0, 1));
 
             esb.CommandHelp = "Vyberte průmět bodu, ke kterému chcete doplnit průmět";
-            var p1 = await inputMgr.GetPoint((p, gd) =>
+
+            Point ptProj1 = new(0, 0, previewVpl);
+
+            ParametricLine2 xLine = new((0, 0), (0, 1));
+            Line xLineShape = new();
+            xLineShape.SetStyle(Style.BlueDashStyle);
+            previewVpl.Canvas.Children.Add(xLineShape);
+
+            var p1 = await inputMgr.GetPoint((p) =>
             {
-                //X line
+                ptProj1.Coords = p;
+                ptProj1.Draw();
+
                 xLine.Point = p;
-                gd.DrawLine(xLine, double.NegativeInfinity, double.PositiveInfinity, previewStyle);
-                //Point 1 cross
-                gd.DrawPointCross(p, Style.Default);
+                xLineShape.SetParaLine(previewVpl, xLine, double.NegativeInfinity, double.PositiveInfinity);
             });
 
             esb.CommandHelp = "Vyberte druhý průmět bodu, pravým tlačítkem myši změníte průmětnu";
-            (var p2, var pl) = await inputMgr.GetPointWithPlane((p, gd, pl) =>
+
+            Point ptProj2 = new(p1.X, 0, previewVpl);
+            Plane plane = new(false, bgVpl);
+
+            (var p2, var pl) = await inputMgr.GetPointWithPlane((p, pl) =>
             {
-                gd.DrawPlane(pl);
-                //X line
-                gd.DrawLine(xLine, double.NegativeInfinity, double.PositiveInfinity, previewStyle);
-                //Point 1 cross
-                gd.DrawPointCross(p1, Style.Default);
-                //Point 2 cross
-                gd.DrawPointCross((p1.X, p.Y), Style.Default);
+                ptProj2.Y = p.Y;
+                ptProj2.Draw();
+                plane.TopPlane = pl;
+                plane.Draw();
+
+                ptProj1.Draw();
+                xLineShape.SetParaLine(previewVpl, xLine, double.NegativeInfinity, double.PositiveInfinity);
             }, defaultPlane: p1.Y > 0 , lines: new ParametricLine2[1] { new(p1, (0, 1)) });
 
             p2.X = p1.X;
@@ -46,7 +57,7 @@ namespace DegCAD.GeometryCommands
 
             List<IMongeItem> mongeItems = new(2)
             {
-                new Point(p2.X, p2.Y, curStyle)
+                new Point(p2.X, p2.Y, curStyle, vpl)
             };
 
             esb.CommandHelp = "Zadejte název bodu";
@@ -57,8 +68,8 @@ namespace DegCAD.GeometryCommands
             //Adds the labels to the timeline item
             if (!lid.Canceled)
             {
-                mongeItems.Add(new MongeItems.Label(lid.LabelText, lid.Subscript, lid.Superscript,
-                    p2, curStyle, mongeItems[0]));
+                mongeItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript,
+                    p2, curStyle, mongeItems[0].Clone(), vpl));
             }
 
             return new(mongeItems.ToArray());

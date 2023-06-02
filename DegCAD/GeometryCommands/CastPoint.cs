@@ -11,63 +11,88 @@ namespace DegCAD.GeometryCommands
 {
     public class CastPoint : IGeometryCommand
     {
-        public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
+        public async Task<TimelineItem?> ExecuteAsync(ViewportLayer previewVpl, ViewportLayer vpl, ViewportLayer bgVpl, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
-            var blueStyle = new Style() { Color = Colors.Blue, LineStyle = 1 };
-            var redStyle = new Style() { Color = Colors.Red };
-            var greenStyle = new Style() { Color = Colors.Green };
             esb.CommandName = "Sklopit bod";
 
             //Get point to cast
             esb.CommandHelp = "Vyberte bod, který chcete sklopit";
-            var point = await inputMgr.GetPoint((pt, gd) =>
-            {
-                gd.DrawPointCross(pt, Style.Default);
-            });
 
-            var circle = new Circle2(point, 0);
-            var secondProjectionLine = new ParametricLine2(point, (1, 0));
+            Point mPt1 = new(0, 0, previewVpl);
+
+            Vector2 point = await inputMgr.GetPoint((pt) =>
+            {
+                mPt1.Coords = pt;
+                mPt1.Draw();
+            });
 
             //Get the second projection of the point
             esb.CommandHelp = "Vyberte druhý průmět bodu, který chcete sklopit";
-            var secondProjection = await inputMgr.GetPoint((pt, gd) =>
-            {
-                gd.DrawPointCross(point, Style.Default);
 
-                secondProjectionLine.Point = pt;
-                gd.DrawLine(secondProjectionLine, double.NegativeInfinity, double.PositiveInfinity, redStyle);
-                gd.DrawPointCross(pt, Style.Default);
+            var circle = new Circle2(point, 0);
+            MongeItems.Circle mCircle = new(circle, Style.BlueDashStyle, previewVpl);
+
+            System.Windows.Shapes.Line secondProjectionLine = new();
+            secondProjectionLine.SetStyle(Style.HighlightStyle);
+            ParametricLine2 secondProjParaLine = new(point, (1, 0));
+            previewVpl.Canvas.Children.Add(secondProjectionLine);
+
+            Point mPt2 = new(0, 0, previewVpl);
+
+            var secondProjection = await inputMgr.GetPoint((pt) =>
+            {
+                mPt1.Draw();
 
                 circle.Radius = Math.Abs(pt.Y);
-                gd.DrawCircle(circle, blueStyle);
+                mCircle.Circle2 = circle;
+                mCircle.Draw();
+
+                secondProjParaLine.Point = pt;
+                secondProjectionLine.SetParaLine(previewVpl, secondProjParaLine, double.NegativeInfinity, double.PositiveInfinity);
+
+                mPt2.Coords = pt;
+                mPt2.Draw();
             });
 
             //Get the direction
             esb.CommandHelp = "Vyberte směr, kterým chcete bod sklopit, pravým tlačítkem přepnete kolmý směr";
-            (var dirPoint, var perpendicular) = await inputMgr.GetPointWithPlane((pt, gd, perp) =>
-            {
-                gd.DrawLine(secondProjectionLine, double.NegativeInfinity, double.PositiveInfinity, redStyle);
-                gd.DrawPointCross(pt, Style.Default);
 
-                gd.DrawCircle(circle, blueStyle);
+            MongeItems.LineSegment mPerpendicularSeg = new(point, point, Style.GreenStyle, previewVpl);
+            MongeItems.LineSegment mDirectionSegment = new(point, point, Style.HighlightStyle, previewVpl);
+
+            (var dirPoint, var perpendicular) = await inputMgr.GetPointWithPlane((pt, perp) =>
+            {
+                mPt1.Draw();
+                secondProjectionLine.SetParaLine(previewVpl, secondProjParaLine, double.NegativeInfinity, double.PositiveInfinity);
+
+                mCircle.Draw();
 
                 var ptOnCircle = circle.TranslatePointToCircle(pt);
                 var sth = ptOnCircle - point;
 
                 if (perp)
                 {
-                    gd.DrawLine(ptOnCircle, point - sth, greenStyle);
+                    mPerpendicularSeg.SetVisibility(System.Windows.Visibility.Visible);
+                    mPerpendicularSeg.P1 = ptOnCircle;
+                    mPerpendicularSeg.P2 = point - sth;
+                    mPerpendicularSeg.Draw();
+
                     //Calculates the perpendicular coordinate of the point
                     Vector2 perpVec = new(sth.Y, -sth.X);
                     var perpPtOnCircle = point - perpVec;
-                    gd.DrawLine(perpPtOnCircle, point, redStyle);
-                    gd.DrawPointCross(perpPtOnCircle, redStyle);
+
+                    mDirectionSegment.P2 = perpPtOnCircle;
+                    mPt2.Coords = perpPtOnCircle;
                 }
                 else
                 {
-                    gd.DrawLine(ptOnCircle, point, redStyle);
-                    gd.DrawPointCross(ptOnCircle, redStyle);
+                    mPerpendicularSeg.SetVisibility(System.Windows.Visibility.Hidden);
+                    mDirectionSegment.P2 = ptOnCircle;
+                    mPt2.Coords = ptOnCircle;
                 }
+
+                mPt2.Draw();
+                mDirectionSegment.Draw();
             }, defaultPlane: true , circles: new Circle2[1] { circle }, predicate: (pt) => pt != point);
 
             List<IMongeItem> mItems = new();
@@ -83,10 +108,10 @@ namespace DegCAD.GeometryCommands
                 Vector2 perpVec = new(sth.Y, -sth.X);
                 ptOnCircle = point - perpVec;
                 //Adds a line connecting the casted point and the original point
-                mItems.Add(new MongeItems.LineSegment(ptOnCircle, point, curStyle));
+                mItems.Add(new MongeItems.LineSegment(ptOnCircle, point, curStyle, vpl));
             }
 
-            var mPoint = new DrawableItems.Point(ptOnCircle.X, ptOnCircle.Y, curStyle);
+            var mPoint = new Point(ptOnCircle.X, ptOnCircle.Y, curStyle, vpl);
             mItems.Add(mPoint);
 
             //Label
@@ -95,7 +120,7 @@ namespace DegCAD.GeometryCommands
             lid.ShowDialog();
             if (!lid.Canceled)
             {
-                mItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript, mPoint.Coords, curStyle, mPoint));
+                mItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript, mPoint.Coords, curStyle, mPoint.Clone(), vpl));
             }
 
             return new TimelineItem(mItems.ToArray());

@@ -1,5 +1,4 @@
-﻿using DegCAD.DrawableItems;
-using DegCAD.MongeItems;
+﻿using DegCAD.MongeItems;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -29,11 +28,9 @@ namespace DegCAD
         private bool _executingCommand = false;
         private bool _changed = false;
 
-        public GeometryDrawer GeometryDrawer { get; protected set; }
         public GeometryInputManager InputMgr { get; protected set; }
         public Timeline Timeline { get; protected set; }
         public Snapper Snapper { get; protected set; }
-        public LabelManager LabelManager { get; protected set; }
 
         public bool ExecutingCommand
         {
@@ -77,27 +74,26 @@ namespace DegCAD
         public Editor(string fileName)
         {
             InitializeComponent();
-            GeometryDrawer = new(viewPort, false);
             viewPort.ViewportChanged += ViewPortChanged;
             Timeline = new();
             Timeline.TimelineChanged += TimelineChanged;
             Snapper = new(Timeline);
             InputMgr = new(viewPort, Snapper, styleSelector);
             viewPort.SizeChanged += ViewPortChanged;
-            LabelManager = new(Timeline, GeometryDrawer, viewPort, this);
 
             _fileName = fileName;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public void AddAxis()
+        public void AddAxis(ViewportLayer vpl)
         {
+            var axis = new Axis(DegCAD.Style.Default, vpl);
             Timeline.AddCommand(new TimelineItem(new IMongeItem[3]
             {
-                new Axis(),
-                new MongeItems.Label("x", "1, 2", "", (8,0), DegCAD.Style.Default, new LineProjection(new((0,0), (1,0)), false, DegCAD.Style.Default)),
-                new MongeItems.Label("0", "", "", (0,0), DegCAD.Style.Default, new DrawableItems.Point(0,0)),
+                axis,
+                new MongeItems.Label("x", "1, 2", "", (8,0), DegCAD.Style.Default, new LineProjection(new((0,0), (1,0)), false, DegCAD.Style.Default), vpl),
+                new MongeItems.Label("0", "", "", (0,0), DegCAD.Style.Default, new MongeItems.Point(0,0), vpl),
             }));
         }
         public void ViewPortChanged(object? sender, EventArgs e)
@@ -112,12 +108,11 @@ namespace DegCAD
 
         public void Redraw()
         {
-            GeometryDrawer.Clear();
             foreach (var cmd in Timeline.CommandHistory)
             {
                 for (int i = 0; i < cmd.Items.Length; i++)
                 {
-                    cmd.Items[i].Draw(GeometryDrawer);
+                    cmd.Items[i].Draw();
                 }
             }
         }
@@ -128,7 +123,9 @@ namespace DegCAD
             ExecutingCommand = true;
 
             statusBar.ShowCommandStatus();
-            var res = await command.ExecuteAsync(InputMgr.PreviewGd, InputMgr, statusBar);
+            var res = await command.ExecuteAsync(viewPort.Layers[2],viewPort.Layers[1], viewPort.Layers[0], InputMgr, statusBar);
+            viewPort.Layers[2].Canvas.Children.Clear();
+            viewPort.Layers[0].Canvas.Children.Clear();
             ExecutingCommand = false;
             statusBar.HideCommandStatus();
             statusBar.CommandName = "";

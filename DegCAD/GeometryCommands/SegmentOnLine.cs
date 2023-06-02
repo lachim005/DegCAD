@@ -1,72 +1,93 @@
-﻿using System;
+﻿using DegCAD.MongeItems;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using System.Windows.Shapes;
 
 namespace DegCAD.GeometryCommands
 {
     public class SegmentOnLine : IGeometryCommand
     {
-        public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
+        public async Task<TimelineItem?> ExecuteAsync(ViewportLayer previewVpl, ViewportLayer vpl, ViewportLayer bgVpl, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
-            Style blueStyle = new() { Color = Colors.Blue };
-            Style redStyle = new() { Color = Colors.Red };
-
             esb.CommandName = "Úsečka na přímce";
-            Style lineSelStyle = new() { Color = Colors.Red };
 
             esb.CommandHelp = "Vyberte první bod přímky, na které chcete sestrojit úsečku";
-            var lp1 = await inputMgr.GetPoint((pt, gd) =>
+
+            Point mLinePt1 = new(0, 0, previewVpl);
+
+            var lp1 = await inputMgr.GetPoint((pt) =>
             {
-                gd.DrawPointCross(pt, Style.Default);
+                mLinePt1.Coords = pt;
+                mLinePt1.Draw();
             });
 
-            ParametricLine2 line = new()
-            {
-                Point = lp1
-            };
 
             esb.CommandHelp = "Vyberte druhý bod přímky, na které chcete sestrojit úsečku";
-            var lp2 = await inputMgr.GetPoint((pt, gd) =>
+
+            Point mLinePt2 = new(0, 0, previewVpl);
+            ParametricLine2 line = new() { Point = lp1 };
+            Line selectedLine = new();
+            selectedLine.SetStyle(Style.BlueDashStyle);
+            previewVpl.Canvas.Children.Add(selectedLine);
+
+            var lp2 = await inputMgr.GetPoint((pt) =>
             {
-                gd.DrawPointCross(lp1, Style.Default);
-                gd.DrawPointCross(pt, Style.Default);
+                mLinePt2.Coords = pt;
+                mLinePt2.Draw();
+                mLinePt1.Draw();
 
                 line.DirectionVector = lp1 - pt;
-
-                gd.DrawLine(line, double.PositiveInfinity, double.NegativeInfinity, blueStyle);
+                selectedLine.SetParaLine(previewVpl, line, double.NegativeInfinity, double.PositiveInfinity);
             }, predicate: (pt) => pt != lp1);
 
-            blueStyle.LineStyle = 1;
             line.DirectionVector = lp1 - lp2;
 
             esb.CommandHelp = "Vyberte první bod úsečky";
-            var p1 = await inputMgr.GetPoint((pt, gd) =>
+
+            Point mSegPt1 = new(0, 0, previewVpl);
+
+            var p1 = await inputMgr.GetPoint((pt) =>
             {
                 pt = line.GetClosestPoint(pt);
-                gd.DrawPointCross(pt, Style.Default);
 
+                mSegPt1.Coords = pt;
+                mSegPt1.Draw();
 
-                gd.DrawLine(line, double.PositiveInfinity, double.NegativeInfinity, blueStyle);
+                mLinePt2.Draw();
+                mLinePt1.Draw();
+                selectedLine.SetParaLine(previewVpl, line, double.NegativeInfinity, double.PositiveInfinity);
             }, lines: new ParametricLine2[1] { line });
 
             p1 = line.GetClosestPoint(p1);
 
             esb.CommandHelp = "Vyberte druhý bod úsečky";
-            var p2 = await inputMgr.GetPoint((pt, gd) =>
+
+            Point mSegPt2 = new(0, 0, previewVpl);
+            MongeItems.LineSegment mSeg = new(p1, p1, Style.HighlightStyle, previewVpl);
+
+            var p2 = await inputMgr.GetPoint((pt) =>
             {
                 pt = line.GetClosestPoint(pt);
-                gd.DrawPointCross(pt, Style.Default);
 
-                gd.DrawLine(line, double.PositiveInfinity, double.NegativeInfinity, blueStyle);
-                gd.DrawLine(p1, pt, redStyle);
+                mSegPt2.Coords = pt;
+                mSegPt2.Draw();
+                mSegPt1.Draw();
+
+                mSeg.P2 = pt;
+                mSeg.Draw();
+
+                mLinePt2.Draw();
+                mLinePt1.Draw();
+                selectedLine.SetParaLine(previewVpl, line, double.NegativeInfinity, double.PositiveInfinity);
             }, lines: new ParametricLine2[1] { line });
 
             p2 = line.GetClosestPoint(p2);
 
-            return new(new IMongeItem[1] { new MongeItems.LineSegment(p1, p2, inputMgr.StyleSelector.CurrentStyle) });
+            return new(new IMongeItem[1] { new MongeItems.LineSegment(p1, p2, inputMgr.StyleSelector.CurrentStyle, vpl) });
         }
     }
 }

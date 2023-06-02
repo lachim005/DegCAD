@@ -6,22 +6,22 @@
         xmlns:local="clr-namespace:DegCAD.Dialogs"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
-        Title="Upravit barvy" Height="600" Width="600">
+        Title="Upravit barvy" Height="600" Width="600" MinWidth="600" MinHeight="400">
     <Grid Margin="10">
         <Grid.RowDefinitions>
-            <RowDefinition/>
             <RowDefinition Height="40px"/>
+            <RowDefinition/>
             <RowDefinition Height="40px"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <ScrollViewer Grid.ColumnSpan="2">
+        <ScrollViewer Grid.ColumnSpan="2" Grid.Row="1" Margin="0, 15" VerticalScrollBarVisibility="Auto">
             <ItemsControl x:Name="colorsList" Background="White">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid Height="30" Margin="5" AllowDrop="True" Background="Transparent" PreviewDragOver="ColorDrop" Drop="ColorDrop">
+                        <Grid Height="35" Margin="5" AllowDrop="True" Background="Transparent" PreviewDragOver="ColorDrop" Drop="ColorDrop">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="30"/>
                                 <ColumnDefinition/>
@@ -33,7 +33,7 @@
                                 <Line X1="2" Y1="9" X2="17" Y2="9" Stroke="Black" StrokeThickness="1"/>
                                 <Line X1="2" Y1="14" X2="17" Y2="14" Stroke="Black" StrokeThickness="1"/>
                             </Canvas>
-                            <Rectangle Fill="{Binding Item2}" Grid.Column="1" Margin="0,0,5,0" PreviewMouseLeftButtonDown="StartColorReorderDrag" Cursor="Hand"/>
+                            <Rectangle Fill="{Binding Item2}" RadiusX="5" RadiusY="5" Grid.Column="1" Margin="0,0,5,0" PreviewMouseLeftButtonDown="StartColorReorderDrag" Cursor="Hand"/>
                             <Button Content="Odstranit" Grid.Column="2" Click="RemoveColor"/>
                             <Button Content="Upravit" Grid.Column="3" Click="EditColor"/>
                         </Grid>
@@ -42,9 +42,9 @@
             </ItemsControl>
         </ScrollViewer>
 
-        <Button Content="_Přidat barvu" Click="AddColor" Margin="5" Grid.Row="1"/>
-        <Button Content="_Importovat barvy" Click="ImportColors" Margin="5" Grid.Row="1" Grid.Column="1"/>
+        <Button Content="_Přidat barvu" Click="AddColor" Margin="5" Grid.Row="0"/>
+        <Button Content="_Importovat barvy" Click="ImportColors" Margin="5" Grid.Row="0" Grid.Column="1"/>
         <Button Content="_Zrušit" Click="CancelDialog" Margin="5" Grid.Row="2" Grid.Column="0"/>
-        <Button Content="_Uložit" Click="SaveColors" Margin="5" Grid.Row="2" Grid.Column="1"/>
+        <Button Content="_Uložit" Click="SaveColors" Margin="5" Grid.Row="2" Grid.Column="1" Style="{StaticResource accentBtn}"/>
     </Grid>
 </Window>

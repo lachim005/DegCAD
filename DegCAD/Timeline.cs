@@ -29,7 +29,13 @@ namespace DegCAD
             //Can't undo if commands stack is empty
             if (CommandHistory.Count == 0) return;
 
-            UndoneCommands.Push(CommandHistory.Pop());
+            var undoneCmd = CommandHistory.Pop();
+
+            foreach (var item in undoneCmd.Items)
+            {
+                item.SetVisibility(System.Windows.Visibility.Hidden);
+            }
+            UndoneCommands.Push(undoneCmd);
             TimelineChanged?.Invoke(this, EventArgs.Empty);
         }
 
@@ -38,13 +44,26 @@ namespace DegCAD
             //Can't redo if undone stack is empty
             if (UndoneCommands.Count == 0) return;
 
-            CommandHistory.Push(UndoneCommands.Pop());
+            var redoneCmd = UndoneCommands.Pop();
+
+            foreach (var item in redoneCmd.Items)
+            {
+                item.SetVisibility(System.Windows.Visibility.Visible);
+            }
+            CommandHistory.Push(redoneCmd);
             TimelineChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void AddCommand(TimelineItem cmd)
         {
             CommandHistory.Push(cmd);
+            foreach (var undoneCmd in UndoneCommands)
+            {
+                foreach (var item in undoneCmd.Items)
+                {
+                    item.RemoveFromViewportLayer();
+                }
+            }
             UndoneCommands.Clear();
             TimelineChanged?.Invoke(this, EventArgs.Empty);
         }

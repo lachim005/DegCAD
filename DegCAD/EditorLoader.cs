@@ -1,5 +1,4 @@
-﻿using DegCAD.DrawableItems;
-using DegCAD.MongeItems;
+﻿using DegCAD.MongeItems;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -39,7 +38,7 @@ namespace DegCAD
             //Reads and parses the timeline
             try
             {
-                ReadTimeline(res, Path.Combine(tempDir, "timeline.txt"));
+                ReadTimeline(res, Path.Combine(tempDir, "timeline.txt"), metadata);
             }
             catch (Exception ex)
             {
@@ -122,7 +121,7 @@ namespace DegCAD
             return tempDir;
         }
 
-        public static void ReadTimeline(Editor e, string path)
+        public static void ReadTimeline(Editor e, string path, Metadata md)
         {
             using StreamReader sr = new(path);
 
@@ -141,14 +140,17 @@ namespace DegCAD
                     case "END":
                         return;
                     case "STL":
-                        currentStyle = STL(line[4..]);
+                        currentStyle = STL(line[4..], md);
                         continue;
                     case "NUL":
                         continue;
                 }
                 var mItem = ParseMongeItem(line, currentStyle);
-                if (mItem is not null) 
+                if (mItem is not null)
+                {
+                    mItem.AddToViewportLayer(e.viewPort.Layers[1]);
                     items.Add(mItem);
+                }
             }
         }
         public static void ReadPalette(Editor e, string path)
@@ -172,30 +174,39 @@ namespace DegCAD
 
             return itemName switch
             {
-                "AXS" => new Axis(),
+                "AXS" => new Axis(stl),
                 "PNT" => PNT(s[4..], stl),
                 "LNE" => LNE(s[4..], stl),
                 "SEG" => SEG(s[4..], stl),
                 "CIR" => CIR(s[4..], stl),
                 "ARC" => ARC(s[4..], stl),
+                "ELL" => ELL(s[4..], stl),
+                "PBL" => PBL(s[4..], stl),
+                "HBL" => HBL(s[4..], stl),
                 "LBL" => LBL(s[4..], stl),
                 _ => null
             };
         }
 
         #region Command parsers
-        private static Style STL(string s)
+        private static Style STL(string s, Metadata md)
         {
             string[] vals = s.Split(' ');
             Color c = Color.FromRgb(
                 byte.Parse(vals[0]),
                 byte.Parse(vals[1]),
                 byte.Parse(vals[2]));
-            return new Style()
+            var stl = new Style()
             {
                 Color = c,
                 LineStyle = int.Parse(vals[3])
             };
+            if (md.version >= new Version(0,4,0))
+            {
+                stl.Thickness = int.Parse(vals[4]);
+            }
+
+            return stl;
         }
         private static Point PNT(string s, Style stl)
         {
@@ -248,6 +259,42 @@ namespace DegCAD
                 ),
                 double.Parse(vals[3]),
                 double.Parse(vals[4]),
+                stl
+            );
+        }
+        private static Ellipse ELL(string s, Style stl)
+        {
+            string[] vals = s.Split(' ');
+            return new(
+                (double.Parse(vals[0]), double.Parse(vals[1])),
+                (double.Parse(vals[2]), double.Parse(vals[3])),
+                (double.Parse(vals[4]), double.Parse(vals[5])),
+                stl
+            );
+        }
+        private static Parabola PBL(string s, Style stl)
+        {
+            string[] vals = s.Split(' ');
+            if (bool.Parse(vals[4]))
+                return new(
+                    (double.Parse(vals[0]), double.Parse(vals[1])),
+                    (double.Parse(vals[2]), double.Parse(vals[3])),
+                    stl
+                );
+            return new(
+                (double.Parse(vals[0]), double.Parse(vals[1])),
+                (double.Parse(vals[2]), double.Parse(vals[3])),
+                (double.Parse(vals[5]), double.Parse(vals[6])),
+                stl
+            );
+        }
+        private static Hyperbola HBL(string s, Style stl)
+        {
+            string[] vals = s.Split(' ');
+            return new(
+                (double.Parse(vals[2]), double.Parse(vals[3])),
+                (double.Parse(vals[0]), double.Parse(vals[1])),
+                (double.Parse(vals[4]), double.Parse(vals[5])),
                 stl
             );
         }

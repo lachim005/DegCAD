@@ -9,49 +9,63 @@ using DegCAD.MongeItems;
 using DegCAD.Dialogs;
 using System.Security.Policy;
 using System.Windows.Shapes;
+using Plane = DegCAD.MongeItems.Plane;
+using System.Windows;
+using Point = DegCAD.MongeItems.Point;
 
 namespace DegCAD.GeometryCommands
 {
     internal class ParallelLine : IGeometryCommand
     {
-        public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
+        public async Task<TimelineItem?> ExecuteAsync(ViewportLayer previewVpl, ViewportLayer vpl, ViewportLayer bgVpl, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
             esb.CommandName = "Rovnoběžka";
-            Style lineSelStyle = new() { Color = Colors.Red };
 
             esb.CommandHelp = "Vyberte přímku, ke které chcete sestrojit rovnoběžku";
-            ParametricLine2 line = await inputMgr.GetLine((p, l, gd) =>
+
+            Line selectedLine = new();
+            selectedLine.SetStyle(Style.HighlightStyle);
+            previewVpl.Canvas.Children.Add(selectedLine);
+
+            ParametricLine2 line = await inputMgr.GetLine((p, l) =>
             {
                 if (l is not null)
                 {
-                    gd.DrawLine((ParametricLine2)l, double.NegativeInfinity, double.PositiveInfinity, lineSelStyle);
+                    selectedLine.SetParaLine(previewVpl, (ParametricLine2)l, double.NegativeInfinity, double.PositiveInfinity);
+                    selectedLine.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    selectedLine.Visibility = Visibility.Hidden;
                 }
             });
 
             esb.CommandHelp = "Vyberte bod, kterým bude rovnoběžka procházet, pravým tlačítkem myši změníte průmětnu";
-            (Vector2 point, bool plane) = await inputMgr.GetPointWithPlane((pt, gd, plane) =>
+
+            previewVpl.Canvas.Children.Remove(selectedLine);
+            LineProjection mLineProjection = new(line, false, Style.HighlightStyle, previewVpl);
+            Plane mPlane = new(false, bgVpl);
+            Point mLinePoint = new(0, 0, previewVpl);
+
+            (Vector2 point, bool plane) = await inputMgr.GetPointWithPlane((pt, plane) =>
             {
-                gd.DrawPlane(plane);
-                gd.DrawPointCross(pt, Style.Default);
+                mPlane.TopPlane = plane;
+                mPlane.Draw();
+
+                mLinePoint.Coords = pt;
+                mLinePoint.Draw();
 
                 line.Point = pt;
-
-                //Calculates the infinity sign
-                int lineSign = plane ? -1 : 1;
-                if (line.DirectionVector.Y * line.DirectionVector.X < 0)
-                {
-                    line.DirectionVector = -line.DirectionVector;
-                    lineSign *= -1;
-                }
-
-                gd.DrawLine(line, double.PositiveInfinity * lineSign, line.GetParamFromY(0), Style.Default);
+                mLineProjection.Line = line;
+                mLineProjection.Plane = plane;
+                mLineProjection.Draw();
             });
 
             var curStyle = inputMgr.StyleSelector.CurrentStyle;
 
             List<IMongeItem> mItems = new()
             {
-                new LineProjection(line, plane, inputMgr.StyleSelector.CurrentStyle)
+                new LineProjection(line, plane, curStyle, vpl)
             };
 
             esb.CommandHelp = "Zadejte název přímky";
@@ -60,7 +74,7 @@ namespace DegCAD.GeometryCommands
             lid.ShowDialog();
             if (!lid.Canceled)
             {
-                mItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript, line.Point + line.DirectionVector.ChangeLength(2), curStyle, mItems[0]));
+                mItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript, line.Point + line.DirectionVector.ChangeLength(2), curStyle, mItems[0].Clone(), vpl));
             }
 
             return new(mItems.ToArray());

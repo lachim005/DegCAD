@@ -11,45 +11,56 @@ namespace DegCAD.GeometryCommands
 {
     public class Arc : IGeometryCommand
     {
-        public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
+        public async Task<TimelineItem?> ExecuteAsync(ViewportLayer previewVpl, ViewportLayer vpl, ViewportLayer bgVpl, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
-            //Defines some styles
-            var blueStyle = new Style() { Color = Colors.Blue, LineStyle = 1 };
-            var redStyle = new Style() { Color = Colors.Red };
             esb.CommandName = "Oblouk";
 
             esb.CommandHelp = "Vyberte střed kružnice, na které bude oblouk ležet";
-            Vector2 center = await inputMgr.GetPoint((pt, gd) =>
+
+            Point mCenterPt = new(0, 0, previewVpl);
+
+            Vector2 center = await inputMgr.GetPoint((pt) =>
             {
-                gd.DrawPointCross(pt, Style.Default);
+                mCenterPt.Coords = pt;
+                mCenterPt.Draw();
             });
 
             esb.CommandHelp = "Vyberte průměr kružnice, na které bude oblouk ležet";
-            Vector2 radiusPoint = await inputMgr.GetPoint((pt, gd) =>
+
+            Point mCirclePt = new(0, 0, previewVpl);
+            MongeItems.Circle mCircle = new(new(), Style.BlueDashStyle, previewVpl);
+
+            Vector2 radiusPoint = await inputMgr.GetPoint((pt) =>
             {
-                gd.DrawPointCross(center, Style.Default);
-                gd.DrawPointCross(pt, Style.Default);
-                gd.DrawCircle(center, pt, blueStyle);
+                mCenterPt.Draw();
+
+                mCirclePt.Coords = pt;
+                mCirclePt.Draw();
+
+                mCircle.Circle2 = new(center, pt);
+                mCircle.Draw();
             }, predicate: (pt) => pt != center);
 
             Circle2 circle = new(center, radiusPoint);
 
-            Vector2 startPoint = (0,0);
 
             esb.CommandHelp = "Vyberte počáteční bod oblouku";
-            Vector2 pt1 = await inputMgr.GetPoint((pt, gd) =>
+
+            MongeItems.Arc mArc = new(circle, 0, 1, Style.HighlightStyle, previewVpl);
+            Point mStartPt = new(0,0, previewVpl);
+
+            Vector2 pt1 = await inputMgr.GetPoint((pt) =>
             {
-                gd.DrawPointCross(center, Style.Default);
-                gd.DrawPointCross(pt, Style.Default);
-                gd.DrawCircle(circle, blueStyle);
+                mCenterPt.Draw();
+                mCirclePt.Draw();
+                mCircle.Draw();
 
-                //Calculates a point on the circle in the direction set by the current point
-                startPoint = circle.TranslatePointToCircle(pt);
-
-                gd.DrawLine(center, startPoint, redStyle);
-
+                pt = circle.TranslatePointToCircle(pt);
+                mStartPt.Coords = pt;
+                mStartPt.Draw();
             }, circles: new Circle2[1] { circle }, predicate: (pt) => pt != center);
 
+            Vector2 startPoint = circle.TranslatePointToCircle(pt1);
             Vector2 startVec = startPoint - center;
 
             //Calculates the start angle and adjusts it by it's quadrant
@@ -60,18 +71,23 @@ namespace DegCAD.GeometryCommands
             double endAngle = 0;
 
             esb.CommandHelp = "Vyberte koncový bod oblouku, pravým tlačítkem myši změníte směr oblouku";
-            (var pt2, var swap) = await inputMgr.GetPointWithPlane((pt, gd, swap) =>
+
+            Point mEndPt = new(0, 0, previewVpl);
+
+            (var pt2, var swap) = await inputMgr.GetPointWithPlane((pt, swap) =>
             {
-                gd.DrawPointCross(center, Style.Default);
-                gd.DrawPointCross(pt, Style.Default);
-                gd.DrawCircle(circle, blueStyle);
-                gd.DrawLine(center, startPoint, redStyle);
+                mCenterPt.Draw();
+                mCirclePt.Draw();
+                mCircle.Draw();
+                mStartPt.Draw();
 
                 //Calculates a point on the circle in the direction set by the current point
                 var endPoint = circle.TranslatePointToCircle(pt);
                 var endVec = endPoint - center;
 
-                gd.DrawLine(center, endPoint, redStyle);
+
+                mEndPt.Coords = endPoint;
+                mEndPt.Draw();
 
                 //Calculates the end angle and adjusts it by it's quadrant
                 endAngle = Math.Atan(endVec.Y / endVec.X);
@@ -79,16 +95,26 @@ namespace DegCAD.GeometryCommands
                 else if (endVec.Y < 0) endAngle += Math.PI * 2;
 
                 //Draws the arc and swaps the start and end angles if necessary
-                if (swap) gd.DrawArc(circle, endAngle, startAngle, redStyle);
-                else gd.DrawArc(circle, startAngle, endAngle, redStyle);
+                if (swap)
+                {
+                    mArc.StartAngle = endAngle;
+                    mArc.EndAngle = startAngle;
+                }
+                else
+                {
+                    mArc.StartAngle = startAngle;
+                    mArc.EndAngle = endAngle;
+                }
+
+                mArc.Draw();
             }, circles: new Circle2[1] { circle }, predicate: (pt) => pt != center);
 
             Style curStyle = inputMgr.StyleSelector.CurrentStyle;
 
             //Swaps the start and end angles if necessary
             if (swap)
-                return new(new IMongeItem[1] { new MongeItems.Arc(circle, endAngle, startAngle, curStyle) });
-            return new(new IMongeItem[1] { new MongeItems.Arc(circle, startAngle, endAngle, curStyle) });
+                return new(new IMongeItem[1] { new MongeItems.Arc(circle, endAngle, startAngle, curStyle, vpl) });
+            return new(new IMongeItem[1] { new MongeItems.Arc(circle, startAngle, endAngle, curStyle, vpl) });
         }
     }
 }

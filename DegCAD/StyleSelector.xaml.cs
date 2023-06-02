@@ -27,7 +27,8 @@ namespace DegCAD
             get => new()
             {
                 Color = CurrentColor,
-                LineStyle = SelectedLineType
+                LineStyle = SelectedLineType,
+                Thickness = SelectedThickness,
             };
         }
 
@@ -42,6 +43,13 @@ namespace DegCAD
         }
 
         public int SelectedLineType { get; private set; }
+        public int SelectedThickness
+        {
+            get
+            {
+                return (int)thicknessSlider.Value - 1;
+            }
+        }
 
         public List<Color> ColorPalette { get; init; } = new();
 

@@ -1,5 +1,4 @@
-﻿using DegCAD.DrawableItems;
-using DegCAD.MongeItems;
+﻿using DegCAD.MongeItems;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -127,6 +126,12 @@ namespace DegCAD
 
                 Arc arc => $"ARC {arc.Circle.Center.X} {arc.Circle.Center.Y} {arc.Circle.Radius} {arc.StartAngle} {arc.EndAngle}",
 
+                Ellipse ell => $"ELL {ell.Center.X} {ell.Center.Y} {ell.P1.X} {ell.P1.Y} {ell.P2.X} {ell.P2.Y}",
+
+                Parabola pbl => $"PBL {pbl.Focus.X} {pbl.Focus.Y} {pbl.Vertex.X} {pbl.Vertex.Y} {pbl.Infinite} {pbl.End.X} {pbl.End.Y}",
+
+                Hyperbola hbl => $"HBL {hbl.Center.X} {hbl.Center.Y} {hbl.Vertex.X} {hbl.Vertex.Y} {hbl.Point.X} {hbl.Point.Y}",
+
                 Label lbl => $"LBL {lbl.LabelText.Replace("\\", "\\\\").Replace(" ", "\\ ")} " +
                 $"{lbl.Subscript.Replace("\\", "\\\\").Replace(" ", "\\ ")} " +
                 $"{lbl.Superscript.Replace("\\", "\\\\").Replace(" ", "\\ ")} " +
@@ -136,6 +141,6 @@ namespace DegCAD
             };
         }
 
-        private static string SerializeStyle(Style s) => $"STL {s.Color.R} {s.Color.G} {s.Color.B} {s.LineStyle}";
+        private static string SerializeStyle(Style s) => $"STL {s.Color.R} {s.Color.G} {s.Color.B} {s.LineStyle} {s.Thickness}";
     }
 }

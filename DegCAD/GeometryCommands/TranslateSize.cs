@@ -1,4 +1,5 @@
 ﻿using DegCAD.Dialogs;
+using DegCAD.MongeItems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,61 +12,79 @@ namespace DegCAD.GeometryCommands
 {
     public class TranslateSize : IGeometryCommand
     {
-        public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
+        public async Task<TimelineItem?> ExecuteAsync(ViewportLayer previewVpl, ViewportLayer vpl, ViewportLayer bgVpl, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
             esb.CommandName = "Přenést vzdálenost";
 
-            //Defines some styles
-            var blueStyle = new Style() { Color = Colors.Blue, LineStyle = 1 };
-            var redStyle = new Style() { Color = Colors.Red };
-            var greenStyle = new Style() { Color = Colors.YellowGreen };
-
             esb.CommandHelp = "Vyberte první bod vzdálenosti, kterou chcete přenést";
-            Vector2 pt1 = await inputMgr.GetPoint((pt, gd) =>
+
+            Point mPt1 = new(0, 0, previewVpl);
+
+            Vector2 pt1 = await inputMgr.GetPoint((pt) =>
             {
-                gd.DrawPointCross(pt, Style.Default);
+                mPt1.Coords = pt;
+                mPt1.Draw();
             });
 
             esb.CommandHelp = "Vyberte druhý bod vzdálenosti, kterou chcete přenést";
-            Vector2 pt2 = await inputMgr.GetPoint((pt, gd) =>
+
+            Point mPt2 = new(0, 0, previewVpl);
+            MongeItems.LineSegment mSelSeg = new(pt1, pt1, Style.HighlightStyle, previewVpl);
+
+            Vector2 pt2 = await inputMgr.GetPoint((pt) =>
             {
-                gd.DrawPointCross(pt1, Style.Default);
-                gd.DrawPointCross(pt, Style.Default);
+                mPt1.Draw();
 
-                gd.DrawLine(pt1, pt, greenStyle);
+                mPt2.Coords = pt;
+                mPt2.Draw();
 
+                mSelSeg.P2 = pt;
+                mSelSeg.Draw();
             });
 
             var distance = pt2 - pt1;
 
             esb.CommandHelp = "Vyberte bod, ze kterého chcete vzdálenost vynést";
-            Vector2 pt3 = await inputMgr.GetPoint((pt, gd) =>
+
+            Point mPt3 = new(0, 0, previewVpl);
+            mSelSeg.Style = Style.GreenStyle;
+            var circle = new Circle2(pt2, pt1);
+            MongeItems.Circle mCircle = new(circle, Style.BlueDashStyle, previewVpl);
+
+            Vector2 pt3 = await inputMgr.GetPoint((pt) =>
             {
-                gd.DrawPointCross(pt1, Style.Default);
-                gd.DrawPointCross(pt2, Style.Default);
-                gd.DrawPointCross(pt, Style.Default);
+                mPt1.Draw();
+                mPt2.Draw();
+                mSelSeg.Draw();
 
-                gd.DrawLine(pt1, pt2, greenStyle);
-                gd.DrawCircle(new Circle2(pt, distance.Length), blueStyle);
+                mPt3.Coords = pt;
+                mPt3.Draw();
 
+                circle.Center = pt;
+                mCircle.Circle2 = circle;
+                mCircle.Draw();
             });
 
-            var circle = new Circle2(pt3, distance.Length);
-
             esb.CommandHelp = "Vyberte směr, kterým chcete vzdálenost vynést";
-            Vector2 pt4 = await inputMgr.GetPoint((pt, gd) =>
+
+            Point mPt4 = new(0, 0, previewVpl);
+            MongeItems.LineSegment mDirSeg = new(pt3, pt3, Style.HighlightStyle, previewVpl);
+
+            Vector2 pt4 = await inputMgr.GetPoint((pt) =>
             {
-                gd.DrawPointCross(pt1, Style.Default);
-                gd.DrawPointCross(pt2, Style.Default);
-                gd.DrawPointCross(pt3, Style.Default);
-                gd.DrawPointCross(pt, Style.Default);
+                mPt1.Draw();
+                mPt2.Draw();
+                mPt3.Draw();
+                mSelSeg.Draw();
+                mCircle.Draw();
 
-                gd.DrawLine(pt1, pt2, greenStyle);
-                gd.DrawCircle(circle, blueStyle);
+                pt = circle.TranslatePointToCircle(pt);
 
-                var ptOnCircle = circle.TranslatePointToCircle(pt);
-                gd.DrawPointCross(ptOnCircle, redStyle);
-                gd.DrawLine(pt3, ptOnCircle, redStyle);
+                mDirSeg.P2 = pt;
+                mDirSeg.Draw();
+
+                mPt4.Coords = pt;
+                mPt4.Draw();
             }, predicate: (pt) => pt != pt3, circles: new Circle2[1] { circle });
 
             var ptOnCircle = circle.TranslatePointToCircle(pt4);
@@ -74,7 +93,7 @@ namespace DegCAD.GeometryCommands
 
             List<IMongeItem> mItems = new()
             {
-                new DrawableItems.Point(ptOnCircle.X, ptOnCircle.Y, curStyle)
+                new Point(ptOnCircle.X, ptOnCircle.Y, curStyle, vpl)
             };
             //Label
             esb.CommandHelp = "Zadejte název bodu";
@@ -82,7 +101,7 @@ namespace DegCAD.GeometryCommands
             lid.ShowDialog();
             if (!lid.Canceled)
             {
-                mItems.Add(new MongeItems.Label(lid.LabelText, lid.Subscript, lid.Superscript, ptOnCircle, curStyle, mItems[0]));
+                mItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript, ptOnCircle, curStyle, mItems[0].Clone(), vpl));
             }
 
             return new(mItems.ToArray());

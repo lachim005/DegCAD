@@ -11,87 +11,87 @@ namespace DegCAD.GeometryCommands
 {
     public class Line3D : IGeometryCommand
     {
-        public async Task<TimelineItem?> ExecuteAsync(GeometryDrawer gd, GeometryInputManager inputMgr, EditorStatusBar esb)
+        public async Task<TimelineItem?> ExecuteAsync(ViewportLayer previewVpl, ViewportLayer vpl, ViewportLayer bgVpl, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
             esb.CommandName = "Průměty přímky";
 
-            ParametricLine2 line1 = new();
-            int line1Sign = 1;
-            ParametricLine2 line2 = new();
-            int line2Sign = 1;
-
-            //First projection
             esb.CommandHelp = "Vyberte první bod prvního průmětu, pravým tlačítkem změníte průmětnu";
-            (Vector2 pt1, bool plane) = await inputMgr.GetPointWithPlane((p, gd, plane) =>
+
+            Plane mPlane = new(false, bgVpl);
+            Point mPt1 = new(0, 0, previewVpl);
+
+            (Vector2 pt1, bool plane) = await inputMgr.GetPointWithPlane((p, plane) =>
             {
-                gd.DrawPlane(plane);
-                
-                gd.DrawPointCross(p, Style.Default);
+                mPlane.TopPlane = plane;
+                mPlane.Draw();
+                mPt1.Coords = p;
+                mPt1.Draw();
             });
+
             esb.CommandHelp = "Vyberte druhý bod prvního průmětu, pravým tlačítkem změníte průmětnu";
-            (Vector2 pt2, plane) = await inputMgr.GetPointWithPlane((p, gd, plane) =>
+
+            Point mPt2 = new(0, 0, previewVpl);
+            ParametricLine2 line1 = new((0, 0), (1, 1));
+            LineProjection mLine1 = new(line1, plane, Style.HighlightStyle, previewVpl);
+
+            (Vector2 pt2, plane) = await inputMgr.GetPointWithPlane((p, plane) =>
             {
-                gd.DrawPlane(plane);
-                
-                gd.DrawPointCross(pt1, Style.Default);
-                gd.DrawPointCross(p, Style.Default);
+                mPlane.TopPlane = plane;
+                mPlane.Draw();
+                mPt2.Coords = p;
+                mPt2.Draw();
+                mPt1.Draw();
 
                 line1 = ParametricLine2.From2Points(pt1, p);
+                mLine1.Line = line1;
+                mLine1.Plane = plane;
+                mLine1.Draw();
+            }, plane, predicate: (pt) => pt != pt1);
 
-                //Calculates the infinity sign
-                line1Sign = plane ? -1 : 1;
-                if (line1.DirectionVector.Y * line1.DirectionVector.X < 0)
-                {
-                    line1.DirectionVector = -line1.DirectionVector;
-                    line1Sign *= -1;
-                }
-
-                gd.DrawLine(line1, double.PositiveInfinity * line1Sign, line1.GetParamFromY(0), Style.Default);
-            }, plane);
-
-            //Second projection
             esb.CommandHelp = "Vyberte první bod druhého průmětu";
-            Vector2 pt3 = await inputMgr.GetPoint((p, gd) =>
+
+            Point mPt3 = new(0, 0, previewVpl);
+            mPlane.TopPlane = !mPlane.TopPlane;
+
+            Vector2 pt3 = await inputMgr.GetPoint((p) =>
             {
-                gd.DrawPlane(!plane);
+                mPlane.Draw();
+                mLine1.Draw();
 
-                gd.DrawPointCross(pt1, Style.Default);
-                gd.DrawPointCross(pt2, Style.Default);
-                gd.DrawPointCross(p, Style.Default);
-
-                gd.DrawLine(line1, double.PositiveInfinity * line1Sign, line1.GetParamFromY(0), Style.Default);
+                mPt3.Coords = p;
+                mPt3.Draw();
+                mPt2.Draw();
+                mPt1.Draw();
             }, lines: new ParametricLine2[1] {line1});
+
             esb.CommandHelp = "Vyberte druhý bod druhého průmětu";
-            Vector2 pt4 = await inputMgr.GetPoint((p, gd) =>
+
+            Point mPt4 = new(0, 0, previewVpl);
+            ParametricLine2 line2 = new((0, 0), (1, 1));
+            LineProjection mLine2 = new(line1, !plane, Style.HighlightStyle, previewVpl);
+
+            Vector2 pt4 = await inputMgr.GetPoint((p) =>
             {
-                gd.DrawPlane(!plane);
+                mPlane.Draw();
+                mLine1.Draw();
 
-                gd.DrawPointCross(pt1, Style.Default);
-                gd.DrawPointCross(pt2, Style.Default);
-                gd.DrawPointCross(pt3, Style.Default);
-                gd.DrawPointCross(p, Style.Default);
-
-                gd.DrawLine(line1, double.PositiveInfinity * line1Sign, line1.GetParamFromY(0), Style.Default);
+                mPt4.Coords = p;
+                mPt4.Draw();
+                mPt3.Draw();
+                mPt2.Draw();
+                mPt1.Draw();
 
                 line2 = ParametricLine2.From2Points(pt3, p);
-
-                //Calculates the infinity sign
-                line2Sign = !plane ? -1 : 1;
-                if (line2.DirectionVector.Y * line2.DirectionVector.X < 0)
-                {
-                    line2.DirectionVector = -line2.DirectionVector;
-                    line2Sign *= -1;
-                }
-
-                gd.DrawLine(line2, double.PositiveInfinity * line2Sign, line2.GetParamFromY(0), Style.Default);
-            }, lines: new ParametricLine2[1] { line1 });
+                mLine2.Line = line2;
+                mLine2.Draw();
+            }, lines: new ParametricLine2[1] { line1 }, predicate: (pt) => pt != pt3);
 
             var curStyle = inputMgr.StyleSelector.CurrentStyle;
 
             List<IMongeItem> mItems = new()
             {
-                new LineProjection(line1, plane, curStyle),
-                new LineProjection(line2, !plane, curStyle)
+                new LineProjection(line1, plane, curStyle, vpl),
+                new LineProjection(line2, !plane, curStyle, vpl)
             };
 
             esb.CommandHelp = "Zadejte název přímky";
@@ -100,8 +100,8 @@ namespace DegCAD.GeometryCommands
             lid.ShowDialog();
             if (!lid.Canceled)
             {
-                mItems.Add(new Label(lid.LabelText, plane ? "2" : "1", lid.Superscript, (pt2 + pt1) / 2, curStyle, mItems[0])); 
-                mItems.Add(new Label(lid.LabelText, !plane ? "2" : "1", lid.Superscript, (pt3 + pt4) / 2, curStyle, mItems[1]));
+                mItems.Add(new Label(lid.LabelText, plane ? "2" : "1", lid.Superscript, (pt2 + pt1) / 2, curStyle, mItems[0].Clone(), vpl)); 
+                mItems.Add(new Label(lid.LabelText, !plane ? "2" : "1", lid.Superscript, (pt3 + pt4) / 2, curStyle, mItems[1].Clone(), vpl));
             }
 
             return new TimelineItem(mItems.ToArray());

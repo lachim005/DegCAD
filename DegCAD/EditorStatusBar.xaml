@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:DegCAD"
              mc:Ignorable="d" 
              d:DesignHeight="23" d:DesignWidth="800">
-    <StatusBar Grid.Row="1" Grid.ColumnSpan="3" Background="#f0f0f0">
+    <StatusBar Grid.Row="1" Grid.ColumnSpan="3" Background="Transparent" BorderBrush="{StaticResource border}" BorderThickness="0,0,0,1">
         <StatusBarItem>
             <TextBlock x:Name="cmdName" Text="Command name"/>
         </StatusBarItem>

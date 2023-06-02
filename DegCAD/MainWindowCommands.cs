@@ -1,4 +1,5 @@
-﻿using Microsoft.Win32;
+﻿using DegCAD.Dialogs;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -16,7 +17,6 @@ namespace DegCAD
         {
             if (ActiveEditor is null) return false;
             if (ActiveEditor.ExecutingCommand) return false;
-            if (ActiveEditor.LabelManager.MovingLabel) return false;
             return true;
         }
         private void OpenSaveFileDialog(Editor editor)
@@ -82,7 +82,7 @@ namespace DegCAD
         private void NewCommand(object sender, ExecutedRoutedEventArgs e)
         {
             Editor ed = new($"Bez názvu {editorCounter}");
-            ed.AddAxis();
+            ed.AddAxis(ed.viewPort.Layers[1]);
             ed.styleSelector.AddDefaultColors();
             ed.Changed = false;
             openEditors.Add(new(ed));
@@ -130,6 +130,10 @@ namespace DegCAD
         private void RedoCommand(object sender, ExecutedRoutedEventArgs e)
         {
             ActiveEditor?.Timeline.Redo();
+        }
+        private void AboutClick(object sender, RoutedEventArgs e)
+        {
+            AboutDialog.Open();
         }
     }
 }
