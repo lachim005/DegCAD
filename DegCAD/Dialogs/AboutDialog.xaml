@@ -34,7 +34,7 @@
             </TextBlock>
             <TextBlock>
                 Vydáno pod licencí 
-                <Hyperlink NavigateUri="https://github.com/lachim005/DegCAD/blob/master/LICENSE.txt" RequestNavigate="Hyperlink_RequestNavigate">
+                <Hyperlink NavigateUri="https://github.com/lachim005/DegCAD/blob/master/LICENSE" RequestNavigate="Hyperlink_RequestNavigate">
                     MIT
                 </Hyperlink>
             </TextBlock>
