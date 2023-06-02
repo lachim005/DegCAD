@@ -26,6 +26,7 @@ namespace DegCAD
             ln.StrokeStartLineCap = PenLineCap.Round;
             ln.StrokeDashCap = PenLineCap.Round;
             ln.StrokeEndLineCap = PenLineCap.Round;
+            ln.SnapsToDevicePixels = true;
         }
         /// <summary>
         /// Sets the screen coordinates of the line to fit a line segment
@@ -66,6 +67,7 @@ namespace DegCAD
             el.StrokeStartLineCap = PenLineCap.Round;
             el.StrokeDashCap = PenLineCap.Round;
             el.StrokeEndLineCap = PenLineCap.Round;
+            el.SnapsToDevicePixels = true;
         }
         /// <summary>
         /// Sets the screen coordinates of the ellipse to fit a circle
@@ -127,6 +129,7 @@ namespace DegCAD
             pth.StrokeStartLineCap = PenLineCap.Round;
             pth.StrokeDashCap = PenLineCap.Round;
             pth.StrokeEndLineCap = PenLineCap.Round;
+            pth.SnapsToDevicePixels = true;
         }
         /// <summary>
         /// Sets the data of the path to fit an arc
