@@ -7,7 +7,7 @@
         mc:Ignorable="d"
         Height="400" Width="500"
         Title="Souřadnice bodů" MinHeight="360" MinWidth="500">
-    <Grid>
+    <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
             <RowDefinition Height="*"/>
@@ -19,17 +19,46 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <Label Content="Zadejte souřadnice bodů" FontWeight="Bold" FontSize="30" HorizontalAlignment="Center" Grid.ColumnSpan="2"/>
-        <DataGrid x:Name="coordinatesDtg" AutoGenerateColumns="False" CanUserAddRows="True" Grid.Row="1" Grid.ColumnSpan="2">
-            <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Label}" Header="Jméno" Width="100"/>
-                <DataGridTextColumn Binding="{Binding X}" Header="X" Width="50"/>
-                <DataGridTextColumn Binding="{Binding Y}" Header="Y" Width="50"/>
-                <DataGridTextColumn Binding="{Binding Z}" Header="Z" Width="50"/>
-            </DataGrid.Columns>
-        </DataGrid>
+        <Grid Grid.Row="1" Grid.ColumnSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="2*"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="17"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Název"/>
+            <Label Content="X" Grid.Column="1"/>
+            <Label Content="Y" Grid.Column="2"/>
+            <Label Content="Z" Grid.Column="3"/>
+            <ScrollViewer Grid.ColumnSpan="5" Grid.Row="1">
+                <ItemsControl x:Name="coordInputIc">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <TextBox Text="{Binding Label}" TextChanged="TextBox_TextChanged"/>
+                                <TextBox Text="{Binding X}" Grid.Column="1" TextChanged="TextBox_TextChanged"/>
+                                <TextBox Text="{Binding Y}" Grid.Column="2" TextChanged="TextBox_TextChanged"/>
+                                <TextBox Text="{Binding Z}" Grid.Column="3" TextChanged="TextBox_TextChanged"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </Grid>
 
-        <Label Content="Kladný směr osy x:" Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5"/>
-        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" Margin="5">
+        <StackPanel Grid.Row="2" Orientation="Horizontal" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="5">
+            <Label Content="Kladný směr osy x:" Grid.Row="3" VerticalAlignment="Center" Margin="0,0,30,0"/>
             <RadioButton GroupName="xDirection" IsChecked="True" VerticalAlignment="Center" x:Name="reverseXDirection"/>
             <Canvas VerticalAlignment="Center" Width="40">
                 <Line X1="5" Y1="0" X2="35" Y2="0" Stroke="Black"/>
