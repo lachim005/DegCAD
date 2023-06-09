@@ -89,7 +89,7 @@ namespace DegCAD
                 {
                     items[i] = cmd.Items[i].Clone();
                 }
-                newTl.AddCommand(cmd);
+                newTl.AddCommand(new(items));
             }
             return newTl;
         }
