@@ -13,6 +13,8 @@ namespace DegCAD
 {
     public partial class MainWindow
     {
+        public static RoutedCommand pageLayoutCommand = new();
+
         private bool IsActiveEditorIdle()
         {
             if (ActiveEditor is null) return false;
@@ -134,6 +136,13 @@ namespace DegCAD
         private void AboutClick(object sender, RoutedEventArgs e)
         {
             AboutDialog.Open();
+        }
+        private void OpenPageLayoutWindow(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (ActiveEditor is null) return;
+
+            PageLayoutWindow plw = new(ActiveEditor.Timeline);
+            plw.ShowDialog();
         }
     }
 }

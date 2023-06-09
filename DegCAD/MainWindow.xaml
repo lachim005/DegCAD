@@ -30,6 +30,9 @@
         <CommandBinding Command="Redo"
                         Executed="RedoCommand"
                         CanExecute="CanRedo"/>
+        <CommandBinding Command="{x:Static local:MainWindow.pageLayoutCommand}"
+                        Executed="OpenPageLayoutWindow"
+                        CanExecute="CanExecuteEditorCommand"/>
     </Window.CommandBindings>
     <Window.InputBindings>
         <KeyBinding Command="Close" Key="W" Modifiers="Ctrl"/>
@@ -47,6 +50,9 @@
             <MenuItem Header="Úpr_avy">
                 <MenuItem Header="_Zpět" Command="Undo"/>
                 <MenuItem Header="_Opakovat" Command="Redo"/>
+            </MenuItem>
+            <MenuItem Header="Nástroje">
+                <MenuItem Header="Rozložení na papíře" Command="{x:Static local:MainWindow.pageLayoutCommand}"/>
             </MenuItem>
             <MenuItem Header="Nápo_věda">
                 <MenuItem Header="_O programu" Click="AboutClick"/>
