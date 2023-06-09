@@ -29,7 +29,7 @@ namespace DegCAD
         private bool _changed = false;
 
         public GeometryInputManager InputMgr { get; protected set; }
-        public Timeline Timeline { get; protected set; }
+        public Timeline Timeline => viewPort.Timeline;
         public Snapper Snapper { get; protected set; }
 
         public bool ExecutingCommand
@@ -74,12 +74,9 @@ namespace DegCAD
         public Editor(string fileName)
         {
             InitializeComponent();
-            viewPort.ViewportChanged += ViewPortChanged;
-            Timeline = new();
             Timeline.TimelineChanged += TimelineChanged;
             Snapper = new(Timeline);
             InputMgr = new(viewPort, Snapper, styleSelector);
-            viewPort.SizeChanged += ViewPortChanged;
 
             _fileName = fileName;
         }
@@ -96,26 +93,11 @@ namespace DegCAD
                 new MongeItems.Label("0", "", "", (0,0), DegCAD.Style.Default, new MongeItems.Point(0,0), vpl),
             }));
         }
-        public void ViewPortChanged(object? sender, EventArgs e)
-        {
-            Redraw();
-        }
         public void TimelineChanged(object? sender, EventArgs e)
         {
-            Redraw();
             Changed = true;
         }
 
-        public void Redraw()
-        {
-            foreach (var cmd in Timeline.CommandHistory)
-            {
-                for (int i = 0; i < cmd.Items.Length; i++)
-                {
-                    cmd.Items[i].Draw();
-                }
-            }
-        }
 
         public async void ExecuteCommand(IGeometryCommand command)
         {

@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -65,12 +66,21 @@ namespace DegCAD
         /// </summary>
         public int CHeight => (int)ActualHeight;
 
+        public Timeline Timeline { get; init; }
+
         public ObservableCollection<ViewportLayer> Layers { get; init; } = new();
 
-        public ViewPort()
+        public ViewPort() : this(new()) { }
+        public ViewPort(Timeline timeline)
         {
             InitializeComponent();
+
+            Timeline = timeline;
+
             Layers.CollectionChanged += LayersChanged;
+            Timeline.TimelineChanged += TimelineChanged;
+            ViewportChanged += ViewPortChanged;
+            SizeChanged += ViewPortChanged;
 
             Layers.Add(new(this));
             Layers.Add(new(this));
@@ -196,6 +206,27 @@ namespace DegCAD
             //Invokes VPMouseMoved with coordinates
             Vector2 mpos = e.GetPosition(this);
             VPMouseMoved?.Invoke(this, new(ScreenToCanvas(mpos), mpos));
+        }
+
+        private void TimelineChanged(object? sender, EventArgs e)
+        {
+            Redraw();
+        }
+
+        public void ViewPortChanged(object? sender, EventArgs e)
+        {
+            Redraw();
+        }
+
+        public void Redraw()
+        {
+            foreach (var cmd in Timeline.CommandHistory)
+            {
+                for (int i = 0; i < cmd.Items.Length; i++)
+                {
+                    cmd.Items[i].Draw();
+                }
+            }
         }
     }
 
