@@ -66,6 +66,8 @@ namespace DegCAD
         /// </summary>
         public int CHeight => (int)ActualHeight;
 
+        public bool CanZoom { get; set; } = true;
+
         public Timeline Timeline { get; init; }
 
         public ObservableCollection<ViewportLayer> Layers { get; init; } = new();
@@ -98,6 +100,8 @@ namespace DegCAD
 
         protected void OnMouseWheel(object sender, MouseWheelEventArgs e)
         {
+            if (!CanZoom) return;
+
             //Calculates zooming
             Vector2 mousePos = e.GetPosition(this);
 
