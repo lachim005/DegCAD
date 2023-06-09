@@ -67,5 +67,31 @@ namespace DegCAD
             UndoneCommands.Clear();
             TimelineChanged?.Invoke(this, EventArgs.Empty);
         }
+
+        public void SetViewportLayer(ViewportLayer vpl)
+        {
+            foreach (var cmd in CommandHistory)
+            {
+                foreach (var item in cmd.Items)
+                {
+                    item.AddToViewportLayer(vpl);
+                }
+            }
+        }
+
+        public Timeline Clone()
+        {
+            Timeline newTl = new();
+            foreach (var cmd in CommandHistory)
+            {
+                var items = new IMongeItem[cmd.Items.Length];
+                for (int i = 0; i < items.Length; i++)
+                {
+                    items[i] = cmd.Items[i].Clone();
+                }
+                newTl.AddCommand(cmd);
+            }
+            return newTl;
+        }
     }
 }
