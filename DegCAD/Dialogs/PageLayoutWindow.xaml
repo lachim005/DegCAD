@@ -16,7 +16,11 @@
         </Grid.ColumnDefinitions>
         <Grid Margin="50" x:Name="vpGrid">
             <Border BorderBrush="{StaticResource border}" BorderThickness="1" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <Border Width="210" Height="297" x:Name="vpBorder"/>
+                <Grid>
+                    <Border Width="210" Height="297" x:Name="vpBorder"/>
+                    <Border x:Name="marginHighlightBorder" BorderBrush="#33ff0000" BorderThickness="10"/>
+                    <Border x:Name="marginBorder" BorderBrush="#ff0000" BorderThickness="1" Margin="10"/>
+                </Grid>
             </Border>
         </Grid>
         <Grid Grid.Column="1">
@@ -28,6 +32,7 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
@@ -48,6 +53,16 @@
                 <RadioButton GroupName="paperPresets" x:Name="paperPresetA4" Content="A4" IsChecked="True" Checked="RadioButton_Checked"/>
                 <RadioButton GroupName="paperPresets" x:Name="paperPresetA5" Content="A5" Checked="RadioButton_Checked"/>
             </StackPanel>
+            <Label Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" Content="Okraje" HorizontalContentAlignment="Center"/>
+            <Grid Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" Margin="10" Width="180" Height="157">
+                <Rectangle Width="70" Height="99" Stroke="{StaticResource border}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <Rectangle Width="50" Height="99" Stroke="{StaticResource border}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <Rectangle Width="70" Height="79" Stroke="{StaticResource border}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                <TextBox Width="50" x:Name="marginLeft" VerticalAlignment="Center" HorizontalAlignment="Left" Text="10" TextChanged="PaperSizeChanged"/>
+                <TextBox Width="50" x:Name="marginTop" VerticalAlignment="Top" HorizontalAlignment="Center" Text="10" TextChanged="PaperSizeChanged"/>
+                <TextBox Width="50" x:Name="marginRight" VerticalAlignment="Center" HorizontalAlignment="Right" Text="10" TextChanged="PaperSizeChanged"/>
+                <TextBox Width="50" x:Name="marginBottom" VerticalAlignment="Bottom" HorizontalAlignment="Center" Text="10" TextChanged="PaperSizeChanged"/>
+            </Grid>
         </Grid>
     </Grid>
 </Window>

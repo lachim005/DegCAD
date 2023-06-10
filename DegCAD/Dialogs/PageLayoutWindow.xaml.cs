@@ -70,12 +70,25 @@ namespace DegCAD.Dialogs
         {
             if (!IsLoaded) return;
 
-            if (!int.TryParse(paperWidth.Text, out var w)) return;
-            if (!int.TryParse(paperHeight.Text, out var h)) return;
+            if (!double.TryParse(paperWidth.Text, out var w)) return;
+            if (!double.TryParse(paperHeight.Text, out var h)) return;
             double scaleFactor = Math.Min(vpGrid.ActualHeight / h, vpGrid.ActualWidth / w);
             vpBorder.Height = h * scaleFactor;
             vpBorder.Width = w * scaleFactor;
             ViewPort.Scale = 10 * scaleFactor / ViewPort.unitSize;
+
+            if (!double.TryParse(marginLeft.Text, out var ml)) return;
+            if (!double.TryParse(marginTop.Text, out var mt)) return;
+            if (!double.TryParse(marginRight.Text, out var mr)) return;
+            if (!double.TryParse(marginBottom.Text, out var mb)) return;
+
+            ml *= scaleFactor;
+            mt *= scaleFactor;
+            mr *= scaleFactor;
+            mb *= scaleFactor;
+
+            marginBorder.Margin = new(ml, mt, mr, mb);
+            marginHighlightBorder.BorderThickness = new(ml, mt, mr, mb);
         }
     }
 }
