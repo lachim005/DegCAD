@@ -7,8 +7,8 @@
         mc:Ignorable="d"
         SizeChanged="WindowSizeChanged"
         Loaded="WindowLoaded"
-        Height="450" Width="800"
-        Title="Umístění na papír" MinHeight="450" MinWidth="800">
+        Height="550" Width="800"
+        Title="Umístění na papír" MinHeight="550" MinWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -32,6 +32,8 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
@@ -63,6 +65,8 @@
                 <TextBox Width="50" x:Name="marginRight" VerticalAlignment="Center" HorizontalAlignment="Right" Text="10" TextChanged="PaperSizeChanged"/>
                 <TextBox Width="50" x:Name="marginBottom" VerticalAlignment="Bottom" HorizontalAlignment="Center" Text="10" TextChanged="PaperSizeChanged"/>
             </Grid>
+            <Label Content="Velikost jednotky" Margin="0,10" HorizontalAlignment="Center" Grid.Column="1" Grid.ColumnSpan="2" Grid.Row="5"/>
+            <TextBox x:Name="unitSize" Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="2" Text="10" Width="60" HorizontalAlignment="Center" TextChanged="PaperSizeChanged"/>
         </Grid>
     </Grid>
 </Window>

@@ -72,10 +72,12 @@ namespace DegCAD.Dialogs
 
             if (!double.TryParse(paperWidth.Text, out var w)) return;
             if (!double.TryParse(paperHeight.Text, out var h)) return;
+            if (!double.TryParse(unitSize.Text, out var us)) return;
             double scaleFactor = Math.Min(vpGrid.ActualHeight / h, vpGrid.ActualWidth / w);
             vpBorder.Height = h * scaleFactor;
             vpBorder.Width = w * scaleFactor;
-            ViewPort.Scale = 10 * scaleFactor / ViewPort.unitSize;
+            ViewPort.Scale = us * scaleFactor / ViewPort.unitSize;
+            ViewPort.Redraw();
 
             if (!double.TryParse(marginLeft.Text, out var ml)) return;
             if (!double.TryParse(marginTop.Text, out var mt)) return;
