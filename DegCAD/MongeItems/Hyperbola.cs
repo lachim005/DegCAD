@@ -114,6 +114,6 @@ namespace DegCAD.MongeItems
             _hyperbola.Visibility = visibility;
         }
 
-        public IMongeItem Clone() => new Hyperbola(Center, Vertex, Point, Style);
+        public IMongeItem Clone() => new Hyperbola(Vertex, Center, Point, Style);
     }
 }
