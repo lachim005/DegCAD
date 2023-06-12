@@ -42,6 +42,7 @@
                     <Border Width="210" Height="297" x:Name="vpBorder"/>
                     <Border x:Name="marginHighlightBorder" BorderBrush="#33ff0000" BorderThickness="10"/>
                     <Border x:Name="marginBorder" BorderBrush="#ff0000" BorderThickness="1" Margin="10"/>
+                    <TextBlock Text="Vyberte pozici počátku" VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="0,0,0,-20"/>
                 </Grid>
             </Border>
         </Grid>
