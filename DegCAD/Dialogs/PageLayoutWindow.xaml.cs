@@ -139,5 +139,10 @@ namespace DegCAD.Dialogs
             posLeftGrid.Width = pgx;
             posTopGrid.Height = pgy;
         }
+
+        private void CloseBtnClick(object sender, RoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }
