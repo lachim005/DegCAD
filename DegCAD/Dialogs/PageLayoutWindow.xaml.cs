@@ -32,6 +32,7 @@ namespace DegCAD.Dialogs
             vpBorder.Child = ViewPort;
 
             ViewPort.CanZoom = false;
+            ViewPort.ViewportChanged += (s, e) => RecalculatePosition();
         }
 
         private void PaperSizeChanged(object sender, TextChangedEventArgs e) => RecalculateSize();
@@ -78,6 +79,7 @@ namespace DegCAD.Dialogs
             vpBorder.Width = w * scaleFactor;
             ViewPort.Scale = us * scaleFactor / ViewPort.unitSize;
             ViewPort.Redraw();
+            RecalculatePosition();
 
             if (!double.TryParse(marginLeft.Text, out var ml)) return;
             if (!double.TryParse(marginTop.Text, out var mt)) return;
@@ -91,6 +93,51 @@ namespace DegCAD.Dialogs
 
             marginBorder.Margin = new(ml, mt, mr, mb);
             marginHighlightBorder.BorderThickness = new(ml, mt, mr, mb);
+        }
+
+        private void RecalculatePosition()
+        {
+            if (!double.TryParse(unitSize.Text, out var us)) return;
+
+            double px = -ViewPort.OffsetX * us;
+            double py = -ViewPort.OffsetY * us;
+
+            posLeftTbl.Text = Math.Round(px).ToString();
+            posTopTbl.Text = Math.Round(py).ToString();
+
+            if (!double.TryParse(paperWidth.Text, out var w)) return;
+            if (!double.TryParse(paperHeight.Text, out var h)) return;
+
+            double scaleFactor = Math.Min(vpGrid.ActualHeight / h, vpGrid.ActualWidth / w);
+
+            double pgx = Math.Max(px * scaleFactor - 1, 0);
+            double pgy = Math.Max(py * scaleFactor -1, 0);
+
+            if (pgx > ViewPort.ActualWidth - 4)
+            {
+                pgx = ViewPort.ActualWidth - 4;
+                leftPosEnd.Visibility = Visibility.Hidden;
+                leftPosArrow.Visibility = Visibility.Visible;
+            } else
+            {
+                leftPosEnd.Visibility = Visibility.Visible;
+                leftPosArrow.Visibility = Visibility.Hidden;
+            }
+
+            if (pgy > ViewPort.ActualHeight - 4)
+            {
+                pgy = ViewPort.ActualHeight - 4;
+                topPosEnd.Visibility = Visibility.Hidden;
+                topPosArrow.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                topPosEnd.Visibility = Visibility.Visible;
+                topPosArrow.Visibility = Visibility.Hidden;
+            }
+
+            posLeftGrid.Width = pgx;
+            posTopGrid.Height = pgy;
         }
     }
 }
