@@ -119,6 +119,13 @@ namespace DegCAD
 
             SaveEditorAsync(ActiveEditor);
         }
+        private void PrintCommand(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (ActiveEditor is null) return;
+
+            PrintDialog pd = new(ActiveEditor);
+            pd.ShowDialog();
+        }
         private void CloseCommand(object sender, ExecutedRoutedEventArgs e)
         {
             if (ActiveEditor is null) return;
