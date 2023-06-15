@@ -6,7 +6,24 @@
         xmlns:local="clr-namespace:DegCAD.Dialogs"
         mc:Ignorable="d"
         Title="PrintDialog" Height="450" Width="800">
-    <ScrollViewer>
-        
-    </ScrollViewer>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <ScrollViewer>
+            <Border HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="vpSv" BorderBrush="Black" BorderThickness="1"/>
+        </ScrollViewer>
+        <ScrollViewer Grid.Column="1">
+            <StackPanel Margin="100,0">
+                <Label>Tiskárna</Label>
+                <ComboBox x:Name="printersCbx" SelectionChanged="PrinterChanged"/>
+                <Label>Barevnost</Label>
+                <ComboBox x:Name="colorCbx"/>
+                <Label>Velikost papíru</Label>
+                <ComboBox x:Name="paperCbx" SelectionChanged="PaperSizeChanged"/>
+                <Button Click="Button_Click" Content="Tisknout" Style="{StaticResource accentBtn}" Padding="50,0" HorizontalAlignment="Center"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
 </Window>
