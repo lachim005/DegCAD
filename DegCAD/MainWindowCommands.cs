@@ -14,6 +14,7 @@ namespace DegCAD
     public partial class MainWindow
     {
         public static RoutedCommand pageLayoutCommand = new();
+        public static RoutedCommand addGuideCommand = new();
 
         private bool IsActiveEditorIdle()
         {
@@ -67,6 +68,10 @@ namespace DegCAD
         public void CanExecuteEditorCommand(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = IsActiveEditorIdle();
+        }
+        public void CanAddGuide(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = IsActiveEditorIdle() && ActiveEditor?.Guide is null;
         }
         private void CanUndo(object sender, CanExecuteRoutedEventArgs e)
         {
@@ -150,6 +155,12 @@ namespace DegCAD
 
             PageLayoutWindow plw = new(ActiveEditor.Timeline);
             plw.ShowDialog();
+        }
+        private void AddGuideCommand(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (ActiveEditor is null) return;
+
+            ActiveEditor.Guide = new();
         }
     }
 }

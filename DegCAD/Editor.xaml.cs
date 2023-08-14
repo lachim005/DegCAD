@@ -61,8 +61,8 @@ namespace DegCAD
             }
         }
 
-        public bool Changed 
-        { 
+        public bool Changed
+        {
             get => _changed;
             set
             {
@@ -105,7 +105,7 @@ namespace DegCAD
             ExecutingCommand = true;
 
             statusBar.ShowCommandStatus();
-            var res = await command.ExecuteAsync(viewPort.Layers[2],viewPort.Layers[1], viewPort.Layers[0], InputMgr, statusBar);
+            var res = await command.ExecuteAsync(viewPort.Layers[2], viewPort.Layers[1], viewPort.Layers[0], InputMgr, statusBar);
             viewPort.Layers[2].Canvas.Children.Clear();
             viewPort.Layers[0].Canvas.Children.Clear();
             ExecutingCommand = false;
@@ -117,5 +117,31 @@ namespace DegCAD
                 return;
             Timeline.AddCommand(res);
         }
+
+        #region Guide
+        private Guide _guide;
+        private Guide? guide;
+
+        public Guide? Guide
+        {
+            get => guide; 
+            set
+            {
+                guide = value;
+                if (value is null) 
+                    guideButtons.Visibility = Visibility.Collapsed;
+                else
+                    guideButtons.Visibility = Visibility.Visible;
+            }
+        }
+        private void EditGuideBtn(object sender, RoutedEventArgs e)
+        {
+
+        }
+        private void RemoveGuideBtn(object sender, RoutedEventArgs e)
+        {
+
+        }
+        #endregion
     }
 }

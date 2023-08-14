@@ -36,6 +36,9 @@
         <CommandBinding Command="{x:Static local:MainWindow.pageLayoutCommand}"
                         Executed="OpenPageLayoutWindow"
                         CanExecute="CanExecuteEditorCommand"/>
+        <CommandBinding Command="{x:Static local:MainWindow.addGuideCommand}"
+                        Executed="AddGuideCommand"
+                        CanExecute="CanAddGuide"/>
     </Window.CommandBindings>
     <Window.InputBindings>
         <KeyBinding Command="Close" Key="W" Modifiers="Ctrl"/>
@@ -57,6 +60,7 @@
             </MenuItem>
             <MenuItem Header="Nástroje">
                 <MenuItem Header="Rozložení na papíře" Command="{x:Static local:MainWindow.pageLayoutCommand}"/>
+                <MenuItem Header="Vytvořit _návod" Command="{x:Static local:MainWindow.addGuideCommand}"/>
             </MenuItem>
             <MenuItem Header="Nápo_věda">
                 <MenuItem Header="_O programu" Click="AboutClick"/>
