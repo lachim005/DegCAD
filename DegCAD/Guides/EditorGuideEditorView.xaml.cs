@@ -34,6 +34,18 @@ namespace DegCAD.Guides
             vp = new(clonedTl);
             clonedTl.SetViewportLayer(vp.Layers[1]);
             vpBorder.Child = vp;
+
+            stepsIc.ItemsSource = guide.Steps;
+        }
+
+        private void StepButtonClick(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AddStep(object sender, RoutedEventArgs e)
+        {
+            guide.Steps.Add(new() { Position = guide.Steps.Count + 1 });
         }
     }
 }
