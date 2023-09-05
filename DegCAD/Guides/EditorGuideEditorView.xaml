@@ -19,7 +19,7 @@
                 <ItemsControl x:Name="stepsIc">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Button Padding="5" Height="80" Click="StepButtonClick" Style="{StaticResource selectableBtnStyle}">
+                            <Button Padding="5" x:Name="stepButton" Height="80" Click="StepButtonClick" Style="{StaticResource selectableBtnStyle}">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
@@ -29,7 +29,7 @@
                                         <Run Text="Krok "/>
                                         <Run Text="{Binding Position}"/>
                                     </TextBlock>
-                                    <TextBlock Grid.Row="1" Text="{Binding Description}" TextTrimming="CharacterEllipsis" TextWrapping="Wrap"/>
+                                    <TextBlock Grid.Row="1" HorizontalAlignment="Stretch" Text="{Binding Description}" TextTrimming="CharacterEllipsis" TextWrapping="Wrap"/>
                                 </Grid>
                             </Button>
                         </DataTemplate>
@@ -39,6 +39,13 @@
             </StackPanel>
         </ScrollViewer>
         <GridSplitter Grid.Column="1" Width="1" Background="{StaticResource border}" HorizontalAlignment="Stretch"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="2">
+            <StackPanel x:Name="stepEditor" Margin="10">
+                <Label>Popis kroku</Label>
+                <TextBox Text="{Binding Description}" AcceptsReturn="True" Height="auto" MinHeight="100"/>
+                <Button Content="Odebrat krok" Margin="0,50,0,0" Click="RemoveStep"/>
+            </StackPanel>
+        </ScrollViewer>
         <GridSplitter Grid.Column="3" Width="1" Background="{StaticResource border}" HorizontalAlignment="Stretch"/>
         <Border x:Name="vpBorder" Grid.Column="4"/>
     </Grid>
