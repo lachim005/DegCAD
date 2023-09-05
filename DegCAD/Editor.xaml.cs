@@ -118,16 +118,32 @@ namespace DegCAD
             Timeline.AddCommand(res);
         }
 
+        private void ShowView(Control view, string viewTitle)
+        {
+            ExecutingCommand = true;
+            mainView.Visibility = Visibility.Collapsed;
+            altViewGrid.Visibility = Visibility.Visible;
+            altView.Child = view;
+            altViewTitle.Content = viewTitle;
+        }
+
+        private void ExitView(object sender, RoutedEventArgs e)
+        {
+            altViewGrid.Visibility = Visibility.Collapsed;
+            mainView.Visibility = Visibility.Visible;
+            altView.Child = null;
+            ExecutingCommand = false;
+        }
+
         #region Guide
-        private Guide _guide;
-        private Guide? guide;
+        private Guide? _guide;
 
         public Guide? Guide
         {
-            get => guide; 
+            get => _guide; 
             set
             {
-                guide = value;
+                _guide = value;
                 if (value is null) 
                     guideButtons.Visibility = Visibility.Collapsed;
                 else
@@ -136,11 +152,13 @@ namespace DegCAD
         }
         private void EditGuideBtn(object sender, RoutedEventArgs e)
         {
-
+            if (Guide is null) return;
+            EditorGuideEditorView ge = new(Timeline, Guide);
+            ShowView(ge, "Editor návodu");
         }
         private void RemoveGuideBtn(object sender, RoutedEventArgs e)
         {
-
+            Guide = null;
         }
         #endregion
     }
