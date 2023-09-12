@@ -28,7 +28,7 @@ namespace DegCAD.Guides
             set
             {
                 _items = value;
-                PropertyChanged?.Invoke(this, new(nameof(Description)));
+                PropertyChanged?.Invoke(this, new(nameof(Items)));
             }
         }
         public int Position
@@ -37,7 +37,7 @@ namespace DegCAD.Guides
             set
             {
                 _position = value;
-                PropertyChanged?.Invoke(this, new(nameof(Description)));
+                PropertyChanged?.Invoke(this, new(nameof(Position)));
             }
         }
 

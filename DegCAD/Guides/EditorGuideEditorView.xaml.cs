@@ -65,6 +65,22 @@ namespace DegCAD.Guides
         {
             stepEditor.DataContext = step;
             selectedStep = step;
+            stepEditor.Visibility = Visibility.Visible;
+            UpdateDrawingState();
+        }
+
+        private void UpdateDrawingState()
+        {
+            while (clonedTl.CanUndo) clonedTl.Undo();
+            for (int i = 0; i < guide.Steps.Count; i++)
+            {
+                for (int j = 0; j < guide.Steps[i].Items; j++)
+                {
+                    clonedTl.Redo();
+                    if (!clonedTl.CanRedo) return;
+                }
+                if (guide.Steps[i] == selectedStep) break;
+            }
         }
 
         private void AddStep(object sender, RoutedEventArgs e)
@@ -79,6 +95,19 @@ namespace DegCAD.Guides
             {
                 guide.Steps[i].Position = i + 1;
             }
+        }
+
+        private void DecrementItemCount(object sender, RoutedEventArgs e)
+        {
+            if (selectedStep.Items < 1) return;
+            selectedStep.Items--;
+            UpdateDrawingState();
+        }
+
+        private void IncrementItemCount(object sender, RoutedEventArgs e)
+        {
+            selectedStep.Items++;
+            UpdateDrawingState();
         }
     }
 }

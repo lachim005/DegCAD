@@ -19,13 +19,13 @@
                 <ItemsControl x:Name="stepsIc">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Button Padding="5" x:Name="stepButton" Height="80" Click="StepButtonClick" Style="{StaticResource selectableBtnStyle}">
+                            <Button Padding="20, 5" x:Name="stepButton" HorizontalContentAlignment="Stretch" Height="80" Click="StepButtonClick" Style="{StaticResource selectableBtnStyle}">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
                                         <RowDefinition Height="35"/>
                                     </Grid.RowDefinitions>
-                                    <TextBlock FontWeight="Bold" FontSize="16" HorizontalAlignment="Left">
+                                    <TextBlock FontWeight="Bold" FontSize="16" HorizontalAlignment="Center">
                                         <Run Text="Krok "/>
                                         <Run Text="{Binding Position}"/>
                                     </TextBlock>
@@ -40,7 +40,13 @@
         </ScrollViewer>
         <GridSplitter Grid.Column="1" Width="1" Background="{StaticResource border}" HorizontalAlignment="Stretch"/>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="2">
-            <StackPanel x:Name="stepEditor" Margin="10">
+            <StackPanel x:Name="stepEditor" Visibility="Collapsed" Margin="10">
+                <Label>Počet prvků</Label>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Button Content="-" Click="DecrementItemCount" Width="30"/>
+                    <TextBlock Text="{Binding Items}" MinWidth="50" VerticalAlignment="Center" TextAlignment="Center"/>
+                    <Button Content="+" Click="IncrementItemCount" Width="30"/>
+                </StackPanel>
                 <Label>Popis kroku</Label>
                 <TextBox Text="{Binding Description}" AcceptsReturn="True" Height="auto" MinHeight="100"/>
                 <Button Content="Odebrat krok" Margin="0,50,0,0" Click="RemoveStep"/>

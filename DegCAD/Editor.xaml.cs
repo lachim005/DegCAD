@@ -126,6 +126,7 @@ namespace DegCAD
             altViewGrid.Visibility = Visibility.Visible;
             altView.Child = view;
             altViewTitle.Content = viewTitle;
+            Changed = true;
         }
 
         private void ExitView(object sender, RoutedEventArgs e)
