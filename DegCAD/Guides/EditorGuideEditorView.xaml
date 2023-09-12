@@ -49,6 +49,10 @@
                 </StackPanel>
                 <Label>Popis kroku</Label>
                 <TextBox Text="{Binding Description}" AcceptsReturn="True" Height="auto" MinHeight="100"/>
+                <Label>Formátování:</Label>
+                <TextBlock Text="# Nadpis" FontSize="24" FontWeight="Bold"/>
+                <TextBlock Text="*Kurzíva*" FontStyle="Italic"/>
+                <TextBlock Text="**Tučný text**" FontWeight="Bold"/>
                 <Button Content="Odebrat krok" Margin="0,50,0,0" Click="RemoveStep"/>
             </StackPanel>
         </ScrollViewer>
