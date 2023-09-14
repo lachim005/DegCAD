@@ -1,4 +1,5 @@
-﻿using DegCAD.MongeItems;
+﻿using DegCAD.Guides;
+using DegCAD.MongeItems;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -60,6 +61,18 @@ namespace DegCAD
                 throw new Exception("Chyba při čtení palety", ex);
             }
 
+            //Reads and parses the guide
+            if (metadata.hasGuide)
+            try
+            {
+                ReadGuide(res, Path.Combine(tempDir, "guide.txt"));
+            }
+            catch (Exception ex)
+            {
+                Directory.Delete(tempDir, true);
+                throw new Exception("Chyba při čtení návodu", ex);
+            }
+
             //Removes the temp directory
             Directory.Delete(tempDir, true);
             return res;
@@ -92,6 +105,9 @@ namespace DegCAD
                         break;
                     case "Palette":
                         md.hasPalette = bool.Parse(keyVal[1]);
+                        break;
+                    case "Guide":
+                        md.hasGuide = bool.Parse(keyVal[1]);
                         break;
                 }
             }
@@ -166,6 +182,48 @@ namespace DegCAD
                 e.styleSelector.ColorPalette.Add(col);
             }
             e.styleSelector.UpdateColorPalette();
+        }
+        public static void ReadGuide(Editor e, string path)
+        {
+            using StreamReader sr = new(path);
+            string? line;
+
+            Guide guide = new();
+            int stepCounter = 0;
+
+            while ((line = sr.ReadLine()) is not null)
+            {
+                string[] halves = line.Split(' ', 2);
+
+                GuideStep step = new();
+                step.Position = ++stepCounter;
+                step.Items = int.Parse(halves[0]);
+
+                StringBuilder descSb = new();
+                for (int i = 0; i < halves[1].Length; i++)
+                {
+                    if (halves[1][i] != '&')
+                    {
+                        descSb.Append(halves[1][i]);
+                        continue;
+                    }
+                    i++;
+                    switch (halves[1][i])
+                    {
+                        case '&':
+                            descSb.Append("&");
+                            break;
+                        case ';':
+                            descSb.Append("\r\n");
+                            break;
+                    }
+                }
+                step.Description = descSb.ToString();
+
+                guide.Steps.Add(step);
+            }
+
+            e.Guide = guide;
         }
 
         private static IMongeItem? ParseMongeItem(string s, Style stl)
@@ -348,5 +406,6 @@ namespace DegCAD
     {
         public Version version = new Version(0,0,0);
         public bool hasPalette = false;
+        public bool hasGuide = false;
     }
 }
