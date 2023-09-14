@@ -1,4 +1,5 @@
-﻿using DegCAD.MongeItems;
+﻿using DegCAD.Guides;
+using DegCAD.MongeItems;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -30,9 +31,10 @@ namespace DegCAD
             var tempDir = CreateTempFolder();
             try
             {
-                WriteMetaData(tempDir);
+                WriteMetaData(tempDir, editor);
                 SaveTimelineToFile(editor.Timeline, Path.Combine(tempDir, "timeline.txt"));
                 SavePaletteToFile(editor.styleSelector.ColorPalette, Path.Combine(tempDir, "palette.txt"));
+                if (editor.Guide is not null) SaveGuideToFile(editor.Guide, Path.Combine(tempDir, "guide.txt"));
 
                 string outputFile = Path.Combine(editor.FolderPath, $"{editor.FileName}.dgproj");
                 Pack(outputFile, tempDir);
@@ -45,16 +47,20 @@ namespace DegCAD
             }
         }
 
-        private static void WriteMetaData(string tempDir)
+        private static void WriteMetaData(string tempDir, Editor e)
         {
             var version = Assembly.GetExecutingAssembly().GetName().Version;
             version ??= new(0, 0, 0);
 
-            string[] metaData =
+            List<string> metaData = new()
             {
                 "DegCAD version:" + version.ToString(),
                 "Palette:True"
             };
+
+            if (e.Guide is not null) metaData.Add("Guide:True");
+
+
             File.WriteAllLines(Path.Combine(tempDir, "DEG-CAD-PROJECT.txt"), metaData);
         }
 
@@ -107,6 +113,15 @@ namespace DegCAD
             foreach (var color in palette)
             {
                 sw.WriteLine($"{color.R} {color.G} {color.B}");
+            }
+        }
+        private static void SaveGuideToFile(Guide guide, string path)
+        {
+            using StreamWriter sw = new(path, false, Encoding.UTF8);
+
+            foreach (var step in guide.Steps)
+            {
+                sw.WriteLine($"{step.Items} {step.Description.Replace("&", "&&").Replace("\r\n", "&;")}");
             }
         }
 
