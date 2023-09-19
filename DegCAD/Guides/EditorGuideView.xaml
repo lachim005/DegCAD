@@ -9,17 +9,37 @@
     <DockPanel>
         <Border DockPanel.Dock="Top" BorderThickness="0,0,0,1" BorderBrush="{StaticResource border}">
             <ScrollViewer VerticalScrollBarVisibility="Disabled" HorizontalScrollBarVisibility="Auto">
-                <StackPanel Height="50">
-
-                </StackPanel>
+                <ItemsControl x:Name="stepButtonsIc" Height="50">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal" IsItemsHost="True"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal">
+                                <Path Data="M 0 10 l 10 -5 l -10 -5" Fill="{StaticResource border}" VerticalAlignment="Center" x:Name="nextArrow"/>
+                                <Button Click="StepButtonClick" x:Name="stepButton" Style="{StaticResource selectableBtnStyle}" Padding="10, 0" Content="{Binding Position}" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <DataTemplate.Triggers>
+                                <DataTrigger Binding="{Binding RelativeSource={RelativeSource PreviousData}}" Value="{x:Null}">
+                                    <Setter TargetName="nextArrow" Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </DataTemplate.Triggers>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
             </ScrollViewer>
         </Border>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="300"/>
+                <ColumnDefinition MinWidth="250" Width="300"/>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
+            <StackPanel x:Name="stepDisplay">
+                
+            </StackPanel>
             <GridSplitter Grid.Column="1" Width="1" Background="{StaticResource border}" HorizontalAlignment="Stretch"/>
             <Border x:Name="vpBorder" Grid.Column="2"/>
         </Grid>
