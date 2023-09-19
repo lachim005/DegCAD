@@ -26,6 +26,7 @@
                     <StackPanel Margin="10" x:Name="guideButtons" Visibility="Collapsed">
                         <GroupBox Header="Návod" Padding="10">
                             <StackPanel>
+                                <Button x:Name="showGuide" Click="ShowGuideBtn" Style="{StaticResource accentBtn}" Content="Zobrazit návod"/>
                                 <Button x:Name="editGuide" Click="EditGuideBtn" Content="Upravit návod"/>
                                 <Button x:Name="removeGuide" Click="RemoveGuideBtn" Content="Odebrat návod"/>
                             </StackPanel>

@@ -158,6 +158,12 @@ namespace DegCAD
             EditorGuideEditorView ge = new(Timeline, Guide);
             ShowView(ge, "Editor návodu");
         }
+        private void ShowGuideBtn(object sender, RoutedEventArgs e)
+        {
+            if (Guide is null) return;
+            EditorGuideView gv = new(Timeline, Guide);
+            ShowView(gv, "Návod");
+        }
         private void RemoveGuideBtn(object sender, RoutedEventArgs e)
         {
             Guide = null;
