@@ -161,6 +161,11 @@ namespace DegCAD
         private void ShowGuideBtn(object sender, RoutedEventArgs e)
         {
             if (Guide is null) return;
+            if (Guide.Steps.Count == 0)
+            {
+                MessageBox.Show("Návod neobsahuje žádné kroky", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
             EditorGuideView gv = new(Timeline, Guide);
             ShowView(gv, "Návod");
         }
