@@ -31,6 +31,7 @@ namespace DegCAD.Guides
 
             selectedStep = g.Steps[0];
             guide = g;
+            stepsProgressBar.Maximum = g.Steps.Count;
 
             clonedTl = tl.Clone();
             clonedTl.UndoneCommands.Clear();
@@ -64,6 +65,16 @@ namespace DegCAD.Guides
             stepDisplay.DataContext = step;
             selectedStep = step;
             UpdateDrawingState();
+
+            if (step.Position == 1)
+                prevStepBtn.IsEnabled = false;
+            else
+                prevStepBtn.IsEnabled = true;
+
+            if (step.Position == guide.Steps.Count)
+                nextStepBtn.IsEnabled = false;
+            else
+                nextStepBtn.IsEnabled = true;
         }
         private void UpdateDrawingState()
         {
@@ -77,6 +88,21 @@ namespace DegCAD.Guides
                 }
                 if (guide.Steps[i] == selectedStep) break;
             }
+        }
+
+        private void UserControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            SelectStep(guide.Steps[0]);
+        }
+
+        private void PrevStep(object sender, RoutedEventArgs e)
+        {
+            SelectStep(guide.Steps[selectedStep.Position - 2]);
+        }
+
+        private void NextStep(object sender, RoutedEventArgs e)
+        {
+            SelectStep(guide.Steps[selectedStep.Position]);
         }
     }
 }
