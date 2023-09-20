@@ -7,6 +7,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TextBlock x:Name="innerTextBlock" x:FieldModifier="public"/>
+        <TextBlock x:Name="innerTextBlock" TextWrapping="Wrap" x:FieldModifier="public"/>
     </Grid>
 </UserControl>

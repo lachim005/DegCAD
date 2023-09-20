@@ -35,27 +35,29 @@
         </Border>
         <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition MinWidth="250" Width="300"/>
+                <ColumnDefinition MinWidth="250" Width="400"/>
                 <ColumnDefinition Width="auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <StackPanel x:Name="stepDisplay">
-                <ProgressBar Height="5" Minimum="1" Value="{Binding Position}" x:Name="stepsProgressBar"/>
-                <TextBlock FontSize="32" Margin="20" FontWeight="Bold">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel x:Name="stepDisplay">
+                    <ProgressBar Height="5" Minimum="1" Value="{Binding Position}" x:Name="stepsProgressBar"/>
+                    <TextBlock FontSize="32" Margin="20" TextAlignment="Center" FontWeight="Bold">
                     <Run Text="Krok "/>
                     <Run Text="{Binding Position}"/>
-                </TextBlock>
-                <c:MarkdownTextblock Text="{Binding Description}"/>
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="100"/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="130"/>
-                    </Grid.ColumnDefinitions>
-                    <Button x:Name="prevStepBtn" Content="Předchozí" Click="PrevStep"/>
-                    <Button x:Name="nextStepBtn" Content="Další" Grid.Column="2" Style="{StaticResource accentBtn}" Click="NextStep"/>
-                </Grid>
-            </StackPanel>
+                    </TextBlock>
+                    <c:MarkdownTextblock MinHeight="250" Margin="10" Text="{Binding Description}"/>
+                    <Grid Margin="10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="110"/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="prevStepBtn" Content="Předchozí" Click="PrevStep"/>
+                        <Button x:Name="nextStepBtn" Content="Další" Grid.Column="2" Style="{StaticResource accentBtn}" Click="NextStep"/>
+                    </Grid>
+                </StackPanel>
+            </ScrollViewer>
             <GridSplitter Grid.Column="1" Width="1" Background="{StaticResource border}" HorizontalAlignment="Stretch"/>
             <Border x:Name="vpBorder" Grid.Column="2"/>
         </Grid>
