@@ -63,15 +63,16 @@ namespace DegCAD
 
             //Reads and parses the guide
             if (metadata.hasGuide)
-            try
-            {
-                ReadGuide(res, Path.Combine(tempDir, "guide.txt"));
-            }
-            catch (Exception ex)
-            {
-                Directory.Delete(tempDir, true);
-                throw new Exception("Chyba při čtení návodu", ex);
-            }
+                try
+                {
+                    ReadGuide(res, Path.Combine(tempDir, "guide.txt"));
+                    res.PromptGuide();
+                }
+                catch (Exception ex)
+                {
+                    Directory.Delete(tempDir, true);
+                    throw new Exception("Chyba při čtení návodu", ex);
+                }
 
             //Removes the temp directory
             Directory.Delete(tempDir, true);

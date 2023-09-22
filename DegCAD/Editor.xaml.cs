@@ -139,7 +139,7 @@ namespace DegCAD
 
         #region Guide
         private Guide? _guide;
-
+        
         public Guide? Guide
         {
             get => _guide; 
@@ -172,6 +172,14 @@ namespace DegCAD
         private void RemoveGuideBtn(object sender, RoutedEventArgs e)
         {
             Guide = null;
+        }
+        public void PromptGuide()
+        {
+            if (Guide is not Guide g) return;
+            if (g.Steps.Count == 0) return;
+            if (!OpenGuideDialog.OpenDialog()) return;
+            EditorGuideView gv = new(Timeline, Guide);
+            ShowView(gv, "Návod");
         }
         #endregion
     }

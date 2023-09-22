@@ -1,0 +1,28 @@
+﻿<Window x:Class="DegCAD.Guides.OpenGuideDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DegCAD.Guides"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Title="Otevřít návod" Height="300" Width="400">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.ColumnSpan="2" TextAlignment="Center" VerticalAlignment="Center" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center">
+            Tento soubor obsahuje návod. 
+            <LineBreak/>
+            Přejete si ho otevřít?
+        </TextBlock>
+        <Button Grid.Row="1" Margin="10" Content="Ne, otevřít editor" Click="OpenEditor"/>
+        <Button Grid.Row="1" Margin="10" Grid.Column="1" Content="Ano, otevřít návod" Style="{StaticResource accentBtn}" Click="OpenGuide"/>
+    </Grid>
+</Window>
