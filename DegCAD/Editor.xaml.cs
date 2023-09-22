@@ -156,7 +156,7 @@ namespace DegCAD
         private void EditGuideBtn(object sender, RoutedEventArgs e)
         {
             if (Guide is null) return;
-            EditorGuideEditorView ge = new(Timeline, Guide);
+            EditorGuideEditorView ge = new(viewPort, Guide);
             ShowView(ge, "Editor návodu");
         }
         private void ShowGuideBtn(object sender, RoutedEventArgs e)
@@ -167,7 +167,7 @@ namespace DegCAD
                 MessageBox.Show("Návod neobsahuje žádné kroky", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            EditorGuideView gv = new(Timeline, Guide);
+            EditorGuideView gv = new(viewPort, Guide);
             ShowView(gv, "Návod", false);
         }
         private void RemoveGuideBtn(object sender, RoutedEventArgs e)
@@ -181,7 +181,7 @@ namespace DegCAD
             if (Guide is not Guide g) return;
             if (g.Steps.Count == 0) return;
             if (!OpenGuideDialog.OpenDialog()) return;
-            EditorGuideView gv = new(Timeline, Guide);
+            EditorGuideView gv = new(viewPort, Guide);
             ShowView(gv, "Návod", false);
         }
         #endregion

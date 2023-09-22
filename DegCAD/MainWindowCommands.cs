@@ -153,7 +153,7 @@ namespace DegCAD
         {
             if (ActiveEditor is null) return;
 
-            PageLayoutWindow plw = new(ActiveEditor.Timeline);
+            PageLayoutWindow plw = new(ActiveEditor.viewPort);
             plw.ShowDialog();
         }
         private void AddGuideCommand(object sender, ExecutedRoutedEventArgs e)

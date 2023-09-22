@@ -27,7 +27,7 @@ namespace DegCAD.Guides
 
         private GuideStep selectedStep = new();
 
-        public EditorGuideEditorView(Timeline tl, Guide g)
+        public EditorGuideEditorView(ViewPort evp, Guide g)
         {
 
             InitializeComponent();
@@ -35,11 +35,11 @@ namespace DegCAD.Guides
             stepEditor.DataContext = selectedStep;
             guide = g;
 
-            clonedTl = tl.Clone();
-            clonedTl.UndoneCommands.Clear();
+            vp = evp.Clone();
 
-            vp = new(clonedTl);
-            clonedTl.SetViewportLayer(vp.Layers[1]);
+            clonedTl = vp.Timeline;
+            clonedTl.UndoneCommands.Clear();
+            
             vpBorder.Child = vp;
 
             stepsIc.ItemsSource = guide.Steps;

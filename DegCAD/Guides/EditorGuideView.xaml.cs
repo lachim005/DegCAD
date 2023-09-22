@@ -25,7 +25,7 @@ namespace DegCAD.Guides
         ViewPort vp;
         GuideStep selectedStep;
 
-        public EditorGuideView(Timeline tl, Guide g)
+        public EditorGuideView(ViewPort evp, Guide g)
         {
             InitializeComponent();
 
@@ -33,11 +33,12 @@ namespace DegCAD.Guides
             guide = g;
             stepsProgressBar.Maximum = g.Steps.Count;
 
-            clonedTl = tl.Clone();
+
+            vp = evp.Clone();
+
+            clonedTl = vp.Timeline;
             clonedTl.UndoneCommands.Clear();
 
-            vp = new(clonedTl);
-            clonedTl.SetViewportLayer(vp.Layers[1]);
             vpBorder.Child = vp;
 
             stepButtonsIc.ItemsSource = guide.Steps;

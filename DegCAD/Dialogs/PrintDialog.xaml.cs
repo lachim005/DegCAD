@@ -38,10 +38,7 @@ namespace DegCAD.Dialogs
                 printersCbx.Items.Add(q.Name);
             }
 
-            var tl = e.viewPort.Timeline.Clone();
-
-            vp = new(tl);
-            tl.SetViewportLayer(vp.Layers[1]);
+            vp = e.viewPort.Clone();
 
             vpSv.Child = vp;
 

@@ -19,16 +19,13 @@ namespace DegCAD.Dialogs
     /// </summary>
     public partial class PageLayoutWindow : Window
     {
-        Timeline Timeline { get; init; }
         ViewPort ViewPort { get; init; }
 
-        public PageLayoutWindow(Timeline tl)
+        public PageLayoutWindow(ViewPort vp)
         {
             InitializeComponent();
-            Timeline = tl.Clone();
 
-            ViewPort = new(Timeline);
-            Timeline.SetViewportLayer(ViewPort.Layers[1]);
+            ViewPort = vp.Clone();
             vpBorder.Child = ViewPort;
 
             ViewPort.CanZoom = false;
