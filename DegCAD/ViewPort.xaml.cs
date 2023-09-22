@@ -232,6 +232,14 @@ namespace DegCAD
                 }
             }
         }
+
+        public ViewPort Clone()
+        {
+            var clonedTl = Timeline.Clone();
+            ViewPort vp = new(clonedTl);
+            clonedTl.SetViewportLayer(vp.Layers[1]);
+            return vp;
+        }
     }
 
     /// <summary>
