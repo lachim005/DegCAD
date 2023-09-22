@@ -185,5 +185,11 @@ namespace DegCAD
             ShowView(gv, "Návod", false);
         }
         #endregion
+
+        private void OpenEditorFullscreen(object sender, RoutedEventArgs e)
+        {
+            FullscreenPresenter fs = new(viewPort.Clone());
+            fs.ShowDialog();
+        }
     }
 }
