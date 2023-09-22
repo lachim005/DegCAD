@@ -119,14 +119,15 @@ namespace DegCAD
             Timeline.AddCommand(res);
         }
 
-        private void ShowView(Control view, string viewTitle)
+        private void ShowView(Control view, string viewTitle, bool changed = true)
         {
             ExecutingCommand = true;
             mainView.Visibility = Visibility.Collapsed;
             altViewGrid.Visibility = Visibility.Visible;
             altView.Child = view;
             altViewTitle.Content = viewTitle;
-            Changed = true;
+            if (changed)
+                Changed = true;
         }
 
         private void ExitView(object sender, RoutedEventArgs e)
@@ -167,7 +168,7 @@ namespace DegCAD
                 return;
             }
             EditorGuideView gv = new(Timeline, Guide);
-            ShowView(gv, "Návod");
+            ShowView(gv, "Návod", false);
         }
         private void RemoveGuideBtn(object sender, RoutedEventArgs e)
         {
@@ -181,7 +182,7 @@ namespace DegCAD
             if (g.Steps.Count == 0) return;
             if (!OpenGuideDialog.OpenDialog()) return;
             EditorGuideView gv = new(Timeline, Guide);
-            ShowView(gv, "Návod");
+            ShowView(gv, "Návod", false);
         }
         #endregion
     }
