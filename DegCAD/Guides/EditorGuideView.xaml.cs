@@ -24,12 +24,22 @@ namespace DegCAD.Guides
         Guide guide;
         ViewPort vp;
         GuideStep selectedStep;
-
-        public EditorGuideView(ViewPort evp, Guide g)
+        /// <summary>
+        /// Creates an editor guide view
+        /// </summary>
+        public EditorGuideView(ViewPort evp, Guide g) : this(evp, g, g.Steps[0])
+        {
+            topBar.Visibility = Visibility.Visible;
+            fullscreenBtn.Visibility = Visibility.Visible;
+        }
+        /// <summary>
+        /// Creates a fullscreen guide view
+        /// </summary>
+        public EditorGuideView(ViewPort evp, Guide g, GuideStep step)
         {
             InitializeComponent();
 
-            selectedStep = g.Steps[0];
+            selectedStep = step;
             guide = g;
             stepsProgressBar.Maximum = g.Steps.Count;
 
@@ -42,7 +52,10 @@ namespace DegCAD.Guides
             vpBorder.Child = vp;
 
             stepButtonsIc.ItemsSource = guide.Steps;
-            stepDisplay.DataContext = guide.Steps[0];
+            stepDisplay.DataContext = selectedStep;
+
+            topBar.Visibility = Visibility.Collapsed;
+            fullscreenBtn.Visibility = Visibility.Collapsed;
         }
 
         private void StepButtonClick(object sender, RoutedEventArgs e)
@@ -56,13 +69,14 @@ namespace DegCAD.Guides
         private void SelectStep(GuideStep step)
         {
             stepButtonsIc.UpdateLayout();
-            for (int i = 0; i < stepButtonsIc.Items.Count; i++)
-            {
-                var cp = (ContentPresenter)stepButtonsIc.ItemContainerGenerator.ContainerFromIndex(i);
-                var it = cp.ContentTemplate.FindName("stepButton", cp);
-                if (it is not Button btn) break;
-                btn.IsEnabled = (step.Position - 1 == i) ? false : true;
-            }
+            if (topBar.Visibility != Visibility.Collapsed)
+                for (int i = 0; i < stepButtonsIc.Items.Count; i++)
+                {
+                    var cp = (ContentPresenter)stepButtonsIc.ItemContainerGenerator.ContainerFromIndex(i);
+                    var it = cp.ContentTemplate.FindName("stepButton", cp);
+                    if (it is not Button btn) break;
+                    btn.IsEnabled = (step.Position - 1 == i) ? false : true;
+                }
 
             stepDisplay.DataContext = step;
             selectedStep = step;
@@ -94,7 +108,7 @@ namespace DegCAD.Guides
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            SelectStep(guide.Steps[0]);
+            SelectStep(selectedStep);
         }
 
         private void PrevStep(object sender, RoutedEventArgs e)
@@ -105,6 +119,20 @@ namespace DegCAD.Guides
         private void NextStep(object sender, RoutedEventArgs e)
         {
             SelectStep(guide.Steps[selectedStep.Position]);
+        }
+
+        private void ShowFullscreen(object sender, RoutedEventArgs e)
+        {
+            var step = selectedStep;
+            //Selects the last step to pass the whole timeline
+            SelectStep(guide.Steps.Last());
+
+            EditorGuideView egv = new(vp.Clone(), guide, step);
+            FullscreenPresenter fs = new(egv);
+
+            fs.ShowDialog();
+
+            SelectStep(egv.selectedStep);
         }
     }
 }
