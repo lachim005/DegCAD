@@ -41,6 +41,7 @@ namespace DegCAD.Guides
             vpBorder.Child = vp;
 
             stepButtonsIc.ItemsSource = guide.Steps;
+            stepDisplay.DataContext = guide.Steps[0];
         }
 
         private void StepButtonClick(object sender, RoutedEventArgs e)
