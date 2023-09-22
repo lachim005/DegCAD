@@ -238,6 +238,10 @@ namespace DegCAD
             var clonedTl = Timeline.Clone();
             ViewPort vp = new(clonedTl);
             clonedTl.SetViewportLayer(vp.Layers[1]);
+            vp.OffsetX = OffsetX;
+            vp.OffsetY = OffsetY;
+            vp.CanZoom = CanZoom;
+            vp.Scale = Scale;
             return vp;
         }
     }
