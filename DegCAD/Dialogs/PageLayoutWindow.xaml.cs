@@ -17,7 +17,7 @@ namespace DegCAD.Dialogs
     /// <summary>
     /// Interaction logic for PageLayoutWindow.xaml
     /// </summary>
-    public partial class PageLayoutWindow : Window
+    public partial class PageLayoutWindow : UserControl
     {
         ViewPort ViewPort { get; init; }
 
@@ -135,11 +135,6 @@ namespace DegCAD.Dialogs
 
             posLeftGrid.Width = pgx;
             posTopGrid.Height = pgy;
-        }
-
-        private void CloseBtnClick(object sender, RoutedEventArgs e)
-        {
-            Close();
         }
     }
 }

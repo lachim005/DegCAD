@@ -119,7 +119,7 @@ namespace DegCAD
             Timeline.AddCommand(res);
         }
 
-        private void ShowView(Control view, string viewTitle, bool changed = true)
+        public void ShowView(Control view, string viewTitle, bool changed = true)
         {
             ExecutingCommand = true;
             mainView.Visibility = Visibility.Collapsed;
