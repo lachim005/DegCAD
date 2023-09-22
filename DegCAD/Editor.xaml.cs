@@ -171,7 +171,9 @@ namespace DegCAD
         }
         private void RemoveGuideBtn(object sender, RoutedEventArgs e)
         {
-            Guide = null;
+            var res = MessageBox.Show("Opravdu chcete vymazat návod?\nTato akce je nevratná", "Varování", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            if (res == MessageBoxResult.Yes)
+                Guide = null;
         }
         public void PromptGuide()
         {
