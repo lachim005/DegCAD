@@ -11,8 +11,10 @@
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <ScrollViewer>
-            <Border HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="vpSv" BorderBrush="Black" BorderThickness="1"/>
+        <ScrollViewer HorizontalScrollBarVisibility="Visible">
+            <Grid>
+                <Border HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="vpSv" BorderBrush="Black" BorderThickness="1"/>
+            </Grid>
         </ScrollViewer>
         <ScrollViewer Grid.Column="1">
             <StackPanel Margin="100,0">
@@ -23,6 +25,7 @@
                 <Label>Velikost papíru</Label>
                 <ComboBox x:Name="paperCbx" SelectionChanged="PaperSizeChanged"/>
                 <Button Click="Button_Click" Content="Tisknout" Style="{StaticResource accentBtn}" Padding="50,0" HorizontalAlignment="Center"/>
+                <CheckBox x:Name="half"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

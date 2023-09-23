@@ -39,6 +39,7 @@ namespace DegCAD.Dialogs
             }
 
             vp = e.viewPort.Clone();
+            vp.CanZoom = false;
 
             vpSv.Child = vp;
 
@@ -83,11 +84,10 @@ namespace DegCAD.Dialogs
             if (size is null) return;
             var color = colorCbx.SelectedItem as OutputColor?;
             if (color is null) return;
-
+            
 
             selectedQueue.UserPrintTicket.PageMediaSize = size;
             selectedQueue.UserPrintTicket.OutputColor = color;
-            //selectedQueue.UserPrintTicket.PageOrientation = PageOrientation.Landscape;
 
             var writer = PrintQueue.CreateXpsDocumentWriter(selectedQueue);
             writer.Write(vp, selectedQueue.UserPrintTicket);
@@ -99,17 +99,14 @@ namespace DegCAD.Dialogs
 
             var size = paperCbx.SelectedItem as PageMediaSize;
             if (size is null) return;
-            selectedQueue.UserPrintTicket.PageMediaSize = size;
-
-
+            
             PrintTicket pt = selectedQueue.UserPrintTicket;
-            Double printableWidth = pt.PageMediaSize.Width.Value;
-            Double printableHeight = pt.PageMediaSize.Height.Value;
+            pt.PageMediaSize = size;
 
+            vp.Width = pt.PageMediaSize.Width.GetValueOrDefault(0);
+            vp.Height = pt.PageMediaSize.Height.GetValueOrDefault(0);
 
-            vp.Width = printableWidth;
-            vp.Height = printableHeight;
-
+            vp.Scale = 10d * 96d / 25.4 / ViewPort.unitSize;
         }
     }
 }
