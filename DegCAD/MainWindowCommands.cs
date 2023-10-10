@@ -15,6 +15,7 @@ namespace DegCAD
     {
         public static RoutedCommand pageLayoutCommand = new();
         public static RoutedCommand addGuideCommand = new();
+        public static RoutedCommand openDebugMenuCommand = new();
 
         private bool IsActiveEditorIdle()
         {
@@ -161,6 +162,11 @@ namespace DegCAD
             if (ActiveEditor is null) return;
 
             ActiveEditor.Guide = new();
+        }
+        private void OpenDebugMenu(object sender, ExecutedRoutedEventArgs e)
+        {
+            DebugMenu.DebugWindow dw = new(this);
+            dw.Show();
         }
     }
 }

@@ -1,0 +1,28 @@
+﻿<Window x:Class="DegCAD.DebugMenu.DebugWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DegCAD.DebugMenu"
+        mc:Ignorable="d"
+        Title="DebugWindow" Height="450" Width="800">
+    <Grid>
+        <DockPanel x:Name="homeScreen" Margin="10">
+            <TextBlock DockPanel.Dock="Top" Text="Debug menu" FontSize="28" FontWeight="Bold"/>
+            <WrapPanel Margin="10">
+                <Button Content="Zobrazit obsah souboru" Padding="20, 0" Click="ShowFileContents"/>
+            </WrapPanel>
+        </DockPanel>
+        <Grid x:Name="altViewGrid" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel Orientation="Horizontal">
+                <Button Content="&lt; Zpět" Style="{StaticResource accentBtn}" Padding="50, 0" VerticalAlignment="Center" Click="ExitView"/>
+                <Label x:Name="altViewTitle" VerticalAlignment="Center"/>
+            </StackPanel>
+            <Border x:Name="altView" Grid.Row="1" BorderBrush="{StaticResource border}" BorderThickness="0,1,0,0"/>
+        </Grid>
+    </Grid>
+</Window>
