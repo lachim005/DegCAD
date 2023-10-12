@@ -110,6 +110,9 @@ namespace DegCAD
                     case "Guide":
                         md.hasGuide = bool.Parse(keyVal[1]);
                         break;
+                    case "Projection":
+                        md.projectionType = Enum.Parse<ProjectionType>(keyVal[1]);
+                        break;
                 }
             }
 
@@ -408,5 +411,6 @@ namespace DegCAD
         public Version version = new Version(0,0,0);
         public bool hasPalette = false;
         public bool hasGuide = false;
+        public ProjectionType projectionType = ProjectionType.Monge;
     }
 }

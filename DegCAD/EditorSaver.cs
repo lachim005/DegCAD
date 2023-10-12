@@ -55,7 +55,8 @@ namespace DegCAD
             List<string> metaData = new()
             {
                 "DegCAD version:" + version.ToString(),
-                "Palette:True"
+                "Palette:True",
+                "Projection:" + e.ProjectionType.ToString(),
             };
 
             if (e.Guide is not null) metaData.Add("Guide:True");
