@@ -27,6 +27,10 @@
         <TextBlock Text="A[x,y,z]" FontSize="16" Canvas.Top="8" Canvas.Left="6" Foreground="Black"/>
         <TextBlock Text="B[x,y,z]" FontSize="16" Canvas.Top="28" Canvas.Left="6" Foreground="Black"/>
     </Canvas>
+    <Canvas x:Key="cmdPointInputIcon2D">
+        <TextBlock Text="A[x,y]" FontSize="16" Canvas.Top="8" Canvas.Left="6" Foreground="Black"/>
+        <TextBlock Text="B[x,y]" FontSize="16" Canvas.Top="28" Canvas.Left="6" Foreground="Black"/>
+    </Canvas>
     <Canvas x:Key="cmdMiddleIcon">
         <Line X1="5" Y1="20" X2="15" Y2="20" Stroke="Black"/>
         <Line X1="10" Y1="15" X2="10" Y2="25" Stroke="Black"/>
