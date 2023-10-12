@@ -72,7 +72,7 @@ namespace DegCAD
             }
         }
 
-        public Editor(string fileName, ProjectionType projectionType = ProjectionType.Monge)
+        public Editor(string fileName, ProjectionType projectionType)
         {
             InitializeComponent();
             Timeline.TimelineChanged += TimelineChanged;

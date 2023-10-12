@@ -89,7 +89,10 @@ namespace DegCAD
 
         private void NewCommand(object sender, ExecutedRoutedEventArgs e)
         {
-            Editor ed = new($"Bez názvu {editorCounter}");
+            NewFileDialog nfd = new();
+            nfd.ShowDialog();
+            if (nfd.ProjectionType is null) return;
+            Editor ed = new($"Bez názvu {editorCounter}", nfd.ProjectionType.Value);
             ed.AddAxis(ed.viewPort.Layers[1]);
             ed.styleSelector.AddDefaultColors();
             ed.Changed = false;

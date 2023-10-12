@@ -31,7 +31,7 @@ namespace DegCAD
                     );
             }
 
-            Editor res = new(Path.GetFileNameWithoutExtension(path))
+            Editor res = new(Path.GetFileNameWithoutExtension(path), metadata.projectionType)
             {
                 FolderPath = Path.GetDirectoryName(path)
             };
