@@ -164,6 +164,15 @@ namespace DegCAD
                         continue;
                     case "NUL":
                         continue;
+                    case "AXS":
+                        items.Add(new Axis());
+                        if (md.version <= new Version(0, 5, 0))
+                        {
+                            //Legacy axis - add line and center point
+                            items.Add(new InfiniteLine(new((0, 0), (1, 0)), currentStyle, e.viewPort.Layers[1]));
+                            items.Add(new Point(0, 0, currentStyle, e.viewPort.Layers[1]));
+                        }
+                        continue;
                 }
                 var mItem = ParseMongeItem(line, currentStyle);
                 if (mItem is not null)
@@ -236,7 +245,6 @@ namespace DegCAD
 
             return itemName switch
             {
-                "AXS" => new Axis(stl),
                 "PNT" => PNT(s[4..], stl),
                 "LNE" => LNE(s[4..], stl),
                 "SEG" => SEG(s[4..], stl),
@@ -269,7 +277,7 @@ namespace DegCAD
             }
 
             return stl;
-        }
+        } 
         private static Point PNT(string s, Style stl)
         {
             string[] vals = s.Split(' ');

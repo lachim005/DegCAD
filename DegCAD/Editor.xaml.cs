@@ -87,13 +87,31 @@ namespace DegCAD
 
         public void AddAxis(ViewportLayer vpl)
         {
-            var axis = new Axis(DegCAD.Style.Default, vpl);
-            Timeline.AddCommand(new TimelineItem(new IMongeItem[3]
+            switch (ProjectionType)
             {
-                axis,
-                new MongeItems.Label("x", "1, 2", "", (8,0), DegCAD.Style.Default, new LineProjection(new((0,0), (1,0)), false, DegCAD.Style.Default), vpl),
-                new MongeItems.Label("0", "", "", (0,0), DegCAD.Style.Default, new MongeItems.Point(0,0), vpl),
-            }));
+                case ProjectionType.Plane:
+                    Timeline.AddCommand(new TimelineItem(new IMongeItem[]
+                    {
+                        new Axis(),
+                        new InfiniteLine(new((0,0), (1,0)), DegCAD.Style.Default, vpl),
+                        new InfiniteLine(new((0,0), (0,1)), DegCAD.Style.Default, vpl),
+                        new MongeItems.Label("x", "", "", (8,0), DegCAD.Style.Default, new InfiniteLine(new((0,0), (1,0)), DegCAD.Style.Default), vpl),
+                        new MongeItems.Label("y", "", "", (0,-8), DegCAD.Style.Default, new InfiniteLine(new((0,0), (0,1)), DegCAD.Style.Default), vpl),
+                        new MongeItems.Label("0", "", "", (0,0), DegCAD.Style.Default, new MongeItems.Point(0,0), vpl),
+                    }));
+                    break;
+                case ProjectionType.Monge:
+                    Timeline.AddCommand(new TimelineItem(new IMongeItem[]
+                    {
+                        new Axis(),
+                        new InfiniteLine(new((0,0), (1,0)), DegCAD.Style.Default, vpl),
+                        new MongeItems.Point(0, 0, DegCAD.Style.Default, vpl),
+                        new MongeItems.Label("x", "1, 2", "", (8,0), DegCAD.Style.Default, new InfiniteLine(new((0,0), (1,0)), DegCAD.Style.Default), vpl),
+                        new MongeItems.Label("0", "", "", (0,0), DegCAD.Style.Default, new MongeItems.Point(0,0), vpl),
+                    }));
+                    break;
+            }
+            
         }
         public void TimelineChanged(object? sender, EventArgs e)
         {
