@@ -21,7 +21,7 @@ namespace DegCAD.MongeItems
 
         public Circle2[] SnapableCircles { get; } = new Circle2[0];
 
-        public Style Style { get; set; }
+        public Style Style { get; set; } = Style.Default;
 
         public Axis()
         {
