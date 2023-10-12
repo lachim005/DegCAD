@@ -32,7 +32,7 @@ namespace DegCAD
         public GeometryInputManager InputMgr { get; protected set; }
         public Timeline Timeline => viewPort.Timeline;
         public Snapper Snapper { get; protected set; }
-
+        public ProjectionType ProjectionType { get; set; }
         public bool ExecutingCommand
         {
             get => _executingCommand;
@@ -72,7 +72,7 @@ namespace DegCAD
             }
         }
 
-        public Editor(string fileName)
+        public Editor(string fileName, ProjectionType projectionType = ProjectionType.Monge)
         {
             InitializeComponent();
             Timeline.TimelineChanged += TimelineChanged;
@@ -80,6 +80,7 @@ namespace DegCAD
             InputMgr = new(viewPort, Snapper, styleSelector);
 
             _fileName = fileName;
+            ProjectionType = projectionType;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

@@ -37,6 +37,7 @@ namespace DegCAD
         {
             InitializeComponent();
             cmdPallete.GenerateCommands(this);
+            cmdPallete.ShowButtons(ProjectionType.None);
 
             //Open editor is the user opens a file
             var args = Environment.GetCommandLineArgs();
@@ -58,11 +59,13 @@ namespace DegCAD
             {
                 ActiveEditor = null;
                 homePage.Visibility = Visibility.Visible;
+                cmdPallete.ShowButtons(ProjectionType.None);
                 return;
             }
             //Editor tab got selected
             ActiveEditor = openEditors[editorTabs.SelectedIndex].Item1;
             homePage.Visibility = Visibility.Hidden;
+            cmdPallete.ShowButtons(ActiveEditor.ProjectionType);
         }
 
         private void EditorTabCloseClick(object sender, RoutedEventArgs e)

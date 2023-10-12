@@ -20,9 +20,10 @@ namespace DegCAD
         public ModifierKeys ModifierKey { get; set; }
         public ExecutedRoutedEventHandler ExecuteHandler { get; set; }
         public string? IconName { get; set; }
+        public ProjectionType ProjectionTypes { get; set; }
 
 
-        public GeometryCommandData(string name, string description, Key key, ModifierKeys modifierKey, ExecutedRoutedEventHandler executeHandler, string? iconName = null)
+        public GeometryCommandData(string name, string description, Key key, ModifierKeys modifierKey, ExecutedRoutedEventHandler executeHandler, string? iconName, ProjectionType projectionTypes)
         {
             Name = name;
             Description = description;
@@ -30,6 +31,7 @@ namespace DegCAD
             ModifierKey = modifierKey;
             ExecuteHandler = executeHandler;
             IconName = iconName;
+            ProjectionTypes = projectionTypes;
         }
     }
 }
