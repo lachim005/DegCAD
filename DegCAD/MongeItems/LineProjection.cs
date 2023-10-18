@@ -108,7 +108,7 @@ namespace DegCAD.MongeItems
         {
             //Calculates the infinity sign for drawing the line
             infinitySign = 1;
-            if (Line.DirectionVector.Y * Line.DirectionVector.X < 0)
+            if (Line.DirectionVector.Y > 0)
             {
                 infinitySign = -1;
             }
