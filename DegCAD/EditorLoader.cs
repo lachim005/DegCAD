@@ -166,7 +166,7 @@ namespace DegCAD
                         continue;
                     case "AXS":
                         items.Add(new Axis());
-                        if (md.version <= new Version(0, 5, 0))
+                        if (md.version < new Version(0, 6, 0))
                         {
                             //Legacy axis - add line and center point
                             items.Add(new InfiniteLine(new((0, 0), (1, 0)), currentStyle, e.viewPort.Layers[1]));
