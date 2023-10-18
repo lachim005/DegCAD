@@ -245,24 +245,29 @@ namespace DegCAD
 
         private static double ClampInfinity(ParametricLine2 l, double t, ViewportLayer vpl)
         {
-            double par = t;
-            if (t == double.NegativeInfinity)
+            if (double.IsFinite(t)) return t;
+
+            //Calculates which corner should be used to make the infinity t finite
+            int right = Math.Sign(l.DirectionVector.X);
+
+            if (t == double.PositiveInfinity) right = -right;
+
+            if (right == 1)
             {
-                par = l.GetParamFromX(vpl.Viewport.ScreenToCanvas((0, 0)).X);
-                if (!double.IsFinite(par))
-                {
-                    return l.GetParamFromY(vpl.Viewport.ScreenToCanvas((0, 0)).Y);
-                }
-            }
-            else if (t == double.PositiveInfinity)
+                return l.GetParamFromX(vpl.Viewport.ScreenToCanvas((vpl.Viewport.CWidth, 0)).X);
+            } else if (right == -1) 
             {
-                par = l.GetParamFromX(vpl.Viewport.ScreenToCanvas((vpl.Viewport.CWidth, 0)).X);
-                if (!double.IsFinite(par))
-                {
-                    return l.GetParamFromY(vpl.Viewport.ScreenToCanvas((0, vpl.Viewport.CHeight)).Y);
-                }
+                return l.GetParamFromX(vpl.Viewport.ScreenToCanvas((0, 0)).X);      
             }
-            return par;
+
+            int bottom = Math.Sign(l.DirectionVector.Y);
+            if (t == double.PositiveInfinity) bottom *= -1;
+            if (bottom == 1)
+            {
+                return l.GetParamFromY(vpl.Viewport.ScreenToCanvas((0, vpl.Viewport.CHeight)).Y);
+            }
+            return l.GetParamFromY(vpl.Viewport.ScreenToCanvas((0, 0)).Y);
+
         }
         private static Vector2 PolarToCartesian(Vector2 center, double radius, double angleInRadians)
         {
