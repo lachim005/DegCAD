@@ -49,6 +49,7 @@ namespace DegCAD
             AddCommand(new("Průměty přímky", "Umístí do půdorysny a nárysny průměty přímky", Key.P, ModifierKeys.Control, (_, _) => executeCommand(new Line3D()), "cmdLineProjectionsIcon", ProjectionType.Monge));
             AddCommand(new("Kolmice", "Kolmice na danou přímku", Key.K, ModifierKeys.Control, (_, _) => executeCommand(new PerpendicularLine()), "cmdPerpendicularLineIcon", ProjectionType.Monge));
             AddCommand(new("Rovnoběžka", "Rovnoběžka na danou přímku", Key.R, ModifierKeys.Control, (_, _) => executeCommand(new ParallelLine()), "cmdParallelLineIcon", ProjectionType.Monge));
+            AddCommand(new("Polopřímka", "Polopřímka dána počátkem a směrem", Key.R, ModifierKeys.Control, (_, _) => executeCommand(new HalfLine()), "cmdHalfLineIcon", ProjectionType.Plane | ProjectionType.Monge));
             AddSeparator();
             AddCommand(new("Úsečka", "Úsečka mezi dvěma body", Key.U, ModifierKeys.Control, (_, _) => executeCommand(new LineSegment()), "cmdSegmentIcon", ProjectionType.Plane | ProjectionType.Monge));
             AddCommand(new("Kolmá úsečka", "Úsečka mezi dvěma body kolmá na jinou přímku", Key.None, ModifierKeys.None, (_, _) => executeCommand(new PerpendicularSegment()), "cmdPerpendicularSegmentIcon", ProjectionType.Plane | ProjectionType.Monge));
