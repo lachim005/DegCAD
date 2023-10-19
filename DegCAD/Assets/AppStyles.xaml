@@ -9,7 +9,14 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+    <Style x:Key="NoFocusVisual">
+        <Setter Property="Control.Template">
+            <Setter.Value>
+                <ControlTemplate>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     
     
     <SolidColorBrush x:Key="elementBg" Color="White"/>
