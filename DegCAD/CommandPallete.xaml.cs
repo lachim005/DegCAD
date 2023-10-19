@@ -39,14 +39,14 @@ namespace DegCAD
             this.mw = mw;
 
             AddCommand(new("Bod", "Umístí do projektu pojmenovaný bod", Key.None, ModifierKeys.None, (_, _) => executeCommand(new Point2D()), "cmdPointIcon", ProjectionType.Plane | ProjectionType.Monge));
-            AddCommand(new("Průměty bodu", "Umístí do půdorysny a nárysny průměty bodu", Key.B, ModifierKeys.Control, (_, _) => executeCommand(new Point3D()), "cmdPointProjectionsIcon", ProjectionType.Monge));
+            AddCommand(new("Průměty bodu", "Umístí do půdorysny a nárysny průměty bodu", Key.B, ModifierKeys.Control, (_, _) => executeCommand(new MongePoint3D()), "cmdPointProjectionsIcon", ProjectionType.Monge));
             AddCommand(new("Doplnit průmět", "Doplní k průmětu bodu průmět v druhé průmětně", Key.None, ModifierKeys.None, (_, _) => executeCommand(new AddPointProjection()), "cmdPointAddProjectionIcon", ProjectionType.Monge));
             AddCommand(new("Střed", "Střed mezi dvěma body", Key.S, ModifierKeys.Control, (_, _) => executeCommand(new Middle()), "cmdMiddleIcon", ProjectionType.Plane | ProjectionType.Monge));
-            AddCommand(new("Vynést body", "Umístí body podle zadaných souřadnic", Key.B, ModifierKeys.Control | ModifierKeys.Shift, (_, _) => executeCommand(new PointCoordInput()), "cmdPointInputIcon", ProjectionType.Monge));
+            AddCommand(new("Vynést body", "Umístí body podle zadaných souřadnic", Key.B, ModifierKeys.Control | ModifierKeys.Shift, (_, _) => executeCommand(new MongePointCoordInput()), "cmdPointInputIcon", ProjectionType.Monge));
             AddCommand(new("Vynést body", "Umístí body podle zadaných souřadnic", Key.B, ModifierKeys.Control | ModifierKeys.Shift, (_, _) => executeCommand(new PointCoordInput2D()), "cmdPointInputIcon2D", ProjectionType.Plane));
             AddSeparator();
-            AddCommand(new("Průmět přímky", "Umístí do půdorysny nebo do nárysny průmět přímky", Key.None, ModifierKeys.None, (_, _) => executeCommand(new Line2D()), "cmdLineProjectionIcon", ProjectionType.Monge));
-            AddCommand(new("Průměty přímky", "Umístí do půdorysny a nárysny průměty přímky", Key.P, ModifierKeys.Control, (_, _) => executeCommand(new Line3D()), "cmdLineProjectionsIcon", ProjectionType.Monge));
+            AddCommand(new("Průmět přímky", "Umístí do půdorysny nebo do nárysny průmět přímky", Key.None, ModifierKeys.None, (_, _) => executeCommand(new MongeLine2D()), "cmdLineProjectionIcon", ProjectionType.Monge));
+            AddCommand(new("Průměty přímky", "Umístí do půdorysny a nárysny průměty přímky", Key.P, ModifierKeys.Control, (_, _) => executeCommand(new MongeLine3D()), "cmdLineProjectionsIcon", ProjectionType.Monge));
             AddCommand(new("Kolmice", "Kolmice na danou přímku", Key.K, ModifierKeys.Control, (_, _) => executeCommand(new PerpendicularLine()), "cmdPerpendicularLineIcon", ProjectionType.Monge));
             AddCommand(new("Rovnoběžka", "Rovnoběžka na danou přímku", Key.R, ModifierKeys.Control, (_, _) => executeCommand(new ParallelLine()), "cmdParallelLineIcon", ProjectionType.Monge));
             AddCommand(new("Polopřímka", "Polopřímka dána počátkem a směrem", Key.R, ModifierKeys.Control, (_, _) => executeCommand(new HalfLine()), "cmdHalfLineIcon", ProjectionType.Plane | ProjectionType.Monge));
