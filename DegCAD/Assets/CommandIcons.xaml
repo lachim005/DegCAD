@@ -56,6 +56,12 @@
         <Line X1="20" Y1="30" X2="50" Y2="50" Stroke="Red"/>
         <Line X1="10" Y1="30" X2="50" Y2="30" Stroke="Gray"/>
     </Canvas>
+    <Canvas x:Key="cmdPerpendicularInfLineIcon">
+        <Line X1="20" Y1="15" X2="40" Y2="50" Stroke="Black"/>
+        <Line X1="10" Y1="50" X2="50" Y2="27" Stroke="Red"/>
+        <Line X1="38" Y1="31" X2="48" Y2="31" Stroke="Black"/>
+        <Line X1="43" Y1="26" X2="43" Y2="36" Stroke="Black"/>
+    </Canvas>
     <Canvas x:Key="cmdPerpendicularLineIcon">
         <Line X1="10" Y1="15" X2="50" Y2="15" Stroke="Gray"/>
         <Line X1="20" Y1="15" X2="40" Y2="50" Stroke="Black"/>
