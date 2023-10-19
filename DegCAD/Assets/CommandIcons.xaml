@@ -40,6 +40,13 @@
         <Line X1="30" Y1="25" X2="30" Y2="35" Stroke="Red"/>
         <TextBlock Text="S" Foreground="Red" Canvas.Left="32" Canvas.Top="29"/>
     </Canvas>
+    <Canvas x:Key="cmdInfLineIcon">
+        <Line X1="10" Y1="40" X2="50" Y2="20" Stroke="Red"/>
+        <Line X1="25" Y1="35" X2="15" Y2="35" Stroke="Black"/>
+        <Line X1="20" Y1="40" X2="20" Y2="30" Stroke="Black"/>
+        <Line X1="35" Y1="25" X2="45" Y2="25" Stroke="Black"/>
+        <Line X1="40" Y1="20" X2="40" Y2="30" Stroke="Black"/>
+    </Canvas>
     <Canvas x:Key="cmdLineProjectionIcon">
         <Line X1="10" Y1="15" X2="50" Y2="15" Stroke="Gray"/>
         <Line X1="20" Y1="15" X2="40" Y2="50" Stroke="Red"/>

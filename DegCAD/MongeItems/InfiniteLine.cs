@@ -29,6 +29,16 @@ namespace DegCAD.MongeItems
                 SnapableLines[0] = _paraLine;
             }
         }
+        public Vector2 StartPoint
+        {
+            get => _paraLine.Point;
+            set => _paraLine.Point = value;
+        }
+        public Vector2 Direction
+        {
+            get => _paraLine.DirectionVector;
+            set => _paraLine.DirectionVector = value;
+        }
 
 
         public Style Style

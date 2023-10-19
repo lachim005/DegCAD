@@ -45,6 +45,7 @@ namespace DegCAD
             AddCommand(new("Vynést body", "Umístí body podle zadaných souřadnic", Key.B, ModifierKeys.Control | ModifierKeys.Shift, (_, _) => executeCommand(new MongePointCoordInput()), "cmdPointInputIcon", ProjectionType.Monge));
             AddCommand(new("Vynést body", "Umístí body podle zadaných souřadnic", Key.B, ModifierKeys.Control | ModifierKeys.Shift, (_, _) => executeCommand(new PointCoordInput2D()), "cmdPointInputIcon2D", ProjectionType.Plane));
             AddSeparator();
+            AddCommand(new("Přímka", "Přímka daná dvěma body", Key.None, ModifierKeys.None, (_, _) => executeCommand(new InfLine()), "cmdInfLineIcon", ProjectionType.Plane));
             AddCommand(new("Průmět přímky", "Umístí do půdorysny nebo do nárysny průmět přímky", Key.None, ModifierKeys.None, (_, _) => executeCommand(new MongeLine2D()), "cmdLineProjectionIcon", ProjectionType.Monge));
             AddCommand(new("Průměty přímky", "Umístí do půdorysny a nárysny průměty přímky", Key.P, ModifierKeys.Control, (_, _) => executeCommand(new MongeLine3D()), "cmdLineProjectionsIcon", ProjectionType.Monge));
             AddCommand(new("Kolmice", "Kolmice na danou přímku", Key.K, ModifierKeys.Control, (_, _) => executeCommand(new PerpendicularLine()), "cmdPerpendicularLineIcon", ProjectionType.Monge));
