@@ -106,17 +106,27 @@ namespace DegCAD
             ExecutingCommand = true;
 
             statusBar.ShowCommandStatus();
-            var res = await command.ExecuteAsync(viewPort.Layers[2], viewPort.Layers[1], viewPort.Layers[0], InputMgr, statusBar);
-            viewPort.Layers[2].Canvas.Children.Clear();
-            viewPort.Layers[0].Canvas.Children.Clear();
-            ExecutingCommand = false;
-            statusBar.HideCommandStatus();
-            statusBar.CommandName = "";
-            statusBar.CommandHelp = "";
-
-            if (res is null)
+            try
+            {
+                var res = await command.ExecuteAsync(viewPort.Layers[2], viewPort.Layers[1], viewPort.Layers[0], InputMgr, statusBar);
+                if (res is null)
+                    return;
+                Timeline.AddCommand(res);
+            }
+            catch (Exception ex)
+            {
+                if (ex is not CommandCanceledException) throw new Exception("Command thrown an exception", ex);
                 return;
-            Timeline.AddCommand(res);
+            }
+            finally
+            {
+                viewPort.Layers[2].Canvas.Children.Clear();
+                viewPort.Layers[0].Canvas.Children.Clear();
+                ExecutingCommand = false;
+                statusBar.HideCommandStatus();
+                statusBar.CommandName = "";
+                statusBar.CommandHelp = "";
+            }   
         }
 
         public void ShowView(Control view, string viewTitle, bool changed = true)

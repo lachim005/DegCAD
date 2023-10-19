@@ -62,7 +62,7 @@ namespace DegCAD
             ViewPort.ViewportChanged += previewPoint;
 
             //Used to await the click
-            TaskCompletionSource<Vector2> result = new();
+            TaskCompletionSource<Vector2?> result = new();
 
             //Saves the handler so it can be unasigned
             MouseButtonEventHandler viewPortClick = (s, e) =>
@@ -83,17 +83,29 @@ namespace DegCAD
             //Draws the preview so it doesn't appear after the user moves their mouse
             DrawPreview(ViewPort.ScreenToCanvas(Mouse.GetPosition(ViewPort)));
 
+            //Saves the previewPoint handler so it can be unasigned later
+            KeyEventHandler cancelCommand = (s, e) =>
+            {
+                if (e.Key != Key.Escape) return;
+                result.SetResult(null);
+            };
+            ViewPort.PreviewKeyDown += cancelCommand;
+
             //Awaits the user click
-            Vector2 mposClick = await result.Task;
+            ViewPort.Focus();
+            Vector2? mposClick = await result.Task;
 
             //Unasignes all events and clears the preview
             ViewPort.VPMouseMoved -= previewPoint;
             ViewPort.MouseDown -= viewPortClick;
             ViewPort.ViewportChanged -= previewPoint;
+            ViewPort.PreviewKeyDown -= cancelCommand;
 
             inputSemaphore.Release();
 
-            return mposClick;
+            if (mposClick is null) throw new CommandCanceledException();
+
+            return mposClick.Value;
         }
 
         public async Task<(Vector2, bool)> GetPointWithPlane(Action<Vector2, bool> preview, bool defaultPlane = false, Vector2[]? points = null, ParametricLine2[]? lines = null, Circle2[]? circles = null, Predicate<Vector2>? predicate = null)
@@ -121,7 +133,7 @@ namespace DegCAD
             ViewPort.ViewportChanged += previewPoint;
 
             //Used to await the click
-            TaskCompletionSource<Vector2> result = new();
+            TaskCompletionSource<Vector2?> result = new();
 
             //Saves the handler so it can be unasigned
             MouseButtonEventHandler viewPortClick = (s, e) =>
@@ -148,17 +160,29 @@ namespace DegCAD
             //Draws the preview so it doesn't appear after the user moves their mouse
             DrawPreview(ViewPort.ScreenToCanvas(Mouse.GetPosition(ViewPort)));
 
+            //Saves the previewPoint handler so it can be unasigned later
+            KeyEventHandler cancelCommand = (s, e) =>
+            {
+                if (e.Key != Key.Escape) return;
+                result.SetResult(null);
+            };
+            ViewPort.PreviewKeyDown += cancelCommand;
+
             //Awaits the user click
-            Vector2 mposClick = await result.Task;
+            ViewPort.Focus();
+            Vector2? mposClick = await result.Task;
 
             //Unasignes all events and clears the preview
             ViewPort.VPMouseMoved -= previewPoint;
             ViewPort.MouseDown -= viewPortClick;
             ViewPort.ViewportChanged -= previewPoint;
+            ViewPort.PreviewKeyDown -= cancelCommand;
 
             inputSemaphore.Release();
 
-            return (mposClick, plane);
+            if (mposClick is null) throw new CommandCanceledException();
+
+            return (mposClick.Value, plane);
         }
 
         /// <summary>
@@ -181,7 +205,7 @@ namespace DegCAD
             ViewPort.ViewportChanged += previewPoint;
 
             //Used to await the click
-            TaskCompletionSource<ParametricLine2> result = new();
+            TaskCompletionSource<ParametricLine2?> result = new();
 
             //Saves the handler so it can be unasigned
             MouseButtonEventHandler viewPortClick = (s, e) =>
@@ -203,17 +227,29 @@ namespace DegCAD
             Vector2 mousePos = ViewPort.ScreenToCanvas(Mouse.GetPosition(ViewPort));
             preview(mousePos, Snapper.SelectLine(mousePos));
 
+            //Saves the previewPoint handler so it can be unasigned later
+            KeyEventHandler cancelCommand = (s, e) =>
+            {
+                if (e.Key != Key.Escape) return;
+                result.SetResult(null);
+            };
+            ViewPort.PreviewKeyDown += cancelCommand;
+
             //Awaits the user click
+            ViewPort.Focus();
             var mposClick = await result.Task;
 
             //Unasignes all events and clears the preview
             ViewPort.VPMouseMoved -= previewPoint;
             ViewPort.MouseDown -= viewPortClick;
             ViewPort.ViewportChanged -= previewPoint;
+            ViewPort.PreviewKeyDown -= cancelCommand;
 
             inputSemaphore.Release();
 
-            return mposClick;
+            if (mposClick is null) throw new CommandCanceledException();
+
+            return mposClick.Value;
         }
     }
 }
