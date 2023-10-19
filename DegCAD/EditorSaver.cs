@@ -138,6 +138,8 @@ namespace DegCAD
 
                 InfiniteLine iln => $"ILN {iln.Line.Point.X} {iln.Line.Point.Y} {iln.Line.DirectionVector.X} {iln.Line.DirectionVector.Y}",
 
+                HalfLine hln => $"HLN {hln.StartPoint.X} {hln.StartPoint.Y} {hln.Direction.X} {hln.Direction.Y}",
+
                 LineSegment seg => $"SEG {seg.P1.X} {seg.P1.Y} {seg.P2.X} {seg.P2.Y}",
 
                 Circle cir => $"CIR {cir.Circle2.Center.X} {cir.Circle2.Center.Y} {cir.Circle2.Radius}",

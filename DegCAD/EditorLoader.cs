@@ -248,6 +248,7 @@ namespace DegCAD
                 "PNT" => PNT(s[4..], stl),
                 "LNE" => LNE(s[4..], stl),
                 "ILN" => ILN(s[4..], stl),
+                "HLN" => HLN(s[4..], stl),
                 "SEG" => SEG(s[4..], stl),
                 "CIR" => CIR(s[4..], stl),
                 "ARC" => ARC(s[4..], stl),
@@ -308,6 +309,15 @@ namespace DegCAD
                     (double.Parse(vals[0]), double.Parse(vals[1])),
                     (double.Parse(vals[2]), double.Parse(vals[3]))
                 ),
+                stl
+            );
+        }
+        private static HalfLine HLN(string s, Style stl)
+        {
+            string[] vals = s.Split(' ');
+            return new(
+                (double.Parse(vals[0]), double.Parse(vals[1])),
+                (double.Parse(vals[2]), double.Parse(vals[3])),
                 stl
             );
         }
