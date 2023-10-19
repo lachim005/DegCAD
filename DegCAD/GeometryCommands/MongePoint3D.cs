@@ -11,7 +11,7 @@ using System.Windows.Shapes;
 
 namespace DegCAD.GeometryCommands
 {
-    public class Point3D : IGeometryCommand
+    public class MongePoint3D : IGeometryCommand
     {
         public Vector2 p1;
         public Vector2 p2;

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace DegCAD.GeometryCommands
 {
-    internal class PointCoordInput : IGeometryCommand
+    internal class MongePointCoordInput : IGeometryCommand
     {
         public Task<TimelineItem?> ExecuteAsync(ViewportLayer previewVpl, ViewportLayer vpl, ViewportLayer bgVpl, GeometryInputManager inputMgr, EditorStatusBar esb)
         {

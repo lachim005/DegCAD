@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace DegCAD.GeometryCommands
 {
-    public class Line3D : IGeometryCommand
+    public class MongeLine3D : IGeometryCommand
     {
         public async Task<TimelineItem?> ExecuteAsync(ViewportLayer previewVpl, ViewportLayer vpl, ViewportLayer bgVpl, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
