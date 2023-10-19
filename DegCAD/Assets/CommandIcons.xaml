@@ -74,8 +74,7 @@
         <Line X1="15" Y1="45" X2="50" Y2="25" Stroke="Red"/>
         <Line X1="44" Y1="33" X2="50" Y2="25" Stroke="Red"/>
         <Line X1="40" Y1="25" X2="50" Y2="25" Stroke="Red"/>
-        <Line X1="10" Y1="45" X2="20" Y2="45" Stroke="Black"/>
-        <Line X1="15" Y1="50" X2="15" Y2="40" Stroke="Black"/>
+        <Line X1="12" Y1="40" X2="18" Y2="49" Stroke="Red"/>
         <Line X1="25" Y1="36" X2="35" Y2="36" Stroke="Black"/>
         <Line X1="30" Y1="31" X2="30" Y2="41" Stroke="Black"/>
     </Canvas>
