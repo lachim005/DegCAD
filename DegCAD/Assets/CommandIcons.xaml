@@ -70,6 +70,12 @@
         <Line X1="32" Y1="31" X2="42" Y2="31" Stroke="Black"/>
         <Line X1="37" Y1="26" X2="37" Y2="36" Stroke="Black"/>
     </Canvas>
+    <Canvas x:Key="cmdParallelInfLineIcon">
+        <Line X1="15" Y1="15" X2="30" Y2="50" Stroke="Black"/>
+        <Line X1="30" Y1="15" X2="45" Y2="50" Stroke="Red"/>
+        <Line X1="32" Y1="31" X2="42" Y2="31" Stroke="Black"/>
+        <Line X1="37" Y1="26" X2="37" Y2="36" Stroke="Black"/>
+    </Canvas>
     <Canvas x:Key="cmdHalfLineIcon">
         <Line X1="15" Y1="45" X2="50" Y2="25" Stroke="Red"/>
         <Line X1="44" Y1="33" X2="50" Y2="25" Stroke="Red"/>
