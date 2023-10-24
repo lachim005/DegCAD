@@ -34,6 +34,8 @@ namespace DegCAD
             foreach (var item in undoneCmd.Items)
             {
                 item.SetVisibility(System.Windows.Visibility.Hidden);
+                if (item is Modification mod)
+                    mod.Remove(this);
             }
             UndoneCommands.Push(undoneCmd);
             TimelineChanged?.Invoke(this, EventArgs.Empty);
@@ -49,6 +51,8 @@ namespace DegCAD
             foreach (var item in redoneCmd.Items)
             {
                 item.SetVisibility(System.Windows.Visibility.Visible);
+                if (item is Modification mod)
+                    mod.Apply(this);
             }
             CommandHistory.Push(redoneCmd);
             TimelineChanged?.Invoke(this, EventArgs.Empty);
@@ -65,6 +69,11 @@ namespace DegCAD
                 }
             }
             UndoneCommands.Clear();
+            foreach (var it in cmd.Items)
+            {
+                if (it is not Modification mod) continue;
+                mod.Apply(this);
+            }
             TimelineChanged?.Invoke(this, EventArgs.Empty);
         }
 
@@ -88,6 +97,8 @@ namespace DegCAD
                 for (int i = 0; i < items.Length; i++)
                 {
                     items[i] = cmd.Items[i].Clone();
+                    if (items[i] is Modification mod)
+                        mod.Apply(this);
                 }
                 newTl.AddCommand(new(items));
             }
