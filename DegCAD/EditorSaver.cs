@@ -157,6 +157,8 @@ namespace DegCAD
                 $"{lbl.Superscript.Replace("\\", "\\\\").Replace(" ", "\\ ")} " +
                 $"{lbl.Position.X} {lbl.Position.Y}->{SerializeMongeItem(lbl.LabeledObject)}",
 
+                HideModification hid => $"HID {hid.CmdIndex} {hid.ItemIndex}",
+
                 _ => "NUL"
             };
         }

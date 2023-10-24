@@ -256,6 +256,7 @@ namespace DegCAD
                 "PBL" => PBL(s[4..], stl),
                 "HBL" => HBL(s[4..], stl),
                 "LBL" => LBL(s[4..], stl),
+                "HID" => HID(s[4..], stl),
                 _ => null
             };
         }
@@ -407,7 +408,15 @@ namespace DegCAD
                 stl,
                 labeledItem
             );
-        } 
+        }
+        private static HideModification HID(string s, Style stl)
+        {
+            string[] vals = s.Split(' ');
+            return new(
+                int.Parse(vals[0]),
+                int.Parse(vals[1])
+            );
+        }
         #endregion
 
         /// <summary>
