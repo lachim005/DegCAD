@@ -25,7 +25,7 @@ namespace DegCAD.MongeItems
             {
                 _p1 = value;
                 SnapablePoints[0] = _p1;
-                SnapableLines[0] = ParametricLine2.From2Points(_p1, _p2);
+                SnapableLines[0] = new(ParametricLine2.From2Points(_p1, _p2), 0, 1);
             }
         }
         public Vector2 P2
@@ -35,7 +35,7 @@ namespace DegCAD.MongeItems
             {
                 _p2 = value;
                 SnapablePoints[1] = _p2;
-                SnapableLines[0] = ParametricLine2.From2Points(_p1, _p2);
+                SnapableLines[0] = new(ParametricLine2.From2Points(_p1, _p2), 0, 1);
             }
         }
         public Style Style
@@ -49,13 +49,13 @@ namespace DegCAD.MongeItems
         }
 
         public Vector2[] SnapablePoints { get; private set; }
-        public ParametricLine2[] SnapableLines { get; private set; }
+        public ParametricSegment2[] SnapableLines { get; private set; }
         public Circle2[] SnapableCircles { get; } = new Circle2[0];
 
         public LineSegment(Vector2 p1, Vector2 p2, ViewportLayer? vpl = null) : this(p1, p2, Style.Default, vpl) { }
         public LineSegment(Vector2 p1, Vector2 p2, Style style, ViewportLayer? vpl = null)
         {
-            SnapableLines = new ParametricLine2[1] { ParametricLine2.From2Points(p1, p2) };
+            SnapableLines = new ParametricSegment2[1] { new(ParametricLine2.From2Points(p1, p2),0,1) };
             SnapablePoints = new Vector2[2] { p1, p2 };
 
             _p1 = p1;

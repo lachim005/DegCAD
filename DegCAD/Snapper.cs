@@ -63,11 +63,11 @@ namespace DegCAD
                     for (int j = 0; j < cmd.Items[i].SnapableLines.Length; j++)
                     {
                         var line = cmd.Items[i].SnapableLines[j];
-                        var point = line.GetClosestPoint(v);
+                        var point = line.Line.GetClosestPoint(v);
                         double distance = (v - point).LengthSquared;
-                        if (distance < SnapThreshold)
+                        if (distance < SnapThreshold && line.IsOnSegment(point))
                         {
-                            closeLines.Add(line);
+                            closeLines.Add(line.Line);
                         }
                     }
                 }
@@ -193,11 +193,11 @@ namespace DegCAD
                     for (int j = 0; j < cmd.Items[i].SnapableLines.Length; j++)
                     {
                         var line = cmd.Items[i].SnapableLines[j];
-                        Vector2 point = TranslatePointToLine(line, v);
+                        Vector2 point = TranslatePointToLine(line.Line, v);
                         double distance = (v - point).LengthSquared;
-                        if (distance < closestLineDistance)
+                        if (distance < closestLineDistance && line.IsOnSegment(point))
                         {
-                            closestLine = line;
+                            closestLine = line.Line;
                             closestLineDistance = distance;
                         }
                     }

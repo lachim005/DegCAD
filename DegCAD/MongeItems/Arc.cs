@@ -24,7 +24,7 @@ namespace DegCAD.MongeItems
 
         public Vector2[] SnapablePoints { get; init; }
 
-        public ParametricLine2[] SnapableLines { get; init; }
+        public ParametricSegment2[] SnapableLines { get; init; }
 
         public Circle2[] SnapableCircles { get; init; }
 
@@ -75,7 +75,7 @@ namespace DegCAD.MongeItems
                 circle.CalculatePointWithAngle(startPoint),
                 circle.CalculatePointWithAngle(endPoint)
             };
-            SnapableLines = new ParametricLine2[0];
+            SnapableLines = new ParametricSegment2[0];
             SnapableCircles = new Circle2[1] { circle };
 
 

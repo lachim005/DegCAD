@@ -19,7 +19,7 @@ namespace DegCAD.MongeItems
         private Circle2 _circle2;
 
         public Vector2[] SnapablePoints { get; init; }
-        public ParametricLine2[] SnapableLines { get; } = new ParametricLine2[0];
+        public ParametricSegment2[] SnapableLines { get; } = new ParametricSegment2[0];
         public Circle2[] SnapableCircles { get; init; }
         public Circle2 Circle2
         {

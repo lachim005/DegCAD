@@ -18,7 +18,7 @@ namespace DegCAD.MongeItems
 
         public Circle2[] SnapableCircles { get; } = new Circle2[0];
 
-        public ParametricLine2[] SnapableLines { get; private set; }
+        public ParametricSegment2[] SnapableLines { get; private set; }
 
         public ParametricLine2 Line
         {
@@ -26,7 +26,7 @@ namespace DegCAD.MongeItems
             set
             {
                 _paraLine = value;
-                SnapableLines[0] = _paraLine;
+                SnapableLines[0] = new(_paraLine, 0, double.NegativeInfinity);
                 SnapablePoints[0] = _paraLine.Point;
             }
         }
@@ -60,8 +60,8 @@ namespace DegCAD.MongeItems
         public HalfLine(Vector2 start, Vector2 direction, Style style, ViewportLayer? vpl = null)
         {
             ParametricLine2 line = new(start, direction);
-            SnapableLines = new ParametricLine2[1] { line };
             _paraLine = line;
+            SnapableLines = new ParametricSegment2[1] { new(_paraLine, 0, double.NegativeInfinity) };
             SnapablePoints[0] = start;
             Style = style;
 

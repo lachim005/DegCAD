@@ -25,7 +25,7 @@ namespace DegCAD.MongeItems
 
         public Circle2[] SnapableCircles { get; } = new Circle2[0];
 
-        public ParametricLine2[] SnapableLines { get; private set; }
+        public ParametricSegment2[] SnapableLines { get; private set; }
 
         public ParametricLine2 Line
         {
@@ -33,8 +33,11 @@ namespace DegCAD.MongeItems
             set
             {
                 _paraLine = value;
-                SnapableLines[0] = _paraLine;
                 RecalculateInfinitySign();
+                if (Line.DirectionVector.Y == 0)
+                    SnapableLines[0] = new(_paraLine, double.NegativeInfinity, double.PositiveInfinity);
+                else
+                    SnapableLines[0] = new(_paraLine, Line.GetParamFromY(0), double.NegativeInfinity * infinitySign);
             }
         }
         private int infinitySign;
@@ -65,7 +68,10 @@ namespace DegCAD.MongeItems
             _plane = plane;
 
             RecalculateInfinitySign();
-            SnapableLines = new ParametricLine2[1] { line };
+            if (Line.DirectionVector.Y == 0)
+                SnapableLines = new ParametricSegment2[1] { new(_paraLine, double.NegativeInfinity, double.PositiveInfinity) };
+            else
+                SnapableLines = new ParametricSegment2[1] { new(_paraLine, Line.GetParamFromY(0), double.NegativeInfinity * infinitySign) };
 
 
             Style = style;
