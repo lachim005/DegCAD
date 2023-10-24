@@ -181,4 +181,9 @@
         <Line X1="23" Y1="42" X2="23" Y2="52" Stroke="Red"/>
         <Line X1="18" Y1="47" X2="28" Y2="47" Stroke="Red"/>
     </Canvas>
+    <Canvas x:Key="cmdHideIcon">
+        <Line X1="10" Y1="20" X2="50" Y2="20" Stroke="#000"/>
+        <Line X1="10" Y1="30" X2="50" Y2="30" Stroke="#888"/>
+        <Line X1="10" Y1="40" X2="50" Y2="40" Stroke="#ddd"/>
+    </Canvas>
 </ResourceDictionary>
