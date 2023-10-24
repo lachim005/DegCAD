@@ -251,5 +251,77 @@ namespace DegCAD
 
             return mposClick.Value;
         }
+
+        /// <summary>
+        /// Gets an index of a mongeitem from the user
+        /// </summary>
+        public async Task<(int, int)> GetItem(Action<Vector2, IMongeItem?> preview)
+        {
+            await inputSemaphore.WaitAsync();
+
+            //Saves the previewPoint handler so it can be unasigned later
+            EventHandler<VPMouseEventArgs> previewPoint = (s, e) =>
+            {
+                Vector2 snapPos = Snapper.Snap(e.CanvasPos);
+                var selectedItem = Snapper.SelectItem(e.CanvasPos);
+                if (selectedItem is null)
+                {
+                    preview(snapPos, null);
+                    return;
+                }
+                preview(snapPos, Snapper.Timeline.CommandHistory[selectedItem.Value.Item1].Items[selectedItem.Value.Item2]);
+            };
+
+            //Redraws the preview when the user moves the mouse or zooms/pans the viewport
+            ViewPort.VPMouseMoved += previewPoint;
+            ViewPort.ViewportChanged += previewPoint;
+
+            //Used to await the click
+            TaskCompletionSource<(int, int)?> result = new();
+
+            //Saves the handler so it can be unasigned
+            MouseButtonEventHandler viewPortClick = (s, e) =>
+            {
+                if (e.ChangedButton == MouseButton.Left)
+                {
+                    Vector2 res = ViewPort.ScreenToCanvas(Mouse.GetPosition(ViewPort));
+                    var selectedItem = Snapper.SelectItem(res);
+                    //If the user didn't click on a line, ignores the click
+                    if (selectedItem is null)
+                        return;
+                    result.SetResult(selectedItem.Value);
+                }
+            };
+
+            ViewPort.MouseDown += viewPortClick;
+
+            //Draws the preview so it doesn't appear after the user moves their mouse
+            Vector2 mousePos = ViewPort.ScreenToCanvas(Mouse.GetPosition(ViewPort));
+            preview(mousePos, null);
+
+            //Saves the previewPoint handler so it can be unasigned later
+            KeyEventHandler cancelCommand = (s, e) =>
+            {
+                if (e.Key != Key.Escape) return;
+                result.SetResult(null);
+            };
+            ViewPort.PreviewKeyDown += cancelCommand;
+
+            //Awaits the user click
+            ViewPort.Focus();
+            var mposClick = await result.Task;
+
+            //Unasignes all events and clears the preview
+            ViewPort.VPMouseMoved -= previewPoint;
+            ViewPort.MouseDown -= viewPortClick;
+            ViewPort.ViewportChanged -= previewPoint;
+            ViewPort.PreviewKeyDown -= cancelCommand;
+
+            inputSemaphore.Release();
+
+            if (mposClick is null) throw new CommandCanceledException();
+
+            return mposClick.Value;
+        }
     }
 }
