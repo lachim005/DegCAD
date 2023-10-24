@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Shapes;
 
 namespace DegCAD
 {
@@ -204,6 +205,87 @@ namespace DegCAD
                 }
             }
             return closestLine;
+        }
+
+        public (int, int)? SelectItem(Vector2 v)
+        {
+            Vector2? closestPoint = null;
+            int closestCmd = -1;
+            int closestItem = -1;
+            double closestPointDistanceSquared = double.MaxValue;
+
+            void SaveClosestPoint(Vector2 pt, int cmd, int item)
+            {
+                var distance = (v - pt).LengthSquared;
+                if (distance < closestPointDistanceSquared)
+                {
+                    closestPointDistanceSquared = distance;
+                    closestPoint = pt;
+                    closestCmd = cmd;
+                    closestItem = item;
+                }
+            }
+
+            //Goes through every snapable point and saves the closest one
+            for (int k = 0; k < Timeline.CommandHistory.Count; k++)
+            {
+                var cmd = Timeline.CommandHistory[k];
+                for (int j = 0; j < cmd.Items.Length; j++)
+                {
+                    for (int i = 0; i < cmd.Items[j].SnapablePoints.Length; i++)
+                    {
+                        SaveClosestPoint(cmd.Items[j].SnapablePoints[i], k, j);
+                    }
+                }
+            }
+
+
+            //Goes through every snapable line and saves the closest one
+            List<ParametricLine2> closeLines = new();
+
+            for (int k = 0; k < Timeline.CommandHistory.Count; k++)
+            {
+                var cmd = Timeline.CommandHistory[k];
+                for (int i = 0; i < cmd.Items.Length; i++)
+                {
+                    for (int j = 0; j < cmd.Items[i].SnapableLines.Length; j++)
+                    {
+                        var line = cmd.Items[i].SnapableLines[j];
+                        var point = line.Line.GetClosestPoint(v);
+                        double distance = (v - point).LengthSquared;
+                        if (distance < SnapThreshold && line.IsOnSegment(point))
+                        {
+                            SaveClosestPoint(point, k, i);
+                        }
+                    }
+                }
+            }
+
+            //Goes through every snapable circle and saves the closest one
+            List<Circle2> closeCircles = new();
+            for (int k = 0; k < Timeline.CommandHistory.Count; k++)
+            {
+                var cmd = Timeline.CommandHistory[k];
+                for (int i = 0; i < cmd.Items.Length; i++)
+                {
+                    for (int j = 0; j < cmd.Items[i].SnapableCircles.Length; j++)
+                    {
+                        var circle = cmd.Items[i].SnapableCircles[j];
+                        var point = circle.TranslatePointToCircle(v);
+                        double distance = (v - point).LengthSquared;
+                        if (distance < SnapThreshold)
+                        {
+                            SaveClosestPoint(point, k, i);
+                        }
+                    }
+                }
+            }
+
+            //If the closest point is within a threshold, returns the index of the selected item
+            if (closestPoint is not null && closestPointDistanceSquared < SnapThreshold)
+                return (closestCmd, closestItem);
+
+            return null;
         }
 
         /// <summary>
