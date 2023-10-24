@@ -186,4 +186,11 @@
         <Line X1="10" Y1="30" X2="50" Y2="30" Stroke="#888"/>
         <Line X1="10" Y1="40" X2="50" Y2="40" Stroke="#ddd"/>
     </Canvas>
+    <Canvas x:Key="cmdChangeStyleIcon">
+        <Line X1="20" Y1="10" X2="10" Y2="50" Stroke="Black"/>
+        <Line X1="40" Y1="30" X2="20" Y2="30" Stroke="Red"/>
+        <Line X1="50" Y1="10" X2="40" Y2="50" Stroke="Blue" StrokeDashArray="5 7"/>
+        <Line X1="40" Y1="30" X2="35" Y2="33" Stroke="Red"/>
+        <Line X1="40" Y1="30" X2="35" Y2="27" Stroke="Red"/>
+    </Canvas>
 </ResourceDictionary>

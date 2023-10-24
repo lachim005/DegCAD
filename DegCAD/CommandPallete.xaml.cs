@@ -69,6 +69,7 @@ namespace DegCAD
             AddCommand(new("Sklopit bod", "Sklopí bod pomocí jeho druhého průmětu", Key.S, ModifierKeys.Control | ModifierKeys.Shift, (_, _) => executeCommand(new CastPoint()), "cmdCastPointIcon", ProjectionType.Monge));
             AddSeparator();
             AddCommand(new("Skrýt", "Skryje vybraný prvek", Key.None, ModifierKeys.None, (_, _) => executeCommand(new Hide()), "cmdHideIcon", ProjectionType.Plane | ProjectionType.Monge));
+            AddCommand(new("Změnit styl", "Změní styl vybraného prvku na aktuálně zvolený styl", Key.None, ModifierKeys.None, (_, _) => executeCommand(new ChangeStyle()), "cmdChangeStyleIcon", ProjectionType.Plane | ProjectionType.Monge));
 
         }
 
