@@ -11,6 +11,9 @@ namespace DegCAD.GeometryCommands
     {
         public async Task<TimelineItem?> ExecuteAsync(ViewportLayer previewVpl, ViewportLayer vpl, ViewportLayer bgVpl, GeometryInputManager inputMgr, EditorStatusBar esb)
         {
+            esb.CommandName = "Skrýt";
+            esb.CommandHelp = "Vyberte prvek, který chcete skrýt";
+
             IMongeItem? highlightedItem = null;
             IMongeItem? highlightedItemClone = null;
             var item = await inputMgr.GetItem((pt, item) =>
