@@ -70,6 +70,7 @@ namespace DegCAD
             AddSeparator();
             AddCommand(new("Skrýt", "Skryje vybraný prvek", Key.None, ModifierKeys.None, (_, _) => executeCommand(new Hide()), "cmdHideIcon", ProjectionType.Plane | ProjectionType.Monge));
             AddCommand(new("Změnit styl", "Změní styl vybraného prvku na aktuálně zvolený styl", Key.None, ModifierKeys.None, (_, _) => executeCommand(new ChangeStyle()), "cmdChangeStyleIcon", ProjectionType.Plane | ProjectionType.Monge));
+            AddCommand(new("Pojmenovat", "Přidá štítek vybranému prvku", Key.None, ModifierKeys.None, (_, _) => executeCommand(new AddLabel()), "cmdAddLabelIcon", ProjectionType.Plane | ProjectionType.Monge));
 
         }
 

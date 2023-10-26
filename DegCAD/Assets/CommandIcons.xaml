@@ -193,4 +193,9 @@
         <Line X1="40" Y1="30" X2="35" Y2="33" Stroke="Red"/>
         <Line X1="40" Y1="30" X2="35" Y2="27" Stroke="Red"/>
     </Canvas>
+    <Canvas x:Key="cmdAddLabelIcon">
+        <Line X1="20" Y1="30" X2="40" Y2="30" Stroke="Black"/>
+        <Line X1="30" Y1="20" X2="30" Y2="40" Stroke="Black"/>
+        <TextBlock Text="+A" Foreground="Red" FontSize="16" Canvas.Left="30" Canvas.Top="32"/>
+    </Canvas>
 </ResourceDictionary>
