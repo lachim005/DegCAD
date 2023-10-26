@@ -101,7 +101,7 @@ namespace DegCAD.MongeItems
             _line1.Visibility = visibility;
             _line2.Visibility = visibility;
         }
-
+        public bool IsVisible() => _line1.Visibility == Visibility.Visible;
         public IMongeItem Clone() => new Point(X, Y, Style);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DegCAD.GeometryCommands;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -102,5 +103,6 @@ namespace DegCAD.MongeItems
         {
             _rectangle.Visibility = visibility;
         }
+        public bool IsVisible() => _rectangle.Visibility == Visibility.Visible;
     }
 }

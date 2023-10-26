@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Shapes;
 using System.Windows;
+using DegCAD.GeometryCommands;
 
 namespace DegCAD.MongeItems
 {
@@ -93,7 +94,7 @@ namespace DegCAD.MongeItems
         {
             _line.Visibility = visibility;
         }
-
+        public bool IsVisible() => _line.Visibility == Visibility.Visible;
         public IMongeItem Clone() => new HalfLine(StartPoint, Direction, Style);
     }
 }

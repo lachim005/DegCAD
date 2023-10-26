@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DegCAD.GeometryCommands;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -113,7 +114,7 @@ namespace DegCAD.MongeItems
         {
             _hyperbola.Visibility = visibility;
         }
-
+        public bool IsVisible() => _hyperbola.Visibility == Visibility.Visible;
         public IMongeItem Clone() => new Hyperbola(Vertex, Center, Point, Style);
     }
 }

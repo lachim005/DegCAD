@@ -46,7 +46,7 @@ namespace DegCAD.MongeItems
         {
             
         }
-
+        public bool IsVisible() => false;
         public IMongeItem Clone() => new Axis();
     }
 }

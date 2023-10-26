@@ -147,7 +147,7 @@ namespace DegCAD.MongeItems
             _subTbl.Visibility = visibility;
             _supTbl.Visibility = visibility;
         }
-
+        public bool IsVisible() => _lblTbl.Visibility == Visibility.Visible;
         public IMongeItem Clone() => new Label(LabelText, Subscript, Superscript, Position, Style, LabeledObject.Clone());
 
         #region Handling labels

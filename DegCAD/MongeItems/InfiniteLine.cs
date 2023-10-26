@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DegCAD.GeometryCommands;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -86,7 +87,7 @@ namespace DegCAD.MongeItems
         {
             _line.Visibility = visibility;
         }
-
+        public bool IsVisible() => _line.Visibility == Visibility.Visible;
         public IMongeItem Clone() => new InfiniteLine(Line, Style);
     }
 }

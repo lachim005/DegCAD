@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DegCAD.GeometryCommands;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -29,7 +30,7 @@ namespace DegCAD.MongeItems
         public virtual void RemoveFromViewportLayer() { }
 
         public virtual void SetVisibility(Visibility visibility) { }
-
+        public virtual bool IsVisible() => false;
         public abstract void Apply(Timeline tl);
         public abstract void Remove(Timeline tl);
     }

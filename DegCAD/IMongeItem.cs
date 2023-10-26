@@ -17,6 +17,7 @@ namespace DegCAD
         public void AddToViewportLayer(ViewportLayer vpl);
         public void RemoveFromViewportLayer();
         public void SetVisibility(Visibility visibility);
+        public bool IsVisible();
         public IMongeItem Clone();
     }
 }

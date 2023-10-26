@@ -70,6 +70,7 @@ namespace DegCAD.MongeItems
         {
             _ellipse.Visibility = visibility;
         }
+        public bool IsVisible() => _ellipse.Visibility == Visibility.Visible;
 
         public IMongeItem Clone() => new Ellipse(Center, P1, P2, Style);
     }
