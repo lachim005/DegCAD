@@ -121,42 +121,46 @@ namespace DegCAD
 
         public async void ExecuteCommand(IGeometryCommand command)
         {
-            Debug.WriteLine($"Executing command: {command}");
-            ExecutingCommand = true;
+            do
+            {
+                Debug.WriteLine($"Executing command: {command}");
+                ExecutingCommand = true;
 
-            //Disables moving labels
-            foreach (var layer in viewPort.Layers)
-            {
-                layer.Canvas.IsHitTestVisible = false;
-            }
-
-            statusBar.ShowCommandStatus();
-            try
-            {
-                var res = await command.ExecuteAsync(viewPort.Layers[2], viewPort.Layers[1], viewPort.Layers[0], InputMgr, statusBar);
-                if (res is null)
-                    return;
-                Timeline.AddCommand(res);
-            }
-            catch (Exception ex)
-            {
-                if (ex is not CommandCanceledException) throw new Exception("Command thrown an exception", ex);
-                return;
-            }
-            finally
-            {
-                viewPort.Layers[2].Canvas.Children.Clear();
-                viewPort.Layers[0].Canvas.Children.Clear();
-                ExecutingCommand = false;
-                statusBar.HideCommandStatus();
-                statusBar.CommandName = "";
-                statusBar.CommandHelp = "";
-                //Reenables moving labels
+                //Disables moving labels
                 foreach (var layer in viewPort.Layers)
                 {
-                    layer.Canvas.IsHitTestVisible = true;
+                    layer.Canvas.IsHitTestVisible = false;
                 }
-            }   
+
+                statusBar.ShowCommandStatus();
+                try
+                {
+                    var res = await command.ExecuteAsync(viewPort.Layers[2], viewPort.Layers[1], viewPort.Layers[0], InputMgr, statusBar);
+                    if (res is not null)
+                    {
+                        Timeline.AddCommand(res);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    if (ex is not CommandCanceledException) throw new Exception("Command thrown an exception", ex);
+                    return;
+                }
+                finally
+                {
+                    viewPort.Layers[2].Canvas.Children.Clear();
+                    viewPort.Layers[0].Canvas.Children.Clear();
+                    ExecutingCommand = false;
+                    statusBar.HideCommandStatus();
+                    statusBar.CommandName = "";
+                    statusBar.CommandHelp = "";
+                    //Reenables moving labels
+                    foreach (var layer in viewPort.Layers)
+                    {
+                        layer.Canvas.IsHitTestVisible = true;
+                    }
+                }    
+            } while (repeatCommandCbx.IsChecked == true);
         }
 
         public void ShowView(Control view, string viewTitle, bool changed = true)
