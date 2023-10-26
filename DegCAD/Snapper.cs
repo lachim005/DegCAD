@@ -38,6 +38,7 @@ namespace DegCAD
             {
                 for (int j = 0; j < cmd.Items.Length; j++)
                 {
+                    if (!cmd.Items[j].IsVisible()) continue;
                     for (int i = 0; i < cmd.Items[j].SnapablePoints.Length; i++)
                     {
                         SaveClosestPoint(cmd.Items[j].SnapablePoints[i]);
@@ -61,6 +62,7 @@ namespace DegCAD
             {
                 for (int i = 0; i < cmd.Items.Length; i++)
                 {
+                    if (!cmd.Items[i].IsVisible()) continue;
                     for (int j = 0; j < cmd.Items[i].SnapableLines.Length; j++)
                     {
                         var line = cmd.Items[i].SnapableLines[j];
@@ -86,6 +88,7 @@ namespace DegCAD
             {
                 for (int i = 0; i < cmd.Items.Length; i++)
                 {
+                    if (!cmd.Items[i].IsVisible()) continue;
                     for (int j = 0; j < cmd.Items[i].SnapableCircles.Length; j++)
                     {
                         var circle = cmd.Items[i].SnapableCircles[j];
@@ -191,6 +194,7 @@ namespace DegCAD
             {
                 for (int i = 0; i < cmd.Items.Length; i++)
                 {
+                    if (!cmd.Items[i].IsVisible()) continue;
                     for (int j = 0; j < cmd.Items[i].SnapableLines.Length; j++)
                     {
                         var line = cmd.Items[i].SnapableLines[j];
@@ -232,6 +236,7 @@ namespace DegCAD
                 var cmd = Timeline.CommandHistory[k];
                 for (int j = 0; j < cmd.Items.Length; j++)
                 {
+                    if (!cmd.Items[j].IsVisible()) continue;
                     for (int i = 0; i < cmd.Items[j].SnapablePoints.Length; i++)
                     {
                         SaveClosestPoint(cmd.Items[j].SnapablePoints[i], k, j);
@@ -248,6 +253,7 @@ namespace DegCAD
                 var cmd = Timeline.CommandHistory[k];
                 for (int i = 0; i < cmd.Items.Length; i++)
                 {
+                    if (!cmd.Items[i].IsVisible()) continue;
                     for (int j = 0; j < cmd.Items[i].SnapableLines.Length; j++)
                     {
                         var line = cmd.Items[i].SnapableLines[j];
@@ -268,6 +274,7 @@ namespace DegCAD
                 var cmd = Timeline.CommandHistory[k];
                 for (int i = 0; i < cmd.Items.Length; i++)
                 {
+                    if (!cmd.Items[i].IsVisible()) continue;
                     for (int j = 0; j < cmd.Items[i].SnapableCircles.Length; j++)
                     {
                         var circle = cmd.Items[i].SnapableCircles[j];
