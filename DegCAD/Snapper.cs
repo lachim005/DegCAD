@@ -218,6 +218,19 @@ namespace DegCAD
             int closestItem = -1;
             double closestPointDistanceSquared = double.MaxValue;
 
+            //Finds labels
+            for(int k = 0; k < Timeline.CommandHistory.Count; k++)
+            {
+                var cmd = Timeline.CommandHistory[k];
+                for (int i = 0; i < cmd.Items.Length; i++)
+                {
+                    if (!cmd.Items[i].IsVisible()) continue;
+                    if (cmd.Items[i] is not MongeItems.Label lbl) continue;
+                    if (!lbl.IsOnLabel(v)) continue;
+                    return (k, i);
+                }
+            }
+
             void SaveClosestPoint(Vector2 pt, int cmd, int item)
             {
                 var distance = (v - pt).LengthSquared;

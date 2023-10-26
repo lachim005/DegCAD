@@ -68,10 +68,16 @@ namespace DegCAD.MongeItems
             set
             {
                 _style = value;
-                _lblTbl.Foreground = new SolidColorBrush(value.Color);
-                _subTbl.Foreground = new SolidColorBrush(value.Color);
-                _supTbl.Foreground = new SolidColorBrush(value.Color);
+                _prevStyle = value;
+                SetStyle(Style);
             }
+        }
+
+        private void SetStyle(Style style)
+        {
+            _lblTbl.Foreground = new SolidColorBrush(style.Color);
+            _subTbl.Foreground = new SolidColorBrush(style.Color);
+            _supTbl.Foreground = new SolidColorBrush(style.Color);
         }
 
         public IMongeItem LabeledObject { get; init; }
@@ -83,6 +89,7 @@ namespace DegCAD.MongeItems
             Superscript = superscript;
             Position = position;
             Style = style;
+            _prevStyle = style;
             LabeledObject = labeledObject;
             LabeledObject.Style = Style.HighlightStyle;
             LabeledObject.SetVisibility(Visibility.Hidden);
@@ -148,7 +155,21 @@ namespace DegCAD.MongeItems
             _supTbl.Visibility = visibility;
         }
         public bool IsVisible() => _lblTbl.Visibility == Visibility.Visible;
-        public IMongeItem Clone() => new Label(LabelText, Subscript, Superscript, Position, Style, LabeledObject.Clone());
+        public IMongeItem Clone() => new Label(LabelText, Subscript, Superscript, Position, _prevStyle, LabeledObject.Clone());
+        public bool IsOnLabel(Vector2 canvasPos)
+        {
+            if (_vpl is null) return false;
+            /*var endPoint = Position + ((Vector2)(-_lblTbl.ActualHeight, _lblTbl.ActualHeight) / ViewPort.unitSize / _vpl.Viewport.Scale);
+            return canvasPos.X <= Position.X && canvasPos.X >= endPoint.X && canvasPos.Y >= Position.Y && canvasPos.Y <= endPoint.Y;*/
+
+            var t = Canvas.GetTop(_lblTbl);
+            var r = _vpl.Canvas.ActualWidth - Canvas.GetRight(_lblTbl);
+
+            var l = r - _lblTbl.ActualWidth;
+            var b = t + _lblTbl.ActualHeight;
+            var pt = _vpl.Viewport.CanvasToScreen(canvasPos);
+            return pt.X >= l && pt.X <= r && pt.Y >= t && pt.Y <= b;
+        }
 
         #region Handling labels
 
@@ -157,13 +178,12 @@ namespace DegCAD.MongeItems
         private void LabelMouseEnter(object sender, MouseEventArgs e)
         {
             LabeledObject.SetVisibility(Visibility.Visible);
-            _prevStyle = Style;
-            Style = Style.HighlightStyle;
+            SetStyle(Style.HighlightStyle);
         }
         private void LabelMouseLeave(object sender, MouseEventArgs e)
         {
             LabeledObject.SetVisibility(Visibility.Hidden);
-            Style = _prevStyle;
+            SetStyle(_prevStyle);
         }
 
         Vector2? dragStart = null;

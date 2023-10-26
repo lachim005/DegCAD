@@ -124,6 +124,12 @@ namespace DegCAD
             Debug.WriteLine($"Executing command: {command}");
             ExecutingCommand = true;
 
+            //Disables moving labels
+            foreach (var layer in viewPort.Layers)
+            {
+                layer.Canvas.IsHitTestVisible = false;
+            }
+
             statusBar.ShowCommandStatus();
             try
             {
@@ -145,6 +151,11 @@ namespace DegCAD
                 statusBar.HideCommandStatus();
                 statusBar.CommandName = "";
                 statusBar.CommandHelp = "";
+                //Reenables moving labels
+                foreach (var layer in viewPort.Layers)
+                {
+                    layer.Canvas.IsHitTestVisible = true;
+                }
             }   
         }
 
