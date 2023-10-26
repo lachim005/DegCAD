@@ -218,6 +218,7 @@ namespace DegCAD
         private void OpenEditorFullscreen(object sender, RoutedEventArgs e)
         {
             FullscreenPresenter fs = new(viewPort.Clone());
+            fs.Owner = Window.GetWindow(this);
             fs.ShowDialog();
         }
     }

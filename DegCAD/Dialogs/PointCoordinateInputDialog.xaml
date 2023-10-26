@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:DegCAD.Dialogs"
         mc:Ignorable="d"
         Height="400" Width="500"
+        WindowStartupLocation="CenterScreen"
         Title="Souřadnice bodů" MinHeight="360" MinWidth="500">
     <Grid Margin="5">
         <Grid.RowDefinitions>

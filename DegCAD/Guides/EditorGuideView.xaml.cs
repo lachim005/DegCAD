@@ -129,7 +129,7 @@ namespace DegCAD.Guides
 
             EditorGuideView egv = new(vp.Clone(), guide, step);
             FullscreenPresenter fs = new(egv);
-
+            fs.Owner = Window.GetWindow(this);
             fs.ShowDialog();
 
             SelectStep(egv.selectedStep);
