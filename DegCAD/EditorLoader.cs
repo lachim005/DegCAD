@@ -66,7 +66,6 @@ namespace DegCAD
                 try
                 {
                     ReadGuide(res, Path.Combine(tempDir, "guide.txt"));
-                    res.PromptGuide();
                 }
                 catch (Exception ex)
                 {

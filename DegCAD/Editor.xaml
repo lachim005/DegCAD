@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DegCAD"
              mc:Ignorable="d" 
+             Loaded="EditorLoaded"
              d:DesignHeight="900" d:DesignWidth="800">
     <Grid>
         <Grid x:Name="mainView">
@@ -19,9 +20,14 @@
             </Grid.ColumnDefinitions>
 
             <local:ViewPort x:Name="viewPort" Grid.Row="1"/>
-            <Button Grid.Row="1" Width="27" VerticalAlignment="Top" HorizontalAlignment="Right" Click="OpenEditorFullscreen">
-                <Path Data="M 0 5 L 0 0 L 5 0 M 10 0 L 15 0 L 15 5 M 15 10 L 15 15 L 10 15 M 5 15 L 0 15 L 0 10" Stroke="{StaticResource fg}" StrokeThickness="1"/>
-            </Button>
+            <StackPanel Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Right">
+                <Button Width="27" Click="OpenEditorFullscreen">
+                    <Path Data="M 0 5 L 0 0 L 5 0 M 10 0 L 15 0 L 15 5 M 15 10 L 15 15 L 10 15 M 5 15 L 0 15 L 0 10" Stroke="{StaticResource fg}" StrokeThickness="1"/>
+                </Button>
+                <Button Margin="0" Width="27" Click="CenterScreenClick">
+                    <Path Width="17" Height="17" Data="M 3 16 L 3 9 L 1 9 L 8.5 1 L 16 9 L 14 9 L 14 16 L 10 16 L 10 11 L 7 11 L 7 16 z" Stroke="{StaticResource fg}" StrokeThickness="1"/>
+                </Button>
+            </StackPanel>
             <GridSplitter Grid.Column="1" Grid.Row="1" Width="1" Background="{StaticResource border}" HorizontalAlignment="Stretch"/>
             <ScrollViewer Grid.Column="2" Grid.Row="1" VerticalScrollBarVisibility="Auto">
                 <StackPanel>

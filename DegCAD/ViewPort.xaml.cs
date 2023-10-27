@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DegCAD.MongeItems;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -15,6 +16,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Point = System.Windows.Point;
 
 namespace DegCAD
 {
@@ -231,6 +233,97 @@ namespace DegCAD
                     cmd.Items[i].Draw();
                 }
             }
+        }
+
+        public void CenterContent()
+        {
+
+            //Getting the corners
+            double minX = 0; double minY = 0;
+            double maxX = 0; double maxY = 0;
+            void AddPoint(Vector2 pt)
+            {
+                if (pt.X < minX) minX = pt.X;
+                if (pt.X > maxX) maxX = pt.X;
+                if (pt.Y < minY) minY = pt.Y;
+                if (pt.Y > maxY) maxY = pt.Y;
+            }
+            foreach (var cmd in Timeline.CommandHistory)
+            {
+                foreach (var item in cmd.Items)
+                {
+                    if (!item.IsVisible()) continue;
+                    if (item is Arc arc)
+                    {
+                        Vector2 rad = (arc.Circle.Radius, arc.Circle.Radius);
+                        AddPoint(arc.Center + rad);
+                        AddPoint(arc.Center - rad);
+                    }
+                    else if (item is Circle cir)
+                    {
+                        Vector2 rad = (cir.Circle2.Radius, cir.Circle2.Radius);
+                        AddPoint(cir.Circle2.Center + rad);
+                        AddPoint(cir.Circle2.Center - rad);
+                    }
+                    else if (item is MongeItems.Ellipse ell)
+                    {
+                        AddPoint(ell.P1);
+                        AddPoint(ell.P2);
+                    }
+                    else if (item is HalfLine hln)
+                    {
+                        AddPoint(hln.StartPoint);
+                        AddPoint(hln.StartPoint + hln.Direction);
+                    }
+                    else if (item is Hyperbola hyp)
+                    {
+                        AddPoint(hyp.EndPoint1);
+                        AddPoint(hyp.EndPoint2);
+                        AddPoint(hyp.Center);
+                    }
+                    else if (item is InfiniteLine inf)
+                    {
+                        AddPoint(inf.StartPoint);
+                        AddPoint(inf.StartPoint + inf.Direction);
+                    }
+                    else if (item is MongeItems.Label lbl)
+                    {
+                        AddPoint(lbl.Position);
+                    }
+                    else if (item is LineProjection lne)
+                    {
+                        AddPoint(lne.Line.Point);
+                        AddPoint(lne.Line.Point + lne.Line.DirectionVector);
+                    }
+                    else if (item is MongeItems.LineSegment seg)
+                    {
+                        AddPoint(seg.P1);
+                        AddPoint(seg.P2);
+                    }
+                    else if (item is Parabola pbl)
+                    {
+                        AddPoint(pbl.Vertex);
+                        if (!pbl.Infinite) AddPoint(pbl.End);
+                    }
+                    else if (item is MongeItems.Point pnt)
+                    {
+                        AddPoint(pnt.Coords);
+                    }
+                }
+            }
+
+            InvalidateVisual();
+            double w = maxX - minX;
+            double h = maxY - minY;
+
+            double scaleX = (ActualWidth / (w + 5) / unitSize);
+            double scaleY = (ActualHeight / (h + 5) / unitSize);
+            Scale = Math.Clamp(Math.Min(scaleX, scaleY), MinZoom, MaxZoom);
+
+            OffsetX = (maxX + minX) / 2 - (ActualWidth / Scale / unitSize / 2); 
+            OffsetY = (maxY + minY) / 2 - (ActualHeight / Scale / unitSize / 2);
+
+            Redraw();
         }
 
         public ViewPort Clone()

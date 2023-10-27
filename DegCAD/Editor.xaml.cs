@@ -28,6 +28,7 @@ namespace DegCAD
         private string? _folderPath;
         private bool _executingCommand = false;
         private bool _changed = false;
+        private bool initiated = false;
 
         public GeometryInputManager InputMgr { get; protected set; }
         public Timeline Timeline => viewPort.Timeline;
@@ -235,6 +236,20 @@ namespace DegCAD
             FullscreenPresenter fs = new(viewPort.Clone());
             fs.Owner = Window.GetWindow(this);
             fs.ShowDialog();
+        }
+        private void CenterScreenClick(object sender, RoutedEventArgs e)
+        {
+            viewPort.CenterContent();
+        }
+
+        private void EditorLoaded(object sender, RoutedEventArgs e)
+        {
+            if (!initiated)
+            {
+                initiated = true;
+                viewPort.CenterContent();
+                PromptGuide();
+            }
         }
     }
 }
