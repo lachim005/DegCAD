@@ -67,6 +67,12 @@ namespace DegCAD.Dialogs
             //Item 2 - button header
             var specialChars = new List<(string, string)>()
             {
+                ("(", "("),
+                (")", ")"),
+                ("[", "["),
+                ("]", "]"),
+                ("{", "{"),
+                ("}", "}"),
                 ("\u0305", "A̅"),
                 ("ρ", "ρ"),
                 ("α", "α"),
@@ -74,7 +80,7 @@ namespace DegCAD.Dialogs
                 ("γ", "γ"),
                 ("δ", "δ"),
                 ("π", "π"),
-                ("ν", "ν"),
+                ("ϰ", "ϰ"),
             };
 
             foreach (var ch in specialChars)
