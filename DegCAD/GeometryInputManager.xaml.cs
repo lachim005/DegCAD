@@ -89,17 +89,17 @@ namespace DegCAD
                 if (e.Key != Key.Escape) return;
                 result.SetResult(null);
             };
-            ViewPort.PreviewKeyDown += cancelCommand;
+            var win = Window.GetWindow(ViewPort);
+            win.PreviewKeyDown += cancelCommand;
 
             //Awaits the user click
-            ViewPort.Focus();
             Vector2? mposClick = await result.Task;
 
             //Unasignes all events and clears the preview
             ViewPort.VPMouseMoved -= previewPoint;
             ViewPort.MouseDown -= viewPortClick;
             ViewPort.ViewportChanged -= previewPoint;
-            ViewPort.PreviewKeyDown -= cancelCommand;
+            win.PreviewKeyDown -= cancelCommand;
 
             inputSemaphore.Release();
 
@@ -166,17 +166,17 @@ namespace DegCAD
                 if (e.Key != Key.Escape) return;
                 result.SetResult(null);
             };
-            ViewPort.PreviewKeyDown += cancelCommand;
+            var win = Window.GetWindow(ViewPort);
+            win.PreviewKeyDown += cancelCommand;
 
             //Awaits the user click
-            ViewPort.Focus();
             Vector2? mposClick = await result.Task;
 
             //Unasignes all events and clears the preview
             ViewPort.VPMouseMoved -= previewPoint;
             ViewPort.MouseDown -= viewPortClick;
             ViewPort.ViewportChanged -= previewPoint;
-            ViewPort.PreviewKeyDown -= cancelCommand;
+            win.PreviewKeyDown -= cancelCommand;
 
             inputSemaphore.Release();
 
@@ -233,17 +233,17 @@ namespace DegCAD
                 if (e.Key != Key.Escape) return;
                 result.SetResult(null);
             };
-            ViewPort.PreviewKeyDown += cancelCommand;
+            var win = Window.GetWindow(ViewPort);
+            win.PreviewKeyDown += cancelCommand;
 
             //Awaits the user click
-            ViewPort.Focus();
             var mposClick = await result.Task;
 
             //Unasignes all events and clears the preview
             ViewPort.VPMouseMoved -= previewPoint;
             ViewPort.MouseDown -= viewPortClick;
             ViewPort.ViewportChanged -= previewPoint;
-            ViewPort.PreviewKeyDown -= cancelCommand;
+            win.PreviewKeyDown -= cancelCommand;
 
             inputSemaphore.Release();
 
@@ -305,17 +305,17 @@ namespace DegCAD
                 if (e.Key != Key.Escape) return;
                 result.SetResult(null);
             };
-            ViewPort.PreviewKeyDown += cancelCommand;
+            var win = Window.GetWindow(ViewPort);
+            win.PreviewKeyDown += cancelCommand;
 
             //Awaits the user click
-            ViewPort.Focus();
             var mposClick = await result.Task;
 
             //Unasignes all events and clears the preview
             ViewPort.VPMouseMoved -= previewPoint;
             ViewPort.MouseDown -= viewPortClick;
             ViewPort.ViewportChanged -= previewPoint;
-            ViewPort.PreviewKeyDown -= cancelCommand;
+            win.PreviewKeyDown -= cancelCommand;
 
             inputSemaphore.Release();
 
