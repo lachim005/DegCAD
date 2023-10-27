@@ -33,13 +33,13 @@ namespace DegCAD
                 to = To;
             }
 
-            if (Line.DirectionVector.X == 0)
+            if (Math.Abs(Line.DirectionVector.X) < Math.Abs(Line.DirectionVector.Y))
             {
                 var ypar = Line.GetParamFromY(pt.Y);
-                return ypar > from && ypar < to;
+                return ypar >= from && ypar <= to;
             }
             var xpar = Line.GetParamFromX(pt.X);
-            return xpar > from && xpar < to;
+            return xpar >= from && xpar <= to;
         }
     }
 }
