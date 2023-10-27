@@ -136,5 +136,11 @@ namespace DegCAD.Dialogs
             posLeftGrid.Width = pgx;
             posTopGrid.Height = pgy;
         }
+
+        private void CenterClick(object sender, RoutedEventArgs e)
+        {
+            ViewPort.CenterContent();
+            RecalculatePosition();
+        }
     }
 }

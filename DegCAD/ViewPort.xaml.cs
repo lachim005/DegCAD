@@ -316,9 +316,12 @@ namespace DegCAD
             double w = maxX - minX;
             double h = maxY - minY;
 
-            double scaleX = (ActualWidth / (w + 5) / unitSize);
-            double scaleY = (ActualHeight / (h + 5) / unitSize);
-            Scale = Math.Clamp(Math.Min(scaleX, scaleY), MinZoom, MaxZoom);
+            if (CanZoom)
+            {
+                double scaleX = (ActualWidth / (w + 5) / unitSize);
+                double scaleY = (ActualHeight / (h + 5) / unitSize);
+                Scale = Math.Clamp(Math.Min(scaleX, scaleY), MinZoom, MaxZoom);
+            }
 
             OffsetX = (maxX + minX) / 2 - (ActualWidth / Scale / unitSize / 2); 
             OffsetY = (maxY + minY) / 2 - (ActualHeight / Scale / unitSize / 2);
