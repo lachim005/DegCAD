@@ -56,7 +56,7 @@ namespace DegCAD.GeometryCommands
             if (highlightedItem is null) return null;
             if (!lid.Canceled)
             {
-                return new(new[] { new Label(lid.LabelText, lid.Subscript, lid.Superscript, lastPt, inputMgr.StyleSelector.CurrentStyle, highlightedItem.Clone(), vpl) });
+                return new(new[] { new Label(lid.LabelText, lid.Subscript, lid.Superscript, lastPt, inputMgr.StyleSelector.CurrentStyle, highlightedItem.Clone(), vpl, lid.TextSize) });
             }
 
             return null;

@@ -69,7 +69,7 @@ namespace DegCAD.GeometryCommands
             if (!lid.Canceled)
             {
                 mongeItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript,
-                    p2, curStyle, mongeItems[0].Clone(), vpl));
+                    p2, curStyle, mongeItems[0].Clone(), vpl, lid.TextSize));
             }
 
             return new(mongeItems.ToArray());

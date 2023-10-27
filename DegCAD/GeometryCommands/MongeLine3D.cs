@@ -100,8 +100,8 @@ namespace DegCAD.GeometryCommands
             lid.ShowDialog();
             if (!lid.Canceled)
             {
-                mItems.Add(new Label(lid.LabelText, plane ? "2" : "1", lid.Superscript, (pt2 + pt1) / 2, curStyle, mItems[0].Clone(), vpl)); 
-                mItems.Add(new Label(lid.LabelText, !plane ? "2" : "1", lid.Superscript, (pt3 + pt4) / 2, curStyle, mItems[1].Clone(), vpl));
+                mItems.Add(new Label(lid.LabelText, plane ? "2" : "1", lid.Superscript, (pt2 + pt1) / 2, curStyle, mItems[0].Clone(), vpl, lid.TextSize)); 
+                mItems.Add(new Label(lid.LabelText, !plane ? "2" : "1", lid.Superscript, (pt3 + pt4) / 2, curStyle, mItems[1].Clone(), vpl, lid.TextSize));
             }
 
             return new TimelineItem(mItems.ToArray());

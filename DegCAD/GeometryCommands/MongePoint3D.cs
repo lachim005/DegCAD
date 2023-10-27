@@ -85,9 +85,9 @@ namespace DegCAD.GeometryCommands
             if (!lid.Canceled)
             {
                 mongeItems.Add(new Label(lid.LabelText, "1", lid.Superscript,
-                    mpoints[0].Coords, curStyle, mpoints[0].Clone(), vpl));
+                    mpoints[0].Coords, curStyle, mpoints[0].Clone(), vpl, lid.TextSize));
                 mongeItems.Add(new Label(lid.LabelText, "2", lid.Superscript,
-                    mpoints[1].Coords, curStyle, mpoints[1].Clone(), vpl));
+                    mpoints[1].Coords, curStyle, mpoints[1].Clone(), vpl, lid.TextSize));
             }
 
             return new(mongeItems.ToArray());

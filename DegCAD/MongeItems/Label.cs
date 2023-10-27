@@ -54,6 +54,8 @@ namespace DegCAD.MongeItems
             }
         }
 
+        public int FontSize { get; set; }
+
         public Vector2 Position { get; set; }
 
         public Vector2[] SnapablePoints { get; } = new Vector2[0];
@@ -82,8 +84,9 @@ namespace DegCAD.MongeItems
 
         public IMongeItem LabeledObject { get; init; }
 
-        public Label(string labelText, string subscript, string superscript, Vector2 position, Style style, IMongeItem labeledObject, ViewportLayer? vpl = null)
+        public Label(string labelText, string subscript, string superscript, Vector2 position, Style style, IMongeItem labeledObject, ViewportLayer? vpl = null, int fontSize = 16)
         {
+            FontSize = fontSize;
             LabelText = labelText;
             Subscript = subscript;
             Superscript = superscript;
@@ -109,7 +112,7 @@ namespace DegCAD.MongeItems
         public void Draw()
         {
             if (_vpl is null) return;
-            double fontSize = 16 * _vpl.Viewport.Scale;
+            double fontSize = FontSize * _vpl.Viewport.Scale;
 
             _lblTbl.FontSize = fontSize;
             _subTbl.FontSize = fontSize * .5;
@@ -155,12 +158,10 @@ namespace DegCAD.MongeItems
             _supTbl.Visibility = visibility;
         }
         public bool IsVisible() => _lblTbl.Visibility == Visibility.Visible;
-        public IMongeItem Clone() => new Label(LabelText, Subscript, Superscript, Position, _prevStyle, LabeledObject.Clone());
+        public IMongeItem Clone() => new Label(LabelText, Subscript, Superscript, Position, _prevStyle, LabeledObject.Clone(), fontSize: FontSize);
         public bool IsOnLabel(Vector2 canvasPos)
         {
             if (_vpl is null) return false;
-            /*var endPoint = Position + ((Vector2)(-_lblTbl.ActualHeight, _lblTbl.ActualHeight) / ViewPort.unitSize / _vpl.Viewport.Scale);
-            return canvasPos.X <= Position.X && canvasPos.X >= endPoint.X && canvasPos.Y >= Position.Y && canvasPos.Y <= endPoint.Y;*/
 
             var t = Canvas.GetTop(_lblTbl);
             var r = _vpl.Canvas.ActualWidth - Canvas.GetRight(_lblTbl);
@@ -199,12 +200,14 @@ namespace DegCAD.MongeItems
                 lid.labelTextTbx.Text = LabelText;
                 lid.subscriptTbx.Text = Subscript;
                 lid.superscriptTbx.Text = Superscript;
+                lid.fontSizeTbx.Text = FontSize.ToString();
                 lid.ShowDialog();
                 if (!lid.Canceled)
                 {
                     LabelText = lid.LabelText;
                     Subscript = lid.Subscript;
                     Superscript = lid.Superscript;
+                    FontSize = lid.TextSize;
                 }
                 if (_vpl is not null)
                     Draw();
