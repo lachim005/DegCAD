@@ -68,9 +68,9 @@ namespace DegCAD.Dialogs
         {
             if (!IsLoaded) return;
 
-            if (!double.TryParse(paperWidth.Text, out var w)) return;
-            if (!double.TryParse(paperHeight.Text, out var h)) return;
-            if (!double.TryParse(unitSize.Text, out var us)) return;
+            if (!double.TryParse(paperWidth.Text, out var w) || w < .1) return;
+            if (!double.TryParse(paperHeight.Text, out var h) || h < .1) return;
+            if (!double.TryParse(unitSize.Text, out var us) || us < .1) return;
             double scaleFactor = Math.Min(vpGrid.ActualHeight / h, vpGrid.ActualWidth / w);
             vpBorder.Height = h * scaleFactor;
             vpBorder.Width = w * scaleFactor;
@@ -78,10 +78,10 @@ namespace DegCAD.Dialogs
             ViewPort.Redraw();
             RecalculatePosition();
 
-            if (!double.TryParse(marginLeft.Text, out var ml)) return;
-            if (!double.TryParse(marginTop.Text, out var mt)) return;
-            if (!double.TryParse(marginRight.Text, out var mr)) return;
-            if (!double.TryParse(marginBottom.Text, out var mb)) return;
+            if (!double.TryParse(marginLeft.Text, out var ml) || ml < 0 || ml >= w) return;
+            if (!double.TryParse(marginTop.Text, out var mt) || mt < 0 || mt >= h) return;
+            if (!double.TryParse(marginRight.Text, out var mr) || mr < 0 || mr >= w) return;
+            if (!double.TryParse(marginBottom.Text, out var mb) || mb < 0 || mb >= h) return;
 
             ml *= scaleFactor;
             mt *= scaleFactor;
@@ -94,7 +94,7 @@ namespace DegCAD.Dialogs
 
         private void RecalculatePosition()
         {
-            if (!double.TryParse(unitSize.Text, out var us)) return;
+            if (!double.TryParse(unitSize.Text, out var us) || us < .1) return;
 
             double px = -ViewPort.OffsetX * us;
             double py = -ViewPort.OffsetY * us;
@@ -102,8 +102,8 @@ namespace DegCAD.Dialogs
             posLeftTbl.Text = Math.Round(px).ToString();
             posTopTbl.Text = Math.Round(py).ToString();
 
-            if (!double.TryParse(paperWidth.Text, out var w)) return;
-            if (!double.TryParse(paperHeight.Text, out var h)) return;
+            if (!double.TryParse(paperWidth.Text, out var w) || w < .1) return;
+            if (!double.TryParse(paperHeight.Text, out var h) || h < .1) return;
 
             double scaleFactor = Math.Min(vpGrid.ActualHeight / h, vpGrid.ActualWidth / w);
 
