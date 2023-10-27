@@ -137,8 +137,8 @@ namespace DegCAD
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
 
-            //If the user hold the middle button, starts panning
-            if (e.ChangedButton == MouseButton.Middle)
+            //If the user hold the middle or right button, starts panning
+            if (e.ChangedButton == MouseButton.Middle || e.ChangedButton == MouseButton.Right)
             {
                 Point mousePos = e.GetPosition(this);
 
@@ -153,8 +153,8 @@ namespace DegCAD
 
         private void OnMouseUp(object sender, MouseButtonEventArgs e)
         {
-            //If the middle button got released, stops panning
-            if (e.ChangedButton == MouseButton.Middle)
+            //If the middle or right button got released, stops panning
+            if (e.ChangedButton == MouseButton.Middle || e.ChangedButton == MouseButton.Right)
             {
                 Panning = false;
                 MouseMove -= Pan;
