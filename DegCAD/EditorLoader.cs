@@ -401,7 +401,7 @@ namespace DegCAD
                 labeledItem = new Point(0, 0);
             }
             int fontSize = 16;
-            if (md.version > new Version(0,5,0))
+            if (!(md.version < new Version(0,6,0)))
             {
                 fontSize = int.Parse(args[5]);
             }
