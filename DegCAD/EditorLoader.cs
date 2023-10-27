@@ -174,7 +174,7 @@ namespace DegCAD
                         }
                         continue;
                 }
-                var mItem = ParseMongeItem(line, currentStyle);
+                var mItem = ParseMongeItem(line, currentStyle, md);
                 if (mItem is not null)
                 {
                     mItem.AddToViewportLayer(e.viewPort.Layers[1]);
@@ -239,7 +239,7 @@ namespace DegCAD
             e.Guide = guide;
         }
 
-        private static IMongeItem? ParseMongeItem(string s, Style stl)
+        private static IMongeItem? ParseMongeItem(string s, Style stl, Metadata md)
         {
             var itemName = s[..3];
 
@@ -255,7 +255,7 @@ namespace DegCAD
                 "ELL" => ELL(s[4..], stl),
                 "PBL" => PBL(s[4..], stl),
                 "HBL" => HBL(s[4..], stl),
-                "LBL" => LBL(s[4..], stl),
+                "LBL" => LBL(s[4..], stl, md),
                 "HID" => HID(s[4..], stl),
                 _ => null
             };
@@ -391,14 +391,19 @@ namespace DegCAD
                 stl
             );
         }
-        private static Label LBL(string s, Style stl)
+        private static Label LBL(string s, Style stl, Metadata md)
         {
             string[] halves = s.Split("->", 2);
             string[] args = halves[0].SplitWithEscapeChar(' ', '\\').ToArray();
-            IMongeItem? labeledItem = ParseMongeItem(halves[1], stl);
+            IMongeItem? labeledItem = ParseMongeItem(halves[1], stl, md);
             if (labeledItem is null)
             {
-                throw new Exception("Štítek nemá co označit");
+                labeledItem = new Point(0, 0);
+            }
+            int fontSize = 16;
+            if (md.version > new Version(0,5,0))
+            {
+                fontSize = int.Parse(args[5]);
             }
             return new(
                 args[0],
@@ -406,7 +411,8 @@ namespace DegCAD
                 args[2],
                 (double.Parse(args[3]), double.Parse(args[4])),
                 stl,
-                labeledItem
+                labeledItem,
+                fontSize: fontSize
             );
         }
         private static HideModification HID(string s, Style stl)
