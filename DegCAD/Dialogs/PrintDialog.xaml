@@ -10,9 +10,10 @@
         Background="{StaticResource bg}"
         MinHeight="400" MinWidth="600"
         Title="Tisk" Height="450" Width="800">
-    <Grid>
+    <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition/>
+            <RowDefinition Height="40"/>
             <RowDefinition Height="40"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -36,5 +37,6 @@
             </StackPanel>
         </ScrollViewer>
         <TextBlock Grid.Row="1" Text="Vyberte pozici pro tisk" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+        <Button Grid.Row="2" Content="Vycentrovat" VerticalAlignment="Center" HorizontalAlignment="Center" Padding="10,0" Click="CenterClick"/>
     </Grid>
 </Window>

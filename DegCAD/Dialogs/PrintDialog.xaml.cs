@@ -189,5 +189,10 @@ namespace DegCAD.Dialogs
         {
             ResizePaperPreview();
         }
+
+        private void CenterClick(object sender, RoutedEventArgs e)
+        {
+            vp.CenterContent();
+        }
     }
 }
