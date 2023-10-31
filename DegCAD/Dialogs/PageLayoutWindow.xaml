@@ -13,7 +13,7 @@
             <ColumnDefinition Width="auto"/>
         </Grid.ColumnDefinitions>
         <Grid Margin="50,50,50,100" x:Name="vpGrid">
-            <Border BorderBrush="{StaticResource border}" BorderThickness="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Border BorderBrush="{StaticResource border}" SnapsToDevicePixels="True" BorderThickness="1" VerticalAlignment="Center" HorizontalAlignment="Center">
                 <Grid>
                     <Grid x:Name="posLeftGrid" SnapsToDevicePixels="True" Width="100" Margin="0, -21, 0, 0" VerticalAlignment="Top" HorizontalAlignment="Left">
                         <Rectangle Height="1" Fill="{StaticResource border}"/>

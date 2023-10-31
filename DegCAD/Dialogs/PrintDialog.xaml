@@ -21,7 +21,7 @@
             <ColumnDefinition Width="350"/>
         </Grid.ColumnDefinitions>
         <Grid x:Name="vpGrid" Margin="5,5,5,5" SizeChanged="VpGridSizeChanged">
-            <Border HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="vpSv" BorderBrush="{StaticResource fg}" BorderThickness="1"/>
+            <Border HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="vpSv" SnapsToDevicePixels="True" BorderBrush="{StaticResource fg}" BorderThickness="1"/>
         </Grid>
         <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" Grid.RowSpan="2">
             <StackPanel Margin="30,0" VerticalAlignment="Center">
