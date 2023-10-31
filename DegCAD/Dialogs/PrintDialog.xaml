@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:DegCAD.Dialogs"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
+        Loaded="WindowLoaded"
         Background="{StaticResource bg}"
         MinHeight="400" MinWidth="600"
         Title="Tisk" Height="450" Width="800">
@@ -29,6 +30,8 @@
                 <ComboBox x:Name="paperCbx" SelectionChanged="PaperSizeChanged"/>
                 <Label Target="{Binding ElementName=copyCountTbx}">_Počet kopií</Label>
                 <TextBox x:Name="copyCountTbx" Text="1"/>
+                <Label Target="{Binding ElementName=unitSizeTbx}">Velikost _jednotky (mm)</Label>
+                <TextBox x:Name="unitSizeTbx" TextChanged="UnitSizeTbxTextChanged" Text="10"/>
                 <Button Click="PrintClick" Margin="0,40,0,0" Content="Tisknout" Style="{StaticResource accentBtn}" Padding="50,0" HorizontalAlignment="Center"/>
             </StackPanel>
         </ScrollViewer>
