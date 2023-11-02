@@ -13,6 +13,7 @@ namespace DegCAD
 {
     public partial class MainWindow
     {
+        public static RoutedCommand exportCommand = new();
         public static RoutedCommand pageLayoutCommand = new();
         public static RoutedCommand addGuideCommand = new();
         public static RoutedCommand openDebugMenuCommand = new();
@@ -127,6 +128,13 @@ namespace DegCAD
             if (ActiveEditor.FolderPath is null) return;
 
             SaveEditorAsync(ActiveEditor);
+        }
+        private void ExportCommand(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (ActiveEditor is null) return;
+
+            ExportDialog ed = new(ActiveEditor.viewPort);
+            ed.ShowDialog();
         }
         private void PrintCommand(object sender, ExecutedRoutedEventArgs e)
         {
