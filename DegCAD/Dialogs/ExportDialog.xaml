@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:DegCAD.Dialogs"
         mc:Ignorable="d"
         Loaded="WindowLoaded"
+        WindowStartupLocation="CenterScreen"
         MinHeight="550" MinWidth="600"
         Title="ExportDialog" Height="550" Width="800">
     <Grid>
@@ -63,13 +64,14 @@
                         </Grid>
                     </GroupBox>
                     <Label Content="_Formát"/>
-                    <ComboBox Name="imageFormatCbx" SelectedIndex="1" SelectionChanged="ImageFormatChanged" Margin="5" HorizontalAlignment="Left" Width="200">
+                    <ComboBox Name="imageFormatCbx" SelectedIndex="2" SelectionChanged="ImageFormatChanged" Margin="5" HorizontalAlignment="Left" Width="200">
                         <ComboBoxItem Content=".jpg"/>
+                        <ComboBoxItem Content=".bmp"/>
                         <ComboBoxItem Content=".png"/>
                         <ComboBoxItem Content=".gif"/>
                     </ComboBox>
                     <CheckBox Content="Transparentní pozadí" Margin="5" x:Name="imageTransparentBgChbx"/>
-                    <Button Content="Exportovat" Style="{StaticResource accentBtn}" HorizontalAlignment="Right" Width="100"/>
+                    <Button Content="Exportovat" Style="{StaticResource accentBtn}" Click="ExportImageClick" HorizontalAlignment="Right" Width="100"/>
                 </StackPanel>
             </TabItem>
             <TabItem Header="Svg"></TabItem>

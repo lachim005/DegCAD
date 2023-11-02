@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -101,12 +103,72 @@ namespace DegCAD.Dialogs
         private void ImageFormatChanged(object sender, RoutedEventArgs e)
         {
             if (!IsLoaded) return;
-            imageTransparentBgChbx.Visibility = (imageFormatCbx.SelectedIndex > 0) ? Visibility.Visible : Visibility.Hidden;
+            imageTransparentBgChbx.Visibility = (imageFormatCbx.SelectedIndex > 1) ? Visibility.Visible : Visibility.Hidden;
         }
 
         private void WindowLoaded(object sender, RoutedEventArgs e)
         {
             ResizeViewport();
+        }
+
+        private void ExportImageClick(object sender, RoutedEventArgs e)
+        {
+            if (!IsLoaded) return;
+
+            string format = imageFormatCbx.SelectedIndex switch
+            {
+                0 => "jpg",
+                1 => "bmp",
+                3 => "gif",
+                _ => "png"
+            };
+
+            if (GetSaveLocation($"Obrázek formátu {format}|*.{format}", $"export.{format}") is not string filePath) return;
+
+            var desiredSize = GetDesiredSize();
+            if (desiredSize is null) return;
+
+            (double w, double h, double scale) = desiredSize.Value;
+
+
+            var clonedVp = vp.Clone();
+            clonedVp.Scale = scale / ViewPort.unitSize;
+            clonedVp.Width = w;
+            clonedVp.Height = h;
+            if (imageTransparentBgChbx.IsChecked == false || imageFormatCbx.SelectedIndex <= 1) clonedVp.Background = Brushes.White;
+
+            Viewbox vb = new();
+            vb.Child = clonedVp;
+            vb.Measure(new(w, h));
+            vb.Arrange(new(0, 0, w, h));
+            vb.UpdateLayout();
+
+            RenderTargetBitmap rtb = new((int)w, (int)h, 96, 96, PixelFormats.Pbgra32);
+            rtb.Render(clonedVp);
+
+            BitmapEncoder encoder = format switch
+            {
+                "jpg" => new JpegBitmapEncoder(),
+                "bmp" => new BmpBitmapEncoder(),
+                "gif" => new GifBitmapEncoder(),
+                _ => new PngBitmapEncoder(),
+            };
+ 
+            encoder.Frames.Add(BitmapFrame.Create(rtb));
+            using FileStream fs = File.Open(filePath, FileMode.Create);
+            encoder.Save(fs);
+            Close();
+        }
+
+        private string? GetSaveLocation(string formats, string filename)
+        {
+            SaveFileDialog sfd = new();
+            sfd.Filter = formats;
+            sfd.FileName = filename;
+
+            if (sfd.ShowDialog() != true) return null;
+
+            return sfd.FileName;
         }
     }
 }
