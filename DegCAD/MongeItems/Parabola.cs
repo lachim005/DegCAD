@@ -140,5 +140,6 @@ namespace DegCAD.MongeItems
         }
         public bool IsVisible() => _parabola.Visibility == Visibility.Visible;
         public IMongeItem Clone() => new Parabola(Focus, Vertex, End, Style);
+        public string ToSvg() => $"<path d=\"{_parabola.Data}\" {Style.ToSvgParameters()}/>";
     }
 }

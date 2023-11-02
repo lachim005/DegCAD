@@ -116,5 +116,6 @@ namespace DegCAD.MongeItems
         }
         public bool IsVisible() => _hyperbola.Visibility == Visibility.Visible;
         public IMongeItem Clone() => new Hyperbola(Vertex, Center, Point, Style);
+        public string ToSvg() => $"<path d=\"{_hyperbola.Data}\" {Style.ToSvgParameters()}/>";
     }
 }

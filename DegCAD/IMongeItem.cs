@@ -19,5 +19,6 @@ namespace DegCAD
         public void SetVisibility(Visibility visibility);
         public bool IsVisible();
         public IMongeItem Clone();
+        public string ToSvg();
     }
 }

@@ -159,6 +159,45 @@ namespace DegCAD.MongeItems
         }
         public bool IsVisible() => _lblTbl.Visibility == Visibility.Visible;
         public IMongeItem Clone() => new Label(LabelText, Subscript, Superscript, Position, _prevStyle, LabeledObject.Clone(), fontSize: FontSize);
+        public string ToSvg()
+        {
+            if (_vpl is null) return string.Empty;
+
+            var t = Canvas.GetTop(_lblTbl);
+            var r = _vpl.Canvas.ActualWidth - Canvas.GetRight(_lblTbl);
+
+            var text = $"<text x=\"{r}\" " +
+                $"y=\"{t}\" " +
+                $"fill=\"{Style.ToHex(Style.Color)}\" " +
+                $"font-size=\"{_lblTbl.FontSize}\" " +
+                $"dominant-baseline=\"hanging\" " +
+                $"text-anchor=\"end\" " +
+                $"font-family=\"Tahoma\">{LabelText}</text>\n";
+
+            var subL = Canvas.GetLeft(_subTbl);
+            var subT = Canvas.GetTop(_subTbl);
+
+            text += $"<text x=\"{subL}\" " +
+                $"y=\"{subT}\" " +
+                $"fill=\"{Style.ToHex(Style.Color)}\" " +
+                $"font-size=\"{_subTbl.FontSize}\" " +
+                $"dominant-baseline=\"hanging\" " +
+                $"font-family=\"Tahoma\">{Subscript}</text>\n";
+
+            var supL = Canvas.GetLeft(_supTbl);
+            var supT = Canvas.GetTop(_supTbl);
+
+            text += $"<text x=\"{supL}\" " +
+                $"y=\"{supT}\" " +
+                $"fill=\"{Style.ToHex(Style.Color)}\" " +
+                $"font-size=\"{_supTbl.FontSize}\" " +
+                $"dominant-baseline=\"hanging\" " +
+                $"font-family=\"Tahoma\">{Superscript}</text>\n";
+
+            return text;
+
+        }
+
         public bool IsOnLabel(Vector2 canvasPos)
         {
             if (_vpl is null) return false;

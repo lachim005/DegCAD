@@ -24,6 +24,7 @@ namespace DegCAD.MongeItems
         }
 
         public abstract IMongeItem Clone();
+        public string ToSvg() => string.Empty;
 
         public virtual void Draw() { }
 

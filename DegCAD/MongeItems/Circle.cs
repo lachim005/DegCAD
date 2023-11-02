@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Shapes;
 
 namespace DegCAD.MongeItems
@@ -78,5 +79,10 @@ namespace DegCAD.MongeItems
         public bool IsVisible() => _circle.Visibility == Visibility.Visible;
 
         public IMongeItem Clone() => new Circle(Circle2, Style);
+        public string ToSvg() => $"<circle " +
+            $"cx=\"{(Canvas.GetLeft(_circle) + _circle.Width / 2).ToString(".")}\" " +
+            $"cy=\"{Canvas.GetTop(_circle) + _circle.Height / 2}\" " +
+            $"r=\"{_circle.Width / 2}\" " +
+            $"{Style.ToSvgParameters()}/>";
     }
 }

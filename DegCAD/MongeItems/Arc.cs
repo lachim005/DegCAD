@@ -116,5 +116,7 @@ namespace DegCAD.MongeItems
         public bool IsVisible() => _arc.Visibility == Visibility.Visible;
 
         public IMongeItem Clone() => new Arc(Circle, StartAngle, EndAngle, Style);
+
+        public string ToSvg() => $"<path d=\"{_arc.Data}\" {Style.ToSvgParameters()}/>";
     }
 }

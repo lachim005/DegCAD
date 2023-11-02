@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
@@ -42,12 +43,14 @@ namespace DegCAD.MongeItems
 
             Style = style;
 
-            _ellipse.RenderTransform = new RotateTransform();
+            _ellTransform = new RotateTransform();
+            _ellipse.RenderTransform = _ellTransform;
 
             if (vpl is not null) AddToViewportLayer(vpl);
         }
 
         System.Windows.Shapes.Ellipse _ellipse = new();
+        RotateTransform _ellTransform;
 
         public void Draw()
         {
@@ -73,5 +76,17 @@ namespace DegCAD.MongeItems
         public bool IsVisible() => _ellipse.Visibility == Visibility.Visible;
 
         public IMongeItem Clone() => new Ellipse(Center, P1, P2, Style);
+        public string ToSvg()
+        {
+            double x = Canvas.GetLeft(_ellipse) + _ellipse.Width / 2;
+            double y = Canvas.GetTop(_ellipse) + _ellipse.Height / 2;
+            return $"<ellipse " +
+            $"cx=\"{x}\" " +
+            $"cy=\"{y}\" " +
+            $"rx=\"{_ellipse.Width / 2}\" " +
+            $"ry=\"{_ellipse.Height / 2}\" " +
+            $"transform=\"rotate({_ellTransform.Angle} {x} {y})\" " +
+            $"{Style.ToSvgParameters()}/>";
+        }
     }
 }

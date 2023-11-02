@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Numerics;
 using System.Windows;
+using System.Windows.Documents;
 using System.Windows.Shapes;
 
 namespace DegCAD.MongeItems
@@ -103,5 +104,7 @@ namespace DegCAD.MongeItems
         }
         public bool IsVisible() => _line1.Visibility == Visibility.Visible;
         public IMongeItem Clone() => new Point(X, Y, Style);
+        public string ToSvg() => $"<path d=\"M {_line1.X1} {_line1.Y1} L {_line1.X2} {_line1.Y2}\" {Style.ToSvgParameters()}/>\n" +
+            $"<path d=\"M {_line2.X1} {_line2.Y1} L {_line2.X2} {_line2.Y2}\" {Style.ToSvgParameters()}/>";
     }
 }

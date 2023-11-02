@@ -91,5 +91,6 @@ namespace DegCAD.MongeItems
         }
         public bool IsVisible() => _line.Visibility == Visibility.Visible;
         public IMongeItem Clone() => new LineSegment(P1, P2, Style);
+        public string ToSvg() => $"<path d=\"M {_line.X1} {_line.Y1} L {_line.X2} {_line.Y2}\" {Style.ToSvgParameters()}/>";
     }
 }

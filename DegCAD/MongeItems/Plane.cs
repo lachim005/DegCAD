@@ -104,5 +104,6 @@ namespace DegCAD.MongeItems
             _rectangle.Visibility = visibility;
         }
         public bool IsVisible() => _rectangle.Visibility == Visibility.Visible;
+        public string ToSvg() => string.Empty;
     }
 }
