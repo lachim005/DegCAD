@@ -46,5 +46,26 @@ namespace DegCAD
         }
 
         public override int GetHashCode() => HashCode.Combine(Color, LineStyle);
+        public string ToSvgParameters()
+        {
+            string pars = $"stroke=\"{ToHex(Color)}\" " +
+                $"stroke-width=\"{Thickness + 1}\" " +
+                $"stroke-linejoint=\"round\" " +
+                $"stroke-linecap=\"round\"";
+
+            if (LineStyle == 1) pars += $" stroke-dasharray=\"15 15\"";
+            else if (LineStyle == 2) pars += $" stroke-dasharray=\"15 7 2 7\"";
+
+            return pars;
+        }
+        public static string ToHex(Color color)
+        {
+            var hex = "#";
+            hex += color.R.ToString("x2");
+            hex += color.G.ToString("x2");
+            hex += color.B.ToString("x2");
+            hex += color.A.ToString("x2");
+            return hex;
+        }
     }
 }
