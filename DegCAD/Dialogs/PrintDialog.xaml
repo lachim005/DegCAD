@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Loaded="WindowLoaded"
+        Closed="WindowClosed"
         Background="{StaticResource bg}"
         MinHeight="400" MinWidth="600"
         Title="Tisk" Height="450" Width="800">
