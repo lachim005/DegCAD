@@ -1,6 +1,8 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.DirectoryServices.ActiveDirectory;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -42,29 +44,25 @@ namespace DegCAD.Dialogs
             double rawH = 100;
             double rawS = 1;
 
-            if (fileTypeTabs.SelectedIndex == 0)
+            if (imagePxSizeRb.IsChecked == true)
             {
-                //Dealing with image
-                if (imagePxSizeRb.IsChecked == true)
-                {
-                    //Pixel sizing
-                    if (!double.TryParse(imagePxWidth.Text, out rawW) || rawW < .1) return null;
-                    if (!double.TryParse(imagePxHeight.Text, out rawH) || rawH < .1) return null;
-                    if (!double.TryParse(imagePxUnitSizeTbx.Text, out rawS) || rawS < .1) return null;
-                }
-                else
-                {
-                    //Milimeter sizing
-                    if (!double.TryParse(imageDpiTbx.Text, out double dpi) || dpi < 1) return null;
-                    if (!double.TryParse(imageMmWidth.Text, out double mmW) || mmW < .1) return null;
-                    if (!double.TryParse(imageMmHeight.Text, out double mmH) || mmH < .1) return null;
-                    if (!double.TryParse(imageMmUnitSizeTbx.Text, out double uSize) || uSize < .1) return null;
-                    rawW = mmW / 25.4 * dpi;
-                    rawH = mmH / 25.4 * dpi;
-                    rawS = uSize / 25.4 * dpi;
-                }
+                //Pixel sizing
+                if (!double.TryParse(imagePxWidth.Text, out rawW) || rawW < .1) return null;
+                if (!double.TryParse(imagePxHeight.Text, out rawH) || rawH < .1) return null;
+                if (!double.TryParse(imagePxUnitSizeTbx.Text, out rawS) || rawS < .1) return null;
             }
-
+            else
+            {
+                //Milimeter sizing
+                if (!double.TryParse(imageDpiTbx.Text, out double dpi) || dpi < 1) return null;
+                if (!double.TryParse(imageMmWidth.Text, out double mmW) || mmW < .1) return null;
+                if (!double.TryParse(imageMmHeight.Text, out double mmH) || mmH < .1) return null;
+                if (!double.TryParse(imageMmUnitSizeTbx.Text, out double uSize) || uSize < .1) return null;
+                rawW = mmW / 25.4 * dpi;
+                rawH = mmH / 25.4 * dpi;
+                rawS = uSize / 25.4 * dpi;
+            }
+            
             return (rawW, rawH, rawS);
         }
         private void ResizeViewport()
@@ -115,12 +113,13 @@ namespace DegCAD.Dialogs
         {
             if (!IsLoaded) return;
 
-            string format = imageFormatCbx.SelectedIndex switch
+            (string format, bool image) = imageFormatCbx.SelectedIndex switch
             {
-                0 => "jpg",
-                1 => "bmp",
-                3 => "gif",
-                _ => "png"
+                0 => ("jpg", true),
+                1 => ("bmp", true),
+                3 => ("gif", true),
+                4 => ("svg", false),
+                _ => ("png", true)
             };
 
             if (GetSaveLocation($"Obrázek formátu {format}|*.{format}", $"export.{format}") is not string filePath) return;
@@ -130,7 +129,20 @@ namespace DegCAD.Dialogs
 
             (double w, double h, double scale) = desiredSize.Value;
 
+            if (image)
+            {
+                SaveImage(format, w, h, scale, filePath);
+            }
+            else if (format == "svg")
+            {
+                SaveSvg(w, h, scale, filePath);
+            }
 
+            Close();
+        }
+
+        private void SaveImage(string format, double w, double h, double scale, string filePath)
+        { 
             var clonedVp = vp.Clone();
             clonedVp.Scale = scale / ViewPort.unitSize;
             clonedVp.Width = w;
@@ -153,11 +165,49 @@ namespace DegCAD.Dialogs
                 "gif" => new GifBitmapEncoder(),
                 _ => new PngBitmapEncoder(),
             };
- 
+
             encoder.Frames.Add(BitmapFrame.Create(rtb));
             using FileStream fs = File.Open(filePath, FileMode.Create);
             encoder.Save(fs);
-            Close();
+        }
+
+        private void SaveSvg(double w, double h, double scale, string filePath)
+        {
+            var clonedVp = vp.Clone();
+            clonedVp.Scale = scale / ViewPort.unitSize;
+            clonedVp.Width = w;
+            clonedVp.Height = h;
+            if (imageTransparentBgChbx.IsChecked == false || imageFormatCbx.SelectedIndex <= 1) clonedVp.Background = Brushes.White;
+
+            Viewbox vb = new();
+            vb.Child = clonedVp;
+            vb.Measure(new(w, h));
+            vb.Arrange(new(0, 0, w, h));
+            vb.UpdateLayout();
+
+            //Changes the culture so doubles will be written with dots
+            var prevCulture = CultureInfo.CurrentCulture;
+            CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
+
+            using StreamWriter sw = new(filePath);
+            sw.WriteLine($"<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"{w}\" height=\"{h}\" fill=\"none\">");
+            if (imageTransparentBgChbx.IsChecked == false)
+            {
+                sw.WriteLine($"\t<rect width=\"{w}\" height=\"{h}\" fill=\"white\"/>");
+            }
+
+            foreach(var cmd in clonedVp.Timeline.CommandHistory)
+            {
+                foreach (var item in cmd.Items)
+                {
+                    if (!item.IsVisible()) continue;
+                    sw.WriteLine("\t" + item.ToSvg());
+                }
+            }
+            sw.WriteLine("</svg>");
+
+
+            CultureInfo.CurrentCulture = prevCulture;
         }
 
         private string? GetSaveLocation(string formats, string filename)
