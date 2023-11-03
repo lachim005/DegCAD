@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:DegCAD.Dialogs"
         mc:Ignorable="d"
         Height="400" Width="500"
+        Closed="WindowClosed"
         WindowStartupLocation="CenterScreen"
         Title="Souřadnice bodů" MinHeight="360" MinWidth="500">
     <Grid Margin="5">
@@ -69,7 +70,7 @@
                 <Line X1="35" Y1="0" X2="30" Y2="-5" Stroke="Black"/>
                 <Line X1="20" Y1="10" X2="20" Y2="-10" Stroke="Black"/>
             </Canvas>
-            <RadioButton GroupName="xDirection" VerticalAlignment="Center"/>
+            <RadioButton GroupName="xDirection" VerticalAlignment="Center" x:Name="dontReverseXDirection"/>
         </StackPanel>
 
         <Button x:Name="cancelBtn" Grid.Row="3" Content="Zrušit" Margin="5" Click="Cancel"/>

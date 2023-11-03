@@ -21,6 +21,9 @@ namespace DegCAD.Dialogs
     /// </summary>
     public partial class PointCoordinateInputDialog : Window
     {
+        //Last values
+        private static bool lastAxisDirectionLeft = true;
+
         ObservableCollection<PointInputStruct> inputValues = new() { new("","","","") };
 
         /// <summary>
@@ -50,6 +53,19 @@ namespace DegCAD.Dialogs
 
 
             coordInputIc.ItemsSource = inputValues;
+
+            LoadLastValues();
+        }
+
+        private void LoadLastValues()
+        {
+            if (lastAxisDirectionLeft) reverseXDirection.IsChecked = true;
+            else dontReverseXDirection.IsChecked = true;
+        }
+
+        private void SaveLastValues()
+        {
+            lastAxisDirectionLeft = reverseXDirection.IsChecked == true;
         }
 
         private void Cancel(object sender, RoutedEventArgs e)
@@ -100,6 +116,11 @@ namespace DegCAD.Dialogs
             if (string.IsNullOrWhiteSpace(item.Label) && string.IsNullOrWhiteSpace(item.X) && string.IsNullOrWhiteSpace(item.Y) && string.IsNullOrWhiteSpace(item.Z))
                 return true;
             return false;
+        }
+
+        private void WindowClosed(object sender, EventArgs e)
+        {
+            SaveLastValues();
         }
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
