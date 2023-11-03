@@ -143,7 +143,6 @@ namespace DegCAD
         {
             if (!current.Changed) return true;
             var save = MessageBox.Show(
-                this,
                 $"Chcete uložit soubor {current.FileName}?",
                 "DegCAD",
                 MessageBoxButton.YesNoCancel,
