@@ -17,52 +17,49 @@
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="1"/>
             <ColumnDefinition Width="400"/>
         </Grid.ColumnDefinitions>
-        <Grid x:Name="vpGrid" SizeChanged="VpGridSizeChanged">
+        <Grid x:Name="vpGrid" SizeChanged="VpGridSizeChanged" Margin="10">
             <Border x:Name="vpBorder" VerticalAlignment="Center" SnapsToDevicePixels="True" BorderBrush="{StaticResource border}" BorderThickness="1" HorizontalAlignment="Center"/>
         </Grid>
         <TextBlock Text="Vyberte výřez" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         <Button Content="Vycentrovat" Click="CenterViewport" Grid.Row="2" Padding="10, 0" VerticalAlignment="Top" HorizontalAlignment="Center"/>
-        <Rectangle Grid.Column="1" Fill="{StaticResource border}" Grid.RowSpan="3"/>
-        <StackPanel Margin="10" Grid.Column="2" Grid.RowSpan="3">
-            <GroupBox Header="Velikost" Margin="5">
-                <Grid Margin="5">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <StackPanel Margin="10">
-                        <RadioButton Checked="ImageSizingTypeChanged" IsChecked="True" Content="Velikost v pixelech" GroupName="imageSizing" x:Name="imagePxSizeRb"/>
-                        <Grid HorizontalAlignment="Left" Margin="10" Width="140" Height="140">
-                            <Path Data="M 35 1 l 5 10 l -10 0 l 5 -10 L 35 98 l -5 -10 l 10 0 l -5 10" StrokeLineJoin="Round" Stroke="{StaticResource border}" Fill="{StaticResource border}"/>
-                            <Path Data="M 1 49 l 10 5 l 0 -10 l -10 5 L 69 49 l -10 -5 l 0 10 l 10 -5" StrokeLineJoin="Round" Stroke="{StaticResource border}" Fill="{StaticResource border}"/>
-                            <Rectangle Width="70" Height="99" Stroke="{StaticResource border}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                            <TextBox Width="50" IsEnabled="{Binding IsChecked, ElementName=imagePxSizeRb}" x:Name="imagePxWidth" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,110,0,0" Text="500" TextChanged="ImageTextChanged"/>
-                            <TextBox Width="50" IsEnabled="{Binding IsChecked, ElementName=imagePxSizeRb}" x:Name="imagePxHeight" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="81,38,0,0" Text="700" TextChanged="ImageTextChanged"/>
-                        </Grid>
-                        <Label Content="_Velikost jednotky (px)" IsEnabled="{Binding IsChecked, ElementName=imagePxSizeRb}" Target="{Binding ElementName=imagePxUnitSizeTbx}"/>
-                        <TextBox Text="100" x:Name="imagePxUnitSizeTbx" IsEnabled="{Binding IsChecked, ElementName=imagePxSizeRb}" TextChanged="ImageTextChanged"/>
-                    </StackPanel>
-                    <StackPanel Grid.Column="1" Margin="10">
-                        <RadioButton Checked="ImageSizingTypeChanged" Content="Velikost v milimetrech" GroupName="imageSizing" x:Name="imageMmSizeRb"/>
-                        <Grid HorizontalAlignment="Left" Margin="10" Width="140" Height="140">
-                            <Path Data="M 35 1 l 5 10 l -10 0 l 5 -10 L 35 98 l -5 -10 l 10 0 l -5 10" StrokeLineJoin="Round" Stroke="{StaticResource border}" Fill="{StaticResource border}"/>
-                            <Path Data="M 1 49 l 10 5 l 0 -10 l -10 5 L 69 49 l -10 -5 l 0 10 l 10 -5" StrokeLineJoin="Round" Stroke="{StaticResource border}" Fill="{StaticResource border}"/>
-                            <Rectangle Width="70" Height="99" Stroke="{StaticResource border}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                            <TextBox Width="50" IsEnabled="{Binding IsChecked, ElementName=imageMmSizeRb}" x:Name="imageMmWidth" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,110,0,0" Text="210" TextChanged="ImageTextChanged"/>
-                            <TextBox Width="50" IsEnabled="{Binding IsChecked, ElementName=imageMmSizeRb}" x:Name="imageMmHeight" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="81,38,0,0" Text="297" TextChanged="ImageTextChanged"/>
-                        </Grid>
-                        <Label Content="_Velikost jednotky (mm)" IsEnabled="{Binding IsChecked, ElementName=imageMmSizeRb}" Target="{Binding ElementName=imageMmUnitSizeTbx}"/>
-                        <TextBox x:Name="imageMmUnitSizeTbx" Text="10" IsEnabled="{Binding IsChecked, ElementName=imageMmSizeRb}" TextChanged="ImageTextChanged"/>
-                        <Label Content="_DPI" IsEnabled="{Binding IsChecked, ElementName=imageMmSizeRb}" Target="{Binding ElementName=imageDpiTbx}"/>
-                        <TextBox Text="72" x:Name="imageDpiTbx" IsEnabled="{Binding IsChecked, ElementName=imageMmSizeRb}" TextChanged="ImageTextChanged"/>
-                    </StackPanel>
-                </Grid>
-            </GroupBox>
-            <Label Content="_Formát"/>
-            <ComboBox Name="imageFormatCbx" SelectedIndex="2" SelectionChanged="ImageFormatChanged" Margin="5" HorizontalAlignment="Left" Width="200">
+        <StackPanel Margin="10" Grid.Column="1" Grid.RowSpan="3" VerticalAlignment="Center">
+            <Grid Margin="5">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="15"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <RadioButton Checked="ImageSizingTypeChanged" IsChecked="True" Content="Velikost v pixelech" GroupName="imageSizing" x:Name="imagePxSizeRb"/>
+                    <Grid HorizontalAlignment="Left" Margin="10" Width="140" Height="140">
+                        <Path Data="M 35 1 l 5 10 l -10 0 l 5 -10 L 35 98 l -5 -10 l 10 0 l -5 10" StrokeLineJoin="Round" Stroke="{StaticResource border}" Fill="{StaticResource border}"/>
+                        <Path Data="M 1 49 l 10 5 l 0 -10 l -10 5 L 69 49 l -10 -5 l 0 10 l 10 -5" StrokeLineJoin="Round" Stroke="{StaticResource border}" Fill="{StaticResource border}"/>
+                        <Rectangle Width="70" Height="99" Stroke="{StaticResource border}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <TextBox Width="50" IsEnabled="{Binding IsChecked, ElementName=imagePxSizeRb}" x:Name="imagePxWidth" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,110,0,0" Text="500" TextChanged="ImageTextChanged"/>
+                        <TextBox Width="50" IsEnabled="{Binding IsChecked, ElementName=imagePxSizeRb}" x:Name="imagePxHeight" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="81,38,0,0" Text="700" TextChanged="ImageTextChanged"/>
+                    </Grid>
+                    <Label Content="_Velikost jednotky (px)" IsEnabled="{Binding IsChecked, ElementName=imagePxSizeRb}" Target="{Binding ElementName=imagePxUnitSizeTbx}"/>
+                    <TextBox Text="100" x:Name="imagePxUnitSizeTbx" IsEnabled="{Binding IsChecked, ElementName=imagePxSizeRb}" TextChanged="ImageTextChanged"/>
+                </StackPanel>
+                <StackPanel Grid.Column="2">
+                    <RadioButton Checked="ImageSizingTypeChanged" Content="Velikost v milimetrech" GroupName="imageSizing" x:Name="imageMmSizeRb"/>
+                    <Grid HorizontalAlignment="Left" Margin="10" Width="140" Height="140">
+                        <Path Data="M 35 1 l 5 10 l -10 0 l 5 -10 L 35 98 l -5 -10 l 10 0 l -5 10" StrokeLineJoin="Round" Stroke="{StaticResource border}" Fill="{StaticResource border}"/>
+                        <Path Data="M 1 49 l 10 5 l 0 -10 l -10 5 L 69 49 l -10 -5 l 0 10 l 10 -5" StrokeLineJoin="Round" Stroke="{StaticResource border}" Fill="{StaticResource border}"/>
+                        <Rectangle Width="70" Height="99" Stroke="{StaticResource border}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <TextBox Width="50" IsEnabled="{Binding IsChecked, ElementName=imageMmSizeRb}" x:Name="imageMmWidth" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,110,0,0" Text="210" TextChanged="ImageTextChanged"/>
+                        <TextBox Width="50" IsEnabled="{Binding IsChecked, ElementName=imageMmSizeRb}" x:Name="imageMmHeight" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="81,38,0,0" Text="297" TextChanged="ImageTextChanged"/>
+                    </Grid>
+                    <Label Content="_Velikost jednotky (mm)" IsEnabled="{Binding IsChecked, ElementName=imageMmSizeRb}" Target="{Binding ElementName=imageMmUnitSizeTbx}"/>
+                    <TextBox x:Name="imageMmUnitSizeTbx" Text="10" IsEnabled="{Binding IsChecked, ElementName=imageMmSizeRb}" TextChanged="ImageTextChanged"/>
+                    <Label Content="_DPI" IsEnabled="{Binding IsChecked, ElementName=imageMmSizeRb}" Target="{Binding ElementName=imageDpiTbx}"/>
+                    <TextBox Text="72" x:Name="imageDpiTbx" IsEnabled="{Binding IsChecked, ElementName=imageMmSizeRb}" TextChanged="ImageTextChanged"/>
+                </StackPanel>
+            </Grid>
+            <Label Content="_Formát" Margin="5,50,0,0"/>
+            <ComboBox Name="imageFormatCbx" SelectedIndex="2" SelectionChanged="ImageFormatChanged" Margin="5,0">
                 <ComboBoxItem Content=".jpg"/>
                 <ComboBoxItem Content=".bmp"/>
                 <ComboBoxItem Content=".png"/>
