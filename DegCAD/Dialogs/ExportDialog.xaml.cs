@@ -23,6 +23,20 @@ namespace DegCAD.Dialogs
     /// </summary>
     public partial class ExportDialog : Window
     {
+        //Last values
+        private static bool lastPxScaling = true;
+        private static double lastPxW = 500; 
+        private static double lastPxH = 700;
+        private static double lastPxUnitSize = 100;
+        private static double lastMmW = 210; 
+        private static double lastMmH = 297; 
+        private static double lastMmUnitSize = 10;
+        private static double lastDpi = 72;
+        private static int lastFormat = 2;
+        private static bool lastTransparentBg = false;
+        private static double lastOffsetX = 0;
+        private static double lastOffsetY = 0;
+
         ViewPort vp;
 
         public ExportDialog(ViewPort vp)
@@ -31,6 +45,45 @@ namespace DegCAD.Dialogs
             this.vp = vp.Clone();
             this.vp.CanZoom = false;
             vpBorder.Child = this.vp;
+
+            LoadLastValues();
+        }
+
+        private void LoadLastValues()
+        {
+            if (lastPxScaling)
+            {
+                imagePxSizeRb.IsChecked = true;
+            } else
+            {
+                imageMmSizeRb.IsChecked = true;
+            }
+            imagePxWidth.Text = lastPxW.ToString();
+            imagePxHeight.Text = lastPxH.ToString();
+            imagePxUnitSizeTbx.Text = lastPxUnitSize.ToString();
+            imageMmWidth.Text = lastMmW.ToString();
+            imageMmHeight.Text = lastMmH.ToString();
+            imageMmUnitSizeTbx.Text = lastMmUnitSize.ToString();
+            imageDpiTbx.Text = lastDpi.ToString();
+            imageFormatCbx.SelectedIndex = lastFormat;
+            imageTransparentBgChbx.IsChecked = lastTransparentBg;
+            vp.OffsetX = lastOffsetX;
+            vp.OffsetY = lastOffsetY;
+        }
+        private void SaveLastValues()
+        {
+            lastPxScaling = imagePxSizeRb.IsChecked == true;
+            _ = double.TryParse(imagePxWidth.Text, out lastPxW);
+            _ = double.TryParse(imagePxHeight.Text, out lastPxH);
+            _ = double.TryParse(imagePxUnitSizeTbx.Text, out lastPxUnitSize);
+            _ = double.TryParse(imageMmWidth.Text, out lastMmW);
+            _ = double.TryParse(imageMmHeight.Text, out lastMmH);
+            _ = double.TryParse(imageMmUnitSizeTbx.Text, out lastMmUnitSize);
+            _ = double.TryParse(imageDpiTbx.Text, out lastDpi);
+            lastFormat = imageFormatCbx.SelectedIndex;
+            lastTransparentBg = imageTransparentBgChbx.IsChecked == true;
+            lastOffsetX = vp.OffsetX;
+            lastOffsetY = vp.OffsetY;
         }
 
         private void VpGridSizeChanged(object sender, SizeChangedEventArgs e)
@@ -219,6 +272,11 @@ namespace DegCAD.Dialogs
             if (sfd.ShowDialog() != true) return null;
 
             return sfd.FileName;
+        }
+
+        private void WindowClosed(object sender, EventArgs e)
+        {
+            SaveLastValues();
         }
     }
 }

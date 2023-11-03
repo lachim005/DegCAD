@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:DegCAD.Dialogs"
         mc:Ignorable="d"
         Loaded="WindowLoaded"
+        Closed="WindowClosed"
         WindowStartupLocation="CenterScreen"
         MinHeight="550" MinWidth="600"
         Title="Export" Height="550" Width="800">
