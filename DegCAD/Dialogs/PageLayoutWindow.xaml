@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:DegCAD.Dialogs"
         mc:Ignorable="d"
         SizeChanged="WindowSizeChanged"
+        Unloaded="UserControlUnloaded"
         Loaded="WindowLoaded">
     <Grid>
         <Grid.ColumnDefinitions>

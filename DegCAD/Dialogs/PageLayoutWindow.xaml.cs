@@ -19,6 +19,18 @@ namespace DegCAD.Dialogs
     /// </summary>
     public partial class PageLayoutWindow : UserControl
     {
+        //Last values
+        private static double lastW = 210;
+        private static double lastH = 297;
+        private static int lastPreset = 2;
+        private static double lastMarginL = 10;
+        private static double lastMarginT = 10;
+        private static double lastMarginR = 10;
+        private static double lastMarginB = 10;
+        private static double lastUnitSize = 10;
+        private static double lastOffsetX = 0;
+        private static double lastOffsetY = 0;
+
         ViewPort ViewPort { get; init; }
 
         public PageLayoutWindow(ViewPort vp)
@@ -30,6 +42,44 @@ namespace DegCAD.Dialogs
 
             ViewPort.CanZoom = false;
             ViewPort.ViewportChanged += (s, e) => RecalculatePosition();
+
+            LoadLastValues();
+        }
+
+        private void LoadLastValues()
+        {
+            paperWidth.Text = lastW.ToString();
+            paperHeight.Text = lastH.ToString();
+            switch (lastPreset)
+            {
+                case 1: paperPresetA5.IsChecked = true; break;
+                case 2: paperPresetA4.IsChecked = true; break;
+                case 3: paperPresetA3.IsChecked = true; break;
+                default: paperPresetCustom.IsChecked = true; break;
+            }
+            marginLeft.Text = lastMarginL.ToString();
+            marginTop.Text = lastMarginT.ToString();
+            marginRight.Text = lastMarginR.ToString();
+            marginBottom.Text = lastMarginB.ToString();
+            unitSize.Text = lastUnitSize.ToString();
+            ViewPort.OffsetX = lastOffsetX; 
+            ViewPort.OffsetY = lastOffsetY;
+        }
+        private void SaveLastValues()
+        {
+            _ = double.TryParse(paperWidth.Text, out lastW);
+            _ = double.TryParse(paperHeight.Text, out lastH);
+            if (paperPresetA5.IsChecked == true) lastPreset = 1;
+            else if (paperPresetA4.IsChecked == true) lastPreset = 2;
+            else if (paperPresetA3.IsChecked == true) lastPreset = 3;
+            else lastPreset = 0;
+            _ = double.TryParse(marginLeft.Text, out lastMarginL);
+            _ = double.TryParse(marginTop.Text, out lastMarginT);
+            _ = double.TryParse(marginRight.Text, out lastMarginR);
+            _ = double.TryParse(marginBottom.Text, out lastMarginB);
+            _ = double.TryParse(unitSize.Text, out lastUnitSize);
+            lastOffsetX = ViewPort.OffsetX; 
+            lastOffsetY = ViewPort.OffsetY;
         }
 
         private void PaperSizeChanged(object sender, TextChangedEventArgs e) => RecalculateSize();
@@ -141,6 +191,11 @@ namespace DegCAD.Dialogs
         {
             ViewPort.CenterContent();
             RecalculatePosition();
+        }
+
+        private void UserControlUnloaded(object sender, RoutedEventArgs e)
+        {
+            SaveLastValues();
         }
     }
 }
