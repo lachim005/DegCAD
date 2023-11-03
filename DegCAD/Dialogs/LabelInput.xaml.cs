@@ -19,6 +19,9 @@ namespace DegCAD.Dialogs
     /// </summary>
     public partial class LabelInput : Window
     {
+        //Last values
+        private static int lastFontSize = 16;
+
         public bool Canceled = true;
 
         public string LabelText => labelTextTbx.Text;
@@ -34,6 +37,9 @@ namespace DegCAD.Dialogs
             labelTextTbx.Focus();
             lastFocusedTbx = labelTextTbx;
             AddSpecialCharacterButtons();
+
+            //Sets the last inputed font size
+            fontSizeTbx.Text = lastFontSize.ToString();
         }
 
         private void Confirm(object sender, ExecutedRoutedEventArgs e)
@@ -110,6 +116,11 @@ namespace DegCAD.Dialogs
             lastFocusedTbx.Text += str;
             lastFocusedTbx.Focus();
             lastFocusedTbx.CaretIndex = lastFocusedTbx.Text.Length;
+        }
+
+        private void WindowClosed(object sender, EventArgs e)
+        {
+            _ = int.TryParse(fontSizeTbx.Text, out lastFontSize);
         }
     }
 }

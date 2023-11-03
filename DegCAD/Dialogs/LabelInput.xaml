@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DegCAD.Dialogs"
         mc:Ignorable="d"
+        Closed="WindowClosed"
         WindowStartupLocation="CenterScreen"
         Title="Pojmenovat" Height="450" Width="398" MinHeight="400" MinWidth="398">
     <Window.CommandBindings>
