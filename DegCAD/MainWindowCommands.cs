@@ -39,7 +39,6 @@ namespace DegCAD
         }
         private async void SaveEditorAsync(Editor editor)
         {
-            await Task.Delay(1);
             try
             {
                 editor?.SaveEditor();
@@ -48,6 +47,7 @@ namespace DegCAD
             {
                 MessageBox.Show(ex.Message + "\n\n" + ex.InnerException?.Message, "Chyba při ukládání souboru", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            await Task.Delay(1);
         }
         private async void OpenFileAsync(string path)
         {
