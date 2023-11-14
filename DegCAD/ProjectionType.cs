@@ -10,6 +10,7 @@ namespace DegCAD
     {
         None =  0b1,
         Plane = 0b10,
-        Monge = 0b100
+        Monge = 0b100,
+        Axonometry = 0b1000
     }
 }

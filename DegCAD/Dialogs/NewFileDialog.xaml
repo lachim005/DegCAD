@@ -8,10 +8,11 @@
         WindowStartupLocation="CenterScreen"
         ResizeMode="CanMinimize"
         
-        Title="Nový soubor" Height="350" Width="450">
+        Title="Nový soubor" Height="350" Width="650">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
+            <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition Width="200"/>
             <ColumnDefinition/>
@@ -39,6 +40,16 @@
                 </Canvas>
             </Button>
             <Label Content="_Mongeovo promítání" Target="{Binding ElementName=mongeBtn}" HorizontalAlignment="Center"/>
+        </StackPanel>
+        <StackPanel Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <Button x:Name="axonometryBtn" Height="232" Width="168" Margin="5px" Click="axonometryBtn_Click">
+                <Canvas>
+                    <Line X1="0" Y1="0" X2="0" Y2="-60" Stroke="{StaticResource border}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
+                    <Line X1="0" Y1="0" X2="-60" Y2="50" Stroke="{StaticResource border}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
+                    <Line X1="0" Y1="0" X2="60" Y2="50" Stroke="{StaticResource border}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
+                </Canvas>
+            </Button>
+            <Label Content="_Pravoúhlá axonometrie" Target="{Binding ElementName=mongeBtn}" HorizontalAlignment="Center"/>
         </StackPanel>
     </Grid>
 </Window>

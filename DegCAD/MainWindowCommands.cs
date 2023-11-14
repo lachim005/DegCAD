@@ -93,8 +93,29 @@ namespace DegCAD
             NewFileDialog nfd = new();
             nfd.ShowDialog();
             if (nfd.ProjectionType is null) return;
-            Editor ed = new($"Bez názvu {editorCounter}", nfd.ProjectionType.Value);
-            ed.AddAxis(ed.viewPort.Layers[1]);
+
+            Editor ed;
+
+            //Opens the axonometry setup dialog if the user chose axonometry
+            if (nfd.ProjectionType == ProjectionType.Axonometry)
+            {
+                AxonometrySetup axo = new();
+                axo.ShowDialog();
+                if (axo.Canceled || axo.Axis is null) return;
+                ed = new($"Bez názvu {editorCounter}", nfd.ProjectionType.Value);
+
+                foreach (var item in axo.Axis.Items)
+                {
+                    item.AddToViewportLayer(ed.viewPort.Layers[1]);
+                }
+
+                ed.Timeline.AddCommand(axo.Axis);
+            } else
+            {
+                ed = new($"Bez názvu {editorCounter}", nfd.ProjectionType.Value);
+                ed.AddAxis(ed.viewPort.Layers[1]);
+            }
+
             ed.styleSelector.AddDefaultColors();
             ed.Changed = false;
             openEditors.Add(new(ed));

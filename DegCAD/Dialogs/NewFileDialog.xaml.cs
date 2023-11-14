@@ -37,5 +37,11 @@ namespace DegCAD.Dialogs
             ProjectionType = DegCAD.ProjectionType.Monge;
             Close();
         }
+
+        private void axonometryBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ProjectionType = DegCAD.ProjectionType.Axonometry;
+            Close();
+        }
     }
 }
