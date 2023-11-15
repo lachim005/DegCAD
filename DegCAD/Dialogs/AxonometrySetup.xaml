@@ -52,9 +52,18 @@
                         <TextBlock Text="x" Canvas.Top="270" Foreground="Gray"/>
                         <TextBlock Text="y" Canvas.Top="270" Canvas.Right="0" Foreground="Gray"/>
                         <TextBlock Text="z" Canvas.Left="205" Foreground="Gray"/>
-                        <TextBox x:Name="xyAngle" Width="100" Canvas.Left="150" Canvas.Top="270"/>
-                        <TextBox x:Name="yzAngle" Width="100" Canvas.Left="270" Canvas.Top="130"/>
-                        <TextBox x:Name="zxAngle" Width="100" Canvas.Right="270" Canvas.Top="130"/>
+                        <StackPanel Canvas.Left="130" Canvas.Top="270" Orientation="Horizontal">
+                            <RadioButton GroupName="computedAngle" x:Name="computeXYAngle" Checked="ComputeAngleChanged" VerticalAlignment="Center" Width="20"/>
+                            <TextBox x:Name="xyAngle" Width="100"/>
+                        </StackPanel>
+                        <StackPanel Canvas.Left="250" Canvas.Top="130" Orientation="Horizontal">
+                            <RadioButton GroupName="computedAngle" x:Name="computeYZAngle" Checked="ComputeAngleChanged" VerticalAlignment="Center" Width="20"/>
+                            <TextBox x:Name="yzAngle" Width="100"/>
+                        </StackPanel>
+                        <StackPanel Canvas.Right="270" Canvas.Top="130" Orientation="Horizontal">
+                            <RadioButton GroupName="computedAngle" x:Name="computeZXAngle" Checked="ComputeAngleChanged" VerticalAlignment="Center" Width="20" IsChecked="True"/>
+                            <TextBox x:Name="zxAngle" Width="100" IsEnabled="False"/>
+                        </StackPanel>
                     </Canvas>
                 </Grid>
             </TabItem>
