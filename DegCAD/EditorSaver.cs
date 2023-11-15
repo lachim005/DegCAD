@@ -2,11 +2,13 @@
 using DegCAD.MongeItems;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 
 namespace DegCAD
 {
@@ -29,6 +31,10 @@ namespace DegCAD
             }
 
             var tempDir = CreateTempFolder();
+
+            CultureInfo currentCI = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+
             try
             {
                 WriteMetaData(tempDir, editor);
@@ -44,6 +50,7 @@ namespace DegCAD
                 //Remove the temporary directory
                 Directory.Delete(tempDir, true);
                 editor.Changed = false;
+                Thread.CurrentThread.CurrentCulture = currentCI;
             }
         }
 

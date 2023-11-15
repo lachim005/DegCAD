@@ -2,11 +2,13 @@
 using DegCAD.MongeItems;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using LineSegment = DegCAD.MongeItems.LineSegment;
@@ -19,6 +21,15 @@ namespace DegCAD
         {
             var tempDir = Unpack(path);
             var metadata = ReadMetadata(tempDir);
+
+            var currentCI = Thread.CurrentThread.CurrentCulture;
+            if (metadata.version < new Version(0, 6, 0))
+            {
+                Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture("cs-CZ");
+            } else
+            {
+                Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
+            }
 
             Version curVer = Assembly.GetExecutingAssembly().GetName().Version ?? new(0, 0, 0);
             if (curVer.Major < metadata.version.Major || curVer.Minor < metadata.version.Minor)
@@ -44,6 +55,7 @@ namespace DegCAD
             catch (Exception ex)
             {
                 Directory.Delete(tempDir, true);
+                Thread.CurrentThread.CurrentCulture = currentCI;
                 throw new Exception("Chyba při čtení časové osy", ex);
             }
 
@@ -58,6 +70,7 @@ namespace DegCAD
             catch (Exception ex)
             {
                 Directory.Delete(tempDir, true);
+                Thread.CurrentThread.CurrentCulture = currentCI;
                 throw new Exception("Chyba při čtení palety", ex);
             }
 
@@ -70,6 +83,7 @@ namespace DegCAD
                 catch (Exception ex)
                 {
                     Directory.Delete(tempDir, true);
+                    Thread.CurrentThread.CurrentCulture = currentCI;
                     throw new Exception("Chyba při čtení návodu", ex);
                 }
 
