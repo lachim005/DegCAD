@@ -20,6 +20,16 @@ namespace DegCAD.Dialogs
     /// </summary>
     public partial class AxonometrySetup : Window
     {
+        //Last values
+        private static int lastSelectedInputType = 0;
+        private static string lastXYLength = "";
+        private static string lastYZLength = "";
+        private static string lastZXLength = "";
+        private static string lastXYAngle = "";
+        private static string lastYZAngle = "";
+        private static string lastZXAngle = "";
+        private static int lastDisabledAngle = 2;
+
         public bool Canceled { get; set; } = true;
 
         public TimelineItem? Axis;
@@ -29,6 +39,44 @@ namespace DegCAD.Dialogs
         public AxonometrySetup()
         {
             InitializeComponent();
+            LoadLastValues();
+        }
+
+        private void LoadLastValues()
+        {
+            axoTab.SelectedIndex = lastSelectedInputType;
+            xyLen.Text = lastXYLength;
+            yzLen.Text = lastYZLength;
+            zxLen.Text = lastZXLength;
+            xyAngle.Text = lastXYAngle;
+            yzAngle.Text = lastYZAngle;
+            zxAngle.Text = lastZXAngle;
+            switch (lastDisabledAngle)
+            {
+                case 0: 
+                    computeXYAngle.IsChecked = true;
+                    xyAngle.IsEnabled = false;
+                    break;
+                case 1: 
+                    computeYZAngle.IsChecked = true; 
+                    yzAngle.IsEnabled = false;
+                    break;
+                default: 
+                    computeZXAngle.IsChecked = true; 
+                    zxAngle.IsEnabled = false;
+                    break;
+            }
+        }
+        private void SaveLastValues()
+        {
+            lastSelectedInputType = axoTab.SelectedIndex;
+            lastXYLength = xyLen.Text;
+            lastYZLength = yzLen.Text;
+            lastZXLength = zxLen.Text;
+            lastXYAngle = xyAngle.Text;
+            lastYZAngle = yzAngle.Text;
+            lastZXAngle = zxAngle.Text;
+            lastDisabledAngle = disabledAngle;
         }
 
         private void SubmitClick(object sender, RoutedEventArgs e)
@@ -170,7 +218,7 @@ namespace DegCAD.Dialogs
 
         private void CancelClick(object sender, RoutedEventArgs e)
         {
-
+            Close();
         }
 
         private void ComputeAngleChanged(object sender, RoutedEventArgs e)
@@ -197,6 +245,11 @@ namespace DegCAD.Dialogs
                     disabledAngle = 2;
                     break;
             }
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            SaveLastValues();
         }
     }
 }

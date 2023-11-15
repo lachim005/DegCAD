@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:DegCAD.Dialogs"
         mc:Ignorable="d"
         ResizeMode="NoResize"
+        Closing="Window_Closing"
         WindowStartupLocation="CenterScreen"
         Title="AxonometrySetup" Height="450" Width="600">
     <Grid>
@@ -62,7 +63,7 @@
                         </StackPanel>
                         <StackPanel Canvas.Right="270" Canvas.Top="130" Orientation="Horizontal">
                             <RadioButton GroupName="computedAngle" x:Name="computeZXAngle" Checked="ComputeAngleChanged" VerticalAlignment="Center" Width="20" IsChecked="True"/>
-                            <TextBox x:Name="zxAngle" Width="100" IsEnabled="False"/>
+                            <TextBox x:Name="zxAngle" Width="100"/>
                         </StackPanel>
                     </Canvas>
                 </Grid>
