@@ -8,7 +8,7 @@
         ResizeMode="NoResize"
         Closing="Window_Closing"
         WindowStartupLocation="CenterScreen"
-        Title="AxonometrySetup" Height="450" Width="600">
+        Title="Nastavení axonometrie" Height="450" Width="600">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
