@@ -87,6 +87,20 @@ namespace DegCAD
                     throw new Exception("Chyba při čtení návodu", ex);
                 }
 
+            if (metadata.projectionType == ProjectionType.Axonometry)
+            {
+                try
+                {
+                    ReadAxonometryAxes(res, Path.Combine(tempDir, "axonometry.txt"));
+                }
+                catch (Exception ex)
+                {
+                    Directory.Delete(tempDir, true);
+                    Thread.CurrentThread.CurrentCulture = currentCI;
+                    throw new Exception("Chyba při čtení axonometrických os", ex);
+                }
+            }
+
             //Removes the temp directory
             Directory.Delete(tempDir, true);
             return res;
@@ -250,6 +264,14 @@ namespace DegCAD
             }
 
             e.Guide = guide;
+        }
+        private static void ReadAxonometryAxes(Editor e, string path)
+        {
+            string[] lines = File.ReadAllLines(path);
+            Vector2 xLine = (double.Parse(lines[0]), double.Parse(lines[1]));
+            Vector2 yLine = (double.Parse(lines[2]), double.Parse(lines[3]));
+            Vector2 zLine = (double.Parse(lines[4]), double.Parse(lines[5]));
+            e.AxonometryAxes = new(xLine, yLine, zLine);
         }
 
         private static IMongeItem? ParseMongeItem(string s, Style stl, Metadata md)

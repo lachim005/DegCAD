@@ -40,6 +40,8 @@ namespace DegCAD
                 WriteMetaData(tempDir, editor);
                 SaveTimelineToFile(editor.Timeline, Path.Combine(tempDir, "timeline.txt"));
                 SavePaletteToFile(editor.styleSelector.ColorPalette, Path.Combine(tempDir, "palette.txt"));
+
+                if (editor.AxonometryAxes is not null) SaveAxonometryAxes(editor.AxonometryAxes, Path.Combine(tempDir, "axonometry.txt"));
                 if (editor.Guide is not null) SaveGuideToFile(editor.Guide, Path.Combine(tempDir, "guide.txt"));
 
                 string outputFile = Path.Combine(editor.FolderPath, $"{editor.FileName}.dgproj");
@@ -131,6 +133,17 @@ namespace DegCAD
             {
                 sw.WriteLine($"{step.Items} {step.Description.Replace("&", "&&").Replace("\r\n", "&;")}");
             }
+        }
+
+        private static void SaveAxonometryAxes(AxonometryAxes aa, string path)
+        {
+            using StreamWriter sw = new(path);
+            sw.WriteLine(aa.XAxis.X.ToString());
+            sw.WriteLine(aa.XAxis.Y.ToString());
+            sw.WriteLine(aa.YAxis.X.ToString());
+            sw.WriteLine(aa.YAxis.Y.ToString());
+            sw.WriteLine(aa.ZAxis.X.ToString());
+            sw.WriteLine(aa.ZAxis.Y.ToString());
         }
 
         private static string SerializeMongeItem(IMongeItem item)
