@@ -109,6 +109,7 @@ namespace DegCAD
                     item.AddToViewportLayer(ed.viewPort.Layers[1]);
                 }
 
+                ed.AxonometryAxes = axo.AxonometryAxes;
                 ed.Timeline.AddCommand(axo.Axis);
             } else
             {

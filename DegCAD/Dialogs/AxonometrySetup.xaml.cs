@@ -33,6 +33,7 @@ namespace DegCAD.Dialogs
         public bool Canceled { get; set; } = true;
 
         public TimelineItem? Axis;
+        public AxonometryAxes? AxonometryAxes { get; set; }
 
         private int disabledAngle = 2;
 
@@ -151,6 +152,7 @@ namespace DegCAD.Dialogs
                             new MongeItems.Label("z", "", "", zLine.DirectionVector.ChangeLength(-5), DegCAD.Style.Default, zMLn.Clone()),
                         }); ;
 
+                        AxonometryAxes = new(xLine.DirectionVector, yLine.DirectionVector, zLine.DirectionVector);
 
                         Canceled = false;
                         Close();
@@ -206,6 +208,7 @@ namespace DegCAD.Dialogs
                             new MongeItems.Label("z", "", "", zLine.ChangeLength(-5), DegCAD.Style.Default, zMLn.Clone()),
                         }); ;
 
+                        AxonometryAxes = new(xLine, xLine, zLine);
 
                         Canceled = false;
                         Close();

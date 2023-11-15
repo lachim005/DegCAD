@@ -34,6 +34,8 @@ namespace DegCAD
         public Timeline Timeline => viewPort.Timeline;
         public Snapper Snapper { get; protected set; }
         public ProjectionType ProjectionType { get; set; }
+        public AxonometryAxes? AxonometryAxes { get; set; } = null;
+
         public bool ExecutingCommand
         {
             get => _executingCommand;
@@ -185,7 +187,7 @@ namespace DegCAD
 
         #region Guide
         private Guide? _guide;
-        
+
         public Guide? Guide
         {
             get => _guide; 
