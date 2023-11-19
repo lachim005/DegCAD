@@ -183,6 +183,16 @@
         <Line X1="38" Y1="30" X2="33" Y2="33" Stroke="Red"/>
         <Line X1="38" Y1="30" X2="33" Y2="27" Stroke="Red"/>
     </Canvas>
+    <Canvas x:Key="cmdTranslateOnParallelLineIcon">
+        <Line X1="40" Y1="10" X2="40" Y2="50" Stroke="Black"/>
+        <Line X1="15" Y1="45" X2="25" Y2="45" Stroke="Black"/>
+        <Line X1="20" Y1="40" X2="20" Y2="50" Stroke="Black"/>
+        <Line X1="15" Y1="15" X2="25" Y2="15" Stroke="Red"/>
+        <Line X1="20" Y1="10" X2="20" Y2="20" Stroke="Red"/>
+        <Line X1="20" Y1="38" X2="20" Y2="22" Stroke="Red"/>
+        <Line X1="20" Y1="22" X2="23" Y2="27" Stroke="Red"/>
+        <Line X1="20" Y1="22" X2="17" Y2="27" Stroke="Red"/>
+    </Canvas>
     <Canvas x:Key="cmdCastPointIcon">
         <Line X1="10" Y1="30" X2="50" Y2="30" Stroke="Gray"/>
         <Line X1="20" Y1="10" X2="40" Y2="30" Stroke="Black"/>

@@ -67,6 +67,7 @@ namespace DegCAD
             AddSeparator();
             AddCommand(new("Přenést vzdálenost", "Přenese vzdálenost mezi dvěma body", Key.V, ModifierKeys.Control, (_, _) => executeCommand(new TranslateSize()), "cmdTranslateSizeIcon", ProjectionType.Plane | ProjectionType.Monge | ProjectionType.Axonometry));
             AddCommand(new("Přenést po kolmici", "Přenese bod po kolmici k vybrané přímce", Key.None, ModifierKeys.None, (_, _) => executeCommand(new TranslateOnPerpendicularLine()), "cmdTranslateOnPerpendicularLineIcon", ProjectionType.Plane | ProjectionType.Monge | ProjectionType.Axonometry));
+            AddCommand(new("Přenést po rovnoběžce", "Přenese bod po rovnoběžce k vybrané přímce", Key.None, ModifierKeys.None, (_, _) => executeCommand(new TranslateOnParallelLine()), "cmdTranslateOnParallelLineIcon", ProjectionType.Plane | ProjectionType.Monge | ProjectionType.Axonometry));
             AddCommand(new("Sklopit bod", "Sklopí bod pomocí jeho druhého průmětu", Key.S, ModifierKeys.Control | ModifierKeys.Shift, (_, _) => executeCommand(new CastPoint()), "cmdCastPointIcon", ProjectionType.Monge));
             AddSeparator();
             AddCommand(new("Skrýt", "Skryje vybraný prvek", Key.None, ModifierKeys.None, (_, _) => executeCommand(new Hide()), "cmdHideIcon", ProjectionType.Plane | ProjectionType.Monge | ProjectionType.Axonometry));
