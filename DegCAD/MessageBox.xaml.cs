@@ -103,5 +103,14 @@ namespace DegCAD
             Result = MessageBoxResult.Cancel;
             Close();
         }
+
+        private void WindowKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                Close();
+                return;
+            }
+        }
     }
 }

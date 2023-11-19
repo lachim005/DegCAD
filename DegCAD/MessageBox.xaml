@@ -11,6 +11,7 @@
         ResizeMode="NoResize"
         Topmost="True"
         MaxWidth="500"
+        KeyDown="WindowKeyDown"
         Title="MessageBox">
     <Grid>
         <Grid.ColumnDefinitions>
