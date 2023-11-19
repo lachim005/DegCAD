@@ -40,6 +40,17 @@
         <Line X1="30" Y1="25" X2="30" Y2="35" Stroke="Red"/>
         <TextBlock Text="S" Foreground="Red" Canvas.Left="32" Canvas.Top="29"/>
     </Canvas>
+    <Canvas x:Key="cmdCompleteParallelogramIcon">
+        <Line X1="40" Y1="40" X2="40" Y2="10" Stroke="Black"/>
+        <Line X1="40" Y1="40" X2="10" Y2="50" Stroke="Black"/>
+        <Line X1="40" Y1="40" X2="50" Y2="46" Stroke="Black"/>
+        <Line X1="20" Y1="46" X2="20" Y2="36" Stroke="Blue"/>
+        <Line X1="40" Y1="23" X2="25" Y2="28" Stroke="Blue"/>
+        <Line X1="20" Y1="47" X2="20" Y2="50" Stroke="Black"/>
+        <Line X1="40" Y1="23" X2="44" Y2="23" Stroke="Black"/>
+        <Line X1="15" Y1="30" X2="25" Y2="30" Stroke="Red"/>
+        <Line X1="20" Y1="25" X2="20" Y2="35" Stroke="Red"/>
+    </Canvas>
     <Canvas x:Key="cmdInfLineIcon">
         <Line X1="10" Y1="40" X2="50" Y2="20" Stroke="Red"/>
         <Line X1="25" Y1="35" X2="15" Y2="35" Stroke="Black"/>
