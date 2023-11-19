@@ -151,7 +151,13 @@ namespace DegCAD
             switch (save)
             {
                 case MessageBoxResult.Yes:
-                    if (current.FolderPath is null) OpenSaveFileDialog(current);
+                    if (current.FolderPath is null)
+                    {
+                        if (!OpenSaveFileDialog(current))
+                        {
+                            return false;
+                        }
+                    }
                     SaveEditorAsync(current);
                     return true;
                 case MessageBoxResult.No:

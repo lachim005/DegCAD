@@ -24,18 +24,19 @@ namespace DegCAD
             if (ActiveEditor.ExecutingCommand) return false;
             return true;
         }
-        private void OpenSaveFileDialog(Editor editor)
+        private bool OpenSaveFileDialog(Editor editor)
         {
-            if (editor is null) return;
+            if (editor is null) return false;
 
             SaveFileDialog sfd = new();
             sfd.Filter = "DegCAD projekt|*.dgproj|Všechny soubory|*.*";
             sfd.FileName = editor.FileName + ".dgproj";
 
-            if (sfd.ShowDialog() != true) return;
+            if (sfd.ShowDialog() != true) return false;
 
             editor.FolderPath = Path.GetDirectoryName(sfd.FileName);
             editor.FileName = Path.GetFileNameWithoutExtension(sfd.FileName);
+            return true;
         }
         private async void SaveEditorAsync(Editor editor)
         {
