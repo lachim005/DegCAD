@@ -146,7 +146,8 @@ namespace DegCAD
                 }
                 catch (Exception ex)
                 {
-                    if (ex is not CommandCanceledException) throw new Exception("Command thrown an exception", ex);
+                    if (ex is CommandCanceledException) return;
+                    MessageBox.Show("Při spuštění nástroje se vyskytla chyba\n\n" + ex.Message, img: MessageBoxImage.Error);
                     return;
                 }
                 finally

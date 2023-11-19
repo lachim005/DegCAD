@@ -83,17 +83,18 @@ namespace DegCAD.GeometryCommands
             ParametricLine2 newLine1 = line2;
             newLine1.Point = line1Point;
             ParametricLine2 newLine2 = line1;
-            Vector2 intersection = (0, 0);
+            Vector2 intersection = newLine1.FindIntersection(newLine2);
+
+            if (!double.IsFinite(intersection.X) || !double.IsFinite(intersection.Y))
+            {
+                throw new Exception("Vybrány rovnoběžné přímky");
+            }
 
             Vector2 line2Point = await inputMgr.GetPoint((pt) =>
             {
                 newLine2.Point = pt;
                 lseg2.P1 = pt;
-                intersection = newLine1.FindIntersection(newLine2);
-                if (!double.IsFinite(intersection.X) || !double.IsFinite(intersection.Y))
-                {
-                    throw new Exception("Vybrány neplatné přímky");
-                }
+                intersection = newLine1.FindIntersection(newLine2);            
 
                 lseg1.P2 = intersection;
                 lseg2.P2 = intersection;
