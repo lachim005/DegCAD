@@ -172,6 +172,17 @@
         <Line X1="30" Y1="25" X2="23" Y2="29" Stroke="Red"/>
         <Line X1="30" Y1="25" X2="29" Y2="33" Stroke="Red"/>
     </Canvas>
+    <Canvas x:Key="cmdTranslateOnPerpendicularLineIcon">
+        <Line X1="30" Y1="10" X2="30" Y2="27" Stroke="Black"/>
+        <Line X1="30" Y1="33" X2="30" Y2="50" Stroke="Black"/>
+        <Line X1="10" Y1="30" X2="20" Y2="30" Stroke="Black"/>
+        <Line X1="15" Y1="25" X2="15" Y2="35" Stroke="Black"/>
+        <Line X1="40" Y1="30" X2="50" Y2="30" Stroke="Red"/>
+        <Line X1="45" Y1="25" X2="45" Y2="35" Stroke="Red"/>
+        <Line X1="22" Y1="30" X2="38" Y2="30" Stroke="Red"/>
+        <Line X1="38" Y1="30" X2="33" Y2="33" Stroke="Red"/>
+        <Line X1="38" Y1="30" X2="33" Y2="27" Stroke="Red"/>
+    </Canvas>
     <Canvas x:Key="cmdCastPointIcon">
         <Line X1="10" Y1="30" X2="50" Y2="30" Stroke="Gray"/>
         <Line X1="20" Y1="10" X2="40" Y2="30" Stroke="Black"/>
