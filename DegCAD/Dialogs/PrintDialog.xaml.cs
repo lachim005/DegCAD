@@ -28,6 +28,7 @@ namespace DegCAD.Dialogs
         private static double lastUnitSize = 10;
         private static double lastOffsetX = 0;
         private static double lastOffsetY = 0;
+        private static bool lastLandscape = false;
 
         PrintQueueCollection queues;
         PrintQueue? selectedQueue;
@@ -64,6 +65,7 @@ namespace DegCAD.Dialogs
             unitSizeTbx.Text = lastUnitSize.ToString();
             vp.OffsetX = lastOffsetX;
             vp.OffsetY = lastOffsetY;
+            landscapeChbx.IsChecked = lastLandscape;
         }
         private void SaveLastValues()
         {
@@ -72,6 +74,7 @@ namespace DegCAD.Dialogs
             _ = double.TryParse(unitSizeTbx.Text, out lastUnitSize);
             lastOffsetX = vp.OffsetX;
             lastOffsetY = vp.OffsetY;
+            lastLandscape = landscapeChbx.IsChecked == true;
         }
 
         private void PrinterChanged(object sender, SelectionChangedEventArgs e)
@@ -127,10 +130,23 @@ namespace DegCAD.Dialogs
             double w = pt.PageMediaSize.Width.GetValueOrDefault(0);
             double h = pt.PageMediaSize.Height.GetValueOrDefault(0);
 
+
             var clonedVp = vp.Clone();
             clonedVp.Scale = unitSize * 96d / 25.4 / ViewPort.unitSize;
             clonedVp.Width = w;
             clonedVp.Height = h;
+
+            if (landscapeChbx.IsChecked == true)
+            {
+                clonedVp.Width = h;
+                clonedVp.Height = w;
+
+                TransformGroup tg = new();
+                tg.Children.Add(new RotateTransform(90));
+                tg.Children.Add(new TranslateTransform(w, 0));
+                clonedVp.RenderTransform = tg;
+            }
+
             
             Viewbox vb = new();
             vb.Child = clonedVp;
@@ -181,6 +197,13 @@ namespace DegCAD.Dialogs
             double w = pt.PageMediaSize.Width.GetValueOrDefault(0);
             double h = pt.PageMediaSize.Height.GetValueOrDefault(0);
 
+            if (landscapeChbx.IsChecked == true)
+            {
+                double tmp = w;
+                w = h;
+                h = tmp;
+            }
+
             double scaleFactor = Math.Min(vpGrid.ActualHeight / h, vpGrid.ActualWidth / w);
 
             vp.Width = w * scaleFactor;
@@ -223,6 +246,11 @@ namespace DegCAD.Dialogs
         private void WindowClosed(object sender, EventArgs e)
         {
             SaveLastValues();
+        }
+
+        private void LandscapeChanged(object sender, RoutedEventArgs e)
+        {
+            ResizePaperPreview();
         }
     }
 }

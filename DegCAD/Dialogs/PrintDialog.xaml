@@ -34,6 +34,7 @@
                 <TextBox x:Name="copyCountTbx" Text="1"/>
                 <Label Target="{Binding ElementName=unitSizeTbx}">Velikost _jednotky (mm)</Label>
                 <TextBox x:Name="unitSizeTbx" TextChanged="UnitSizeTbxTextChanged" Text="10"/>
+                <CheckBox x:Name="landscapeChbx" Checked="LandscapeChanged" Unchecked="LandscapeChanged" Margin="0,15">Na šířku</CheckBox>
                 <Button Click="PrintClick" Margin="0,40,0,0" Content="Tisknout" Style="{StaticResource accentBtn}" Padding="50,0" HorizontalAlignment="Center"/>
             </StackPanel>
         </ScrollViewer>
