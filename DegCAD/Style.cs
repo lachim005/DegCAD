@@ -50,7 +50,7 @@ namespace DegCAD
         {
             string pars = $"stroke=\"{ToHex(Color)}\" " +
                 $"stroke-width=\"{Thickness + 1}\" " +
-                $"stroke-linejoint=\"round\" " +
+                $"stroke-linejoin=\"round\" " +
                 $"stroke-linecap=\"round\"";
 
             if (LineStyle == 1) pars += $" stroke-dasharray=\"15 15\"";
