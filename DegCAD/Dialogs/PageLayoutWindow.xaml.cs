@@ -32,6 +32,7 @@ namespace DegCAD.Dialogs
         private static double lastOffsetY = 0;
 
         ViewPort ViewPort { get; init; }
+        Vector2 _originOffset;
 
         public PageLayoutWindow(ViewPort vp)
         {
@@ -44,6 +45,22 @@ namespace DegCAD.Dialogs
             ViewPort.ViewportChanged += (s, e) => RecalculatePosition();
 
             LoadLastValues();
+            CalculateOriginOffset();
+        }
+
+        private void CalculateOriginOffset()
+        {
+            _originOffset = (0, 0);
+            var axis = ViewPort.Timeline.CommandHistory[0].Items;
+
+            //Axonometry given by triangle lengths
+            if (axis.Length == 18)
+            {
+                //Gets the X monge point
+                if (axis[8] is not MongeItems.Point pt) return;
+                _originOffset = - pt.Coords;
+                return;
+            }
         }
 
         private void LoadLastValues()
@@ -146,8 +163,8 @@ namespace DegCAD.Dialogs
         {
             if (!double.TryParse(unitSize.Text, out var us) || us < .1) return;
 
-            double px = -ViewPort.OffsetX * us;
-            double py = -ViewPort.OffsetY * us;
+            double px = -(ViewPort.OffsetX + _originOffset.X) * us;
+            double py = -(ViewPort.OffsetY + _originOffset.Y) * us;
 
             posLeftTbl.Text = Math.Round(px).ToString();
             posTopTbl.Text = Math.Round(py).ToString();
