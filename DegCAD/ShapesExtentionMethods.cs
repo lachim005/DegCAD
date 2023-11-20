@@ -247,17 +247,22 @@ namespace DegCAD
         {
             if (double.IsFinite(t)) return t;
 
+            double slope = l.DirectionVector.Y / l.DirectionVector.X;
+
             //Calculates which corner should be used to make the infinity t finite
             int right = Math.Sign(l.DirectionVector.X);
 
             if (t == double.PositiveInfinity) right = -right;
 
-            if (right == 1)
+            if (slope >= -1 && slope <= 1)
             {
-                return l.GetParamFromX(vpl.Viewport.ScreenToCanvas((vpl.Viewport.CWidth, 0)).X);
-            } else if (right == -1) 
-            {
-                return l.GetParamFromX(vpl.Viewport.ScreenToCanvas((0, 0)).X);      
+                if (right == 1)
+                {
+                    return l.GetParamFromX(vpl.Viewport.ScreenToCanvas((vpl.Viewport.CWidth, 0)).X);
+                } else if (right == -1) 
+                {
+                    return l.GetParamFromX(vpl.Viewport.ScreenToCanvas((0, 0)).X);      
+                }
             }
 
             int bottom = Math.Sign(l.DirectionVector.Y);
