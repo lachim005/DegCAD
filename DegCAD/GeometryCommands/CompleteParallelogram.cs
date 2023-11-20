@@ -76,9 +76,9 @@ namespace DegCAD.GeometryCommands
             selectedLine2.SetStyle(Style.BlueDashStyle);
             selectedLine2.Visibility = Visibility.Visible;
             Point mLinePoint2 = new(0, 0, previewVpl);
-            Point mResPoint = new(0, 0, Style.HighlightStyle, previewVpl);
             MongeItems.LineSegment lseg1 = new(line1Point, (1, 0), Style.GreenStyle,  previewVpl);
             MongeItems.LineSegment lseg2 = new((0, 0), (1, 0), Style.GreenStyle, previewVpl);
+            Point mResPoint = new(0, 0, Style.HighlightStyle, previewVpl);
 
             ParametricLine2 newLine1 = line2;
             newLine1.Point = line1Point;
