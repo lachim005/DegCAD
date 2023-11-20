@@ -25,31 +25,32 @@ namespace DegCAD.GeometryCommands
                 mPt1.Draw();
             });
 
-            esb.CommandHelp = "Vyberte směr polopřímky";
+            esb.CommandHelp = "Vyberte směr polopřímky, pravým tlačítkem převrátíte směr";
 
             MongeItems.Point mPt2 = new(0, 0, previewVpl);
             MongeItems.HalfLine halfLine = new(p1, (0,1), Style.HighlightStyle, previewVpl);
 
-            var p2 = await inputMgr.GetPoint((p) =>
+            (var p2, var flip) = await inputMgr.GetPointWithPlane((p, flip) =>
             {
                 mPt1.Draw();
 
                 mPt2.Coords = p;
                 mPt2.Draw();
                 halfLine.Direction = p1 - p;
+                if (flip) halfLine.Direction *= -1;
                 halfLine.Draw();
             }, predicate: (p) => p != p1);
 
             Style curStyle = inputMgr.StyleSelector.CurrentStyle;
             List<IMongeItem> mItems = new List<IMongeItem>();
-            mItems.Add(new MongeItems.HalfLine(p1, p1 - p2, curStyle, vpl));
+            mItems.Add(new MongeItems.HalfLine(p1, (p1 - p2) * (flip ? -1 : 1), curStyle, vpl));
 
             esb.CommandHelp = "Zadejte název polopřímky";
             LabelInput lid = new();
             lid.ShowDialog();
             if (!lid.Canceled)
             {
-                mItems.Add(new MongeItems.Label(lid.LabelText, lid.Subscript, lid.Superscript, p2, curStyle, mItems[0].Clone(), vpl, lid.TextSize));
+                mItems.Add(new MongeItems.Label(lid.LabelText, lid.Subscript, lid.Superscript, p1, curStyle, mItems[0].Clone(), vpl, lid.TextSize));
             }
             return new(mItems.ToArray());
         }
