@@ -46,6 +46,7 @@ namespace DegCAD.GeometryCommands
 
             esb.CommandHelp = "Vyberte počáteční bod oblouku";
 
+            MongeItems.LineSegment mSeg1 = new(center, (0, 0), Style.HighlightStyle, previewVpl);
             MongeItems.Arc mArc = new(circle, 0, 1, Style.HighlightStyle, previewVpl);
             Point mStartPt = new(0,0, previewVpl);
 
@@ -58,10 +59,15 @@ namespace DegCAD.GeometryCommands
                 pt = circle.TranslatePointToCircle(pt);
                 mStartPt.Coords = pt;
                 mStartPt.Draw();
+
+                mSeg1.P2 = pt;
+                mSeg1.Draw();
             }, circles: new Circle2[1] { circle }, predicate: (pt) => pt != center);
 
             Vector2 startPoint = circle.TranslatePointToCircle(pt1);
             Vector2 startVec = startPoint - center;
+
+            mSeg1.P2 = startPoint;
 
             //Calculates the start angle and adjusts it by it's quadrant
             double startAngle = Math.Atan(startVec.Y / startVec.X);
@@ -72,6 +78,7 @@ namespace DegCAD.GeometryCommands
 
             esb.CommandHelp = "Vyberte koncový bod oblouku, pravým tlačítkem myši změníte směr oblouku";
 
+            MongeItems.LineSegment mSeg2 = new(center, (0, 0), Style.HighlightStyle, previewVpl);
             Point mEndPt = new(0, 0, previewVpl);
 
             (var pt2, var swap) = await inputMgr.GetPointWithPlane((pt, swap) =>
@@ -107,6 +114,10 @@ namespace DegCAD.GeometryCommands
                 }
 
                 mArc.Draw();
+
+                mSeg1.Draw();
+                mSeg2.P2 = endPoint;
+                mSeg2.Draw();
             }, circles: new Circle2[1] { circle }, predicate: (pt) => pt != center);
 
             Style curStyle = inputMgr.StyleSelector.CurrentStyle;
