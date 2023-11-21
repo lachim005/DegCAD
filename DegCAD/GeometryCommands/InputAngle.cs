@@ -17,7 +17,7 @@ namespace DegCAD.GeometryCommands
             esb.CommandHelp = "Zadejte velikost úhlu, který chcete nanést";
 
             var angleDeg = InputBox.InputDouble("°", "Zadejte úhel");
-            if (angleDeg is null) return null;
+            if (angleDeg is null) throw new CommandCanceledException();
             var angleRad = angleDeg / 180 * Math.PI;
 
             esb.CommandHelp = "Vyberte vrchol úhlu, který chcete nanést";

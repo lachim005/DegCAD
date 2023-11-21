@@ -17,7 +17,7 @@ namespace DegCAD.GeometryCommands
             esb.CommandHelp = "Zadejte délku, kterou chcete nanést";
 
             var distance = InputBox.InputDouble(title: "Zadejte délku");
-            if (distance is null) return null;
+            if (distance is null) throw new CommandCanceledException();
 
             esb.CommandHelp = "Vyberte bod, ze kterého chcete vzdálenost nanést";
             vpl.Viewport.Focus();

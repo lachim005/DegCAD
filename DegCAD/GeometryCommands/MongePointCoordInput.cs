@@ -21,7 +21,7 @@ namespace DegCAD.GeometryCommands
 
             if (dialog.Canceled)
             {
-                return Task.FromResult<TimelineItem?>(null);
+                throw new CommandCanceledException();
             }
 
             List<IMongeItem> pts = new();
