@@ -74,6 +74,8 @@ namespace DegCAD
             AddCommand(new("Skrýt", "Skryje vybraný prvek", Key.None, ModifierKeys.None, (_, _) => executeCommand(new Hide()), "cmdHideIcon", ProjectionType.Plane | ProjectionType.Monge | ProjectionType.Axonometry));
             AddCommand(new("Změnit styl", "Změní styl vybraného prvku na aktuálně zvolený styl", Key.None, ModifierKeys.None, (_, _) => executeCommand(new ChangeStyle()), "cmdChangeStyleIcon", ProjectionType.Plane | ProjectionType.Monge | ProjectionType.Axonometry));
             AddCommand(new("Pojmenovat", "Přidá štítek vybranému prvku", Key.None, ModifierKeys.None, (_, _) => executeCommand(new AddLabel()), "cmdAddLabelIcon", ProjectionType.Plane | ProjectionType.Monge | ProjectionType.Axonometry));
+            AddSeparator();
+            AddCommand(new("Nanést vzdálenost", "Nanese zadanou délku", Key.None, ModifierKeys.None, (_, _) => executeCommand(new InputLength()), "cmdInputLengthIcon", ProjectionType.Plane | ProjectionType.Monge | ProjectionType.Axonometry));
 
         }
 

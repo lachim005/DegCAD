@@ -230,4 +230,10 @@
         <Line X1="30" Y1="20" X2="30" Y2="40" Stroke="Black"/>
         <TextBlock Text="+A" Foreground="Red" FontSize="16" Canvas.Left="30" Canvas.Top="32"/>
     </Canvas>
+    <Canvas x:Key="cmdInputLengthIcon">
+        <Line X1="10" Y1="40" X2="50" Y2="40" Stroke="Black"/>
+        <Line X1="10" Y1="45" X2="10" Y2="35" Stroke="Black"/>
+        <Line X1="50" Y1="45" X2="50" Y2="35" Stroke="Black"/>
+        <TextBlock Text="10" TextAlignment="Center" Foreground="Red" FontSize="16" Width="60" Canvas.Top="15"/>
+    </Canvas>
 </ResourceDictionary>
