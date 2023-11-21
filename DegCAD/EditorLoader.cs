@@ -32,7 +32,7 @@ namespace DegCAD
             }
 
             Version curVer = Assembly.GetExecutingAssembly().GetName().Version ?? new(0, 0, 0);
-            if (curVer.Major < metadata.version.Major || curVer.Minor < metadata.version.Minor)
+            if (metadata.version > curVer)
             {
                 System.Windows.MessageBox.Show(
                     "Tento soubor byl vytvořen v novější verzi DegCADu. Může dojít k nesprávnému přečtení.",
