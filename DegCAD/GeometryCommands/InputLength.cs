@@ -20,6 +20,7 @@ namespace DegCAD.GeometryCommands
             if (distance is null) return null;
 
             esb.CommandHelp = "Vyberte bod, ze kterého chcete vzdálenost nanést";
+            vpl.Viewport.Focus();
 
             Point mPt3 = new(0, 0, previewVpl);
             var circle = new Circle2((0,0), distance.Value);

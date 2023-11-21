@@ -21,6 +21,7 @@ namespace DegCAD.GeometryCommands
             var angleRad = angleDeg / 180 * Math.PI;
 
             esb.CommandHelp = "Vyberte vrchol úhlu, který chcete nanést";
+            vpl.Viewport.Focus();
 
             Point mVertex = new(0, 0, Style.Default, previewVpl);
        
