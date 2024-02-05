@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DegCAD.Dialogs"
         mc:Ignorable="d"
+        Background="{DynamicResource bg}"
+        Foreground="{DynamicResource fg}"
         Height="400" Width="500"
         WindowStartupLocation="CenterScreen"
         Title="Souřadnice bodů" MinHeight="360" MinWidth="500">
@@ -53,6 +55,6 @@
             </ScrollViewer>
         </Grid>
         <Button x:Name="cancelBtn" Grid.Row="3" Content="Zrušit" Margin="5" Click="Cancel"/>
-        <Button x:Name="confirmBtn" Grid.Row="3" Content="Potvrdit" Margin="5" Grid.Column="2" Click="Confirm" Style="{StaticResource accentBtn}"/>
+        <Button x:Name="confirmBtn" Grid.Row="3" Content="Potvrdit" Margin="5" Grid.Column="2" Click="Confirm" Style="{DynamicResource accentBtn}"/>
     </Grid>
 </Window>

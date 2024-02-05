@@ -5,19 +5,20 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DegCAD"
              mc:Ignorable="d" 
+             Foreground="{DynamicResource fg}"
              d:DesignHeight="600" d:DesignWidth="350">
     <StackPanel Margin="10">
         <Label Content="Výběr stylu"/>
         <GroupBox Header="Typ čáry" Padding="10">
             <StackPanel>
-                <Button x:Name="lineType1" Click="LineTypeBtnClick" Tag="0" IsEnabled="False" Style="{StaticResource selectableBtnStyle}">
-                    <Line X1="0" Y1="0" X2="200" Y2="0" Stroke="Black" StrokeThickness="1" VerticalAlignment="Center"/>
+                <Button x:Name="lineType1" Click="LineTypeBtnClick" Tag="0" IsEnabled="False" Style="{DynamicResource selectableBtnStyle}">
+                    <Line X1="0" Y1="0" X2="200" Y2="0" Stroke="{DynamicResource fg}" StrokeThickness="1" VerticalAlignment="Center"/>
                 </Button>
-                <Button x:Name="lineType2" Click="LineTypeBtnClick" Tag="1" Style="{StaticResource selectableBtnStyle}">
-                    <Line X1="0" Y1="0" X2="200" Y2="0" Stroke="Black" StrokeThickness="1" StrokeDashArray="8, 8" VerticalAlignment="Center"/>
+                <Button x:Name="lineType2" Click="LineTypeBtnClick" Tag="1" Style="{DynamicResource selectableBtnStyle}">
+                    <Line X1="0" Y1="0" X2="200" Y2="0" Stroke="{DynamicResource fg}" StrokeThickness="1" StrokeDashArray="8, 8" VerticalAlignment="Center"/>
                 </Button>
-                <Button x:Name="lineType3" Click="LineTypeBtnClick" Tag="2" Style="{StaticResource selectableBtnStyle}">
-                    <Line X1="0" Y1="0" X2="200" Y2="0" Stroke="Black" StrokeThickness="1" StrokeDashArray="8, 8, 1, 8" VerticalAlignment="Center"/>
+                <Button x:Name="lineType3" Click="LineTypeBtnClick" Tag="2" Style="{DynamicResource selectableBtnStyle}">
+                    <Line X1="0" Y1="0" X2="200" Y2="0" Stroke="{DynamicResource fg}" StrokeThickness="1" StrokeDashArray="8, 8, 1, 8" VerticalAlignment="Center"/>
                 </Button>
                 <Label Content="_Tloušťka čáry" Target="{Binding ElementName=thicknessSlider}"/>
                 <Slider x:Name="thicknessSlider" Minimum="1" Maximum="5" TickFrequency="1" IsSnapToTickEnabled="True" ToolTip="{Binding ElementName=thicknessSlider, Path=Value}"/>

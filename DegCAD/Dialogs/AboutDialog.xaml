@@ -6,6 +6,8 @@
         xmlns:local="clr-namespace:DegCAD.Dialogs"
         mc:Ignorable="d"
         ResizeMode="NoResize"
+        Background="{DynamicResource bg}"
+        Foreground="{DynamicResource fg}"
         WindowStartupLocation="CenterScreen"
         SizeToContent="Width"
         Height="300"
@@ -39,7 +41,7 @@
                 </Hyperlink>
             </TextBlock>
         </StackPanel>
-        <Button Content="OK" Style="{StaticResource accentBtn}" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="2" Padding="25,0" Margin="0" Click="CloseClick"/>
+        <Button Content="OK" Style="{DynamicResource accentBtn}" VerticalAlignment="Center" HorizontalAlignment="Right" Grid.Column="1" Grid.Row="2" Padding="25,0" Margin="0" Click="CloseClick"/>
         <Image Grid.Row="1" Width="100" Source="/DegCAD;component/Assets/logo.ico" Height="100"/>
     </Grid>
 </Window>

@@ -313,7 +313,10 @@ namespace DegCAD
             {
                 stl.Thickness = int.Parse(vals[4]);
             }
-
+            if (App.Skin == Skin.Dark && stl.Color.R == 0 && stl.Color.G == 0 && stl.Color.B == 0)
+            {
+                stl.Color = Colors.White;
+            }
             return stl;
         } 
         private static Point PNT(string s, Style stl)

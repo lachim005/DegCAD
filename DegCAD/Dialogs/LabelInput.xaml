@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DegCAD.Dialogs"
         mc:Ignorable="d"
+        Background="{DynamicResource bg}"
+        Foreground="{DynamicResource fg}"
         Closed="WindowClosed"
         WindowStartupLocation="CenterScreen"
         Title="Pojmenovat" Height="450" Width="398" MinHeight="400" MinWidth="398">
@@ -50,6 +52,6 @@
         <Label Content="_Velikost písma:" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Right"/>
         <TextBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="5" Text="16" x:Name="fontSizeTbx"/>
         <Button x:Name="cancelBtn" Grid.Row="4" Content="_Zrušit" Margin="5" Command="Close"/>
-        <Button x:Name="confirmBtn" Grid.Row="4" Content="_Potvrdit" Margin="5" Grid.Column="2" Command="Save" Style="{StaticResource accentBtn}"/>
+        <Button x:Name="confirmBtn" Grid.Row="4" Content="_Potvrdit" Margin="5" Grid.Column="2" Command="Save" Style="{DynamicResource accentBtn}"/>
     </Grid>
 </Window>

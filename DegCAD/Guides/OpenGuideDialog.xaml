@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DegCAD.Guides"
         mc:Ignorable="d"
+        Background="{DynamicResource bg}"
+        Foreground="{DynamicResource fg}"
         WindowStartupLocation="CenterScreen"
         ResizeMode="NoResize"
         Title="Otevřít návod" Height="300" Width="400">
@@ -23,6 +25,6 @@
             Přejete si ho otevřít?
         </TextBlock>
         <Button Grid.Row="1" Margin="10" Content="Ne, otevřít editor" Click="OpenEditor"/>
-        <Button Grid.Row="1" Margin="10" Grid.Column="1" Content="Ano, otevřít návod" Style="{StaticResource accentBtn}" Click="OpenGuide"/>
+        <Button Grid.Row="1" Margin="10" Grid.Column="1" Content="Ano, otevřít návod" Style="{DynamicResource accentBtn}" Click="OpenGuide"/>
     </Grid>
 </Window>

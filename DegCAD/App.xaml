@@ -6,8 +6,9 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary x:Name="cmdIcons" Source="Assets/CommandIcons.xaml"/>
-                <ResourceDictionary x:Name="AppStyles" Source="Assets/AppStyles.xaml"/>
+                <local:SkinResourceDictionary LightSource="Assets/ColorsLight.xaml" DarkSource="Assets/ColorsDark.xaml"/>
+                <ResourceDictionary Source="Assets/AppStyles.xaml"/>
+                <ResourceDictionary Source="Assets/CommandIcons.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

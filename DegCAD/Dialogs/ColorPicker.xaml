@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DegCAD.Dialogs"
         mc:Ignorable="d"
+        Background="{DynamicResource bg}"
+        Foreground="{DynamicResource fg}"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         Title="Výběr barvy" Height="400" Width="500">
@@ -15,7 +17,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Button Content="_Zrušit" Click="CancelBtn" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="50, 0"/>
-            <Button Content="_Uložit" Style="{StaticResource accentBtn}" Click="SaveBtn" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="50, 0" Grid.Column="1"/>
+            <Button Content="_Uložit" Style="{DynamicResource accentBtn}" Click="SaveBtn" HorizontalAlignment="Center" VerticalAlignment="Center" Padding="50, 0" Grid.Column="1"/>
         </Grid>
         <TabControl Padding="15" SelectionChanged="TabChanged" x:Name="pickerTabs">
             <TabItem Header="HSV">

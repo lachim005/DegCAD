@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DegCAD.Dialogs"
         mc:Ignorable="d"
+        Background="{DynamicResource bg}"
+        Foreground="{DynamicResource fg}"
         SizeToContent="WidthAndHeight"
         WindowStartupLocation="CenterScreen"
         SnapsToDevicePixels="True"
@@ -26,10 +28,10 @@
             <TextBox x:Name="textbox" Width="150" TextWrapping="Wrap" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" TextAlignment="Left" Margin="30,30,5,30"/>
             <TextBlock x:Name="unitTbl" TextWrapping="Wrap" Text="" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" TextAlignment="Left" Margin="5,30,30,30"/>
         </StackPanel>
-        <Border BorderThickness="0,1,0,0" BorderBrush="{StaticResource border}" Grid.Row="1" Grid.ColumnSpan="2">
+        <Border BorderThickness="0,1,0,0" BorderBrush="{DynamicResource border}" Grid.Row="1" Grid.ColumnSpan="2">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
                 <Button Click="CancelClick" x:Name="cancelBtn" Content="_Zrušit" Width="80"/>
-                <Button Click="SubmitClick" x:Name="submitBtn" Content="_Potvrdit" Width="80" Style="{StaticResource accentBtn}"/>
+                <Button Click="SubmitClick" x:Name="submitBtn" Content="_Potvrdit" Width="80" Style="{DynamicResource accentBtn}"/>
             </StackPanel>
         </Border>
     </Grid>

@@ -167,5 +167,13 @@ namespace DegCAD
             }
             return false;
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (Application.Current is App app)
+            {
+                app.ChangeSkin((App.Skin == Skin.Light) ? Skin.Dark : Skin.Light);
+            }
+        }
     }
 }

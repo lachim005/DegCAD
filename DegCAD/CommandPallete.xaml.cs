@@ -122,9 +122,9 @@ namespace DegCAD
         {
             Rectangle r = new()
             {
-                Width = 2,
+                Width = 1,
                 Height = cmdButtons.Height,
-                Fill = new System.Windows.Media.SolidColorBrush(System.Windows.Media.Color.FromRgb(240, 240, 240))
+                Fill = FindResource("border") as System.Windows.Media.Brush
             };
             cmdButtons.Children.Add(r);
         }

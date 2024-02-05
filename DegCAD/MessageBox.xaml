@@ -11,6 +11,8 @@
         ResizeMode="NoResize"
         Topmost="True"
         MaxWidth="500"
+        Background="{DynamicResource bg}"
+        Foreground="{DynamicResource fg}"
         KeyDown="WindowKeyDown"
         Title="MessageBox">
     <Grid>
@@ -27,7 +29,7 @@
                 <Canvas>
                     <Path Data="M 25 0 L 50 50 L 0 50 z" Fill="Gold"/>
                 </Canvas>
-                <TextBlock Text="!" VerticalAlignment="Center" FontWeight="Bold" FontSize="24" Margin="0,5,0,0" HorizontalAlignment="Center"/>
+                <TextBlock Text="!" VerticalAlignment="Center" Foreground="Black" FontWeight="Bold" FontSize="24" Margin="0,5,0,0" HorizontalAlignment="Center"/>
             </Grid>
             <Grid x:Name="dangerIcon" Visibility="Collapsed" Width="50" Height="50">
                 <Canvas>
@@ -50,10 +52,10 @@
             </Grid>
         </Grid>
         <TextBlock x:Name="textbox" TextWrapping="Wrap" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Left" TextAlignment="Left" Margin="30"/>
-        <Border BorderThickness="0,1,0,0" BorderBrush="{StaticResource border}" Grid.Row="1" Grid.ColumnSpan="2">
+        <Border BorderThickness="0,1,0,0" BorderBrush="{DynamicResource border}" Grid.Row="1" Grid.ColumnSpan="2">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="5">
-                <Button Visibility="Collapsed" Click="OkClick" x:Name="okBtn" Content="_OK" Width="80" Style="{StaticResource accentBtn}"/>
-                <Button Visibility="Collapsed" Click="YesClick" x:Name="yesBtn" Content="_Ano" Style="{StaticResource accentBtn}" Width="80"/>
+                <Button Visibility="Collapsed" Click="OkClick" x:Name="okBtn" Content="_OK" Width="80" Style="{DynamicResource accentBtn}"/>
+                <Button Visibility="Collapsed" Click="YesClick" x:Name="yesBtn" Content="_Ano" Style="{DynamicResource accentBtn}" Width="80"/>
                 <Button Visibility="Collapsed" Click="NoClick" x:Name="noBtn" Content="_Ne" Width="80"/>
                 <Button Visibility="Collapsed" Click="CancelClick" x:Name="cancelBtn" Content="_Zrušit" Width="80"/>
             </StackPanel>

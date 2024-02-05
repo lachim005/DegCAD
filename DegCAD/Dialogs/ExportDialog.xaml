@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DegCAD.Dialogs"
         mc:Ignorable="d"
+        Background="{DynamicResource bg}"
+        Foreground="{DynamicResource fg}"
         Loaded="WindowLoaded"
         Closed="WindowClosed"
         WindowStartupLocation="CenterScreen"
@@ -21,7 +23,7 @@
             <ColumnDefinition Width="400"/>
         </Grid.ColumnDefinitions>
         <Grid x:Name="vpGrid" SizeChanged="VpGridSizeChanged" Margin="10">
-            <Border x:Name="vpBorder" VerticalAlignment="Center" SnapsToDevicePixels="True" BorderBrush="{StaticResource border}" BorderThickness="1" HorizontalAlignment="Center"/>
+            <Border x:Name="vpBorder" VerticalAlignment="Center" SnapsToDevicePixels="True" BorderBrush="{DynamicResource border}" BorderThickness="1" HorizontalAlignment="Center"/>
         </Grid>
         <TextBlock Text="Vyberte výřez" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         <Button Content="Vycentrovat" Click="CenterViewport" Grid.Row="2" Padding="10, 0" VerticalAlignment="Top" HorizontalAlignment="Center"/>
@@ -35,9 +37,9 @@
                 <StackPanel>
                     <RadioButton Checked="ImageSizingTypeChanged" IsChecked="True" Content="Velikost v pixelech" GroupName="imageSizing" x:Name="imagePxSizeRb"/>
                     <Grid HorizontalAlignment="Left" Margin="10" Width="140" Height="140">
-                        <Path Data="M 35 1 l 5 10 l -10 0 l 5 -10 L 35 98 l -5 -10 l 10 0 l -5 10" StrokeLineJoin="Round" Stroke="{StaticResource border}" Fill="{StaticResource border}"/>
-                        <Path Data="M 1 49 l 10 5 l 0 -10 l -10 5 L 69 49 l -10 -5 l 0 10 l 10 -5" StrokeLineJoin="Round" Stroke="{StaticResource border}" Fill="{StaticResource border}"/>
-                        <Rectangle Width="70" Height="99" Stroke="{StaticResource border}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Path Data="M 35 1 l 5 10 l -10 0 l 5 -10 L 35 98 l -5 -10 l 10 0 l -5 10" StrokeLineJoin="Round" Stroke="{DynamicResource border}" Fill="{DynamicResource border}"/>
+                        <Path Data="M 1 49 l 10 5 l 0 -10 l -10 5 L 69 49 l -10 -5 l 0 10 l 10 -5" StrokeLineJoin="Round" Stroke="{DynamicResource border}" Fill="{DynamicResource border}"/>
+                        <Rectangle Width="70" Height="99" Stroke="{DynamicResource border}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                         <TextBox Width="50" IsEnabled="{Binding IsChecked, ElementName=imagePxSizeRb}" x:Name="imagePxWidth" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,110,0,0" Text="500" TextChanged="ImageTextChanged"/>
                         <TextBox Width="50" IsEnabled="{Binding IsChecked, ElementName=imagePxSizeRb}" x:Name="imagePxHeight" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="81,38,0,0" Text="700" TextChanged="ImageTextChanged"/>
                     </Grid>
@@ -47,9 +49,9 @@
                 <StackPanel Grid.Column="2">
                     <RadioButton Checked="ImageSizingTypeChanged" Content="Velikost v milimetrech" GroupName="imageSizing" x:Name="imageMmSizeRb"/>
                     <Grid HorizontalAlignment="Left" Margin="10" Width="140" Height="140">
-                        <Path Data="M 35 1 l 5 10 l -10 0 l 5 -10 L 35 98 l -5 -10 l 10 0 l -5 10" StrokeLineJoin="Round" Stroke="{StaticResource border}" Fill="{StaticResource border}"/>
-                        <Path Data="M 1 49 l 10 5 l 0 -10 l -10 5 L 69 49 l -10 -5 l 0 10 l 10 -5" StrokeLineJoin="Round" Stroke="{StaticResource border}" Fill="{StaticResource border}"/>
-                        <Rectangle Width="70" Height="99" Stroke="{StaticResource border}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+                        <Path Data="M 35 1 l 5 10 l -10 0 l 5 -10 L 35 98 l -5 -10 l 10 0 l -5 10" StrokeLineJoin="Round" Stroke="{DynamicResource border}" Fill="{DynamicResource border}"/>
+                        <Path Data="M 1 49 l 10 5 l 0 -10 l -10 5 L 69 49 l -10 -5 l 0 10 l 10 -5" StrokeLineJoin="Round" Stroke="{DynamicResource border}" Fill="{DynamicResource border}"/>
+                        <Rectangle Width="70" Height="99" Stroke="{DynamicResource border}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
                         <TextBox Width="50" IsEnabled="{Binding IsChecked, ElementName=imageMmSizeRb}" x:Name="imageMmWidth" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="10,110,0,0" Text="210" TextChanged="ImageTextChanged"/>
                         <TextBox Width="50" IsEnabled="{Binding IsChecked, ElementName=imageMmSizeRb}" x:Name="imageMmHeight" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="81,38,0,0" Text="297" TextChanged="ImageTextChanged"/>
                     </Grid>
@@ -68,7 +70,7 @@
                 <ComboBoxItem Content=".svg"/>
             </ComboBox>
             <CheckBox Content="Transparentní pozadí" Margin="5" x:Name="imageTransparentBgChbx"/>
-            <Button Content="Exportovat" Style="{StaticResource accentBtn}" Click="ExportImageClick" HorizontalAlignment="Right" Width="100"/>
+            <Button Content="Exportovat" Style="{DynamicResource accentBtn}" Click="ExportImageClick" HorizontalAlignment="Right" Width="100"/>
         </StackPanel>
     </Grid>
 </Window>

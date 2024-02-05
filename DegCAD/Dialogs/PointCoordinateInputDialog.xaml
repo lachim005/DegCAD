@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DegCAD.Dialogs"
         mc:Ignorable="d"
+        Background="{DynamicResource bg}"
+        Foreground="{DynamicResource fg}"
         Height="400" Width="500"
         Closed="WindowClosed"
         WindowStartupLocation="CenterScreen"
@@ -63,17 +65,17 @@
             <Label Content="Kladný směr osy x:" Grid.Row="3" VerticalAlignment="Center" Margin="0,0,30,0"/>
             <RadioButton GroupName="xDirection" IsChecked="True" VerticalAlignment="Center" x:Name="reverseXDirection"/>
             <Canvas VerticalAlignment="Center" Width="40">
-                <Line X1="5" Y1="0" X2="35" Y2="0" Stroke="Black"/>
-                <Line X1="5" Y1="0" X2="10" Y2="5" Stroke="Black"/>
-                <Line X1="5" Y1="0" X2="10" Y2="-5" Stroke="Black"/>
-                <Line X1="35" Y1="0" X2="30" Y2="5" Stroke="Black"/>
-                <Line X1="35" Y1="0" X2="30" Y2="-5" Stroke="Black"/>
-                <Line X1="20" Y1="10" X2="20" Y2="-10" Stroke="Black"/>
+                <Line X1="5" Y1="0" X2="35" Y2="0" Stroke="{DynamicResource fg}"/>
+                <Line X1="5" Y1="0" X2="10" Y2="5" Stroke="{DynamicResource fg}"/>
+                <Line X1="5" Y1="0" X2="10" Y2="-5" Stroke="{DynamicResource fg}"/>
+                <Line X1="35" Y1="0" X2="30" Y2="5" Stroke="{DynamicResource fg}"/>
+                <Line X1="35" Y1="0" X2="30" Y2="-5" Stroke="{DynamicResource fg}"/>
+                <Line X1="20" Y1="10" X2="20" Y2="-10" Stroke="{DynamicResource fg}"/>
             </Canvas>
             <RadioButton GroupName="xDirection" VerticalAlignment="Center" x:Name="dontReverseXDirection"/>
         </StackPanel>
 
         <Button x:Name="cancelBtn" Grid.Row="3" Content="Zrušit" Margin="5" Click="Cancel"/>
-        <Button x:Name="confirmBtn" Grid.Row="3" Content="Potvrdit" Margin="5" Grid.Column="2" Click="Confirm" Style="{StaticResource accentBtn}"/>
+        <Button x:Name="confirmBtn" Grid.Row="3" Content="Potvrdit" Margin="5" Grid.Column="2" Click="Confirm" Style="{DynamicResource accentBtn}"/>
     </Grid>
 </Window>

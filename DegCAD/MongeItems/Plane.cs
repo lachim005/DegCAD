@@ -35,7 +35,7 @@ namespace DegCAD.MongeItems
             }
         }
 
-        public Plane(bool plane, ViewportLayer? vpl = null) : this(plane, new() { Color = Color.FromRgb(255, 255, 200) }, vpl) { }
+        public Plane(bool plane, ViewportLayer? vpl = null) : this(plane, new() { Color = Color.FromArgb(55, 255, 255, 0) }, vpl) { }
         public Plane(bool plane, Style style, ViewportLayer? vpl = null)
         {
             TopPlane = plane;

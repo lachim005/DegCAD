@@ -8,7 +8,8 @@
         WindowStartupLocation="CenterScreen"
         Loaded="WindowLoaded"
         Closed="WindowClosed"
-        Background="{StaticResource bg}"
+        Background="{DynamicResource bg}"
+        Foreground="{DynamicResource fg}"
         MinHeight="400" MinWidth="600"
         Title="Tisk" Height="450" Width="800">
     <Grid Margin="20">
@@ -22,7 +23,7 @@
             <ColumnDefinition Width="350"/>
         </Grid.ColumnDefinitions>
         <Grid x:Name="vpGrid" Margin="5,5,5,5" SizeChanged="VpGridSizeChanged">
-            <Border HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="vpSv" SnapsToDevicePixels="True" BorderBrush="{StaticResource fg}" BorderThickness="1"/>
+            <Border HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="vpSv" SnapsToDevicePixels="True" BorderBrush="{DynamicResource fg}" BorderThickness="1"/>
         </Grid>
         <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" Grid.RowSpan="2">
             <StackPanel Margin="30,0" VerticalAlignment="Center">
@@ -35,7 +36,7 @@
                 <Label Target="{Binding ElementName=unitSizeTbx}">Velikost _jednotky (mm)</Label>
                 <TextBox x:Name="unitSizeTbx" TextChanged="UnitSizeTbxTextChanged" Text="10"/>
                 <CheckBox x:Name="landscapeChbx" Checked="LandscapeChanged" Unchecked="LandscapeChanged" Margin="0,15">Na šířku</CheckBox>
-                <Button Click="PrintClick" Margin="0,40,0,0" Content="Tisknout" Style="{StaticResource accentBtn}" Padding="50,0" HorizontalAlignment="Center"/>
+                <Button Click="PrintClick" Margin="0,40,0,0" Content="Tisknout" Style="{DynamicResource accentBtn}" Padding="50,0" HorizontalAlignment="Center"/>
             </StackPanel>
         </ScrollViewer>
         <TextBlock Grid.Row="1" Text="Vyberte pozici pro tisk" VerticalAlignment="Center" HorizontalAlignment="Center"/>

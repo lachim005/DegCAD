@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DegCAD"
         mc:Ignorable="d"
+        Background="{DynamicResource bg}"
+        Foreground="{DynamicResource fg}"
         WindowState="Maximized" WindowStyle="None"
         WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
         Title="FullscreenPresenter" Height="450" Width="800">
@@ -18,7 +20,7 @@
         <Grid x:Name="contentGrid"/>
         <Grid>
             <Button Width="27" VerticalAlignment="Top" HorizontalAlignment="Right" Command="Close">
-                <Path Data="M 0 5 L 5 5 L 5 0 M 10 0 L 10 5 L 15 5 M 15 10 L 10 10 L 10 15 M 5 15 L 5 10 L 0 10" Stroke="{StaticResource fg}" StrokeThickness="1"/>
+                <Path Data="M 0 5 L 5 5 L 5 0 M 10 0 L 10 5 L 15 5 M 15 10 L 10 10 L 10 15 M 5 15 L 5 10 L 0 10" Stroke="{DynamicResource fg}" StrokeThickness="1"/>
             </Button>
         </Grid>
     </Grid>

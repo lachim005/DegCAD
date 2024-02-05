@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DegCAD.Dialogs"
         mc:Ignorable="d"
+        Background="{DynamicResource bg}"
+        Foreground="{DynamicResource fg}"
         ResizeMode="NoResize"
         Closing="Window_Closing"
         WindowStartupLocation="CenterScreen"
@@ -22,18 +24,18 @@
             <TabItem Header="Zadat délky axonometrického trojúhelníka">
                 <Grid>
                     <Canvas VerticalAlignment="Center" Width="400" Height="300" HorizontalAlignment="Center">
-                        <Line X1="200" Y1="200" X2="200" Y2="0" Stroke="Gray"/>
-                        <Line X1="200" Y1="200" X2="000" Y2="300" Stroke="Gray"/>
-                        <Line X1="200" Y1="200" X2="400" Y2="300" Stroke="Gray"/>
-                        <Path Data="M 100 250 L 300 250 L 200 50 z" Stroke="Black" StrokeThickness="3"/>
+                        <Line X1="200" Y1="200" X2="200" Y2="0" Stroke="{DynamicResource border}"/>
+                        <Line X1="200" Y1="200" X2="000" Y2="300" Stroke="{DynamicResource border}"/>
+                        <Line X1="200" Y1="200" X2="400" Y2="300" Stroke="{DynamicResource border}"/>
+                        <Path Data="M 100 250 L 300 250 L 200 50 z" Stroke="{DynamicResource fg}" StrokeThickness="3"/>
 
                         <TextBlock Text="X" Canvas.Top="230" Canvas.Left="90"/>
                         <TextBlock Text="Y" Canvas.Top="230" Canvas.Right="90"/>
                         <TextBlock Text="Z" Canvas.Left="205" Canvas.Top="35"/>
 
-                        <TextBlock Text="y" Canvas.Top="270" Canvas.Right="0" Foreground="Gray"/>
-                        <TextBlock Text="z" Canvas.Left="205" Foreground="Gray"/>
-                        <TextBlock Text="x" Canvas.Top="270" Foreground="Gray"/>
+                        <TextBlock Text="y" Canvas.Top="270" Canvas.Right="0" Foreground="{DynamicResource border}"/>
+                        <TextBlock Text="z" Canvas.Left="205" Foreground="{DynamicResource border}"/>
+                        <TextBlock Text="x" Canvas.Top="270" Foreground="{DynamicResource border}"/>
                         <TextBox x:Name="xyLen" Width="100" Canvas.Left="150" Canvas.Top="270"/>
                         <TextBox x:Name="yzLen" Width="100" Canvas.Left="270" Canvas.Top="130"/>
                         <TextBox x:Name="zxLen" Width="100" Canvas.Right="270" Canvas.Top="130"/>
@@ -43,16 +45,16 @@
             <TabItem Header="Zadat úhly axonometrického osového kříže">
                 <Grid>
                     <Canvas VerticalAlignment="Center" Width="400" Height="300" HorizontalAlignment="Center">
-                        <Ellipse Width="100" Height="100" Stroke="Black" StrokeThickness="3" Canvas.Left="150" Canvas.Top="150"/>
-                        <Line X1="200" Y1="200" X2="200" Y2="0" Stroke="White" StrokeThickness="10"/>
-                        <Line X1="200" Y1="200" X2="000" Y2="300" Stroke="White" StrokeThickness="10"/>
-                        <Line X1="200" Y1="200" X2="400" Y2="300" Stroke="White" StrokeThickness="10"/>
-                        <Line X1="200" Y1="200" X2="200" Y2="0" Stroke="Gray"/>
-                        <Line X1="200" Y1="200" X2="000" Y2="300" Stroke="Gray"/>
-                        <Line X1="200" Y1="200" X2="400" Y2="300" Stroke="Gray"/>
-                        <TextBlock Text="x" Canvas.Top="270" Foreground="Gray"/>
-                        <TextBlock Text="y" Canvas.Top="270" Canvas.Right="0" Foreground="Gray"/>
-                        <TextBlock Text="z" Canvas.Left="205" Foreground="Gray"/>
+                        <Ellipse Width="100" Height="100" Stroke="{DynamicResource fg}" StrokeThickness="3" Canvas.Left="150" Canvas.Top="150"/>
+                        <Line X1="200" Y1="200" X2="200" Y2="0" Stroke="{DynamicResource bg}" StrokeThickness="10"/>
+                        <Line X1="200" Y1="200" X2="000" Y2="300" Stroke="{DynamicResource bg}" StrokeThickness="10"/>
+                        <Line X1="200" Y1="200" X2="400" Y2="300" Stroke="{DynamicResource bg}" StrokeThickness="10"/>
+                        <Line X1="200" Y1="200" X2="200" Y2="0" Stroke="{DynamicResource border}"/>
+                        <Line X1="200" Y1="200" X2="000" Y2="300" Stroke="{DynamicResource border}"/>
+                        <Line X1="200" Y1="200" X2="400" Y2="300" Stroke="{DynamicResource border}"/>
+                        <TextBlock Text="x" Canvas.Top="270" Foreground="{DynamicResource border}"/>
+                        <TextBlock Text="y" Canvas.Top="270" Canvas.Right="0" Foreground="{DynamicResource border}"/>
+                        <TextBlock Text="z" Canvas.Left="205" Foreground="{DynamicResource border}"/>
                         <StackPanel Canvas.Left="130" Canvas.Top="270" Orientation="Horizontal">
                             <RadioButton GroupName="computedAngle" x:Name="computeXYAngle" Checked="ComputeAngleChanged" VerticalAlignment="Center" Width="20"/>
                             <TextBox x:Name="xyAngle" Width="100"/>
@@ -70,6 +72,6 @@
             </TabItem>
         </TabControl>
         <Button Content="_Zrušit" Grid.Row="1" Margin="10,0" Click="CancelClick"/>
-        <Button Style="{StaticResource accentBtn}" Content="_Potvrdit" Margin="10,0" Grid.Row="1" Grid.Column="1" Click="SubmitClick"/>
+        <Button Style="{DynamicResource accentBtn}" Content="_Potvrdit" Margin="10,0" Grid.Row="1" Grid.Column="1" Click="SubmitClick"/>
     </Grid>
 </Window>
