@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -53,6 +54,9 @@ namespace DegCAD
 
             editorTabs.ItemsSource = openEditors;
             toastNotificationsIc.ItemsSource = toastNotifications;
+#if !DEBUG
+            CheckForNewVersion();
+#endif
         }
 
         private void TabSwitched(object sender, SelectionChangedEventArgs e)
@@ -199,6 +203,29 @@ namespace DegCAD
 
             toastNotifications.Remove(tn);
             tn.ButtonAction();
+        }
+
+        private async void CheckForNewVersion()
+        {
+            try
+            {
+                using System.Net.Http.HttpClient client = new();
+                string res = await client.GetStringAsync("https://degcad.cz/newestVersion.txt");
+                Version newestVer = new(res);
+                var currentVer = Assembly.GetExecutingAssembly().GetName().Version;
+                if (newestVer > currentVer)
+                {
+                    toastNotifications.Add(new(
+                        $"Je k dispozici nová verze DegCADu {newestVer}.\nStáhnout ji můžete na webu degcad.cz.\n", 
+                        "Nová verze", 
+                        "Stáhnout", 
+                        () => Process.Start(new ProcessStartInfo() { FileName = "https://degcad.cz/download.php", UseShellExecute = true })));
+                }
+            }
+            catch
+            {
+
+            }
         }
     }
 }
