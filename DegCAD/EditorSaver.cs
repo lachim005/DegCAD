@@ -9,6 +9,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using Colors = System.Windows.Media.Colors;
 
 namespace DegCAD
 {
@@ -122,7 +123,13 @@ namespace DegCAD
             //Writes the default style
             foreach (var color in palette)
             {
-                sw.WriteLine($"{color.R} {color.G} {color.B}");
+                var c = color;
+                if (App.Skin == Skin.Dark)
+                {
+                    if (c == Colors.Black) c = Colors.White;
+                    else if (c == Colors.White) c = Colors.Black;
+                }
+                sw.WriteLine($"{c.R} {c.G} {c.B}");
             }
         }
         private static void SaveGuideToFile(Guide guide, string path)
@@ -184,6 +191,15 @@ namespace DegCAD
             };
         }
 
-        private static string SerializeStyle(Style s) => $"STL {s.Color.R} {s.Color.G} {s.Color.B} {s.LineStyle} {s.Thickness}";
+        private static string SerializeStyle(Style s)
+        {
+            if (App.Skin == Skin.Dark)
+            {
+                if (s.Color == Colors.Black) s.Color = Colors.White;
+                else if (s.Color == Colors.White) s.Color = Colors.Black;
+            }
+
+            return $"STL {s.Color.R} {s.Color.G} {s.Color.B} {s.LineStyle} {s.Thickness}";
+        }
     }
 }

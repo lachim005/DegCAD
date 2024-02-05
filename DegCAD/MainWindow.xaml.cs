@@ -173,6 +173,11 @@ namespace DegCAD
             if (Application.Current is App app)
             {
                 app.ChangeSkin((App.Skin == Skin.Light) ? Skin.Dark : Skin.Light);
+                foreach (var editor in openEditors)
+                {
+                    editor.Item1.viewPort.SwapWhiteAndBlack();
+                    editor.Item1.styleSelector.SwapWhiteAndBlack();
+                }
             }
         }
     }

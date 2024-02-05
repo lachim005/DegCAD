@@ -328,6 +328,22 @@ namespace DegCAD
 
             Redraw();
         }
+        public void SwapWhiteAndBlack()
+        {
+            foreach (var c in Timeline.CommandHistory)
+            {
+                foreach (var i in c.Items)
+                {
+                    if (i.Style.Color == Colors.Black)
+                    {
+                        i.Style = new() { Color = Colors.White, LineStyle = i.Style.LineStyle, Thickness = i.Style.Thickness };
+                    } else if (i.Style.Color == Colors.White)
+                    {
+                        i.Style = new() { Color = Colors.Black, LineStyle = i.Style.LineStyle, Thickness = i.Style.Thickness };
+                    }
+                }
+            }
+        }
 
         public ViewPort Clone()
         {

@@ -219,6 +219,11 @@ namespace DegCAD
                 if (!byte.TryParse(cols[0], out var r) || !byte.TryParse(cols[1], out var g) || !byte.TryParse(cols[2], out var b))
                     throw new Exception($"Chyba při čtení barvy \"{line}\"");
                 var col = Color.FromRgb(r, g, b);
+                if (App.Skin == Skin.Dark)
+                {
+                    if (col == Colors.White) col = Colors.Black;
+                    else if (col == Colors.Black) col = Colors.White;
+                }
                 e.styleSelector.ColorPalette.Add(col);
             }
             e.styleSelector.UpdateColorPalette();
@@ -313,9 +318,10 @@ namespace DegCAD
             {
                 stl.Thickness = int.Parse(vals[4]);
             }
-            if (App.Skin == Skin.Dark && stl.Color.R == 0 && stl.Color.G == 0 && stl.Color.B == 0)
+            if (App.Skin == Skin.Dark)
             {
-                stl.Color = Colors.White;
+                if (stl.Color == Colors.Black) stl.Color = Colors.White;
+                else if (stl.Color == Colors.White) stl.Color = Colors.Black;
             }
             return stl;
         } 

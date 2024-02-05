@@ -57,12 +57,13 @@ namespace DegCAD
         {
             InitializeComponent();
             UpdateColorPalette();
-            CurrentColor = Colors.Black;
+            if (App.Skin == Skin.Light) CurrentColor = Colors.Black;
+            else CurrentColor = Colors.White;
         }
 
         public void AddDefaultColors()
         {
-            ColorPalette.Add(Color.FromRgb(0, 0, 0));
+            ColorPalette.Add(App.Skin == Skin.Light ? Colors.Black : Colors.White);
             ColorPalette.Add(Color.FromRgb(153, 153, 153));
             ColorPalette.Add(Color.FromRgb(255, 0, 0));
             ColorPalette.Add(Color.FromRgb(255, 128, 0));
@@ -90,6 +91,28 @@ namespace DegCAD
                 btn.Tag = col;
                 colorPaletteWp.Children.Add(btn);
             }
+        }
+
+        public void SwapWhiteAndBlack()
+        {
+            for (int i = 0; i < ColorPalette.Count; i++)
+            {
+                if (ColorPalette[i] == Colors.Black)
+                {
+                    ColorPalette[i] = Colors.White;
+                } else if (ColorPalette[i] == Colors.White)
+                {
+                    ColorPalette[i] = Colors.Black;
+                }
+            }
+            if (CurrentColor == Colors.Black)
+            {
+                CurrentColor = Colors.White;
+            } else if (CurrentColor == Colors.White)
+            {
+                CurrentColor = Colors.Black;
+            }
+            UpdateColorPalette();
         }
 
         private void PaletteBtnClick(object sender, MouseButtonEventArgs e)
