@@ -67,6 +67,7 @@
             <MenuItem Header="Úpr_avy">
                 <MenuItem Header="_Zpět" Command="Undo"/>
                 <MenuItem Header="_Opakovat" Command="Redo"/>
+                <MenuItem IsCheckable="True" Header="_Tmavý režim" Click="ChangeSkin"/>
             </MenuItem>
             <MenuItem Header="Nástroje">
                 <MenuItem Header="Rozložení na papíře" Command="{x:Static local:MainWindow.pageLayoutCommand}"/>
@@ -124,7 +125,6 @@
                 </Button>
                 <Label Content="_Nový dokument" Target="{Binding ElementName=homeNewBtn}" HorizontalAlignment="Center"/>
             </StackPanel>
-            <Button Content="Přepnout styl" VerticalAlignment="Bottom" HorizontalAlignment="Right" Margin="50" Click="Button_Click"/>
         </Grid>
     </DockPanel>
 </Window>
