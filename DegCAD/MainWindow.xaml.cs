@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -27,6 +28,7 @@ namespace DegCAD
         /// </summary>
         public Editor? ActiveEditor { get; set; }
         private readonly ObservableCollection<Tuple<Editor>> openEditors = new();
+        private readonly ObservableCollection<ToastNotification> toastNotifications = new();
 
         /// <summary>
         /// Used for the number after "Bez názvu" in new document names
@@ -50,6 +52,7 @@ namespace DegCAD
             }
 
             editorTabs.ItemsSource = openEditors;
+            toastNotificationsIc.ItemsSource = toastNotifications;
         }
 
         private void TabSwitched(object sender, SelectionChangedEventArgs e)
@@ -179,6 +182,23 @@ namespace DegCAD
                     editor.Item1.styleSelector.SwapWhiteAndBlack();
                 }
             }
+        }
+
+        private void CloseToastNotification(object sender, RoutedEventArgs e)
+        {
+            if (sender is not Button b) return;
+            if (b.DataContext is not ToastNotification tn) return;
+
+            toastNotifications.Remove(tn);
+        }
+
+        private void ToastNotificationButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (sender is not Button b) return;
+            if (b.DataContext is not ToastNotification tn) return;
+
+            toastNotifications.Remove(tn);
+            tn.ButtonAction();
         }
     }
 }
