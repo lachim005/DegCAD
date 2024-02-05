@@ -23,7 +23,7 @@
             <ColumnDefinition Width="400"/>
         </Grid.ColumnDefinitions>
         <Grid x:Name="vpGrid" SizeChanged="VpGridSizeChanged" Margin="10">
-            <Border x:Name="vpBorder" VerticalAlignment="Center" SnapsToDevicePixels="True" BorderBrush="{DynamicResource border}" BorderThickness="1" HorizontalAlignment="Center"/>
+            <Border x:Name="vpBorder" Background="White" VerticalAlignment="Center" SnapsToDevicePixels="True" BorderBrush="{DynamicResource border}" BorderThickness="1" HorizontalAlignment="Center"/>
         </Grid>
         <TextBlock Text="Vyberte výřez" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center"/>
         <Button Content="Vycentrovat" Click="CenterViewport" Grid.Row="2" Padding="10, 0" VerticalAlignment="Top" HorizontalAlignment="Center"/>
@@ -44,7 +44,7 @@
                         <TextBox Width="50" IsEnabled="{Binding IsChecked, ElementName=imagePxSizeRb}" x:Name="imagePxHeight" VerticalAlignment="Top" HorizontalAlignment="Left" Margin="81,38,0,0" Text="700" TextChanged="ImageTextChanged"/>
                     </Grid>
                     <Label Content="_Velikost jednotky (px)" IsEnabled="{Binding IsChecked, ElementName=imagePxSizeRb}" Target="{Binding ElementName=imagePxUnitSizeTbx}"/>
-                    <TextBox Text="100" x:Name="imagePxUnitSizeTbx" IsEnabled="{Binding IsChecked, ElementName=imagePxSizeRb}" TextChanged="ImageTextChanged"/>
+                    <TextBox Text="30" x:Name="imagePxUnitSizeTbx" IsEnabled="{Binding IsChecked, ElementName=imagePxSizeRb}" TextChanged="ImageTextChanged"/>
                 </StackPanel>
                 <StackPanel Grid.Column="2">
                     <RadioButton Checked="ImageSizingTypeChanged" Content="Velikost v milimetrech" GroupName="imageSizing" x:Name="imageMmSizeRb"/>
@@ -61,7 +61,8 @@
                     <TextBox Text="72" x:Name="imageDpiTbx" IsEnabled="{Binding IsChecked, ElementName=imageMmSizeRb}" TextChanged="ImageTextChanged"/>
                 </StackPanel>
             </Grid>
-            <Label Content="_Formát" Margin="5,50,0,0"/>
+            <CheckBox x:Name="darkCbx" Content="Tmavý" Margin="5,50,0,0" Checked="darkCbx_Checked" Unchecked="darkCbx_Checked"/>
+            <Label Content="_Formát" Margin="5,25,0,0"/>
             <ComboBox Name="imageFormatCbx" SelectedIndex="2" SelectionChanged="ImageFormatChanged" Margin="5,0">
                 <ComboBoxItem Content=".jpg"/>
                 <ComboBoxItem Content=".bmp"/>

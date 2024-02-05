@@ -27,7 +27,7 @@ namespace DegCAD.Dialogs
         private static bool lastPxScaling = true;
         private static double lastPxW = 500; 
         private static double lastPxH = 700;
-        private static double lastPxUnitSize = 100;
+        private static double lastPxUnitSize = 30;
         private static double lastMmW = 210; 
         private static double lastMmH = 297; 
         private static double lastMmUnitSize = 10;
@@ -36,6 +36,7 @@ namespace DegCAD.Dialogs
         private static bool lastTransparentBg = false;
         private static double lastOffsetX = 0;
         private static double lastOffsetY = 0;
+        private static bool dark = false;
 
         ViewPort vp;
 
@@ -44,6 +45,19 @@ namespace DegCAD.Dialogs
             InitializeComponent();
             this.vp = vp.Clone();
             this.vp.CanZoom = false;
+
+            if (App.Skin == Skin.Dark)
+            {
+                this.vp.SwapWhiteAndBlack();
+            }
+
+            if (dark)
+            {
+                // Inverts dark because checking darkCbx will invert it again
+                dark = !dark;
+                darkCbx.IsChecked = true;
+            }
+
             vpBorder.Child = this.vp;
 
             LoadLastValues();
@@ -200,7 +214,7 @@ namespace DegCAD.Dialogs
             clonedVp.Scale = scale / ViewPort.unitSize;
             clonedVp.Width = w;
             clonedVp.Height = h;
-            if (imageTransparentBgChbx.IsChecked == false || imageFormatCbx.SelectedIndex <= 1) clonedVp.Background = Brushes.White;
+            if (imageTransparentBgChbx.IsChecked == false || imageFormatCbx.SelectedIndex <= 1) clonedVp.Background = dark ? new SolidColorBrush(Color.FromRgb(38, 38, 38)) : Brushes.White;
 
             Viewbox vb = new();
             vb.Child = clonedVp;
@@ -246,7 +260,7 @@ namespace DegCAD.Dialogs
             sw.WriteLine($"<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"{w}\" height=\"{h}\" fill=\"none\">");
             if (imageTransparentBgChbx.IsChecked == false)
             {
-                sw.WriteLine($"\t<rect width=\"{w}\" height=\"{h}\" fill=\"white\"/>");
+                sw.WriteLine($"\t<rect width=\"{w}\" height=\"{h}\" fill=\"{(dark ? "#262626" : "white")}\"/>");
             }
 
             foreach(var cmd in clonedVp.Timeline.CommandHistory)
@@ -277,6 +291,13 @@ namespace DegCAD.Dialogs
         private void WindowClosed(object sender, EventArgs e)
         {
             SaveLastValues();
+        }
+
+        private void darkCbx_Checked(object sender, RoutedEventArgs e)
+        {
+            vp.SwapWhiteAndBlack();
+            dark = !dark;
+            vpBorder.Background = dark ? new SolidColorBrush(Color.FromRgb(38, 38, 38)) : Brushes.White;
         }
     }
 }
