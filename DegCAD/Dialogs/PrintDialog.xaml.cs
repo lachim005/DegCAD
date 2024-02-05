@@ -51,6 +51,11 @@ namespace DegCAD.Dialogs
             vp = e.viewPort.Clone();
             vp.CanZoom = false;
 
+            if (App.Skin == Skin.Dark)
+            {
+                vp.SwapWhiteAndBlack();
+            }
+
             vpSv.Child = vp;
 
             editor = e;
