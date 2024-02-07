@@ -69,6 +69,9 @@ namespace DegCAD.MultiFile
 
         public bool CanZoom { get; set; } = true;
 
+        List<MFContainer> Items { get; set; } = new();
+        public MFContainer? SelectedItem { get; set; } = null;
+
         public MFPage()
         {
             InitializeComponent();
@@ -76,9 +79,36 @@ namespace DegCAD.MultiFile
 
             ViewportChanged += ViewPortChanged;
             SizeChanged += ViewPortChanged;
+            AddItem(new(this) { CWidth = 100, CHeight = 100, CX = 5, CY = 5 });
         }
 
 
+        public void AddItem(MFContainer container)
+        {
+            Items.Add(container);
+            canvas.Children.Add(container);
+            container.Selected += ContainerSelected;
+            container.Updated += ContainerUpdated;
+        }
+
+        public void RemoveItem(MFContainer container)
+        {
+            Items.Remove(container);
+            canvas.Children.Remove(container);
+            container.Selected -= ContainerSelected;
+            container.Updated -= ContainerUpdated;
+        }
+
+        private void ContainerSelected(object? sender, EventArgs e)
+        {
+            if (sender is not MFContainer container) return;
+            SelectedItem?.Deselect();
+            SelectedItem = container;
+        }
+        private void ContainerUpdated(object? sender, EventArgs e)
+        {
+            Redraw();
+        }
 
         protected void OnMouseWheel(object sender, MouseWheelEventArgs e)
         {
@@ -128,6 +158,11 @@ namespace DegCAD.MultiFile
                 //Adds the pan handler to the mouse move event to update the screen on mouse move
                 MouseMove += Pan;
                 CaptureMouse();
+            }
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                SelectedItem?.Deselect();
+                SelectedItem = null;
             }
         }
 
@@ -206,6 +241,19 @@ namespace DegCAD.MultiFile
             paperBg.Height = paperHeight * Scale * unitSize;
             Canvas.SetLeft(paperBg, -OffsetX * Scale * unitSize);
             Canvas.SetTop(paperBg, -OffsetY * Scale * unitSize);
+
+            foreach (var item in Items)
+            {
+                item.Width = item.CWidth * Scale * unitSize;
+                item.Height = item.CHeight * Scale * unitSize;
+                Canvas.SetLeft(item, (item.CX - OffsetX) * Scale * unitSize);
+                Canvas.SetTop(item, (item.CY - OffsetY) * Scale * unitSize);
+            }
+        }
+
+        private void OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            
         }
     }
 }
