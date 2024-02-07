@@ -1,4 +1,5 @@
 ﻿using DegCAD.Dialogs;
+using DegCAD.MultiFile;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -13,6 +14,7 @@ namespace DegCAD
 {
     public partial class MainWindow
     {
+        public static RoutedCommand newMFCommand = new();
         public static RoutedCommand exportCommand = new();
         public static RoutedCommand pageLayoutCommand = new();
         public static RoutedCommand addGuideCommand = new();
@@ -109,6 +111,16 @@ namespace DegCAD
             ed.styleSelector.AddDefaultColors();
             ed.Changed = false;
             openTabs.Add(new EditorTab(ed));
+            editorTabs.SelectedIndex = openTabs.Count - 1;
+            editorCounter++;
+        }
+        private void NewMFCommand(object sender, ExecutedRoutedEventArgs e)
+        {
+            MFEditor ed;
+
+            ed = new();
+            
+            openTabs.Add(new MFEditorTab(ed));
             editorTabs.SelectedIndex = openTabs.Count - 1;
             editorCounter++;
         }

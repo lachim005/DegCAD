@@ -74,12 +74,12 @@ namespace DegCAD
             }
 
             ActiveTab = openTabs[editorTabs.SelectedIndex];
+            homePage.Visibility = Visibility.Hidden;
 
             //Editor tab got selected
             if (ActiveTab is EditorTab et)
             {
                 ActiveEditor = et.Editor;
-                homePage.Visibility = Visibility.Hidden;
                 cmdPallete.ShowButtons(ActiveEditor.ProjectionType);
             }
         }
