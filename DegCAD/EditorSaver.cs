@@ -9,13 +9,14 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 using Colors = System.Windows.Media.Colors;
 
 namespace DegCAD
 {
     public static class EditorSaver
     {
-        public static void SaveEditor(this Editor editor)
+        public static async Task SaveEditor(this Editor editor)
         {
             //Validate or create the folder that the editor will be saved to
             if (editor.FolderPath is null) throw new Exception("Nebyla dána složka");
@@ -39,7 +40,7 @@ namespace DegCAD
             try
             {
                 WriteMetaData(tempDir, editor);
-                SaveTimelineToFile(editor.Timeline, Path.Combine(tempDir, "timeline.txt"));
+                await SaveTimelineToFile(editor.Timeline, Path.Combine(tempDir, "timeline.txt"));
                 SavePaletteToFile(editor.styleSelector.ColorPalette, Path.Combine(tempDir, "palette.txt"));
 
                 if (editor.AxonometryAxes is not null) SaveAxonometryAxes(editor.AxonometryAxes, Path.Combine(tempDir, "axonometry.txt"));
@@ -93,12 +94,12 @@ namespace DegCAD
             ZipFile.CreateFromDirectory(tempDir, outputFile);
         }
 
-        private static void SaveTimelineToFile(Timeline tl, string path)
+        private static async Task SaveTimelineToFile(Timeline tl, string path)
         {
             using StreamWriter sw = new(path, false, Encoding.UTF8);
             //Writes the default style
             Style currentStyle = Style.Default;
-            sw.WriteLine(SerializeStyle(currentStyle));
+            await sw.WriteLineAsync(SerializeStyle(currentStyle));
             foreach (var cmd in tl.CommandHistory)
             {
                 foreach (var item in cmd.Items)
@@ -106,16 +107,16 @@ namespace DegCAD
                     //If the style has changed, writes it to the file
                     if (currentStyle != item.Style)
                     {
-                        sw.WriteLine(SerializeStyle(item.Style));
+                        await sw.WriteLineAsync(SerializeStyle(item.Style));
                         currentStyle = item.Style;
                     }
 
-                    sw.WriteLine(SerializeMongeItem(item));
+                    await sw.WriteLineAsync(SerializeMongeItem(item));
                 }
                 //Ends the command
-                sw.WriteLine("ADD");
+                await sw.WriteLineAsync("ADD");
             }
-            sw.WriteLine("END");
+            await sw.WriteLineAsync("END");
         }
         private static void SavePaletteToFile(List<System.Windows.Media.Color> palette, string path)
         {

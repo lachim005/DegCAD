@@ -19,19 +19,18 @@
                         Executed="OpenCommand"/>
         <CommandBinding Command="Save"
                         Executed="SaveCommand"
-                        CanExecute="CanExecuteEditorCommand"/>
+                        CanExecute="CanSave"/>
         <CommandBinding Command="SaveAs"
                         Executed="SaveAsCommand"
-                        CanExecute="CanExecuteEditorCommand"/>
+                        CanExecute="CanSave"/>
         <CommandBinding Command="{x:Static local:MainWindow.exportCommand}"
                         Executed="ExportCommand"
-                        CanExecute="CanExecuteEditorCommand"/>
+                        CanExecute="CanExport"/>
         <CommandBinding Command="Print"
                         Executed="PrintCommand"
-                        CanExecute="CanExecuteEditorCommand"/>
+                        CanExecute="CanPrint"/>
         <CommandBinding Command="Close"
-                        Executed="CloseCommand"
-                        CanExecute="CanExecuteEditorCommand"/>
+                        Executed="CloseCommand"/>
         <CommandBinding Command="Undo"
                         Executed="UndoCommand"
                         CanExecute="CanUndo"/>
@@ -40,7 +39,7 @@
                         CanExecute="CanRedo"/>
         <CommandBinding Command="{x:Static local:MainWindow.pageLayoutCommand}"
                         Executed="OpenPageLayoutWindow"
-                        CanExecute="CanExecuteEditorCommand"/>
+                        CanExecute="CanLayout"/>
         <CommandBinding Command="{x:Static local:MainWindow.addGuideCommand}"
                         Executed="AddGuideCommand"
                         CanExecute="CanAddGuide"/>
@@ -88,17 +87,17 @@
                                 <Canvas.Style>
                                     <Style>
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Item1.Changed}" Value="True">
+                                            <DataTrigger Binding="{Binding HasChanges}" Value="True">
                                                 <Setter Property="Canvas.Visibility" Value="Visible"/>
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding Item1.Changed}" Value="False">
+                                            <DataTrigger Binding="{Binding HasChanges}" Value="False">
                                                 <Setter Property="Canvas.Visibility" Value="Collapsed"/>
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
                                 </Canvas.Style>
                             </Canvas>
-                            <TextBlock Text="{Binding Item1.FileName}" Margin="2, 0" VerticalAlignment="Center" PreviewMouseLeftButtonDown="StartTabReorderDrag"/>
+                            <TextBlock Text="{Binding Name}" Margin="2, 0" VerticalAlignment="Center" PreviewMouseLeftButtonDown="StartTabReorderDrag"/>
                             <Button Click="EditorTabCloseClick" BorderThickness="0" Style="{DynamicResource closeBtn}" Width="20" Height="20">
                                 <Canvas Width="10" Height="10">
                                     <Line X1="0" Y1="0" X2="10" Y2="10" Stroke="{DynamicResource fg}" StrokeThickness="1"/>
@@ -110,7 +109,7 @@
                 </TabControl.ItemTemplate>
                 <TabControl.ContentTemplate>
                     <DataTemplate>
-                        <ContentControl Content="{Binding Item1}" Focusable="False"/>
+                        <ContentControl Content="{Binding Body}" Focusable="False"/>
                     </DataTemplate>
                 </TabControl.ContentTemplate>
             </TabControl>

@@ -61,7 +61,7 @@ namespace DegCAD.Dialogs
             var newColor = (Color)c;
             colors.Add(new(newColor, new SolidColorBrush(newColor)));
         }
-        private void ImportColors(object sender, RoutedEventArgs e)
+        private async void ImportColors(object sender, RoutedEventArgs e)
         {
             OpenFileDialog ofd = new()
             {
@@ -71,7 +71,7 @@ namespace DegCAD.Dialogs
             Editor ed;
             try
             {
-                ed = EditorLoader.CreateFromFile(ofd.FileName);
+                ed = await EditorLoader.CreateFromFile(ofd.FileName);
             }
             catch (Exception ex)
             {

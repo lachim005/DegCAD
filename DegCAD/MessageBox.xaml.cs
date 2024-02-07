@@ -79,6 +79,12 @@ namespace DegCAD
             mb.ShowDialog();
             return mb.Result;
         }
+        public async static Task<MessageBoxResult> ShowAsync(string message, string title = "DegCAD", MessageBoxButton btn = MessageBoxButton.OK, MessageBoxImage img = MessageBoxImage.None)
+        {
+            MessageBox mb = new(message, title, btn, img);
+            await mb.Dispatcher.BeginInvoke(new Action(() => mb.ShowDialog()));
+            return mb.Result;
+        }
 
         private void OkClick(object sender, RoutedEventArgs e)
         {

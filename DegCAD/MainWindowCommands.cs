@@ -24,7 +24,7 @@ namespace DegCAD
             if (ActiveEditor.ExecutingCommand) return false;
             return true;
         }
-        private bool OpenSaveFileDialog(Editor editor)
+        public static bool OpenEditorSaveFileDialog(Editor editor)
         {
             if (editor is null) return false;
 
@@ -38,25 +38,25 @@ namespace DegCAD
             editor.FileName = Path.GetFileNameWithoutExtension(sfd.FileName);
             return true;
         }
-        private async void SaveEditorAsync(Editor editor)
+        public static async Task<bool> SaveEditorAsync(Editor editor)
         {
             try
             {
-                editor?.SaveEditor();
+                await editor.SaveEditor();
+                return true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message + "\n\n" + ex.InnerException?.Message, "Chyba při ukládání souboru", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            await Task.Delay(1);
+            return false;
         }
         private async void OpenFileAsync(string path)
         {
-            await Task.Delay(1);
             Editor ed;
             try
             {
-                ed = EditorLoader.CreateFromFile(path);
+                ed = await EditorLoader.CreateFromFile(path);
             }
             catch (Exception ex)
             {
@@ -64,30 +64,18 @@ namespace DegCAD
                 return;
             }
             ed.Changed = false;
-            openEditors.Add(new(ed));
-            editorTabs.SelectedIndex = openEditors.Count - 1;
+            openTabs.Add(new EditorTab(ed));
+            editorTabs.SelectedIndex = openTabs.Count - 1;
         }
 
-        public void CanExecuteEditorCommand(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = IsActiveEditorIdle();
-        }
-        public void CanAddGuide(object sender, CanExecuteRoutedEventArgs e)
-        {
-            e.CanExecute = IsActiveEditorIdle() && ActiveEditor?.Guide is null;
-        }
-        private void CanUndo(object sender, CanExecuteRoutedEventArgs e)
-        {
-            if (!IsActiveEditorIdle()) return;
-            if (ActiveEditor is null) return;
-            e.CanExecute = ActiveEditor.Timeline.CanUndo;
-        }
-        private void CanRedo(object sender, CanExecuteRoutedEventArgs e)
-        {
-            if (!IsActiveEditorIdle()) return;
-            if (ActiveEditor is null) return;
-            e.CanExecute = ActiveEditor.Timeline.CanRedo;
-        }
+        public void CanSave(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = ActiveTab.CanSave;
+        public void CanExport(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = ActiveTab.CanExport;
+        public void CanPrint(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = ActiveTab.CanPrint;
+        public void CanAddGuide(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = ActiveTab.CanAddGuide;
+        public void CanUndo(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = ActiveTab.CanUndo;
+        public void CanRedo(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = ActiveTab.CanRedo;
+        public void CanLayout(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = ActiveTab.CanLayout;
+        public void CanExecuteEditorCommand(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = ActiveTab.CanExecuteCommand;
 
         private void NewCommand(object sender, ExecutedRoutedEventArgs e)
         {
@@ -120,8 +108,8 @@ namespace DegCAD
 
             ed.styleSelector.AddDefaultColors();
             ed.Changed = false;
-            openEditors.Add(new(ed));
-            editorTabs.SelectedIndex = openEditors.Count - 1;
+            openTabs.Add(new EditorTab(ed));
+            editorTabs.SelectedIndex = openTabs.Count - 1;
             editorCounter++;
         }
         private void OpenCommand(object sender, ExecutedRoutedEventArgs e)
@@ -132,26 +120,8 @@ namespace DegCAD
 
             OpenFileAsync(ofd.FileName);
         }
-        private void SaveCommand(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (ActiveEditor is null) return;
-            if (ActiveEditor.FolderPath is null) OpenSaveFileDialog(ActiveEditor);
-
-            //User has canceled the save file dialog
-            if (ActiveEditor.FolderPath is null) return;
-
-            SaveEditorAsync(ActiveEditor);
-        }
-        private void SaveAsCommand(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (ActiveEditor is null) return;
-            OpenSaveFileDialog(ActiveEditor);
-
-            //User has canceled the save file dialog
-            if (ActiveEditor.FolderPath is null) return;
-
-            SaveEditorAsync(ActiveEditor);
-        }
+        private void SaveCommand(object sender, ExecutedRoutedEventArgs e) => ActiveTab.Save();
+        private void SaveAsCommand(object sender, ExecutedRoutedEventArgs e) => ActiveTab.SaveAs();
         private void ExportCommand(object sender, ExecutedRoutedEventArgs e)
         {
             if (ActiveEditor is null) return;
@@ -166,24 +136,14 @@ namespace DegCAD
             PrintDialog pd = new(ActiveEditor);
             pd.ShowDialog();
         }
-        private void CloseCommand(object sender, ExecutedRoutedEventArgs e)
+        private async void CloseCommand(object sender, ExecutedRoutedEventArgs e)
         {
-            if (ActiveEditor is null) return;
-            if (CanCloseEditor(ActiveEditor))
-                openEditors.Remove(new(ActiveEditor));
+            if (await CanCloseTab(ActiveTab))
+                openTabs.Remove(ActiveTab);
         }
-        private void UndoCommand(object sender, ExecutedRoutedEventArgs e)
-        {
-            ActiveEditor?.Timeline.Undo();
-        }
-        private void RedoCommand(object sender, ExecutedRoutedEventArgs e)
-        {
-            ActiveEditor?.Timeline.Redo();
-        }
-        private void AboutClick(object sender, RoutedEventArgs e)
-        {
-            AboutDialog.Open();
-        }
+        private void UndoCommand(object sender, ExecutedRoutedEventArgs e) => ActiveTab.Undo();
+        private void RedoCommand(object sender, ExecutedRoutedEventArgs e) => ActiveTab.Redo();
+        private void AboutClick(object sender, RoutedEventArgs e) => AboutDialog.Open();
         private void OpenPageLayoutWindow(object sender, ExecutedRoutedEventArgs e)
         {
             if (ActiveEditor is null) return;

@@ -28,7 +28,8 @@ namespace DegCAD
         /// The editor that the user has currently open
         /// </summary>
         public Editor? ActiveEditor { get; set; }
-        private readonly ObservableCollection<Tuple<Editor>> openEditors = new();
+        public ITab ActiveTab { get; set; } = new HomeTab();
+        private readonly ObservableCollection<ITab> openTabs = new();
         private readonly ObservableCollection<ToastNotification> toastNotifications = new();
 
         /// <summary>
@@ -41,6 +42,7 @@ namespace DegCAD
             InitializeComponent();
             cmdPallete.GenerateCommands(this);
             cmdPallete.ShowButtons(ProjectionType.None);
+            AppDomain.CurrentDomain.UnhandledException += (s, e) => MessageBox.Show($"{e.ExceptionObject}");
 
             //Open editor is the user opens a file
             var args = Environment.GetCommandLineArgs();
@@ -52,7 +54,7 @@ namespace DegCAD
                 }
             }
 
-            editorTabs.ItemsSource = openEditors;
+            editorTabs.ItemsSource = openTabs;
             toastNotificationsIc.ItemsSource = toastNotifications;
 #if !DEBUG
             CheckForNewVersion();
@@ -65,22 +67,29 @@ namespace DegCAD
             if (editorTabs.SelectedIndex < 0)
             {
                 ActiveEditor = null;
+                ActiveTab = new HomeTab();
                 homePage.Visibility = Visibility.Visible;
                 cmdPallete.ShowButtons(ProjectionType.None);
                 return;
             }
+
+            ActiveTab = openTabs[editorTabs.SelectedIndex];
+
             //Editor tab got selected
-            ActiveEditor = openEditors[editorTabs.SelectedIndex].Item1;
-            homePage.Visibility = Visibility.Hidden;
-            cmdPallete.ShowButtons(ActiveEditor.ProjectionType);
+            if (ActiveTab is EditorTab et)
+            {
+                ActiveEditor = et.Editor;
+                homePage.Visibility = Visibility.Hidden;
+                cmdPallete.ShowButtons(ActiveEditor.ProjectionType);
+            }
         }
 
-        private void EditorTabCloseClick(object sender, RoutedEventArgs e)
+        private async void EditorTabCloseClick(object sender, RoutedEventArgs e)
         {
             if (sender is not Button btn) return;
-            if (btn.DataContext is not Tuple<Editor> ed) return;
-            if (CanCloseEditor(ed.Item1))
-                openEditors.Remove(ed);
+            if (btn.DataContext is not ITab tab) return;
+            if (await CanCloseTab(tab))
+                openTabs.Remove(tab);
         }
 
         private void WindowDrop(object sender, DragEventArgs e)
@@ -100,13 +109,13 @@ namespace DegCAD
             }
         }
 
-        private void WindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        private async void WindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            for (int i = 0; i < openEditors.Count; i++)
+            for (int i = 0; i < openTabs.Count; i++)
             {
                 editorTabs.SelectedIndex = i;
-                var current = openEditors[i].Item1;
-                if (!CanCloseEditor(current))
+                
+                if (!(await CanCloseTab(openTabs[i])))
                 {
                     e.Cancel = true;
                 }
@@ -116,57 +125,52 @@ namespace DegCAD
         private void StartTabReorderDrag(object sender, MouseButtonEventArgs e)
         {
             if (sender is not FrameworkElement f) return;
-            DragDrop.DoDragDrop(f, f.DataContext, DragDropEffects.Move);
+            //Boxes the tab into a tuple because it has trouble with inheritance
+            DragDrop.DoDragDrop(f, new Tuple<ITab>((ITab)f.DataContext), DragDropEffects.Move);
         }
         private void TabDrop(object sender, DragEventArgs e)
         {
             //Gets the dragged and dropped tab
-            var dragTab = e.Data.GetData(typeof(Tuple<Editor>)) as Tuple<Editor>;
+            var dragTab = (e.Data.GetData(typeof(Tuple<ITab>)) as Tuple<ITab>)?.Item1;
             if (dragTab is null) return;
-            if ((sender as FrameworkElement)?.DataContext is not Tuple<Editor> dropTab) return;
+            if ((sender as FrameworkElement)?.DataContext is not ITab dropTab) return;
 
-            int dragIndex = openEditors.IndexOf(dragTab);
-            int dropIndex = openEditors.IndexOf(dropTab);
+            int dragIndex = openTabs.IndexOf(dragTab);
+            int dropIndex = openTabs.IndexOf(dropTab);
             if (dragIndex == -1 || dropIndex == -1) return;
             if (dragIndex == dropIndex) return;
 
-            openEditors.Move(dragIndex, dropIndex);
+            openTabs.Move(dragIndex, dropIndex);
             editorTabs.SelectedIndex = dropIndex;
         }
 
-        private void StackPanel_MouseDown(object sender, MouseButtonEventArgs e)
+        private async void StackPanel_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton != MouseButton.Middle) return;
             if (sender is not FrameworkElement f) return;
-            if (f.DataContext is not Tuple<Editor> tab) return;
-            if (CanCloseEditor(tab.Item1))
+            if (f.DataContext is not ITab tab) return;
+            if (await CanCloseTab(tab))
             {
 
-                openEditors.Remove(tab);
+                openTabs.Remove(tab);
             }
         }
 
-        private bool CanCloseEditor(Editor current)
+        private async Task<bool> CanCloseTab(ITab tab)
         {
-            if (!current.Changed) return true;
+            if (!tab.HasChanges) return true;
             var save = MessageBox.Show(
-                $"Chcete uložit soubor {current.FileName}?",
+                $"Chcete uložit soubor {tab.Name}?",
                 "DegCAD",
                 MessageBoxButton.YesNoCancel,
                 MessageBoxImage.Warning
-                );
+            );
+
+
             switch (save)
             {
                 case MessageBoxResult.Yes:
-                    if (current.FolderPath is null)
-                    {
-                        if (!OpenSaveFileDialog(current))
-                        {
-                            return false;
-                        }
-                    }
-                    SaveEditorAsync(current);
-                    return true;
+                    return await tab.Save();
                 case MessageBoxResult.No:
                     return true;
                 case MessageBoxResult.Cancel:
@@ -177,13 +181,15 @@ namespace DegCAD
 
         private void ChangeSkin(object sender, RoutedEventArgs e)
         {
-            if (Application.Current is App app)
+            if (Application.Current is not App app) return;
+            
+            app.ChangeSkin((App.Skin == Skin.Light) ? Skin.Dark : Skin.Light);
+            foreach (var tab in openTabs)
             {
-                app.ChangeSkin((App.Skin == Skin.Light) ? Skin.Dark : Skin.Light);
-                foreach (var editor in openEditors)
+                if (tab is EditorTab et)
                 {
-                    editor.Item1.viewPort.SwapWhiteAndBlack();
-                    editor.Item1.styleSelector.SwapWhiteAndBlack();
+                    et.Editor.viewPort.SwapWhiteAndBlack();
+                    et.Editor.styleSelector.SwapWhiteAndBlack();
                 }
             }
         }

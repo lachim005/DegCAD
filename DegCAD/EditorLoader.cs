@@ -17,7 +17,7 @@ namespace DegCAD
 {
     public static class EditorLoader
     {
-        public static Editor CreateFromFile(string path)
+        public static async Task<Editor> CreateFromFile(string path)
         {
             var tempDir = Unpack(path);
             var metadata = ReadMetadata(tempDir);
@@ -50,7 +50,7 @@ namespace DegCAD
             //Reads and parses the timeline
             try
             {
-                ReadTimeline(res, Path.Combine(tempDir, "timeline.txt"), metadata);
+                await ReadTimeline(res, Path.Combine(tempDir, "timeline.txt"), metadata);
             }
             catch (Exception ex)
             {
@@ -168,14 +168,14 @@ namespace DegCAD
             return tempDir;
         }
 
-        public static void ReadTimeline(Editor e, string path, Metadata md)
+        public static async Task ReadTimeline(Editor e, string path, Metadata md)
         {
             using StreamReader sr = new(path);
 
             string? line;
             List<IMongeItem> items = new();
             Style currentStyle = Style.Default;
-            while((line = sr.ReadLine()) is not null)
+            while((line = await sr.ReadLineAsync()) is not null)
             {
                 var cmdName = line[..3];
                 switch (cmdName)
