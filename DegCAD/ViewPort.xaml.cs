@@ -132,6 +132,8 @@ namespace DegCAD
 
             //Triggers the redraw
             ViewportChanged?.Invoke(this, new(ScreenToCanvas(mousePos), mousePos));
+
+            e.Handled = true;
         }
 
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
@@ -148,6 +150,7 @@ namespace DegCAD
                 //Adds the pan handler to the mouse move event to update the screen on mouse move
                 MouseMove += Pan;
                 CaptureMouse();
+                e.Handled = true;
             }
         }
 
@@ -161,6 +164,7 @@ namespace DegCAD
                 ReleaseMouseCapture();
                 Vector2 mousePos = Mouse.GetPosition(this);
                 ViewportChanged?.Invoke(this, new(ScreenToCanvas(mousePos), mousePos));
+                e.Handled = true;
             }
         }
 
@@ -176,6 +180,7 @@ namespace DegCAD
             //if ((Math.Abs(mousePos.X - mousePanBegin.X) % 10) == 0 ||
             //    (Math.Abs(mousePos.Y - mousePanBegin.Y) % 10) == 0)
             ViewportChanged?.Invoke(this, new(ScreenToCanvas(mousePos), mousePos));
+            e.Handled = true;
         }
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)

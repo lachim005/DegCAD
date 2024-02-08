@@ -28,11 +28,14 @@ namespace DegCAD.MultiFile
         public event EventHandler? Selected;
         public event EventHandler? Updated;
         public MFPage Page { get; set; }
+        public MFItem Item { get; init; }
 
-        public MFContainer(MFPage page)
+        public MFContainer(MFPage page, MFDrawing item)
         {
             InitializeComponent();
             Page = page;
+            Item = item;
+            contentBorder.Child = item;
         }
 
         public void Deselect()

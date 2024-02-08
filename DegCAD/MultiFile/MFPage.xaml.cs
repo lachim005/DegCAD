@@ -79,9 +79,16 @@ namespace DegCAD.MultiFile
 
             ViewportChanged += ViewPortChanged;
             SizeChanged += ViewPortChanged;
-            AddItem(new(this) { CWidth = 100, CHeight = 100, CX = 5, CY = 5 });
+            Test();
         }
 
+        private void Test()
+        {
+            Editor ed = new("1", ProjectionType.Monge);
+            ed.AddAxis(ed.viewPort.Layers[0]);
+
+            AddItem(new(this, new MFDrawing(ed)) { CWidth = 100, CHeight = 100, CX = 5, CY = 5 });
+        }
 
         public void AddItem(MFContainer container)
         {
@@ -237,6 +244,7 @@ namespace DegCAD.MultiFile
 
         public void Redraw()
         {
+            if (!IsLoaded) return;
             paperBg.Width = paperWidth * Scale * unitSize;
             paperBg.Height = paperHeight * Scale * unitSize;
             Canvas.SetLeft(paperBg, -OffsetX * Scale * unitSize);
@@ -248,12 +256,14 @@ namespace DegCAD.MultiFile
                 item.Height = item.CHeight * Scale * unitSize;
                 Canvas.SetLeft(item, (item.CX - OffsetX) * Scale * unitSize);
                 Canvas.SetTop(item, (item.CY - OffsetY) * Scale * unitSize);
+
+                item.Item.ViewUpdated(OffsetX, OffsetY, Scale);
             }
         }
 
-        private void OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
+        private void OnLoaded(object sender, RoutedEventArgs e)
         {
-            
+            Redraw();
         }
     }
 }
