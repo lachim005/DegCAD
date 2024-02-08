@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DegCAD.MultiFile"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
+             Foreground="{DynamicResource fg}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
@@ -12,14 +13,175 @@
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
+            <ColumnDefinition MinWidth="100"/>
             <ColumnDefinition Width="1"/>
-            <ColumnDefinition Width="300"/>
+            <ColumnDefinition Width="350" MinWidth="320"/>
         </Grid.ColumnDefinitions>
         <Border Grid.ColumnSpan="3" BorderBrush="{DynamicResource border}" BorderThickness="0,0,0,1">
             
         </Border>
-        <GridSplitter Grid.Column="1" Grid.Row="1" Width="1" Background="{DynamicResource border}" HorizontalAlignment="Stretch"/>
         <local:MFPage Grid.Row="1"/>
+        <ScrollViewer Grid.Row="1" Grid.Column="2" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="10">
+                <GroupBox Header="Pozice" Padding="10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="5"/>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Label Content="X:" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="0"/>
+                        <TextBox VerticalAlignment="Center" Grid.Row="0" Grid.Column="1"/>
+                        <Label Content="Y:" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="3"/>
+                        <TextBox VerticalAlignment="Center" Grid.Row="0" Grid.Column="4"/>
+                        <Label Content="Šířka:" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="0"/>
+                        <TextBox VerticalAlignment="Center" Grid.Row="1" Grid.Column="1"/>
+                        <Label Content="Výška:" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="3"/>
+                        <TextBox VerticalAlignment="Center" Grid.Row="1" Grid.Column="4"/>
+                        <Button Content="Duplikovat" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="0"/>
+                        <Button Content="Odstranit" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" Margin="0,0,0,0"/>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Výkres" Padding="10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition Width="50"/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <Button Style="{DynamicResource accentBtn}" Content="Upravit výkres" Grid.ColumnSpan="5" Margin="0"/>
+                        <Button Content="Vycentrovat" Grid.ColumnSpan="5" Grid.Row="1" Margin="0,5,0,0"/>
+
+                        <Label Content="Zobrazené prvky:" Grid.Row="3" Grid.ColumnSpan="5"/>
+                        <Button Content="-" Grid.Row="4" Grid.Column="0"/>
+                        <Slider Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" VerticalAlignment="Center"/>
+                        <Button Content="+" Grid.Row="4" Grid.Column="4"/>
+
+                        <Label Content="Velikost jednotky (mm):" Grid.Row="5" Grid.ColumnSpan="2" VerticalAlignment="Center"/>
+                        <Button Content="-" Grid.Row="5" Grid.Column="2"/>
+                        <TextBox Grid.Row="5" Grid.Column="3" VerticalAlignment="Center"/>
+                        <Button Content="+" Grid.Row="5" Grid.Column="4"/>
+
+                        <Button Content="Uložit výkres" Grid.Row="7" Grid.ColumnSpan="5" Margin="0" ToolTip="Uloží vybraný výkres do souboru mimo kompozici"/>
+                    </Grid>
+                </GroupBox>
+                <GroupBox Header="Text" Padding="10">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="30"/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="30"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="100"/>
+                            <RowDefinition Height="10"/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+                        <TextBox AcceptsReturn="True" Grid.ColumnSpan="4"/>
+                        <StackPanel Grid.Row="2" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" Width="27" ToolTip="Tučný text">
+                                <TextBlock Text="B" TextBlock.FontWeight="Bold" FontSize="18"/>
+                            </Button>
+                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" Width="27" ToolTip="Kurzíva">
+                                <TextBlock Text="I" FontStyle="Italic" FontSize="18"/>
+                            </Button>
+                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" Width="27" ToolTip="Podtržení">
+                                <TextBlock Text="U" TextDecorations="Underline" FontSize="18"/>
+                            </Button>
+                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" Width="27" ToolTip="Přeškrtnutí">
+                                <TextBlock Text="S" TextDecorations="Strikethrough" FontSize="18"/>
+                            </Button>
+                        </StackPanel>
+                        <StackPanel Grid.Row="3" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" IsEnabled="False" ToolTip="Horizontální zarovnání doleva">
+                                <Canvas Height="25" Width="25">
+                                    <Line X1="5" Y1="5" X2="20" Y2="5" Stroke="{DynamicResource fg}"/>
+                                    <Line X1="5" Y1="10" X2="14" Y2="10" Stroke="{DynamicResource fg}"/>
+                                    <Line X1="5" Y1="15" X2="20" Y2="15" Stroke="{DynamicResource fg}"/>
+                                    <Line X1="5" Y1="20" X2="14" Y2="20" Stroke="{DynamicResource fg}"/>
+                                </Canvas>
+                            </Button>
+                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" ToolTip="Horizontální zarovnání na střed">
+                                <Canvas Height="25" Width="25">
+                                    <Line X1="5" Y1="5" X2="20" Y2="5" Stroke="{DynamicResource fg}"/>
+                                    <Line X1="8" Y1="10" X2="17" Y2="10" Stroke="{DynamicResource fg}"/>
+                                    <Line X1="5" Y1="15" X2="20" Y2="15" Stroke="{DynamicResource fg}"/>
+                                    <Line X1="8" Y1="20" X2="17" Y2="20" Stroke="{DynamicResource fg}"/>
+                                </Canvas>
+                            </Button>
+                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" ToolTip="Horizontální zarovnání doprava">
+                                <Canvas Height="25" Width="25">
+                                    <Line X1="5" Y1="5" X2="20" Y2="5" Stroke="{DynamicResource fg}"/>
+                                    <Line X1="11" Y1="10" X2="20" Y2="10" Stroke="{DynamicResource fg}"/>
+                                    <Line X1="5" Y1="15" X2="20" Y2="15" Stroke="{DynamicResource fg}"/>
+                                    <Line X1="11" Y1="20" X2="20" Y2="20" Stroke="{DynamicResource fg}"/>
+                                </Canvas>
+                            </Button>
+                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" ToolTip="Horizontální zarovnání do bloku">
+                                <Canvas Height="25" Width="25">
+                                    <Line X1="5" Y1="5" X2="20" Y2="5" Stroke="{DynamicResource fg}"/>
+                                    <Line X1="5" Y1="10" X2="20" Y2="10" Stroke="{DynamicResource fg}"/>
+                                    <Line X1="5" Y1="15" X2="20" Y2="15" Stroke="{DynamicResource fg}"/>
+                                    <Line X1="5" Y1="20" X2="20" Y2="20" Stroke="{DynamicResource fg}"/>
+                                </Canvas>
+                            </Button>
+                        </StackPanel>
+                        <StackPanel Grid.Row="4" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Center">
+                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" IsEnabled="False" ToolTip="Vertikální zarovnání nahoru">
+                                <Canvas Height="25" Width="25">
+                                    <Line X1="5" Y1="5" X2="20" Y2="5" Stroke="{DynamicResource fg}"/>
+                                    <Line X1="5" Y1="10" X2="20" Y2="10" Stroke="{DynamicResource fg}"/>
+                                </Canvas>
+                            </Button>
+                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" ToolTip="Vertikální zarovnání na střed">
+                                <Canvas Height="25" Width="25">
+                                    <Line X1="5" Y1="10" X2="20" Y2="10" Stroke="{DynamicResource fg}"/>
+                                    <Line X1="5" Y1="15" X2="20" Y2="15" Stroke="{DynamicResource fg}"/>
+                                </Canvas>
+                            </Button>
+                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" ToolTip="Vertikální zarovnání dolů">
+                                <Canvas Height="25" Width="25">
+                                    <Line X1="5" Y1="15" X2="20" Y2="15" Stroke="{DynamicResource fg}"/>
+                                    <Line X1="5" Y1="20" X2="20" Y2="20" Stroke="{DynamicResource fg}"/>
+                                </Canvas>
+                            </Button>
+                        </StackPanel>
+                        <Label Content="Velikost písma:" Grid.Row="6" VerticalAlignment="Center"/>
+                        <Button Content="-" Grid.Row="6" Grid.Column="1"/>
+                        <TextBox Grid.Row="6" Grid.Column="2" VerticalAlignment="Center"/>
+                        <Button Content="+" Grid.Row="6" Grid.Column="3"/>
+                        <Label Content="Barva písma:" Grid.Row="7" VerticalAlignment="Center"/>
+                        <Rectangle Fill="{DynamicResource fg}" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3" RadiusX="5" RadiusY="5" Height="27" VerticalAlignment="Center" Cursor="Hand"/>
+                    </Grid>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
+        <GridSplitter Grid.Column="1" Grid.Row="1" Width="1" Background="{DynamicResource border}" HorizontalAlignment="Stretch"/>
     </Grid>
 </UserControl>
