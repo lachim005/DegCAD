@@ -92,15 +92,6 @@ namespace DegCAD.MultiFile
 
             ViewportChanged += ViewPortChanged;
             SizeChanged += ViewPortChanged;
-            Test();
-        }
-
-        private void Test()
-        {
-            Editor ed = new("1", ProjectionType.Monge);
-            ed.AddAxis(ed.viewPort.Layers[0]);
-
-            AddItem(new(this, new MFDrawing(ed)) { CWidth = 100, CHeight = 100, CX = 5, CY = 5 });
         }
 
         public void AddItem(MFContainer container)
@@ -284,6 +275,32 @@ namespace DegCAD.MultiFile
         private void OnLoaded(object sender, RoutedEventArgs e)
         {
             Redraw();
+        }
+
+        private async void OnDrop(object sender, DragEventArgs e)
+        {
+            if (!e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                e.Handled = false;
+                return;
+            }
+            var files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (files is null) return;
+            e.Handled = true;
+
+            var mPos = ScreenToCanvas(e.GetPosition(this));
+            int offset = 0;
+            foreach (var file in files)
+            {
+                if (System.IO.Path.GetExtension(file) != ".dgproj") continue;
+
+                var ed = await EditorLoader.CreateFromFile(file);
+
+
+                AddItem(new(this, new MFDrawing(ed)) { CX = mPos.X + offset, CY = mPos.Y });
+                offset += 100;
+                Redraw();
+            }
         }
     }
 }

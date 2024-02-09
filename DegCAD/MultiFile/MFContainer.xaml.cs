@@ -20,8 +20,8 @@ namespace DegCAD.MultiFile
     /// </summary>
     public partial class MFContainer : UserControl
     {
-        public double CWidth { get; set; }
-        public double CHeight { get; set; }
+        public double CWidth { get; set; } = 100;
+        public double CHeight { get; set; } = 100;
         public double CX { get; set; }
         public double CY { get; set; }
 
