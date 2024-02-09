@@ -42,5 +42,14 @@ namespace DegCAD.Guides
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
+
+        public GuideStep Clone()
+        {
+            GuideStep gs = new();
+            gs._description = _description;
+            gs._items = _items;
+            gs._position = _position;
+            return gs;
+        }
     }
 }

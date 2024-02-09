@@ -16,6 +16,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DegCAD.Guides;
+using DegCAD.MultiFile;
 
 namespace DegCAD
 {
@@ -114,7 +115,7 @@ namespace DegCAD
                     }));
                     break;
             }
-            
+
         }
         public void TimelineChanged(object? sender, EventArgs e)
         {
@@ -163,7 +164,7 @@ namespace DegCAD
                     {
                         layer.Canvas.IsHitTestVisible = true;
                     }
-                }    
+                }
             } while (repeatCommandCbx.IsChecked == true);
         }
 
@@ -191,11 +192,11 @@ namespace DegCAD
 
         public Guide? Guide
         {
-            get => _guide; 
+            get => _guide;
             set
             {
                 _guide = value;
-                if (value is null) 
+                if (value is null)
                     guideButtons.Visibility = Visibility.Collapsed;
                 else
                     guideButtons.Visibility = Visibility.Visible;
@@ -253,6 +254,40 @@ namespace DegCAD
                 viewPort.CenterContent();
                 PromptGuide();
             }
+        }
+
+        public Editor Clone()
+        {
+            Editor ed = new(FileName, ProjectionType);
+            ed.FolderPath = FolderPath;
+
+            // Clone the palette
+            ed.styleSelector.ColorPalette.Clear();
+            foreach (var color in styleSelector.ColorPalette)
+            {
+                ed.styleSelector.ColorPalette.Add(color);
+            }
+            ed.styleSelector.UpdateColorPalette();
+
+            // Clone the commands
+            foreach (var cmd in Timeline.CommandHistory)
+            {
+                IMongeItem[] mits = new IMongeItem[cmd.Items.Length];
+                for (int i = 0; i < cmd.Items.Length; i++)
+                {
+                    var it = cmd.Items[i].Clone();
+                    mits[i] = it;
+                }
+                ed.Timeline.AddCommand(new(mits));
+            }
+            ed.Timeline.SetViewportLayer(ed.viewPort.Layers[1]);
+
+            // Clone the guide
+            if (Guide is not null)
+            {
+                ed.Guide = Guide.Clone();
+            }
+            return ed;
         }
     }
 }

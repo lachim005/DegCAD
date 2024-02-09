@@ -10,5 +10,15 @@ namespace DegCAD.Guides
     public class Guide
     {
         public ObservableCollection<GuideStep> Steps { get; init; } = new();
+
+        public Guide Clone()
+        {
+            Guide g = new();
+            foreach (GuideStep step in Steps)
+            {
+                g.Steps.Add(step.Clone());
+            }
+            return g;
+        }
     }
 }
