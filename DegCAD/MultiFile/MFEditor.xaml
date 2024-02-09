@@ -20,10 +20,10 @@
         <Border Grid.ColumnSpan="3" BorderBrush="{DynamicResource border}" BorderThickness="0,0,0,1">
             
         </Border>
-        <local:MFPage Grid.Row="1"/>
+        <Border x:Name="pageBorder" Grid.Row="1"/>
         <ScrollViewer Grid.Row="1" Grid.Column="2" VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="10">
-                <GroupBox Header="Pozice" Padding="10">
+                <GroupBox Header="Pozice" Padding="10" x:Name="insTransform">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50"/>
@@ -39,18 +39,18 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Label Content="X:" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="0"/>
-                        <TextBox VerticalAlignment="Center" Grid.Row="0" Grid.Column="1"/>
+                        <TextBox VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" x:Name="insTrX" TextChanged="InspectorTransformTextChanged"/>
                         <Label Content="Y:" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="3"/>
-                        <TextBox VerticalAlignment="Center" Grid.Row="0" Grid.Column="4"/>
+                        <TextBox VerticalAlignment="Center" Grid.Row="0" Grid.Column="4" x:Name="insTrY" TextChanged="InspectorTransformTextChanged"/>
                         <Label Content="Šířka:" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="0"/>
-                        <TextBox VerticalAlignment="Center" Grid.Row="1" Grid.Column="1"/>
+                        <TextBox VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" x:Name="insTrW" TextChanged="InspectorTransformTextChanged"/>
                         <Label Content="Výška:" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="3"/>
-                        <TextBox VerticalAlignment="Center" Grid.Row="1" Grid.Column="4"/>
-                        <Button Content="Duplikovat" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="0"/>
-                        <Button Content="Odstranit" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" Margin="0,0,0,0"/>
+                        <TextBox VerticalAlignment="Center" Grid.Row="1" Grid.Column="4" x:Name="insTrH" TextChanged="InspectorTransformTextChanged"/>
+                        <Button Content="Duplikovat" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="0" Click="InsDuplicate"/>
+                        <Button Content="Odstranit" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" Margin="0,0,0,0" Click="InsDelete"/>
                     </Grid>
                 </GroupBox>
-                <GroupBox Header="Výkres" Padding="10">
+                <GroupBox Header="Výkres" Padding="10" x:Name="insDrawing">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="30"/>
@@ -85,7 +85,7 @@
                         <Button Content="Uložit výkres" Grid.Row="7" Grid.ColumnSpan="5" Margin="0" ToolTip="Uloží vybraný výkres do souboru mimo kompozici"/>
                     </Grid>
                 </GroupBox>
-                <GroupBox Header="Text" Padding="10">
+                <GroupBox Header="Text" Padding="10" x:Name="insText">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>

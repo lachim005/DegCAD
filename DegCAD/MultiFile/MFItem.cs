@@ -10,5 +10,6 @@ namespace DegCAD.MultiFile
     public abstract class MFItem : UserControl
     {
         public abstract void ViewUpdated(double offsetX, double offsetY, double scale);
+        public abstract MFItem Clone();
     }
 }

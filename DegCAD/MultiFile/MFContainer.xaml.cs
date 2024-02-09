@@ -26,11 +26,13 @@ namespace DegCAD.MultiFile
         public double CY { get; set; }
 
         public event EventHandler? Selected;
-        public event EventHandler? Updated;
+        public event EventHandler? Updating;
+        public event EventHandler<TransformChange>? Updated;
         public MFPage Page { get; set; }
         public MFItem Item { get; init; }
+        private TransformChange trChange = new();
 
-        public MFContainer(MFPage page, MFDrawing item)
+        public MFContainer(MFPage page, MFItem item)
         {
             InitializeComponent();
             Page = page;
@@ -42,13 +44,17 @@ namespace DegCAD.MultiFile
         {
             handles.Visibility = Visibility.Collapsed;
         }
+        public void Select()
+        {
+            Selected?.Invoke(this, EventArgs.Empty);
+            handles.Visibility = Visibility.Visible;
+        }
 
         private void GridMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Left)
             {
-                Selected?.Invoke(this, EventArgs.Empty);
-                handles.Visibility = Visibility.Visible;
+                Select();
                 e.Handled = true;
             }
         }
@@ -61,7 +67,7 @@ namespace DegCAD.MultiFile
             CY += cd.Y;
             CWidth -= cd.X;
             CHeight -= cd.Y;
-            Updated?.Invoke(this, EventArgs.Empty);
+            Updating?.Invoke(this, EventArgs.Empty);
         }
         private void Handle2Delta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
@@ -69,7 +75,7 @@ namespace DegCAD.MultiFile
             if (CHeight - vc <= 5) return;
             CY += vc;
             CHeight -= vc;
-            Updated?.Invoke(this, EventArgs.Empty);
+            Updating?.Invoke(this, EventArgs.Empty);
         }
         private void Handle3Delta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
@@ -78,7 +84,7 @@ namespace DegCAD.MultiFile
             CY += cd.Y;
             CWidth += cd.X;
             CHeight -= cd.Y;
-            Updated?.Invoke(this, EventArgs.Empty);
+            Updating?.Invoke(this, EventArgs.Empty);
         }
         private void Handle4Delta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
@@ -86,15 +92,14 @@ namespace DegCAD.MultiFile
             if (CWidth - hc <= 5 ) return;
             CX += hc;
             CWidth -= hc;
-            Updated?.Invoke(this, EventArgs.Empty);
+            Updating?.Invoke(this, EventArgs.Empty);
         }
         private void Handle5Delta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             var hc = e.HorizontalChange / Page.Scale / MFPage.unitSize;
             if (CWidth + hc <= 5) return;
             CWidth += hc;
-            if (Math.Abs(CWidth - 100) < 5) CWidth = 100;
-            Updated?.Invoke(this, EventArgs.Empty);
+            Updating?.Invoke(this, EventArgs.Empty);
         }
         private void Handle6Delta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
@@ -103,14 +108,14 @@ namespace DegCAD.MultiFile
             CX += cd.X;
             CWidth -= cd.X;
             CHeight += cd.Y;
-            Updated?.Invoke(this, EventArgs.Empty);
+            Updating?.Invoke(this, EventArgs.Empty);
         }
         private void Handle7Delta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             var vc = e.VerticalChange / Page.Scale / MFPage.unitSize;
             if (CHeight + vc <= 5) return;
             CHeight += vc;
-            Updated?.Invoke(this, EventArgs.Empty);
+            Updating?.Invoke(this, EventArgs.Empty);
         }
         private void Handle8Delta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
@@ -118,14 +123,59 @@ namespace DegCAD.MultiFile
             if (CWidth + cd.X <= 5 || CHeight + cd.Y <= 5) return;
             CWidth += cd.X;
             CHeight += cd.Y;
-            Updated?.Invoke(this, EventArgs.Empty);
+            Updating?.Invoke(this, EventArgs.Empty);
         }
         private void MoveDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             var cd = new Vector2(e.HorizontalChange, e.VerticalChange) / Page.Scale / MFPage.unitSize;
             CX += cd.X;
             CY += cd.Y;
-            Updated?.Invoke(this, EventArgs.Empty);
+            Updating?.Invoke(this, EventArgs.Empty);
         }
+
+        private void TransformStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
+        {
+            trChange = new();
+            trChange.SetStartVals(this);
+        }
+
+        private void TransformCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)
+        {
+            trChange.SetEndVals(this);
+            Updated?.Invoke(this, trChange);
+        }
+
+        public MFContainer Clone()
+        {
+            return new(Page, Item.Clone()) { CX = CX+5, CY = CY+5, CWidth = CWidth, CHeight = CHeight};
+        }
+    }
+
+    public record TransformChange()
+    {
+        public void SetStartVals(MFContainer cont)
+        {
+            startX = cont.CX;
+            startY = cont.CY;
+            startW = cont.CWidth;
+            startH = cont.CHeight;
+        }
+
+        public void SetEndVals(MFContainer cont)
+        {
+            endX = cont.CX;
+            endY = cont.CY;
+            endW = cont.CWidth;
+            endH = cont.CHeight;
+        }
+
+        public double startX;
+        public double startY;
+        public double startW;
+        public double startH;
+        public double endX;
+        public double endY;
+        public double endW;
+        public double endH;
     }
 }

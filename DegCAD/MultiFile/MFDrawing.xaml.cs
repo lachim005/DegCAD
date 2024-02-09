@@ -37,5 +37,11 @@ namespace DegCAD.MultiFile
         {
             vp.Scale = scale * MFPage.unitSize * UnitSize / ViewPort.unitSize;
         }
+
+        public override MFItem Clone()
+        {
+            
+            return new MFDrawing(editor.Clone());
+        }
     }
 }

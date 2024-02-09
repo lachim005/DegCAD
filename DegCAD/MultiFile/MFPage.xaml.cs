@@ -70,7 +70,20 @@ namespace DegCAD.MultiFile
         public bool CanZoom { get; set; } = true;
 
         List<MFContainer> Items { get; set; } = new();
-        public MFContainer? SelectedItem { get; set; } = null;
+        private MFContainer? _selectedItem;
+
+        public MFContainer? SelectedItem
+        {
+            get => _selectedItem;
+            set
+            {
+                _selectedItem = value;
+                SelectionChanged?.Invoke(this, value);
+            }
+        }
+        public event EventHandler<MFContainer?>? SelectionChanged;
+        public event EventHandler<MFContainer?>? ContainerUpdating;
+        public event EventHandler<TransformChange>? ContainerUpdated;
 
         public MFPage()
         {
@@ -95,7 +108,13 @@ namespace DegCAD.MultiFile
             Items.Add(container);
             canvas.Children.Add(container);
             container.Selected += ContainerSelected;
-            container.Updated += ContainerUpdated;
+            container.Updating += OnContainerUpdating;
+            container.Updated += OnContainerUpdated;
+        }
+
+        private void OnContainerUpdated(object? sender, TransformChange e)
+        {
+            ContainerUpdated?.Invoke(sender, e);
         }
 
         public void RemoveItem(MFContainer container)
@@ -103,7 +122,7 @@ namespace DegCAD.MultiFile
             Items.Remove(container);
             canvas.Children.Remove(container);
             container.Selected -= ContainerSelected;
-            container.Updated -= ContainerUpdated;
+            container.Updating -= OnContainerUpdating;
         }
 
         private void ContainerSelected(object? sender, EventArgs e)
@@ -112,9 +131,10 @@ namespace DegCAD.MultiFile
             SelectedItem?.Deselect();
             SelectedItem = container;
         }
-        private void ContainerUpdated(object? sender, EventArgs e)
+        private void OnContainerUpdating(object? sender, EventArgs e)
         {
             Redraw();
+            ContainerUpdating?.Invoke(this, sender as MFContainer);
         }
 
         protected void OnMouseWheel(object sender, MouseWheelEventArgs e)

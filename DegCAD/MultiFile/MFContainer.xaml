@@ -13,15 +13,15 @@
         <Rectangle Stroke="{DynamicResource border}" StrokeThickness="1" StrokeDashArray="5 5"/>
         <Grid x:Name="handles" Visibility="Collapsed">
             <Border BorderBrush="{DynamicResource accentColor}" BorderThickness="3" Margin="-1"/>
-            <Thumb DragDelta="MoveDelta" Cursor="SizeAll" Background="Transparent" Opacity="0"/>
-            <Thumb Width="10" Height="10" VerticalAlignment="Top" HorizontalAlignment="Left" DragDelta="Handle1Delta" Margin="-10" Cursor="SizeNWSE"/>
-            <Thumb Width="10" Height="10" VerticalAlignment="Top" HorizontalAlignment="Center" DragDelta="Handle2Delta" Margin="-10" Cursor="SizeNS"/>
-            <Thumb Width="10" Height="10" VerticalAlignment="Top" HorizontalAlignment="Right" DragDelta="Handle3Delta" Margin="-10" Cursor="SizeNESW"/>
-            <Thumb Width="10" Height="10" VerticalAlignment="Center" HorizontalAlignment="Left" DragDelta="Handle4Delta" Margin="-10" Cursor="SizeWE"/>
-            <Thumb Width="10" Height="10" VerticalAlignment="Center" HorizontalAlignment="Right" DragDelta="Handle5Delta" Margin="-10" Cursor="SizeWE"/>
-            <Thumb Width="10" Height="10" VerticalAlignment="Bottom" HorizontalAlignment="Left" DragDelta="Handle6Delta" Margin="-10" Cursor="SizeNESW"/>
-            <Thumb Width="10" Height="10" VerticalAlignment="Bottom" HorizontalAlignment="Center" DragDelta="Handle7Delta" Margin="-10" Cursor="SizeNS"/>
-            <Thumb Width="10" Height="10" VerticalAlignment="Bottom" HorizontalAlignment="Right" DragDelta="Handle8Delta" Margin="-10" Cursor="SizeNWSE"/>
+            <Thumb DragStarted="TransformStarted" DragCompleted="TransformCompleted" DragDelta="MoveDelta" Cursor="SizeAll" Background="Transparent" Opacity="0"/>
+            <Thumb DragStarted="TransformStarted" DragCompleted="TransformCompleted" Width="10" Height="10" VerticalAlignment="Top" HorizontalAlignment="Left" DragDelta="Handle1Delta" Margin="-10" Cursor="SizeNWSE"/>
+            <Thumb DragStarted="TransformStarted" DragCompleted="TransformCompleted" Width="10" Height="10" VerticalAlignment="Top" HorizontalAlignment="Center" DragDelta="Handle2Delta" Margin="-10" Cursor="SizeNS"/>
+            <Thumb DragStarted="TransformStarted" DragCompleted="TransformCompleted" Width="10" Height="10" VerticalAlignment="Top" HorizontalAlignment="Right" DragDelta="Handle3Delta" Margin="-10" Cursor="SizeNESW"/>
+            <Thumb DragStarted="TransformStarted" DragCompleted="TransformCompleted" Width="10" Height="10" VerticalAlignment="Center" HorizontalAlignment="Left" DragDelta="Handle4Delta" Margin="-10" Cursor="SizeWE"/>
+            <Thumb DragStarted="TransformStarted" DragCompleted="TransformCompleted" Width="10" Height="10" VerticalAlignment="Center" HorizontalAlignment="Right" DragDelta="Handle5Delta" Margin="-10" Cursor="SizeWE"/>
+            <Thumb DragStarted="TransformStarted" DragCompleted="TransformCompleted" Width="10" Height="10" VerticalAlignment="Bottom" HorizontalAlignment="Left" DragDelta="Handle6Delta" Margin="-10" Cursor="SizeNESW"/>
+            <Thumb DragStarted="TransformStarted" DragCompleted="TransformCompleted" Width="10" Height="10" VerticalAlignment="Bottom" HorizontalAlignment="Center" DragDelta="Handle7Delta" Margin="-10" Cursor="SizeNS"/>
+            <Thumb DragStarted="TransformStarted" DragCompleted="TransformCompleted" Width="10" Height="10" VerticalAlignment="Bottom" HorizontalAlignment="Right" DragDelta="Handle8Delta" Margin="-10" Cursor="SizeNWSE"/>
         </Grid>
     </Grid>
 </UserControl>
