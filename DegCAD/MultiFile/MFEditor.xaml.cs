@@ -103,5 +103,15 @@ namespace DegCAD.MultiFile
             ActivePage.SelectedItem = null;
             ActivePage.Redraw();
         }
+
+        private void SelectWhole(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is not TextBox tb) return;
+            if (tb.IsFocused) return;
+            tb.Focus();
+            tb.SelectionStart = 0;
+            tb.SelectionLength = tb.Text.Length;
+            e.Handled = true;
+        }
     }
 }

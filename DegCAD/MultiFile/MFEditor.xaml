@@ -39,13 +39,13 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Label Content="X:" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="0"/>
-                        <TextBox VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" x:Name="insTrX" TextChanged="InspectorTransformTextChanged"/>
+                        <TextBox VerticalAlignment="Center" Grid.Row="0" Grid.Column="1" x:Name="insTrX" TextChanged="InspectorTransformTextChanged" PreviewMouseLeftButtonDown="SelectWhole"/>
                         <Label Content="Y:" HorizontalAlignment="Right" Grid.Row="0" Grid.Column="3"/>
-                        <TextBox VerticalAlignment="Center" Grid.Row="0" Grid.Column="4" x:Name="insTrY" TextChanged="InspectorTransformTextChanged"/>
+                        <TextBox VerticalAlignment="Center" Grid.Row="0" Grid.Column="4" x:Name="insTrY" TextChanged="InspectorTransformTextChanged" PreviewMouseLeftButtonDown="SelectWhole"/>
                         <Label Content="Šířka:" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="0"/>
-                        <TextBox VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" x:Name="insTrW" TextChanged="InspectorTransformTextChanged"/>
+                        <TextBox VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" x:Name="insTrW" TextChanged="InspectorTransformTextChanged" PreviewMouseLeftButtonDown="SelectWhole"/>
                         <Label Content="Výška:" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="3"/>
-                        <TextBox VerticalAlignment="Center" Grid.Row="1" Grid.Column="4" x:Name="insTrH" TextChanged="InspectorTransformTextChanged"/>
+                        <TextBox VerticalAlignment="Center" Grid.Row="1" Grid.Column="4" x:Name="insTrH" TextChanged="InspectorTransformTextChanged" PreviewMouseLeftButtonDown="SelectWhole"/>
                         <Button Content="Duplikovat" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="0" Click="InsDuplicate"/>
                         <Button Content="Odstranit" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" Margin="0,0,0,0" Click="InsDelete"/>
                     </Grid>
