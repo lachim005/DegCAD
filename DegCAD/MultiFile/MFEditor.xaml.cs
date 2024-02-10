@@ -45,12 +45,12 @@ namespace DegCAD.MultiFile
 
         private void PageSelectionChanged(object? sender, MFContainer? e)
         {
+            insTransform.Visibility = Visibility.Collapsed;
+            insDrawing.Visibility = Visibility.Collapsed;
+            insText.Visibility = Visibility.Collapsed;
             SelectedContainer = null;
             if (e is null)
             {
-                insTransform.Visibility = Visibility.Collapsed;
-                insDrawing.Visibility = Visibility.Collapsed;
-                insText.Visibility = Visibility.Collapsed;
                 return;
             }
             insTransform.Visibility = Visibility.Visible;
@@ -63,9 +63,10 @@ namespace DegCAD.MultiFile
             if (e.Item is MFDrawing dr)
             {
                 insDrawing.Visibility = Visibility.Visible;
-                insText.Visibility = Visibility.Collapsed;
-
-
+                insText.Visibility = Visibility.Hidden;
+                insDwItems.Maximum = dr.editor.Timeline.CommandHistory.Count;
+                insDwItems.Value = dr.VisibleItems;
+                insDwUnitSize.Text = dr.UnitSize.ToString();
             }
 
             SelectedContainer = e;
@@ -112,6 +113,65 @@ namespace DegCAD.MultiFile
             tb.SelectionStart = 0;
             tb.SelectionLength = tb.Text.Length;
             e.Handled = true;
+        }
+
+        private void InsDwCenterContent(object sender, RoutedEventArgs e)
+        {
+            if (SelectedContainer?.Item is not MFDrawing dwg) return;
+            dwg.vp.CenterContent();
+        }
+
+        private void InsDwItemsIncrement(object sender, RoutedEventArgs e)
+        {
+            insDwItems.Value++;
+        }
+
+        private void InsDwItemsDecrement(object sender, RoutedEventArgs e)
+        {
+            insDwItems.Value--;
+        }
+
+        private void InsDwValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (SelectedContainer?.Item is not MFDrawing dwg) return;
+            dwg.VisibleItems = (int)insDwItems.Value;
+        }
+
+        private void InsDwUnitSizeDecrement(object sender, RoutedEventArgs e)
+        {
+            if (SelectedContainer?.Item is not MFDrawing dwg) return;
+            insDwUnitSize.Text = (dwg.UnitSize - 1).ToString();
+        }
+
+        private void InsDwUnitSizeIncrement(object sender, RoutedEventArgs e)
+        {
+            if (SelectedContainer?.Item is not MFDrawing dwg) return;
+            insDwUnitSize.Text = (dwg.UnitSize + 1).ToString();
+        }
+
+        private void InsDwUnitSizeTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (SelectedContainer?.Item is not MFDrawing dwg) return;
+            if (!double.TryParse(insDwUnitSize.Text, out double us)) return;
+
+            var center = dwg.vp.ScreenToCanvas((dwg.vp.CWidth / 2, dwg.vp.CHeight / 2));
+
+            dwg.UnitSize = us;
+            dwg.ViewUpdated(ActivePage.OffsetX, ActivePage.OffsetY, ActivePage.Scale);
+
+            // Adjusts the offset so it will zoom in and out from the center
+            var newCenter = dwg.vp.ScreenToCanvas((dwg.vp.CWidth / 2, dwg.vp.CHeight / 2));
+            var centerDiff = newCenter - center;
+            dwg.vp.OffsetX -= centerDiff.X;
+            dwg.vp.OffsetY -= centerDiff.Y;
+            dwg.vp.Redraw();
+        }
+
+        private async void InsDwSaveClick(object sender, RoutedEventArgs e)
+        {
+            if (SelectedContainer?.Item is not MFDrawing dwg) return;
+            MainWindow.OpenEditorSaveFileDialog(dwg.editor);
+            await MainWindow.SaveEditorAsync(dwg.editor);
         }
     }
 }

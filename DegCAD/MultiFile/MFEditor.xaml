@@ -70,19 +70,19 @@
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Button Style="{DynamicResource accentBtn}" Content="Upravit výkres" Grid.ColumnSpan="5" Margin="0"/>
-                        <Button Content="Vycentrovat" Grid.ColumnSpan="5" Grid.Row="1" Margin="0,5,0,0"/>
+                        <Button Content="Vycentrovat" Grid.ColumnSpan="5" Grid.Row="1" Margin="0,5,0,0" Click="InsDwCenterContent"/>
 
                         <Label Content="Zobrazené prvky:" Grid.Row="3" Grid.ColumnSpan="5"/>
-                        <Button Content="-" Grid.Row="4" Grid.Column="0"/>
-                        <Slider Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" VerticalAlignment="Center"/>
-                        <Button Content="+" Grid.Row="4" Grid.Column="4"/>
+                        <Button Content="-" Grid.Row="4" Grid.Column="0" Click="InsDwItemsDecrement"/>
+                        <Slider Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="3" VerticalAlignment="Center" x:Name="insDwItems" IsSnapToTickEnabled="True" TickFrequency="1" ValueChanged="InsDwValueChanged"/>
+                        <Button Content="+" Grid.Row="4" Grid.Column="4" Click="InsDwItemsIncrement"/>
 
                         <Label Content="Velikost jednotky (mm):" Grid.Row="5" Grid.ColumnSpan="2" VerticalAlignment="Center"/>
-                        <Button Content="-" Grid.Row="5" Grid.Column="2"/>
-                        <TextBox Grid.Row="5" Grid.Column="3" VerticalAlignment="Center"/>
-                        <Button Content="+" Grid.Row="5" Grid.Column="4"/>
+                        <Button Content="-" Grid.Row="5" Grid.Column="2" Click="InsDwUnitSizeDecrement"/>
+                        <TextBox Grid.Row="5" Grid.Column="3" VerticalAlignment="Center" x:Name="insDwUnitSize" PreviewMouseLeftButtonDown="SelectWhole" TextChanged="InsDwUnitSizeTextChanged"/>
+                        <Button Content="+" Grid.Row="5" Grid.Column="4" Click="InsDwUnitSizeIncrement"/>
 
-                        <Button Content="Uložit výkres" Grid.Row="7" Grid.ColumnSpan="5" Margin="0" ToolTip="Uloží vybraný výkres do souboru mimo kompozici"/>
+                        <Button Content="Uložit výkres" Grid.Row="7" Grid.ColumnSpan="5" Margin="0" ToolTip="Uloží vybraný výkres do souboru mimo kompozici" Click="InsDwSaveClick"/>
                     </Grid>
                 </GroupBox>
                 <GroupBox Header="Text" Padding="10" x:Name="insText">
