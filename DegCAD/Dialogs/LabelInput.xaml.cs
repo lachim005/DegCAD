@@ -27,7 +27,7 @@ namespace DegCAD.Dialogs
         public string LabelText => labelTextTbx.Text;
         public string Superscript => superscriptTbx.Text;
         public string Subscript => subscriptTbx.Text;
-        public int TextSize => int.Parse(fontSizeTbx.Text);
+        public int TextSize => Math.Clamp(int.Parse(fontSizeTbx.Text), 8, 100);
 
         private TextBox lastFocusedTbx;
 

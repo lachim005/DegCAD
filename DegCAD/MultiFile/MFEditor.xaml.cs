@@ -76,15 +76,15 @@ namespace DegCAD.MultiFile
         {
             if (SelectedContainer is null) return;
 
-            if (!double.TryParse('0' + insTrX.Text, out double x)) return;
-            if (!double.TryParse('0' + insTrY.Text, out double y)) return;
-            if (!double.TryParse('0' + insTrW.Text, out double w)) return;
-            if (!double.TryParse('0' + insTrH.Text, out double h)) return;
+            if (!double.TryParse(insTrX.Text, out double x)) return;
+            if (!double.TryParse(insTrY.Text, out double y)) return;
+            if (!double.TryParse(insTrW.Text, out double w)) return;
+            if (!double.TryParse(insTrH.Text, out double h)) return;
 
             SelectedContainer.CX = x;
             SelectedContainer.CY = y;
-            SelectedContainer.CWidth = w;
-            SelectedContainer.CHeight = h;
+            SelectedContainer.CWidth = Math.Clamp(w, 5, 10_000);
+            SelectedContainer.CHeight = Math.Clamp(h, 5, 10_000);
             ActivePage.Redraw();
         }
 
@@ -156,7 +156,7 @@ namespace DegCAD.MultiFile
 
             var center = dwg.vp.ScreenToCanvas((dwg.vp.CWidth / 2, dwg.vp.CHeight / 2));
 
-            dwg.UnitSize = us;
+            dwg.UnitSize = Math.Clamp(us, 1, 100);
             dwg.ViewUpdated(ActivePage.OffsetX, ActivePage.OffsetY, ActivePage.Scale);
 
             // Adjusts the offset so it will zoom in and out from the center
