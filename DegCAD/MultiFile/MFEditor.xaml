@@ -69,7 +69,7 @@
                             <RowDefinition Height="30"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <Button Style="{DynamicResource accentBtn}" Content="Upravit výkres" Grid.ColumnSpan="5" Margin="0"/>
+                        <Button Style="{DynamicResource accentBtn}" Content="Otevřít v editoru" Grid.ColumnSpan="5" Margin="0" Click="InsDwEditDrawing"/>
                         <Button Content="Vycentrovat" Grid.ColumnSpan="5" Grid.Row="1" Margin="0,5,0,0" Click="InsDwCenterContent"/>
 
                         <Label Content="Zobrazené prvky:" Grid.Row="3" Grid.ColumnSpan="5"/>

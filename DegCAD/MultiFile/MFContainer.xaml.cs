@@ -26,6 +26,7 @@ namespace DegCAD.MultiFile
         public double CY { get; set; }
 
         public event EventHandler? Selected;
+        public event EventHandler? Deselected;
         public event EventHandler? Updating;
         public event EventHandler<TransformChange>? Updated;
         public MFPage Page { get; set; }
@@ -43,6 +44,7 @@ namespace DegCAD.MultiFile
         public void Deselect()
         {
             handles.Visibility = Visibility.Collapsed;
+            Deselected?.Invoke(this, EventArgs.Empty);
         }
         public void Select()
         {

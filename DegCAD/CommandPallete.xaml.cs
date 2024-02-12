@@ -35,7 +35,7 @@ namespace DegCAD
         /// </summary>
         public void GenerateCommands(MainWindow mw)
         {
-            Action<IGeometryCommand> executeCommand = (c) => mw.ActiveEditor?.ExecuteCommand(c);
+            Action<IGeometryCommand> executeCommand = (c) => mw.ActiveTab.ExecuteCommand(c);
             this.mw = mw;
 
             AddCommand(new("Bod", "Umístí do projektu pojmenovaný bod", Key.None, ModifierKeys.None, (_, _) => executeCommand(new Point2D()), "cmdPointIcon", ProjectionType.Plane | ProjectionType.Monge | ProjectionType.Axonometry));

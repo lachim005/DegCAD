@@ -21,7 +21,21 @@ namespace DegCAD.MultiFile
     public partial class MFDrawing : MFItem
     {
         public Editor editor;
-        public ViewPort vp;
+
+        private ViewPort _viewPort;
+
+        public ViewPort Viewport
+        {
+            get => _viewPort;
+            set
+            {
+                _viewPort = value;
+                value.CanZoom = false;
+                content.Children.Clear();
+                content.Children.Add(value);
+                VisibleItems = VisibleItems;
+            }
+        }
         public double UnitSize { get; set; } = 10;
         private int _visibleItems;
         public int VisibleItems
@@ -30,7 +44,7 @@ namespace DegCAD.MultiFile
             set
             {
                 _visibleItems = value;
-                var tl = vp.Timeline;
+                var tl = Viewport.Timeline;
                 if (_visibleItems > tl.CommandHistory.Count)
                 {
                     while (tl.CanRedo && _visibleItems != tl.CommandHistory.Count)
@@ -51,16 +65,18 @@ namespace DegCAD.MultiFile
         {
             InitializeComponent();
             this.editor = editor;
-            vp = editor.viewPort.Clone();
-            vp.CanZoom = false;
-            content.Children.Add(vp);
+
             _visibleItems = editor.viewPort.Timeline.CommandHistory.Count;
+
+            // Asigns it twice so it doesn't give a warning
+            _viewPort = editor.viewPort.Clone();
+            Viewport = _viewPort;
         }
 
         public override void ViewUpdated(double offsetX, double offsetY, double scale)
         {
-            vp.Scale = scale * MFPage.unitSize * UnitSize / ViewPort.unitSize;
-            vp.Redraw();
+            Viewport.Scale = scale * MFPage.unitSize * UnitSize / ViewPort.unitSize;
+            Viewport.Redraw();
         }
 
         public override MFItem Clone()

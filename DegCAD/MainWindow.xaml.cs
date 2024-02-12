@@ -29,7 +29,7 @@ namespace DegCAD
         /// </summary>
         public Editor? ActiveEditor { get; set; }
         public ITab ActiveTab { get; set; } = new HomeTab();
-        private readonly ObservableCollection<ITab> openTabs = new();
+        public readonly ObservableCollection<ITab> openTabs = new();
         private readonly ObservableCollection<ToastNotification> toastNotifications = new();
 
         /// <summary>
@@ -82,6 +82,13 @@ namespace DegCAD
                 ActiveEditor = et.Editor;
                 cmdPallete.ShowButtons(ActiveEditor.ProjectionType);
             }
+            if (ActiveTab is ConnectedEditorTab cet)
+            {
+                ActiveEditor = cet.Editor;
+                cmdPallete.ShowButtons(ActiveEditor.ProjectionType);
+            }
+
+            ActiveTab.TabSelected();
         }
 
         private async void EditorTabCloseClick(object sender, RoutedEventArgs e)

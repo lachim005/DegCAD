@@ -22,7 +22,10 @@ namespace DegCAD.MultiFile
     {
         public MFPage ActivePage { get; set; }
         public MFContainer? SelectedContainer { get; set; }
-        public MFEditor()
+        public MainWindow MainWindow { get; init; }
+
+
+        public MFEditor(MainWindow mw)
         {
             InitializeComponent();
 
@@ -30,6 +33,7 @@ namespace DegCAD.MultiFile
             pageBorder.Child = ActivePage;
             ActivePage.SelectionChanged += PageSelectionChanged;
             ActivePage.ContainerUpdated += ContainerUpdated;
+            MainWindow = mw;
         }
 
         private void ContainerUpdated(object? sender, TransformChange e)
@@ -118,7 +122,7 @@ namespace DegCAD.MultiFile
         private void InsDwCenterContent(object sender, RoutedEventArgs e)
         {
             if (SelectedContainer?.Item is not MFDrawing dwg) return;
-            dwg.vp.CenterContent();
+            dwg.Viewport.CenterContent();
         }
 
         private void InsDwItemsIncrement(object sender, RoutedEventArgs e)
@@ -154,17 +158,17 @@ namespace DegCAD.MultiFile
             if (SelectedContainer?.Item is not MFDrawing dwg) return;
             if (!double.TryParse(insDwUnitSize.Text, out double us)) return;
 
-            var center = dwg.vp.ScreenToCanvas((dwg.vp.CWidth / 2, dwg.vp.CHeight / 2));
+            var center = dwg.Viewport.ScreenToCanvas((dwg.Viewport.CWidth / 2, dwg.Viewport.CHeight / 2));
 
             dwg.UnitSize = Math.Clamp(us, 1, 100);
             dwg.ViewUpdated(ActivePage.OffsetX, ActivePage.OffsetY, ActivePage.Scale);
 
             // Adjusts the offset so it will zoom in and out from the center
-            var newCenter = dwg.vp.ScreenToCanvas((dwg.vp.CWidth / 2, dwg.vp.CHeight / 2));
+            var newCenter = dwg.Viewport.ScreenToCanvas((dwg.Viewport.CWidth / 2, dwg.Viewport.CHeight / 2));
             var centerDiff = newCenter - center;
-            dwg.vp.OffsetX -= centerDiff.X;
-            dwg.vp.OffsetY -= centerDiff.Y;
-            dwg.vp.Redraw();
+            dwg.Viewport.OffsetX -= centerDiff.X;
+            dwg.Viewport.OffsetY -= centerDiff.Y;
+            dwg.Viewport.Redraw();
         }
 
         private async void InsDwSaveClick(object sender, RoutedEventArgs e)
@@ -172,6 +176,51 @@ namespace DegCAD.MultiFile
             if (SelectedContainer?.Item is not MFDrawing dwg) return;
             MainWindow.OpenEditorSaveFileDialog(dwg.editor);
             await MainWindow.SaveEditorAsync(dwg.editor);
+        }
+
+        private void InsDwEditDrawing(object sender, RoutedEventArgs e)
+        {
+            if (SelectedContainer?.Item is not MFDrawing dwg) return;
+            
+
+            for (int i = 0; i < MainWindow.openTabs.Count; i++)
+            {
+                if (MainWindow.openTabs[i] is not ConnectedEditorTab cet) continue;
+                if (!ReferenceEquals(cet.Editor, dwg.editor)) continue;
+                MainWindow.editorTabs.SelectedIndex = i;
+                return;
+            }
+
+
+            MainWindow.openTabs.Add(new ConnectedEditorTab(dwg.editor));
+            MainWindow.editorTabs.SelectedIndex = MainWindow.editorTabs.Items.Count - 1;
+        }
+
+        public void TabSelected()
+        {
+            SelectedContainer?.Deselect();
+            UpdateConnectedEditors();
+        }
+
+        public void UpdateConnectedEditors()
+        {
+            foreach (MFContainer c in ActivePage.Items)
+            {
+                if (c.Item is not MFDrawing d) continue;
+                double ox = d.Viewport.OffsetX;
+                double oy = d.Viewport.OffsetY;
+                double sc = d.Viewport.Scale;
+
+                if (d.Viewport.Timeline.UndoneCommands.Count == 0)
+                {
+                    d.VisibleItems = d.editor.Timeline.CommandHistory.Count;
+                }
+
+                d.Viewport = d.editor.viewPort.Clone();
+                d.Viewport.OffsetX = ox;
+                d.Viewport.OffsetY = oy;
+                d.Viewport.Scale = sc;
+            }
         }
     }
 }

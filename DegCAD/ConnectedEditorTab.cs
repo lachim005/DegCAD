@@ -8,13 +8,13 @@ using System.Windows.Controls;
 
 namespace DegCAD
 {
-    public class EditorTab : ITab
+    public class ConnectedEditorTab : ITab
     {
         public Editor Editor { get; init; }
 
         public Control Body => Editor;
 
-        public bool CanSave => true;
+        public bool CanSave => false;
 
         public bool CanUndo => Editor.Timeline.CanUndo && !Editor.ExecutingCommand;
 
@@ -30,10 +30,10 @@ namespace DegCAD
 
         public bool CanExport => true;
 
-        public bool HasChanges => Editor.Changed;
-        public string Name => Editor.FileName;
+        public bool HasChanges => false;
+        public string Name => "Propojený editor";
 
-        public EditorTab(Editor editor)
+        public ConnectedEditorTab(Editor editor)
         {
             Editor = editor;
             editor.PropertyChanged += EditorPropertyChanged;
@@ -55,25 +55,13 @@ namespace DegCAD
             }
         }
 
-        public async Task<bool> Save()
+        public Task<bool> Save()
         {
-            if (Editor.FolderPath is null)
-            {
-                if (!MainWindow.OpenEditorSaveFileDialog(Editor))
-                {
-                    return false;
-                }
-            }
-            return await MainWindow.SaveEditorAsync(Editor);
+            return Task.FromResult(true);
         }
-        public async Task<bool> SaveAs()
+        public Task<bool> SaveAs()
         {
-            if (!MainWindow.OpenEditorSaveFileDialog(Editor))
-            {
-                return false;
-            }
-
-            return await MainWindow.SaveEditorAsync(Editor);
+            return Task.FromResult(true);
         }
         public void Undo() => Editor.Timeline.Undo();
         public void Redo() => Editor.Timeline.Redo();

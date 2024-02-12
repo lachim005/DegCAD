@@ -69,7 +69,7 @@ namespace DegCAD.MultiFile
 
         public bool CanZoom { get; set; } = true;
 
-        List<MFContainer> Items { get; set; } = new();
+        public List<MFContainer> Items { get; init; } = new();
         private MFContainer? _selectedItem;
 
         public MFContainer? SelectedItem
@@ -99,8 +99,10 @@ namespace DegCAD.MultiFile
             Items.Add(container);
             canvas.Children.Add(container);
             container.Selected += ContainerSelected;
+            container.Deselected += ContainerDeselected;
             container.Updating += OnContainerUpdating;
             container.Updated += OnContainerUpdated;
+            
         }
 
         private void OnContainerUpdated(object? sender, TransformChange e)
@@ -113,7 +115,9 @@ namespace DegCAD.MultiFile
             Items.Remove(container);
             canvas.Children.Remove(container);
             container.Selected -= ContainerSelected;
+            container.Deselected -= ContainerDeselected;
             container.Updating -= OnContainerUpdating;
+            container.Updated -= OnContainerUpdated;
         }
 
         private void ContainerSelected(object? sender, EventArgs e)
@@ -121,6 +125,11 @@ namespace DegCAD.MultiFile
             if (sender is not MFContainer container) return;
             SelectedItem?.Deselect();
             SelectedItem = container;
+        }
+        private void ContainerDeselected(object? sender, EventArgs e)
+        {
+            if (sender is not MFContainer container) return;
+            SelectedItem = null;
         }
         private void OnContainerUpdating(object? sender, EventArgs e)
         {

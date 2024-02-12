@@ -53,5 +53,14 @@ namespace DegCAD
         {
             
         }
+
+        public void TabSelected()
+        {
+
+        }
+        public void ExecuteCommand(IGeometryCommand c)
+        {
+
+        }
     }
 }

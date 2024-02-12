@@ -26,5 +26,7 @@ namespace DegCAD
         Task<bool> SaveAs();
         void Undo();
         void Redo();
+        void TabSelected();
+        void ExecuteCommand(IGeometryCommand c);
     }
 }

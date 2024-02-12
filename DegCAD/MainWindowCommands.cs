@@ -118,7 +118,7 @@ namespace DegCAD
         {
             MFEditor ed;
 
-            ed = new();
+            ed = new(this);
             
             openTabs.Add(new MFEditorTab(ed));
             editorTabs.SelectedIndex = openTabs.Count - 1;

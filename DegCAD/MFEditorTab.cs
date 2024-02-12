@@ -60,5 +60,12 @@ namespace DegCAD
         {
             throw new NotImplementedException();
         }
+
+        public void TabSelected()
+        {
+            Editor.TabSelected();
+        }
+
+        public void ExecuteCommand(IGeometryCommand c) { }
     }
 }
