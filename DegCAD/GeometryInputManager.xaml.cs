@@ -78,7 +78,7 @@ namespace DegCAD
                 }
             };
 
-            ViewPort.MouseDown += viewPortClick;
+            ViewPort.PreviewMouseDown += viewPortClick;
 
             //Draws the preview so it doesn't appear after the user moves their mouse
             DrawPreview(ViewPort.ScreenToCanvas(Mouse.GetPosition(ViewPort)));
@@ -97,7 +97,7 @@ namespace DegCAD
 
             //Unasignes all events and clears the preview
             ViewPort.VPMouseMoved -= previewPoint;
-            ViewPort.MouseDown -= viewPortClick;
+            ViewPort.PreviewMouseDown -= viewPortClick;
             ViewPort.ViewportChanged -= previewPoint;
             win.PreviewKeyDown -= cancelCommand;
 
@@ -155,7 +155,7 @@ namespace DegCAD
                 }
             };
 
-            ViewPort.MouseDown += viewPortClick;
+            ViewPort.PreviewMouseDown += viewPortClick;
 
             //Draws the preview so it doesn't appear after the user moves their mouse
             DrawPreview(ViewPort.ScreenToCanvas(Mouse.GetPosition(ViewPort)));
@@ -174,7 +174,7 @@ namespace DegCAD
 
             //Unasignes all events and clears the preview
             ViewPort.VPMouseMoved -= previewPoint;
-            ViewPort.MouseDown -= viewPortClick;
+            ViewPort.PreviewMouseDown -= viewPortClick;
             ViewPort.ViewportChanged -= previewPoint;
             win.PreviewKeyDown -= cancelCommand;
 
@@ -221,7 +221,7 @@ namespace DegCAD
                 }
             };
 
-            ViewPort.MouseDown += viewPortClick;
+            ViewPort.PreviewMouseDown += viewPortClick;
 
             //Draws the preview so it doesn't appear after the user moves their mouse
             Vector2 mousePos = ViewPort.ScreenToCanvas(Mouse.GetPosition(ViewPort));
@@ -241,7 +241,7 @@ namespace DegCAD
 
             //Unasignes all events and clears the preview
             ViewPort.VPMouseMoved -= previewPoint;
-            ViewPort.MouseDown -= viewPortClick;
+            ViewPort.PreviewMouseDown -= viewPortClick;
             ViewPort.ViewportChanged -= previewPoint;
             win.PreviewKeyDown -= cancelCommand;
 
@@ -293,7 +293,7 @@ namespace DegCAD
                 }
             };
 
-            ViewPort.MouseDown += viewPortClick;
+            ViewPort.PreviewMouseDown += viewPortClick;
 
             //Draws the preview so it doesn't appear after the user moves their mouse
             Vector2 mousePos = ViewPort.ScreenToCanvas(Mouse.GetPosition(ViewPort));
@@ -313,7 +313,7 @@ namespace DegCAD
 
             //Unasignes all events and clears the preview
             ViewPort.VPMouseMoved -= previewPoint;
-            ViewPort.MouseDown -= viewPortClick;
+            ViewPort.PreviewMouseDown -= viewPortClick;
             ViewPort.ViewportChanged -= previewPoint;
             win.PreviewKeyDown -= cancelCommand;
 
