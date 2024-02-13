@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,16 +19,80 @@ namespace DegCAD.MultiFile
     /// <summary>
     /// Interaction logic for MFText.xaml
     /// </summary>
-    public partial class MFText : MFItem
+    public partial class MFText : MFItem, INotifyPropertyChanged
     {
-        public string Text { get; set; } = "";
-        public int TextontSize { get; set; } = 20;
-        public VerticalAlignment VAlign { get; set; } = VerticalAlignment.Center;
-        public HorizontalAlignment HAlign { get; set; } = HorizontalAlignment.Center;
-        public bool Italic { get; set; } = true;
-        public bool Bold { get; set; } = true;
-        public bool Underline { get; set; } = true;
-        public bool Strikethrough { get; set; } = true;
+        private string _text = "";
+        private VerticalAlignment _vAlign = VerticalAlignment.Center;
+        private TextAlignment _hAlign = TextAlignment.Center;
+        private bool _italic;
+        private bool _bold;
+        private bool _underline;
+        private bool _strikethrough;
+
+        public string Text
+        {
+            get => _text;
+            set
+            {
+                _text = value;
+                PropertyChanged?.Invoke(this, new(nameof(Text)));
+            }
+        }
+        public int TextFontSize { get; set; } = 20;
+        public VerticalAlignment VAlign
+        {
+            get => _vAlign;
+            set
+            {
+                _vAlign = value;
+                PropertyChanged?.Invoke(this, new(nameof(VAlign)));
+            }
+        }
+        public TextAlignment HAlign
+        {
+            get => _hAlign;
+            set
+            {
+                _hAlign = value;
+                PropertyChanged?.Invoke(this, new(nameof(HAlign)));
+            }
+        }
+        public bool Italic
+        {
+            get => _italic;
+            set
+            {
+                _italic = value;
+                PropertyChanged?.Invoke(this, new(nameof(Italic)));
+            }
+        }
+        public bool Bold
+        {
+            get => _bold;
+            set
+            {
+                _bold = value;
+                PropertyChanged?.Invoke(this, new(nameof(Bold)));
+            }
+        }
+        public bool Underline
+        {
+            get => _underline;
+            set
+            {
+                _underline = value;
+                PropertyChanged?.Invoke(this, new(nameof(Underline)));
+            }
+        }
+        public bool Strikethrough
+        {
+            get => _strikethrough;
+            set
+            {
+                _strikethrough = value;
+                PropertyChanged?.Invoke(this, new(nameof(Strikethrough)));
+            }
+        }
 
         public MFText(string text)
         {
@@ -36,9 +101,11 @@ namespace DegCAD.MultiFile
             InitializeComponent();
         }
 
+        public event PropertyChangedEventHandler? PropertyChanged;
+
         public override void ViewUpdated(double offsetX, double offsetY, double scale)
         {
-            textBlock.FontSize = scale * FontSize;
+            textBlock.FontSize = scale * TextFontSize;
         }
         public override MFItem Clone()
         {

@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <TextBlock Text="{Binding Text}" x:Name="textBlock" VerticalAlignment="{Binding VAlign}" HorizontalAlignment="{Binding HAlign}">
+        <TextBlock Text="{Binding Text}" TextWrapping="Wrap" x:Name="textBlock" VerticalAlignment="{Binding VAlign}" TextAlignment="{Binding HAlign}">
             <TextBlock.Style>
                 <Style TargetType="TextBlock">
                     <Style.Triggers>

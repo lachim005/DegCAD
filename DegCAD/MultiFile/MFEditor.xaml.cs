@@ -67,15 +67,43 @@ namespace DegCAD.MultiFile
             if (e.Item is MFDrawing dr)
             {
                 insDrawing.Visibility = Visibility.Visible;
-                insText.Visibility = Visibility.Hidden;
                 insDwItems.Maximum = dr.editor.Timeline.CommandHistory.Count;
                 insDwItems.Value = dr.VisibleItems;
                 insDwUnitSize.Text = dr.UnitSize.ToString();
+            } else if (e.Item is MFText txt)
+            {
+                insText.Visibility = Visibility.Visible;
+                insTxtText.Text = txt.Text;
+
+                // Set horizontal alignment
+                insTxtHALeft.IsEnabled = true;
+                insTxtHACenter.IsEnabled = true;
+                insTxtHARight.IsEnabled = true;
+                insTxtHAJustify.IsEnabled = true;
+                (txt.HAlign switch
+                {
+                    TextAlignment.Left => insTxtHALeft,
+                    TextAlignment.Right => insTxtHARight,
+                    TextAlignment.Justify => insTxtHAJustify,
+                    _ => insTxtHACenter,
+                }).IsEnabled = false;
+
+                // Set vertical alignment
+                insTxtVATop.IsEnabled = true;
+                insTxtVACenter.IsEnabled = true;
+                insTxtVABottom.IsEnabled = true;
+                (txt.VAlign switch
+                {
+                    VerticalAlignment.Top => insTxtVATop,
+                    VerticalAlignment.Bottom => insTxtVABottom,
+                    _ => insTxtVACenter,
+                }).IsEnabled = false;
             }
 
             SelectedContainer = e;
         }
 
+        #region Container inspector
         private void InspectorTransformTextChanged(object sender, TextChangedEventArgs e)
         {
             if (SelectedContainer is null) return;
@@ -118,7 +146,9 @@ namespace DegCAD.MultiFile
             tb.SelectionLength = tb.Text.Length;
             e.Handled = true;
         }
+#endregion
 
+        #region Drawing inspector
         private void InsDwCenterContent(object sender, RoutedEventArgs e)
         {
             if (SelectedContainer?.Item is not MFDrawing dwg) return;
@@ -195,6 +225,7 @@ namespace DegCAD.MultiFile
             MainWindow.openTabs.Add(new ConnectedEditorTab(dwg.editor));
             MainWindow.editorTabs.SelectedIndex = MainWindow.editorTabs.Items.Count - 1;
         }
+        #endregion
 
         public void TabSelected()
         {
@@ -221,6 +252,71 @@ namespace DegCAD.MultiFile
                 d.Viewport.OffsetY = oy;
                 d.Viewport.Scale = sc;
             }
+        }
+
+
+        private void InsTxtTextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (SelectedContainer?.Item is not MFText txt) return;
+            txt.Text = insTxtText.Text;
+        }
+
+        private void InsTxtVaChanged(object sender, RoutedEventArgs e)
+        {
+            if (sender is not Button b) return;
+            if (SelectedContainer?.Item is not MFText txt) return;
+
+            insTxtVATop.IsEnabled = true;
+            insTxtVACenter.IsEnabled = true;
+            insTxtVABottom.IsEnabled = true;
+
+            b.IsEnabled = false;
+            txt.VAlign = b.Name switch
+            {
+                "insTxtVATop" => VerticalAlignment.Top,
+                "insTxtVABottom" => VerticalAlignment.Bottom,
+                _ => VerticalAlignment.Center,
+            };
+        }
+
+        private void InsTxtHaChanged(object sender, RoutedEventArgs e)
+        {
+            if (sender is not Button b) return;
+            if (SelectedContainer?.Item is not MFText txt) return;
+
+            insTxtHALeft.IsEnabled = true;
+            insTxtHACenter.IsEnabled = true;
+            insTxtHARight.IsEnabled = true;
+            insTxtHAJustify.IsEnabled = true;
+
+            b.IsEnabled = false;
+            txt.HAlign = b.Name switch
+            {
+                "insTxtHALeft" => TextAlignment.Left,
+                "insTxtHARight" => TextAlignment.Right,
+                "insTxtHAJustify" => TextAlignment.Justify,
+                _ => TextAlignment.Center,
+            };
+        }
+
+        private void insTxtStrikethrough_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void insTxtUnderline_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void insTxtItalic_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void insTxtBold_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

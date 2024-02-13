@@ -92,6 +92,8 @@ namespace DegCAD.MultiFile
 
             ViewportChanged += ViewPortChanged;
             SizeChanged += ViewPortChanged;
+
+            AddItem(new(this, new MFText("Text")));
         }
 
         public void AddItem(MFContainer container)

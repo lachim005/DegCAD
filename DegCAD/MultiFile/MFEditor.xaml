@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:DegCAD.MultiFile"
              mc:Ignorable="d"
              Foreground="{DynamicResource fg}"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="850" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -94,7 +94,7 @@
                             <ColumnDefinition Width="30"/>
                         </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="100"/>
+                            <RowDefinition Height="auto" MinHeight="100"/>
                             <RowDefinition Height="10"/>
                             <RowDefinition/>
                             <RowDefinition/>
@@ -103,23 +103,23 @@
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBox AcceptsReturn="True" Grid.ColumnSpan="4"/>
+                        <TextBox AcceptsReturn="True" Grid.ColumnSpan="4" x:Name="insTxtText" TextChanged="InsTxtTextChanged" TextWrapping="Wrap"/>
                         <StackPanel Grid.Row="2" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" Width="27" ToolTip="Tučný text">
+                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" Width="27" ToolTip="Tučný text" x:Name="insTxtBold" Click="insTxtBold_Click">
                                 <TextBlock Text="B" TextBlock.FontWeight="Bold" FontSize="18"/>
                             </Button>
-                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" Width="27" ToolTip="Kurzíva">
+                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" Width="27" ToolTip="Kurzíva" x:Name="insTxtItalic" Click="insTxtItalic_Click">
                                 <TextBlock Text="I" FontStyle="Italic" FontSize="18"/>
                             </Button>
-                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" Width="27" ToolTip="Podtržení">
+                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" Width="27" ToolTip="Podtržení" x:Name="insTxtUnderline" Click="insTxtUnderline_Click">
                                 <TextBlock Text="U" TextDecorations="Underline" FontSize="18"/>
                             </Button>
-                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" Width="27" ToolTip="Přeškrtnutí">
+                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" Width="27" ToolTip="Přeškrtnutí" x:Name="insTxtStrikethrough" Click="insTxtStrikethrough_Click">
                                 <TextBlock Text="S" TextDecorations="Strikethrough" FontSize="18"/>
                             </Button>
                         </StackPanel>
                         <StackPanel Grid.Row="3" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" IsEnabled="False" ToolTip="Horizontální zarovnání doleva">
+                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" IsEnabled="False" ToolTip="Horizontální zarovnání doleva" x:Name="insTxtHALeft" Click="InsTxtHaChanged">
                                 <Canvas Height="25" Width="25">
                                     <Line X1="5" Y1="5" X2="20" Y2="5" Stroke="{DynamicResource fg}"/>
                                     <Line X1="5" Y1="10" X2="14" Y2="10" Stroke="{DynamicResource fg}"/>
@@ -127,7 +127,7 @@
                                     <Line X1="5" Y1="20" X2="14" Y2="20" Stroke="{DynamicResource fg}"/>
                                 </Canvas>
                             </Button>
-                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" ToolTip="Horizontální zarovnání na střed">
+                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" ToolTip="Horizontální zarovnání na střed" x:Name="insTxtHACenter" Click="InsTxtHaChanged">
                                 <Canvas Height="25" Width="25">
                                     <Line X1="5" Y1="5" X2="20" Y2="5" Stroke="{DynamicResource fg}"/>
                                     <Line X1="8" Y1="10" X2="17" Y2="10" Stroke="{DynamicResource fg}"/>
@@ -135,7 +135,7 @@
                                     <Line X1="8" Y1="20" X2="17" Y2="20" Stroke="{DynamicResource fg}"/>
                                 </Canvas>
                             </Button>
-                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" ToolTip="Horizontální zarovnání doprava">
+                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" ToolTip="Horizontální zarovnání doprava" x:Name="insTxtHARight" Click="InsTxtHaChanged">
                                 <Canvas Height="25" Width="25">
                                     <Line X1="5" Y1="5" X2="20" Y2="5" Stroke="{DynamicResource fg}"/>
                                     <Line X1="11" Y1="10" X2="20" Y2="10" Stroke="{DynamicResource fg}"/>
@@ -143,7 +143,7 @@
                                     <Line X1="11" Y1="20" X2="20" Y2="20" Stroke="{DynamicResource fg}"/>
                                 </Canvas>
                             </Button>
-                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" ToolTip="Horizontální zarovnání do bloku">
+                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" ToolTip="Horizontální zarovnání do bloku" x:Name="insTxtHAJustify" Click="InsTxtHaChanged">
                                 <Canvas Height="25" Width="25">
                                     <Line X1="5" Y1="5" X2="20" Y2="5" Stroke="{DynamicResource fg}"/>
                                     <Line X1="5" Y1="10" X2="20" Y2="10" Stroke="{DynamicResource fg}"/>
@@ -153,19 +153,19 @@
                             </Button>
                         </StackPanel>
                         <StackPanel Grid.Row="4" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" IsEnabled="False" ToolTip="Vertikální zarovnání nahoru">
+                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" IsEnabled="False" ToolTip="Vertikální zarovnání nahoru" x:Name="insTxtVATop" Click="InsTxtVaChanged">
                                 <Canvas Height="25" Width="25">
                                     <Line X1="5" Y1="5" X2="20" Y2="5" Stroke="{DynamicResource fg}"/>
                                     <Line X1="5" Y1="10" X2="20" Y2="10" Stroke="{DynamicResource fg}"/>
                                 </Canvas>
                             </Button>
-                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" ToolTip="Vertikální zarovnání na střed">
+                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" ToolTip="Vertikální zarovnání na střed" x:Name="insTxtVACenter" Click="InsTxtVaChanged">
                                 <Canvas Height="25" Width="25">
                                     <Line X1="5" Y1="10" X2="20" Y2="10" Stroke="{DynamicResource fg}"/>
                                     <Line X1="5" Y1="15" X2="20" Y2="15" Stroke="{DynamicResource fg}"/>
                                 </Canvas>
                             </Button>
-                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" ToolTip="Vertikální zarovnání dolů">
+                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" ToolTip="Vertikální zarovnání dolů" x:Name="insTxtVABottom" Click="InsTxtVaChanged">
                                 <Canvas Height="25" Width="25">
                                     <Line X1="5" Y1="15" X2="20" Y2="15" Stroke="{DynamicResource fg}"/>
                                     <Line X1="5" Y1="20" X2="20" Y2="20" Stroke="{DynamicResource fg}"/>
