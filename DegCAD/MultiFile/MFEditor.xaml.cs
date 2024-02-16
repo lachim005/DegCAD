@@ -98,6 +98,15 @@ namespace DegCAD.MultiFile
                     VerticalAlignment.Bottom => insTxtVABottom,
                     _ => insTxtVACenter,
                 }).IsEnabled = false;
+
+                // Set BIUS
+                insTxtBold.IsEnabled = !txt.Bold;
+                insTxtBold.IsEnabled = !txt.Italic;
+                insTxtBold.IsEnabled = !txt.Underline;
+                insTxtBold.IsEnabled = !txt.Strikethrough;
+
+                // Set Fontsize
+                insTxtFontSize.Text = txt.TextFontSize.ToString();
             }
 
             SelectedContainer = e;
@@ -330,6 +339,26 @@ namespace DegCAD.MultiFile
             insTxtStrikethrough.IsEnabled = !enabled;
             txt.Strikethrough = enabled;
             e.Handled = true;
+        }
+
+        private void InsTxtFontSizeChanged(object sender, TextChangedEventArgs e)
+        {
+            if (SelectedContainer?.Item is not MFText txt) return;
+            if (!int.TryParse(insTxtFontSize.Text, out int fs)) return;
+            txt.TextFontSize = Math.Clamp(fs, 8, 256);
+            txt.ViewUpdated(ActivePage.OffsetX, ActivePage.OffsetY, ActivePage.Scale);
+        }
+
+        private void InsTxtDecrementFontSize(object sender, RoutedEventArgs e)
+        {
+            if (SelectedContainer?.Item is not MFText txt) return;
+            insTxtFontSize.Text = (txt.TextFontSize - 1).ToString();
+        }
+
+        private void InsTxtIncrementFontSize(object sender, RoutedEventArgs e)
+        {
+            if (SelectedContainer?.Item is not MFText txt) return;
+            insTxtFontSize.Text = (txt.TextFontSize + 1).ToString();
         }
     }
 }

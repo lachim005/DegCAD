@@ -181,9 +181,9 @@
                             </Button>
                         </StackPanel>
                         <Label Content="Velikost písma:" Grid.Row="6" VerticalAlignment="Center"/>
-                        <Button Content="-" Grid.Row="6" Grid.Column="1"/>
-                        <TextBox Grid.Row="6" Grid.Column="2" VerticalAlignment="Center"/>
-                        <Button Content="+" Grid.Row="6" Grid.Column="3"/>
+                        <Button Content="-" Grid.Row="6" Grid.Column="1" Click="InsTxtDecrementFontSize"/>
+                        <TextBox Grid.Row="6" Grid.Column="2" VerticalAlignment="Center" TextChanged="InsTxtFontSizeChanged" x:Name="insTxtFontSize" PreviewMouseLeftButtonDown="SelectWhole"/>
+                        <Button Content="+" Grid.Row="6" Grid.Column="3" Click="InsTxtIncrementFontSize"/>
                         <Label Content="Barva písma:" Grid.Row="7" VerticalAlignment="Center"/>
                         <Rectangle Fill="{DynamicResource fg}" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3" RadiusX="5" RadiusY="5" Height="27" VerticalAlignment="Center" Cursor="Hand"/>
                     </Grid>
