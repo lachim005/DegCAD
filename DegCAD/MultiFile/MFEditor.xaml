@@ -185,7 +185,7 @@
                         <TextBox Grid.Row="6" Grid.Column="2" VerticalAlignment="Center" TextChanged="InsTxtFontSizeChanged" x:Name="insTxtFontSize" PreviewMouseLeftButtonDown="SelectWhole"/>
                         <Button Content="+" Grid.Row="6" Grid.Column="3" Click="InsTxtIncrementFontSize"/>
                         <Label Content="Barva písma:" Grid.Row="7" VerticalAlignment="Center"/>
-                        <Rectangle Fill="{DynamicResource fg}" Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3" RadiusX="5" RadiusY="5" Height="27" VerticalAlignment="Center" Cursor="Hand"/>
+                        <Rectangle Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3" RadiusX="5" RadiusY="5" Height="27" VerticalAlignment="Center" Cursor="Hand" MouseLeftButtonDown="InsTxtChangeColor" x:Name="insTxtColor"/>
                     </Grid>
                 </GroupBox>
             </StackPanel>

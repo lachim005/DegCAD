@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DegCAD.Dialogs;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -101,12 +102,13 @@ namespace DegCAD.MultiFile
 
                 // Set BIUS
                 insTxtBold.IsEnabled = !txt.Bold;
-                insTxtBold.IsEnabled = !txt.Italic;
-                insTxtBold.IsEnabled = !txt.Underline;
-                insTxtBold.IsEnabled = !txt.Strikethrough;
+                insTxtItalic.IsEnabled = !txt.Italic;
+                insTxtUnderline.IsEnabled = !txt.Underline;
+                insTxtStrikethrough.IsEnabled = !txt.Strikethrough;
 
-                // Set Fontsize
+                // Set Fontsize and color
                 insTxtFontSize.Text = txt.TextFontSize.ToString();
+                insTxtColor.Fill = new SolidColorBrush(txt.Color);
             }
 
             SelectedContainer = e;
@@ -359,6 +361,15 @@ namespace DegCAD.MultiFile
         {
             if (SelectedContainer?.Item is not MFText txt) return;
             insTxtFontSize.Text = (txt.TextFontSize + 1).ToString();
+        }
+
+        private void InsTxtChangeColor(object sender, MouseButtonEventArgs e)
+        {
+            if (SelectedContainer?.Item is not MFText txt) return;
+            var c = ColorPicker.EditColor(txt.Color);
+            txt.Color = c;
+            insTxtColor.Fill = new SolidColorBrush(c);
+            e.Handled = true;
         }
     }
 }

@@ -35,6 +35,9 @@
                     </Style.Triggers>
                 </Style>
             </TextBlock.Style>
+            <TextBlock.Foreground>
+                <SolidColorBrush Color="{Binding Color}"/>
+            </TextBlock.Foreground>
         </TextBlock>
     </Grid>
 </local:MFItem>

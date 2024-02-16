@@ -28,6 +28,7 @@ namespace DegCAD.MultiFile
         private bool _bold;
         private bool _underline;
         private bool _strikethrough;
+        private Color _color = (App.Skin == Skin.Light) ? Colors.Black : Colors.White;
 
         public string Text
         {
@@ -91,6 +92,15 @@ namespace DegCAD.MultiFile
             {
                 _strikethrough = value;
                 PropertyChanged?.Invoke(this, new(nameof(Strikethrough)));
+            }
+        }
+        public Color Color
+        {
+            get => _color;
+            set
+            {
+                _color = value;
+                PropertyChanged?.Invoke(this, new(nameof(Color)));
             }
         }
 
