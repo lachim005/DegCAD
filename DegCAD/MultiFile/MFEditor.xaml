@@ -105,18 +105,26 @@
                         </Grid.RowDefinitions>
                         <TextBox AcceptsReturn="True" Grid.ColumnSpan="4" x:Name="insTxtText" TextChanged="InsTxtTextChanged" TextWrapping="Wrap"/>
                         <StackPanel Grid.Row="2" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Center">
-                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" Width="27" ToolTip="Tučný text" x:Name="insTxtBold" Click="insTxtBold_Click">
-                                <TextBlock Text="B" TextBlock.FontWeight="Bold" FontSize="18"/>
-                            </Button>
-                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" Width="27" ToolTip="Kurzíva" x:Name="insTxtItalic" Click="insTxtItalic_Click">
-                                <TextBlock Text="I" FontStyle="Italic" FontSize="18"/>
-                            </Button>
-                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" Width="27" ToolTip="Podtržení" x:Name="insTxtUnderline" Click="insTxtUnderline_Click">
-                                <TextBlock Text="U" TextDecorations="Underline" FontSize="18"/>
-                            </Button>
-                            <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" Width="27" ToolTip="Přeškrtnutí" x:Name="insTxtStrikethrough" Click="insTxtStrikethrough_Click">
-                                <TextBlock Text="S" TextDecorations="Strikethrough" FontSize="18"/>
-                            </Button>
+                            <Grid PreviewMouseLeftButtonUp="InsTxtBold">
+                                <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" Width="27" ToolTip="Tučný text" x:Name="insTxtBold">
+                                    <TextBlock Text="B" TextBlock.FontWeight="Bold" FontSize="18"/>
+                                </Button>
+                            </Grid>
+                            <Grid PreviewMouseLeftButtonUp="InsTxtItalic">
+                                <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" Width="27" ToolTip="Kurzíva" x:Name="insTxtItalic">
+                                    <TextBlock Text="I" FontStyle="Italic" FontSize="18"/>
+                                </Button>
+                            </Grid>
+                            <Grid PreviewMouseLeftButtonUp="InsTxtUnderline">
+                                <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" Width="27" ToolTip="Podtržení" x:Name="insTxtUnderline">
+                                    <TextBlock Text="U" TextDecorations="Underline" FontSize="18"/>
+                                </Button>
+                            </Grid>
+                            <Grid PreviewMouseLeftButtonUp="InsTxtStrikethrough">
+                                <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" Width="27" ToolTip="Přeškrtnutí" x:Name="insTxtStrikethrough">
+                                    <TextBlock Text="S" TextDecorations="Strikethrough" FontSize="18"/>
+                                </Button>
+                            </Grid>
                         </StackPanel>
                         <StackPanel Grid.Row="3" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Center">
                             <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" IsEnabled="False" ToolTip="Horizontální zarovnání doleva" x:Name="insTxtHALeft" Click="InsTxtHaChanged">

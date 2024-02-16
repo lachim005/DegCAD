@@ -299,24 +299,37 @@ namespace DegCAD.MultiFile
             };
         }
 
-        private void insTxtStrikethrough_Click(object sender, RoutedEventArgs e)
+        private void InsTxtBold(object sender, MouseButtonEventArgs e)
         {
-
+            if (SelectedContainer?.Item is not MFText txt) return;
+            bool enabled = !txt.Bold;
+            insTxtBold.IsEnabled = !enabled;
+            txt.Bold = enabled;
+            e.Handled = true;
         }
-
-        private void insTxtUnderline_Click(object sender, RoutedEventArgs e)
+        private void InsTxtItalic(object sender, MouseButtonEventArgs e)
         {
-
+            if (SelectedContainer?.Item is not MFText txt) return;
+            bool enabled = !txt.Italic;
+            insTxtItalic.IsEnabled = !enabled;
+            txt.Italic = enabled;
+            e.Handled = true;
         }
-
-        private void insTxtItalic_Click(object sender, RoutedEventArgs e)
+        private void InsTxtUnderline(object sender, MouseButtonEventArgs e)
         {
-
+            if (SelectedContainer?.Item is not MFText txt) return;
+            bool enabled = !txt.Underline;
+            insTxtUnderline.IsEnabled = !enabled;
+            txt.Underline = enabled;
+            e.Handled = true;
         }
-
-        private void insTxtBold_Click(object sender, RoutedEventArgs e)
+        private void InsTxtStrikethrough(object sender, MouseButtonEventArgs e)
         {
-
+            if (SelectedContainer?.Item is not MFText txt) return;
+            bool enabled = !txt.Strikethrough;
+            insTxtStrikethrough.IsEnabled = !enabled;
+            txt.Strikethrough = enabled;
+            e.Handled = true;
         }
     }
 }
