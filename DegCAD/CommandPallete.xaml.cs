@@ -79,7 +79,8 @@ namespace DegCAD
             AddCommand(new("Nanést vzdálenost", "Nanese zadanou délku", Key.None, ModifierKeys.None, (_, _) => executeCommand(new InputLength()), "cmdInputLengthIcon", FileType.Plane | FileType.Monge | FileType.Axonometry));
             AddCommand(new("Nanést úhel", "Nanese zadaný úhel", Key.None, ModifierKeys.None, (_, _) => executeCommand(new InputAngle()), "cmdInputAngleIcon", FileType.Plane | FileType.Monge | FileType.Axonometry));
 
-            AddCommand(new("Přidat text", "Přidá do kompozice texte", Key.None, ModifierKeys.None, (_, _) => executeCommand(new AddTextCommand()), "cmdMFAddText", FileType.MultiFile));
+            AddCommand(new("Přidat výkres", "Přidá do kompozice výkres", Key.None, ModifierKeys.None, (_, _) => executeCommand(new AddDrawingCommand()), "cmdMFAddDrawing", FileType.MultiFile));
+            AddCommand(new("Přidat text", "Přidá do kompozice text", Key.None, ModifierKeys.None, (_, _) => executeCommand(new AddTextCommand()), "cmdMFAddText", FileType.MultiFile));
         }
 
         public void AddCommand(GeometryCommandData cmd)

@@ -55,6 +55,12 @@ namespace DegCAD
         }
         private async void OpenFileAsync(string path)
         {
+            if (await OpenEditorAsync(path) is not Editor ed) return;
+            openTabs.Add(new EditorTab(ed));
+            editorTabs.SelectedIndex = openTabs.Count - 1;
+        }
+        public static async Task<Editor?> OpenEditorAsync(string path)
+        {
             Editor ed;
             try
             {
@@ -63,11 +69,10 @@ namespace DegCAD
             catch (Exception ex)
             {
                 MessageBox.Show(ex.Message + "\n\n" + ex.InnerException?.Message, "Chyba při načítání souboru", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
+                return null;
             }
             ed.Changed = false;
-            openTabs.Add(new EditorTab(ed));
-            editorTabs.SelectedIndex = openTabs.Count - 1;
+            return ed;
         }
 
         public void CanSave(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = ActiveTab.CanSave;
@@ -81,9 +86,16 @@ namespace DegCAD
 
         private void NewCommand(object sender, ExecutedRoutedEventArgs e)
         {
+            if (CreateNewEditor() is not Editor ed) return;
+            openTabs.Add(new EditorTab(ed));
+            editorTabs.SelectedIndex = openTabs.Count - 1;
+            editorCounter++;
+        }
+        public static Editor? CreateNewEditor()
+        {
             NewFileDialog nfd = new();
             nfd.ShowDialog();
-            if (nfd.ProjectionType is null) return;
+            if (nfd.ProjectionType is null) return null;
 
             Editor ed;
 
@@ -92,7 +104,7 @@ namespace DegCAD
             {
                 AxonometrySetup axo = new();
                 axo.ShowDialog();
-                if (axo.Canceled || axo.Axis is null) return;
+                if (axo.Canceled || axo.Axis is null) return null;
                 ed = new($"Bez názvu {editorCounter}", nfd.ProjectionType.Value);
 
                 foreach (var item in axo.Axis.Items)
@@ -102,7 +114,8 @@ namespace DegCAD
 
                 ed.AxonometryAxes = axo.AxonometryAxes;
                 ed.Timeline.AddCommand(axo.Axis);
-            } else
+            }
+            else
             {
                 ed = new($"Bez názvu {editorCounter}", nfd.ProjectionType.Value);
                 ed.AddAxis(ed.viewPort.Layers[1]);
@@ -110,9 +123,7 @@ namespace DegCAD
 
             ed.styleSelector.AddDefaultColors();
             ed.Changed = false;
-            openTabs.Add(new EditorTab(ed));
-            editorTabs.SelectedIndex = openTabs.Count - 1;
-            editorCounter++;
+            return ed;
         }
         private void NewMFCommand(object sender, ExecutedRoutedEventArgs e)
         {
@@ -126,11 +137,16 @@ namespace DegCAD
         }
         private void OpenCommand(object sender, ExecutedRoutedEventArgs e)
         {
+            if (OpenEditorOpenDialog() is not string path) return;
+
+            OpenFileAsync(path);
+        }
+        public static string? OpenEditorOpenDialog()
+        {
             OpenFileDialog ofd = new();
             ofd.Filter = "DegCAD projekt|*.dgproj|Všechny soubory|*.*";
-            if (ofd.ShowDialog() != true) return;
-
-            OpenFileAsync(ofd.FileName);
+            if (ofd.ShowDialog() != true) return null;
+            return ofd.FileName;
         }
         private void SaveCommand(object sender, ExecutedRoutedEventArgs e) => ActiveTab.Save();
         private void SaveAsCommand(object sender, ExecutedRoutedEventArgs e) => ActiveTab.SaveAs();

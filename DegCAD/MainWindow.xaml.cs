@@ -35,7 +35,7 @@ namespace DegCAD
         /// <summary>
         /// Used for the number after "Bez názvu" in new document names
         /// </summary>
-        private int editorCounter = 1;
+        private static int editorCounter = 1;
 
         public MainWindow()
         {
