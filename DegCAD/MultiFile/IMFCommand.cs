@@ -8,6 +8,6 @@ namespace DegCAD.MultiFile
 {
     public interface IMFCommand : ICommand
     {
-        void Execute();
+        MFItem? Execute();
     }
 }

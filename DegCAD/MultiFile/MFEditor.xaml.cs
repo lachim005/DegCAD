@@ -117,7 +117,9 @@ namespace DegCAD.MultiFile
         public void ExecuteCommand(ICommand c)
         {
             if (c is not IMFCommand command) return;
-            
+            if (command.Execute() is not MFItem item) return;
+            ActivePage.AddItem(new(ActivePage, item) { CX = 0, CY = ActivePage.GetMaxY() });
+            ActivePage.Redraw();
         }
 
         #region Container inspector

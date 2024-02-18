@@ -92,8 +92,6 @@ namespace DegCAD.MultiFile
 
             ViewportChanged += ViewPortChanged;
             SizeChanged += ViewPortChanged;
-
-            AddItem(new(this, new MFText("Text")));
         }
 
         public void AddItem(MFContainer container)
@@ -312,6 +310,17 @@ namespace DegCAD.MultiFile
                 offset += 100;
                 Redraw();
             }
+        }
+
+        public double GetMaxY()
+        {
+            double max = 0;
+            foreach(var cont in Items)
+            {
+                var newVal = cont.CY + cont.CHeight;
+                if (newVal > max) max = newVal;
+            }
+            return max;
         }
     }
 }

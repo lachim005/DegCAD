@@ -20,7 +20,7 @@ namespace DegCAD
 
         public bool CanRedo => false;
 
-        public bool CanExecuteCommand => false;
+        public bool CanExecuteCommand => true;
 
         public bool CanPrint => false;
 

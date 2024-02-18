@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace DegCAD.MultiFile.Commands
 {
-    public class AddTextCommand : ICommand
+    public class AddTextCommand : IMFCommand
     {
-        public void Execute()
+        public MFItem? Execute()
         {
-            throw new NotImplementedException();
+            return new MFText("Text");
         }
     }
 }

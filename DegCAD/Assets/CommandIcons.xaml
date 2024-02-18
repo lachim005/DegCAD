@@ -243,4 +243,7 @@
         <Line X1="10" Y1="50" X2="50" Y2="50" Stroke="{DynamicResource fg}" StrokeThickness="1.4"/>
         <Line X1="10" Y1="50" X2="40" Y2="20" Stroke="{DynamicResource fg}" StrokeThickness="1.4"/>
     </Canvas>
+    <Grid x:Key="cmdMFAddText">
+        <TextBlock Text="T" FontFamily="Times New Roman" FontSize="40" Foreground="{DynamicResource fg}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+    </Grid>
 </ResourceDictionary>

@@ -39,7 +39,7 @@ namespace DegCAD.MultiFile
                 PropertyChanged?.Invoke(this, new(nameof(Text)));
             }
         }
-        public int TextFontSize { get; set; } = 20;
+        public int TextFontSize { get; set; } = 12;
         public VerticalAlignment VAlign
         {
             get => _vAlign;

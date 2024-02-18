@@ -41,7 +41,7 @@ namespace DegCAD
         {
             InitializeComponent();
             cmdPallete.GenerateCommands(this);
-            cmdPallete.ShowButtons(ProjectionType.None);
+            cmdPallete.ShowButtons(FileType.None);
             AppDomain.CurrentDomain.UnhandledException += (s, e) => MessageBox.Show($"{e.ExceptionObject}");
 
             //Open editor is the user opens a file
@@ -69,7 +69,7 @@ namespace DegCAD
                 ActiveEditor = null;
                 ActiveTab = new HomeTab();
                 homePage.Visibility = Visibility.Visible;
-                cmdPallete.ShowButtons(ProjectionType.None);
+                cmdPallete.ShowButtons(FileType.None);
                 return;
             }
 
@@ -80,12 +80,16 @@ namespace DegCAD
             if (ActiveTab is EditorTab et)
             {
                 ActiveEditor = et.Editor;
-                cmdPallete.ShowButtons(ActiveEditor.ProjectionType);
+                cmdPallete.ShowButtons((FileType)ActiveEditor.ProjectionType);
             }
-            if (ActiveTab is ConnectedEditorTab cet)
+            else if (ActiveTab is ConnectedEditorTab cet)
             {
                 ActiveEditor = cet.Editor;
-                cmdPallete.ShowButtons(ActiveEditor.ProjectionType);
+                cmdPallete.ShowButtons((FileType)ActiveEditor.ProjectionType);
+            }
+            else if (ActiveTab is MFEditorTab mf)
+            {
+                cmdPallete.ShowButtons(FileType.MultiFile);
             }
 
             ActiveTab.TabSelected();
