@@ -123,8 +123,9 @@ namespace DegCAD
         }
 
 
-        public async void ExecuteCommand(IGeometryCommand command)
+        public async void ExecuteCommand(ICommand c)
         {
+            if (c is not IGeometryCommand command) return;
             do
             {
                 Debug.WriteLine($"Executing command: {command}");

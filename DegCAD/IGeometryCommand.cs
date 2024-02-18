@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DegCAD
 {
-    public interface IGeometryCommand
+    public interface IGeometryCommand : ICommand
     {
         Task<TimelineItem?> ExecuteAsync(ViewportLayer previewVpl, ViewportLayer vpl, ViewportLayer bgVpl, GeometryInputManager inputMgr, EditorStatusBar esb);
     }

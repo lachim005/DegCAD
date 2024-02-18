@@ -66,6 +66,9 @@ namespace DegCAD
             Editor.TabSelected();
         }
 
-        public void ExecuteCommand(IGeometryCommand c) { }
+        public void ExecuteCommand(ICommand c) 
+        {
+            Editor.ExecuteCommand(c);
+        }
     }
 }

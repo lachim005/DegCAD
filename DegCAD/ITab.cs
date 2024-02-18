@@ -27,6 +27,6 @@ namespace DegCAD
         void Undo();
         void Redo();
         void TabSelected();
-        void ExecuteCommand(IGeometryCommand c);
+        void ExecuteCommand(ICommand c);
     }
 }

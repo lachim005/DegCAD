@@ -114,6 +114,12 @@ namespace DegCAD.MultiFile
             SelectedContainer = e;
         }
 
+        public void ExecuteCommand(ICommand c)
+        {
+            if (c is not IMFCommand command) return;
+            
+        }
+
         #region Container inspector
         private void InspectorTransformTextChanged(object sender, TextChangedEventArgs e)
         {

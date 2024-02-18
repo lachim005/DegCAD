@@ -58,7 +58,7 @@ namespace DegCAD
         {
 
         }
-        public void ExecuteCommand(IGeometryCommand c)
+        public void ExecuteCommand(ICommand c)
         {
 
         }
