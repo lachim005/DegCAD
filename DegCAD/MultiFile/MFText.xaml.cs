@@ -119,7 +119,7 @@ namespace DegCAD.MultiFile
         }
         public override MFItem Clone()
         {
-            return new MFText(Text);
+            return new MFText(Text) { TextFontSize = TextFontSize, VAlign = VAlign, HAlign = HAlign, Bold = Bold, Italic = Italic, Underline = Underline, Strikethrough = Strikethrough, Color = Color };
         }
     }
 }
