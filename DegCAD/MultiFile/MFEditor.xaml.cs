@@ -1,6 +1,8 @@
 ﻿using DegCAD.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,23 +21,44 @@ namespace DegCAD.MultiFile
     /// <summary>
     /// Interaction logic for MFEditor.xaml
     /// </summary>
-    public partial class MFEditor : UserControl
+    public partial class MFEditor : UserControl, INotifyPropertyChanged
     {
-        public MFPage ActivePage { get; set; }
+        private MFPage _activePage;
+
+        public MFPage ActivePage
+        {
+            get => _activePage;
+            set
+            {
+                _activePage = value;
+                PropertyChanged?.Invoke(this, new(nameof(ActivePage)));
+            }
+        }
         public MFContainer? SelectedContainer { get; set; }
         public MainWindow MainWindow { get; init; }
 
+        public ObservableCollection<MFPageModel> Pages { get; init; } = new();
 
         public MFEditor(MainWindow mw)
         {
+            DataContext = this;
+
+            Pages.CollectionChanged += ReIndexPages;
+            for (int i = 0; i < 5; i++)
+            {
+                AddPage(new());
+            }
+            _activePage = Pages[0].Page;
+            Pages[0].IsButtonEnabled = false;
+
             InitializeComponent();
 
-            ActivePage = new MFPage();
-            pageBorder.Child = ActivePage;
-            ActivePage.SelectionChanged += PageSelectionChanged;
-            ActivePage.ContainerUpdated += ContainerUpdated;
+            insPagesIc.ItemsSource = Pages;
+
             MainWindow = mw;
         }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         private void ContainerUpdated(object? sender, TransformChange e)
         {
@@ -53,9 +76,11 @@ namespace DegCAD.MultiFile
             insTransform.Visibility = Visibility.Collapsed;
             insDrawing.Visibility = Visibility.Collapsed;
             insText.Visibility = Visibility.Collapsed;
+            insPages.Visibility = Visibility.Collapsed;
             SelectedContainer = null;
             if (e is null)
             {
+                insPages.Visibility = Visibility.Visible;
                 return;
             }
             insTransform.Visibility = Visibility.Visible;
@@ -246,34 +271,7 @@ namespace DegCAD.MultiFile
         }
         #endregion
 
-        public void TabSelected()
-        {
-            SelectedContainer?.Deselect();
-            UpdateConnectedEditors();
-        }
-
-        public void UpdateConnectedEditors()
-        {
-            foreach (MFContainer c in ActivePage.Items)
-            {
-                if (c.Item is not MFDrawing d) continue;
-                double ox = d.Viewport.OffsetX;
-                double oy = d.Viewport.OffsetY;
-                double sc = d.Viewport.Scale;
-
-                if (d.Viewport.Timeline.UndoneCommands.Count == 0)
-                {
-                    d.VisibleItems = d.editor.Timeline.CommandHistory.Count;
-                }
-
-                d.Viewport = d.editor.viewPort.Clone();
-                d.Viewport.OffsetX = ox;
-                d.Viewport.OffsetY = oy;
-                d.Viewport.Scale = sc;
-            }
-        }
-
-
+        #region Text inspector
         private void InsTxtTextChanged(object sender, TextChangedEventArgs e)
         {
             if (SelectedContainer?.Item is not MFText txt) return;
@@ -378,6 +376,81 @@ namespace DegCAD.MultiFile
             txt.Color = c;
             insTxtColor.Fill = new SolidColorBrush(c);
             e.Handled = true;
+        }
+
+        #endregion
+
+        #region Pages
+        public void AddPage(MFPage page)
+        {
+            Pages.Add(new(page));
+            page.SelectionChanged += PageSelectionChanged;
+            page.ContainerUpdated += ContainerUpdated;
+        }
+        public void RemovePage(MFPage page)
+        {
+            Pages.Remove(new(page));
+            page.SelectionChanged -= PageSelectionChanged;
+            page.ContainerUpdated -= ContainerUpdated;
+        }
+
+        private void ReIndexPages(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            for (int i = 0; i < Pages.Count; i++)
+            {
+                Pages[i].Index = i + 1;
+            }
+        }
+
+        private void InsPageClick(object sender, RoutedEventArgs e)
+        {
+            if (sender is not Button btn) return;
+            if (btn.DataContext is not MFPageModel pm) return;
+
+            foreach (var page in Pages)
+            {
+                page.IsButtonEnabled = true;
+            }
+
+            double offsetX = ActivePage.OffsetX, 
+                offsetY = ActivePage.OffsetY, 
+                scale = ActivePage.Scale;
+
+            ActivePage = pm.Page;
+
+            ActivePage.OffsetX = offsetX;
+            ActivePage.OffsetY = offsetY;
+            ActivePage.Scale = scale;
+
+            pm.IsButtonEnabled = false;
+        }
+        #endregion
+
+        public void TabSelected()
+        {
+            SelectedContainer?.Deselect();
+            UpdateConnectedEditors();
+        }
+
+        public void UpdateConnectedEditors()
+        {
+            foreach (MFContainer c in ActivePage.Items)
+            {
+                if (c.Item is not MFDrawing d) continue;
+                double ox = d.Viewport.OffsetX;
+                double oy = d.Viewport.OffsetY;
+                double sc = d.Viewport.Scale;
+
+                if (d.Viewport.Timeline.UndoneCommands.Count == 0)
+                {
+                    d.VisibleItems = d.editor.Timeline.CommandHistory.Count;
+                }
+
+                d.Viewport = d.editor.viewPort.Clone();
+                d.Viewport.OffsetX = ox;
+                d.Viewport.OffsetY = oy;
+                d.Viewport.Scale = sc;
+            }
         }
     }
 }

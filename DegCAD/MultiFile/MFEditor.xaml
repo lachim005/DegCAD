@@ -18,12 +18,14 @@
             <ColumnDefinition Width="350" MinWidth="320"/>
         </Grid.ColumnDefinitions>
         <Border Grid.ColumnSpan="3" BorderBrush="{DynamicResource border}" BorderThickness="0,0,0,1">
-            
+
         </Border>
-        <Border x:Name="pageBorder" Grid.Row="1"/>
+        <Border x:Name="pageBorder" Grid.Row="1">
+            <ContentPresenter Content="{Binding ActivePage}"/>
+        </Border>
         <ScrollViewer Grid.Row="1" Grid.Column="2" VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="10">
-                <GroupBox Header="Pozice" Padding="10" x:Name="insTransform">
+                <GroupBox Header="Pozice" Padding="10" x:Name="insTransform" Visibility="Collapsed">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="50"/>
@@ -50,7 +52,7 @@
                         <Button Content="Odstranit" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" Margin="0,0,0,0" Click="InsDelete"/>
                     </Grid>
                 </GroupBox>
-                <GroupBox Header="Výkres" Padding="10" x:Name="insDrawing">
+                <GroupBox Header="Výkres" Padding="10" x:Name="insDrawing" Visibility="Collapsed">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="30"/>
@@ -85,7 +87,7 @@
                         <Button Content="Uložit výkres" Grid.Row="7" Grid.ColumnSpan="5" Margin="0" ToolTip="Uloží vybraný výkres do souboru mimo kompozici" Click="InsDwSaveClick"/>
                     </Grid>
                 </GroupBox>
-                <GroupBox Header="Text" Padding="10" x:Name="insText">
+                <GroupBox Header="Text" Padding="10" x:Name="insText" Visibility="Collapsed">
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -187,6 +189,24 @@
                         <Label Content="Barva písma:" Grid.Row="7" VerticalAlignment="Center"/>
                         <Rectangle Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3" RadiusX="5" RadiusY="5" Height="27" VerticalAlignment="Center" Cursor="Hand" MouseLeftButtonDown="InsTxtChangeColor" x:Name="insTxtColor"/>
                     </Grid>
+                </GroupBox>
+                <GroupBox Header="Strany" Padding="10" x:Name="insPages" Visibility="Visible">
+                    <StackPanel>
+                        <ItemsControl x:Name="insPagesIc">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Button Style="{DynamicResource selectableBtnStyle}" IsEnabled="{Binding IsButtonEnabled}" Click="InsPageClick">
+                                            <TextBlock>
+                                                <Run>Strana</Run>
+                                                <Run Text="{Binding Index}"/>
+                                            </TextBlock>
+                                        </Button>
+                                    </Grid>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </StackPanel>
                 </GroupBox>
             </StackPanel>
         </ScrollViewer>

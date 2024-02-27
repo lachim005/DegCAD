@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using System.Windows.Shapes;
 using System.Windows;
 using Plane = DegCAD.MongeItems.Plane;
-using System.Windows;
 using Point = DegCAD.MongeItems.Point;
 
 namespace DegCAD.GeometryCommands

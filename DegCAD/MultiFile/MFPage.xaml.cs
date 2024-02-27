@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -322,5 +323,39 @@ namespace DegCAD.MultiFile
             }
             return max;
         }
+    }
+
+    public class MFPageModel : INotifyPropertyChanged
+    {
+        private int _index;
+        private bool _isButtonEnabled = true;
+
+        public MFPage Page { get; init; }
+        public int Index
+        {
+            get => _index;
+            set
+            {
+                _index = value;
+                PropertyChanged?.Invoke(this, new(nameof(Index)));
+            }
+        }
+        public bool IsButtonEnabled
+        {
+            get => _isButtonEnabled;
+            set
+            {
+                _isButtonEnabled = value;
+                PropertyChanged?.Invoke(this, new(nameof(IsButtonEnabled)));
+            }
+        }
+
+        public MFPageModel(MFPage page, int index = 0)
+        {
+            Page = page;
+            Index = index;
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
     }
 }
