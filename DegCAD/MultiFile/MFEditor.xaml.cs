@@ -55,6 +55,12 @@ namespace DegCAD.MultiFile
 
             MainWindow = mw;
         }
+        private void EditorLoaded(object sender, RoutedEventArgs e)
+        {
+            insTransform.Visibility = Visibility.Collapsed;
+            insDrawing.Visibility = Visibility.Collapsed;
+            insText.Visibility = Visibility.Collapsed;
+        }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -98,6 +104,8 @@ namespace DegCAD.MultiFile
             {
                 insText.Visibility = Visibility.Visible;
                 insTxtText.Text = txt.Text;
+                insTxtText.Focus();
+                insTxtText.SelectAll();
 
                 // Set horizontal alignment
                 insTxtHALeft.IsEnabled = true;
@@ -141,7 +149,10 @@ namespace DegCAD.MultiFile
         {
             if (c is not IMFCommand command) return;
             if (command.Execute() is not MFItem item) return;
-            ActivePage.AddItem(new(ActivePage, item) { CX = 0, CY = ActivePage.GetMaxY() });
+            MFContainer cont = new(ActivePage, item) { CX = 0, CY = ActivePage.GetMaxY() };
+            ActivePage.AddItem(cont);
+            cont.Select();
+
             ActivePage.Redraw();
         }
 
