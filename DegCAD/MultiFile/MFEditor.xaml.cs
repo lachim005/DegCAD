@@ -42,14 +42,16 @@ namespace DegCAD.MultiFile
         public MFEditor(MainWindow mw)
         {
             DataContext = this;
+            InitializeComponent();
 
             Pages.CollectionChanged += ReIndexPages;
 
-            AddPage(new());
-            _activePage = Pages[0].Page;
+            _activePage = new();
+            AddPage(_activePage);
+            SelectPage(_activePage);
+
             Pages[0].IsButtonEnabled = false;
 
-            InitializeComponent();
 
             insPagesIc.ItemsSource = Pages;
 
@@ -80,11 +82,13 @@ namespace DegCAD.MultiFile
             insTransform.Visibility = Visibility.Collapsed;
             insDrawing.Visibility = Visibility.Collapsed;
             insText.Visibility = Visibility.Collapsed;
+            insComposition.Visibility = Visibility.Collapsed;
             insPages.Visibility = Visibility.Collapsed;
             SelectedContainer = null;
             if (e is null)
             {
                 insPages.Visibility = Visibility.Visible;
+                insComposition.Visibility = Visibility.Visible;
                 return;
             }
             insTransform.Visibility = Visibility.Visible;
@@ -395,6 +399,7 @@ namespace DegCAD.MultiFile
             Pages.Add(new(page));
             page.SelectionChanged += PageSelectionChanged;
             page.ContainerUpdated += ContainerUpdated;
+            page.BordersVisible = insCompBordersVisibility.IsChecked == true;
         }
         public void RemovePage(MFPage page)
         {
@@ -454,6 +459,24 @@ namespace DegCAD.MultiFile
                 AddPage(new());
             }
             SelectPage(Pages[0].Page);
+        }
+        #endregion
+
+        #region Composition
+        private void InsCompShowBorders(object sender, RoutedEventArgs e)
+        {
+            foreach (var p in Pages)
+            {
+                p.Page.BordersVisible = true;
+            }
+        }
+
+        private void InsCompHideBorders(object sender, RoutedEventArgs e)
+        {
+            foreach (var p in Pages)
+            {
+                p.Page.BordersVisible = false;
+            }
         }
         #endregion
 

@@ -31,6 +31,8 @@ namespace DegCAD.MultiFile
         public double paperWidth = 210;
         public double paperHeight = 297;
 
+        private bool _bordersVisible = true;
+
         /// <summary>
         /// The X offset of the canvas
         /// </summary>
@@ -86,6 +88,19 @@ namespace DegCAD.MultiFile
         public event EventHandler<MFContainer?>? ContainerUpdating;
         public event EventHandler<TransformChange>? ContainerUpdated;
 
+        public bool BordersVisible
+        {
+            get => _bordersVisible;
+            set
+            {
+                _bordersVisible = value;
+                foreach (var c in Items)
+                {
+                    c.BorderVisible = value;
+                }
+            }
+        }
+
         public MFPage()
         {
             InitializeComponent();
@@ -103,7 +118,7 @@ namespace DegCAD.MultiFile
             container.Deselected += ContainerDeselected;
             container.Updating += OnContainerUpdating;
             container.Updated += OnContainerUpdated;
-            
+            container.BorderVisible = BordersVisible;
         }
 
         private void OnContainerUpdated(object? sender, TransformChange e)

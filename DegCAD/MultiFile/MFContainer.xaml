@@ -10,7 +10,7 @@
         <Border x:Name="contentBorder">
 
         </Border>
-        <Rectangle Stroke="{DynamicResource border}" StrokeThickness="1" StrokeDashArray="5 5"/>
+        <Rectangle Stroke="{DynamicResource border}" StrokeThickness="1" StrokeDashArray="5 5" x:Name="containerBorder"/>
         <Grid x:Name="handles" Visibility="Collapsed">
             <Border BorderBrush="{DynamicResource accentColor}" BorderThickness="3" Margin="-1"/>
             <Thumb DragStarted="TransformStarted" DragCompleted="TransformCompleted" DragDelta="MoveDelta" Cursor="SizeAll" Background="Transparent" Opacity="0"/>

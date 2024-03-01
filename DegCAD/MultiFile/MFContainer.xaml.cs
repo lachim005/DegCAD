@@ -20,6 +20,8 @@ namespace DegCAD.MultiFile
     /// </summary>
     public partial class MFContainer : UserControl
     {
+        private bool _borderVisible = true;
+
         public double CWidth { get; set; } = 100;
         public double CHeight { get; set; } = 100;
         public double CX { get; set; }
@@ -32,6 +34,16 @@ namespace DegCAD.MultiFile
         public MFPage Page { get; set; }
         public MFItem Item { get; init; }
         private TransformChange trChange = new();
+
+        public bool BorderVisible
+        {
+            get => _borderVisible;
+            set
+            {
+                _borderVisible = value;
+                containerBorder.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
+            }
+        }
 
         public MFContainer(MFPage page, MFItem item)
         {

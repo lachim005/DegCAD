@@ -6,8 +6,8 @@
              xmlns:local="clr-namespace:DegCAD.MultiFile"
              mc:Ignorable="d"
              Loaded="EditorLoaded"
-             Foreground="{DynamicResource fg}"
-             d:DesignHeight="850" d:DesignWidth="800">
+             Foreground="{DynamicResource fg}" 
+             d:DesignHeight="1250" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="30"/>
@@ -190,6 +190,11 @@
                         <Label Content="Barva písma:" Grid.Row="7" VerticalAlignment="Center"/>
                         <Rectangle Grid.Row="7" Grid.Column="1" Grid.ColumnSpan="3" RadiusX="5" RadiusY="5" Height="27" VerticalAlignment="Center" Cursor="Hand" MouseLeftButtonDown="InsTxtChangeColor" x:Name="insTxtColor"/>
                     </Grid>
+                </GroupBox>
+                <GroupBox Header="Kompozice" Padding="10" x:Name="insComposition">
+                    <StackPanel>
+                        <CheckBox Content="Obrysy" x:Name="insCompBordersVisibility" Checked="InsCompShowBorders" Unchecked="InsCompHideBorders" IsChecked="True"/>
+                    </StackPanel>
                 </GroupBox>
                 <GroupBox Header="Strany" Padding="10" x:Name="insPages">
                     <StackPanel>
