@@ -121,5 +121,15 @@ namespace DegCAD.MultiFile
         {
             return new MFText(Text) { TextFontSize = TextFontSize, VAlign = VAlign, HAlign = HAlign, Bold = Bold, Italic = Italic, Underline = Underline, Strikethrough = Strikethrough, Color = Color };
         }
+        public override void SwapWhiteAndBlack()
+        {
+            if (Color == Colors.Black)
+            {
+                Color = Colors.White;
+            } else if (Color == Colors.White)
+            {
+                Color = Colors.Black;
+            }
+        }
     }
 }

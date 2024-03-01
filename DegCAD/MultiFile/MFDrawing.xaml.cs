@@ -84,5 +84,11 @@ namespace DegCAD.MultiFile
             
             return new MFDrawing(editor.Clone());
         }
+
+        public override void SwapWhiteAndBlack()
+        {
+            Viewport.SwapWhiteAndBlack();
+            editor.viewPort.SwapWhiteAndBlack();
+        }
     }
 }

@@ -75,5 +75,9 @@ namespace DegCAD
         {
             Editor.ExecuteCommand(c);
         }
+        public void SwapWhiteAndBlack()
+        {
+
+        }
     }
 }

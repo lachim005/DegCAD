@@ -28,5 +28,6 @@ namespace DegCAD
         void Redo();
         void TabSelected();
         void ExecuteCommand(ICommand c);
+        void SwapWhiteAndBlack();
     }
 }

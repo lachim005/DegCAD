@@ -338,6 +338,14 @@ namespace DegCAD.MultiFile
             }
             return max;
         }
+
+        public void SwapWhiteAndBlack()
+        {
+            foreach (var item in Items)
+            {
+                item.Item.SwapWhiteAndBlack();
+            }
+        }
     }
 
     public class MFPageModel : INotifyPropertyChanged

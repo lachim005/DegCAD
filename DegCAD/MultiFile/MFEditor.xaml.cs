@@ -506,5 +506,13 @@ namespace DegCAD.MultiFile
                 d.Viewport.Scale = sc;
             }
         }
+
+        public void SwapWhiteAndBlack()
+        {
+            foreach (var page in Pages)
+            {
+                page.Page.SwapWhiteAndBlack();
+            }
+        }
     }
 }

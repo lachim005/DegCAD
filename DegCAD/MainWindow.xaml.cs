@@ -197,11 +197,7 @@ namespace DegCAD
             app.ChangeSkin((App.Skin == Skin.Light) ? Skin.Dark : Skin.Light);
             foreach (var tab in openTabs)
             {
-                if (tab is EditorTab et)
-                {
-                    et.Editor.viewPort.SwapWhiteAndBlack();
-                    et.Editor.styleSelector.SwapWhiteAndBlack();
-                }
+                tab.SwapWhiteAndBlack();
             }
         }
 

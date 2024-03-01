@@ -62,5 +62,9 @@ namespace DegCAD
         {
 
         }
+        public void SwapWhiteAndBlack()
+        {
+
+        }
     }
 }
