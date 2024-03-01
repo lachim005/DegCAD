@@ -32,9 +32,8 @@ namespace DegCAD.MultiFile
             {
                 _viewPort = value;
                 value.CanZoom = false;
-                content.Children.Clear();
-                content.Children.Add(value);
-                VisibleItems = VisibleItems;
+                content.Child = value;
+                VisibleItems = _visibleItems;
             }
         }
         public double UnitSize { get; set; } = 10;
@@ -67,7 +66,7 @@ namespace DegCAD.MultiFile
             set
             {
                 _positionLocked = value;
-                Viewport.IsHitTestVisible = !value;
+                positionLock.Visibility = value ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
