@@ -104,6 +104,7 @@ namespace DegCAD.MultiFile
                 insDwItems.Maximum = dr.editor.Timeline.CommandHistory.Count;
                 insDwItems.Value = dr.VisibleItems;
                 insDwUnitSize.Text = dr.UnitSize.ToString();
+                insDwLockPosition.IsChecked = dr.PositionLocked;
             } else if (e.Item is MFText txt)
             {
                 insText.Visibility = Visibility.Visible;
@@ -281,6 +282,12 @@ namespace DegCAD.MultiFile
 
             MainWindow.openTabs.Add(new ConnectedEditorTab(dwg.editor));
             MainWindow.editorTabs.SelectedIndex = MainWindow.editorTabs.Items.Count - 1;
+        }
+
+        private void InsDwLockPosChecked(object sender, RoutedEventArgs e)
+        {
+            if (SelectedContainer?.Item is not MFDrawing dwg) return;
+            dwg.PositionLocked = insDwLockPosition.IsChecked == true;
         }
         #endregion
 

@@ -23,6 +23,7 @@ namespace DegCAD.MultiFile
         public Editor editor;
 
         private ViewPort _viewPort;
+        private bool _positionLocked;
 
         public ViewPort Viewport
         {
@@ -58,6 +59,15 @@ namespace DegCAD.MultiFile
                         tl.Undo();
                     }
                 }
+            }
+        }
+        public bool PositionLocked
+        {
+            get => _positionLocked;
+            set
+            {
+                _positionLocked = value;
+                Viewport.IsHitTestVisible = !value;
             }
         }
 
