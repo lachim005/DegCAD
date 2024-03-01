@@ -206,6 +206,14 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Button Content="Přidat" Click="InsPagesAdd" Style="{DynamicResource accentBtn}"/>
+                            <Button Content="Smazat" Click="InsPagesRemove" Grid.Column="1"/>
+                        </Grid>
                     </StackPanel>
                 </GroupBox>
             </StackPanel>

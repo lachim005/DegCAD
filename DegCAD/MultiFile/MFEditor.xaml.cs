@@ -44,10 +44,8 @@ namespace DegCAD.MultiFile
             DataContext = this;
 
             Pages.CollectionChanged += ReIndexPages;
-            for (int i = 0; i < 5; i++)
-            {
-                AddPage(new());
-            }
+
+            AddPage(new());
             _activePage = Pages[0].Page;
             Pages[0].IsButtonEnabled = false;
 
@@ -389,10 +387,11 @@ namespace DegCAD.MultiFile
         }
         public void RemovePage(MFPage page)
         {
-            Pages.Remove(new(page));
+            Pages.Remove(GetPageModel(page));
             page.SelectionChanged -= PageSelectionChanged;
             page.ContainerUpdated -= ContainerUpdated;
         }
+        private MFPageModel GetPageModel(MFPage page) => Pages.First(p => p.Page == page);
 
         private void ReIndexPages(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
@@ -407,13 +406,18 @@ namespace DegCAD.MultiFile
             if (sender is not Button btn) return;
             if (btn.DataContext is not MFPageModel pm) return;
 
-            foreach (var page in Pages)
+            SelectPage(pm.Page);
+        }
+        public void SelectPage(MFPage page)
+        {
+            var pm = GetPageModel(page);
+            foreach (var p in Pages)
             {
-                page.IsButtonEnabled = true;
+                p.IsButtonEnabled = true;
             }
 
-            double offsetX = ActivePage.OffsetX, 
-                offsetY = ActivePage.OffsetY, 
+            double offsetX = ActivePage.OffsetX,
+                offsetY = ActivePage.OffsetY,
                 scale = ActivePage.Scale;
 
             ActivePage = pm.Page;
@@ -423,6 +427,22 @@ namespace DegCAD.MultiFile
             ActivePage.Scale = scale;
 
             pm.IsButtonEnabled = false;
+        }
+        private void InsPagesAdd(object sender, RoutedEventArgs e)
+        {
+            MFPage page = new();
+            AddPage(page);
+            SelectPage(page);
+        }
+        private void InsPagesRemove(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Opravdu chcete tuto stranu odstranit?", "Kompozice", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;                
+            RemovePage(ActivePage);
+            if (Pages.Count == 0)
+            {
+                AddPage(new());
+            }
+            SelectPage(Pages[0].Page);
         }
         #endregion
 
