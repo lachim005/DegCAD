@@ -450,6 +450,12 @@ namespace DegCAD.MultiFile
             ActivePage.Scale = scale;
 
             pm.IsButtonEnabled = false;
+
+            // Update inspector page size
+            var w = page.PaperWidth.ToString();
+            var h = page.PaperHeight.ToString();
+            insPageWidth.Text = w;
+            insPageHeight.Text = h;
         }
         private void InsPagesAdd(object sender, RoutedEventArgs e)
         {
@@ -466,6 +472,13 @@ namespace DegCAD.MultiFile
                 AddPage(new());
             }
             SelectPage(Pages[0].Page);
+        }
+        private void InsPageSizeChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!double.TryParse(insPageWidth.Text, out var w)) return;
+            if (!double.TryParse(insPageHeight.Text, out var h)) return;
+            ActivePage.PaperWidth = Math.Max(w, 1);
+            ActivePage.PaperHeight = Math.Max(h, 1);
         }
         #endregion
 

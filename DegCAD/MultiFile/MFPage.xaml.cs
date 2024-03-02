@@ -28,8 +28,8 @@ namespace DegCAD.MultiFile
         public const double MaxZoom = 50;
         public const double MinZoom = .05;
 
-        public double paperWidth = 210;
-        public double paperHeight = 297;
+        private double _paperWidth = 210;
+        private double _paperHeight = 297;
 
         private bool _bordersVisible = true;
 
@@ -71,6 +71,25 @@ namespace DegCAD.MultiFile
         public int CHeight => (int)ActualHeight;
 
         public bool CanZoom { get; set; } = true;
+
+        public double PaperWidth
+        {
+            get => _paperWidth;
+            set
+            {
+                _paperWidth = value;
+                UpdatePaperSize();
+            }
+        }
+        public double PaperHeight
+        {
+            get => _paperHeight;
+            set
+            {
+                _paperHeight = value;
+                UpdatePaperSize();
+            }
+        }
 
         public List<MFContainer> Items { get; init; } = new();
         private MFContainer? _selectedItem;
@@ -281,8 +300,7 @@ namespace DegCAD.MultiFile
         public void Redraw()
         {
             if (!IsLoaded) return;
-            paperBg.Width = paperWidth * Scale * unitSize;
-            paperBg.Height = paperHeight * Scale * unitSize;
+            UpdatePaperSize();
             Canvas.SetLeft(paperBg, -OffsetX * Scale * unitSize);
             Canvas.SetTop(paperBg, -OffsetY * Scale * unitSize);
 
@@ -295,6 +313,12 @@ namespace DegCAD.MultiFile
 
                 item.Item.ViewUpdated(OffsetX, OffsetY, Scale);
             }
+        }
+
+        public void UpdatePaperSize()
+        {
+            paperBg.Width = PaperWidth * Scale * unitSize;
+            paperBg.Height = PaperHeight * Scale * unitSize;
         }
 
         private void OnLoaded(object sender, RoutedEventArgs e)

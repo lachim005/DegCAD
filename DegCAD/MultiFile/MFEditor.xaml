@@ -200,6 +200,24 @@
                 </GroupBox>
                 <GroupBox Header="Strany" Padding="10" x:Name="insPages">
                     <StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="5"/>
+                                <ColumnDefinition Width="50"/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition Height="30"/>
+                            </Grid.RowDefinitions>
+                            <Label Content="Šířka:" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="0"/>
+                            <TextBox VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" x:Name="insPageWidth" TextChanged="InsPageSizeChanged" PreviewMouseLeftButtonDown="SelectWhole"/>
+                            <Label Content="Výška:" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="3"/>
+                            <TextBox VerticalAlignment="Center" Grid.Row="1" Grid.Column="4" x:Name="insPageHeight" TextChanged="InsPageSizeChanged" PreviewMouseLeftButtonDown="SelectWhole"/>
+                        </Grid>
                         <ItemsControl x:Name="insPagesIc">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
