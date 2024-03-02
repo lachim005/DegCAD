@@ -1,10 +1,13 @@
 ﻿using DegCAD.MultiFile;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace DegCAD
@@ -14,7 +17,7 @@ namespace DegCAD
         public MFEditor Editor { get; init; }
         public Control Body => Editor;
 
-        public bool CanSave => false;
+        public bool CanSave => true;
 
         public bool CanUndo => false;
 
@@ -30,9 +33,10 @@ namespace DegCAD
 
         public bool CanExport => false;
 
-        public bool HasChanges => false;
+        public bool HasChanges => true;
 
-        public string Name => "MF";
+        public string Name { get; set; } = "MF";
+        public string? FolderPath { get; set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
@@ -46,14 +50,48 @@ namespace DegCAD
             throw new NotImplementedException();
         }
 
-        public Task<bool> Save()
+        public async Task<bool> Save()
         {
-            throw new NotImplementedException();
+            if (FolderPath is null)
+            {
+                if (OpenSaveFileDialog() is not string path)
+                {
+                    return false;
+                }
+                FolderPath = Path.GetDirectoryName(path) ?? "";
+                Name = Path.GetFileNameWithoutExtension(path);
+            }
+            try
+            {
+                await Editor.Save(Path.Combine(FolderPath, $"{Name}.dgcomp"));
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\n\n" + ex.InnerException?.Message, "Chyba při ukládání souboru", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            return false;
         }
 
-        public Task<bool> SaveAs()
+        public async Task<bool> SaveAs()
         {
-            throw new NotImplementedException();
+            if (OpenSaveFileDialog() is not string path)
+            {
+                return false;
+            }
+            FolderPath = Path.GetDirectoryName(path) ?? "";
+            Name = Path.GetFileNameWithoutExtension(path);
+
+            try
+            {
+                await Editor.Save(Path.Combine(FolderPath, $"{Name}.dgcomp"));
+                return true;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\n\n" + ex.InnerException?.Message, "Chyba při ukládání souboru", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+            return false;
         }
 
         public void Undo()
@@ -73,6 +111,16 @@ namespace DegCAD
         public void SwapWhiteAndBlack()
         {
             Editor.SwapWhiteAndBlack();
+        }
+
+        public string? OpenSaveFileDialog()
+        {
+            SaveFileDialog sfd = new();
+            sfd.Filter = "DegCAD kompozice|*.dgcomp|Všechny soubory|*.*";
+            sfd.FileName = Name + ".dgcomp";
+
+            if (sfd.ShowDialog() != true) return null;
+            return sfd.FileName;
         }
     }
 }
