@@ -21,9 +21,16 @@
         <Border Grid.ColumnSpan="3" BorderBrush="{DynamicResource border}" BorderThickness="0,0,0,1">
 
         </Border>
-        <Border x:Name="pageBorder" Grid.Row="1">
-            <ContentPresenter Content="{Binding ActivePage}"/>
-        </Border>
+        <Grid Grid.Row="1">
+            <Border x:Name="pageBorder">
+                <ContentPresenter Content="{Binding ActivePage}"/>
+            </Border>
+            <StackPanel Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Right">
+                <Button Width="27" Click="CenterScreenClick" ToolTip="Vycentrovat">
+                    <Path Width="17" Height="17" Data="M 3 16 L 3 9 L 1 9 L 8.5 1 L 16 9 L 14 9 L 14 16 L 10 16 L 10 11 L 7 11 L 7 16 z" Stroke="{DynamicResource fg}" StrokeThickness="1"/>
+                </Button>
+            </StackPanel>
+        </Grid>
         <ScrollViewer Grid.Row="1" Grid.Column="2" VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="10">
                 <GroupBox Header="Pozice" Padding="10" x:Name="insTransform">

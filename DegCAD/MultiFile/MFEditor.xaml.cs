@@ -560,5 +560,10 @@ namespace DegCAD.MultiFile
                 page.Page.SwapWhiteAndBlack();
             }
         }
+
+        private void CenterScreenClick(object sender, RoutedEventArgs e)
+        {
+            ActivePage.CenterPage();
+        }
     }
 }

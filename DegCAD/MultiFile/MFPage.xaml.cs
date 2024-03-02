@@ -370,6 +370,21 @@ namespace DegCAD.MultiFile
                 item.Item.SwapWhiteAndBlack();
             }
         }
+
+        public void CenterPage()
+        {
+            if (CanZoom)
+            {
+                double scaleX = (ActualWidth / (PaperWidth + 5) / unitSize);
+                double scaleY = (ActualHeight / (PaperHeight + 5) / unitSize);
+                Scale = Math.Clamp(Math.Min(scaleX, scaleY), MinZoom, MaxZoom);
+            }
+
+            OffsetX = PaperWidth / 2 - (ActualWidth / Scale / unitSize / 2);
+            OffsetY = PaperHeight / 2 - (ActualHeight / Scale / unitSize / 2);
+
+            Redraw();
+        }
     }
 
     public class MFPageModel : INotifyPropertyChanged
