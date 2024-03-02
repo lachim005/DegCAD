@@ -480,6 +480,32 @@ namespace DegCAD.MultiFile
             ActivePage.PaperWidth = Math.Max(w, 1);
             ActivePage.PaperHeight = Math.Max(h, 1);
         }
+        private void PageRedrag(object sender, DragEventArgs e)
+        {
+            //Gets the dragged and dropped tab
+            if (e.Data.GetData(typeof(MFPageModel)) is not MFPageModel dragPage) return;
+
+            if (sender is not FrameworkElement f) return;
+            if (f.DataContext is not MFPageModel m) return;
+
+            int dragIndex = Pages.IndexOf(dragPage);
+            int dropIndex = Pages.IndexOf(m);
+            if (dragIndex == -1 || dropIndex == -1) return;
+            if (dragIndex == dropIndex) return;
+
+            e.Handled = true;
+            Pages.Move(dragIndex, dropIndex);
+        }
+
+        private void StartPageReorder(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is not FrameworkElement btn) return;
+            if (btn.DataContext is not MFPageModel pm) return;
+
+            e.Handled = true;
+            SelectPage(pm.Page);
+            DragDrop.DoDragDrop(btn, pm, DragDropEffects.Move);
+        }
         #endregion
 
         #region Composition
