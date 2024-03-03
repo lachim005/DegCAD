@@ -24,6 +24,7 @@ namespace DegCAD.MultiFile
     public partial class MFEditor : UserControl, INotifyPropertyChanged
     {
         private MFPage _activePage;
+        private bool initiated;
 
         public MFPage ActivePage
         {
@@ -75,10 +76,14 @@ namespace DegCAD.MultiFile
         }
         private void EditorLoaded(object sender, RoutedEventArgs e)
         {
-            insTransform.Visibility = Visibility.Collapsed;
-            insDrawing.Visibility = Visibility.Collapsed;
-            insText.Visibility = Visibility.Collapsed;
-            ActivePage.CenterPage();
+            if (!initiated)
+            {
+                initiated = true;
+                insTransform.Visibility = Visibility.Collapsed;
+                insDrawing.Visibility = Visibility.Collapsed;
+                insText.Visibility = Visibility.Collapsed;
+                ActivePage.CenterPage();
+            }
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
