@@ -62,7 +62,12 @@ namespace DegCAD
             } else if (Path.GetExtension(path) == ".dgcomp")
             {
                 if (await OpenMFEditorAsync(path) is not MFEditor ed) return;
-                openTabs.Add(new MFEditorTab(ed));
+                var et = new MFEditorTab(ed)
+                {
+                    FolderPath = Path.GetDirectoryName(path),
+                    Name = Path.GetFileNameWithoutExtension(path)
+                };
+                openTabs.Add(et);
             } else
             {
                 MessageBox.Show("Tento formát není podporován", "Chyba při otevírání", MessageBoxButton.OK, MessageBoxImage.Error);

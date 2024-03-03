@@ -14,6 +14,8 @@ namespace DegCAD
 {
     public class MFEditorTab : ITab
     {
+        private string _name = "MF";
+
         public MFEditor Editor { get; init; }
         public Control Body => Editor;
 
@@ -35,7 +37,15 @@ namespace DegCAD
 
         public bool HasChanges => true;
 
-        public string Name { get; set; } = "MF";
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                _name = value;
+                PropertyChanged?.Invoke(this, new(nameof(Name)));
+            }
+        }
         public string? FolderPath { get; set; }
 
         public event PropertyChangedEventHandler? PropertyChanged;
