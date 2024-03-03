@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace DegCAD.MultiFile
 {
@@ -85,7 +86,14 @@ namespace DegCAD.MultiFile
                 sb.Append($"CON {item.CX} {item.CY} {item.CWidth} {item.CHeight}->");
                 if (item.Item is MFText txt)
                 {
-                    sb.Append($"TXT {txt.Color.R} {txt.Color.G} {txt.Color.B} {txt.TextFontSize} {(int)txt.VAlign} {(int)txt.HAlign} {txt.Bold} {txt.Italic} {txt.Underline} {txt.Strikethrough} {txt.Text.Replace("&", "&&").Replace("\r\n", "&;")}");
+                    Color c = txt.Color;
+                    if (App.Skin == Skin.Dark)
+                    {
+                        if (c == Colors.Black) c = Colors.White;
+                        else if (c == Colors.White) c = Colors.Black;
+                    }
+
+                    sb.Append($"TXT {c.R} {c.G} {c.B} {txt.TextFontSize} {(int)txt.VAlign} {(int)txt.HAlign} {txt.Bold} {txt.Italic} {txt.Underline} {txt.Strikethrough} {txt.Text.Replace("&", "&&").Replace("\r\n", "&;")}");
                 } else if (item.Item is MFDrawing dwg)
                 {
                     dwg.editor.FileName = dwgCounter.ToString();

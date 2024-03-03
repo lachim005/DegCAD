@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows;
 using System.Globalization;
 using System.Threading;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace DegCAD.MultiFile
 {
@@ -177,10 +178,16 @@ namespace DegCAD.MultiFile
                 }
             }
 
+            Color c = Color.FromRgb(byte.Parse(vals[0]), byte.Parse(vals[1]), byte.Parse(vals[2]));
+            if (App.Skin == Skin.Dark)
+            {
+                if (c == Colors.Black) c = Colors.White;
+                else if (c == Colors.White) c = Colors.Black;
+            }
 
             return new(textSb.ToString())
             {
-                Color = Color.FromRgb(byte.Parse(vals[0]), byte.Parse(vals[1]), byte.Parse(vals[2])),
+                Color = c,
                 TextFontSize = int.Parse(vals[3]),
                 VAlign = (VerticalAlignment)int.Parse(vals[4]),
                 HAlign = (TextAlignment)int.Parse(vals[5]),
