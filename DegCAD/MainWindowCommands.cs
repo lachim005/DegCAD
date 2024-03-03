@@ -169,7 +169,7 @@ namespace DegCAD
         public static string? OpenEditorOpenDialog()
         {
             OpenFileDialog ofd = new();
-            ofd.Filter = "DegCAD projekt|*.dgproj|Všechny soubory|*.*";
+            ofd.Filter = "Všechny formáty|*.dgproj;*.dgcomp|DegCAD projekt|*.dgproj|DegCAD kompozice|*.dgcomp|Všechny soubory|*.*";
             if (ofd.ShowDialog() != true) return null;
             return ofd.FileName;
         }
