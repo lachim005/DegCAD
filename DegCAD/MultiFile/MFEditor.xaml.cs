@@ -78,6 +78,7 @@ namespace DegCAD.MultiFile
             insTransform.Visibility = Visibility.Collapsed;
             insDrawing.Visibility = Visibility.Collapsed;
             insText.Visibility = Visibility.Collapsed;
+            ActivePage.CenterPage();
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
