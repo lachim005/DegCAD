@@ -39,16 +39,32 @@ namespace DegCAD.MultiFile
 
         public ObservableCollection<MFPageModel> Pages { get; init; } = new();
 
-        public MFEditor(MainWindow mw)
+        public MFEditor(MainWindow mw) : this(mw, new MFPage[0])
+        {
+            
+        }
+
+        public MFEditor(MainWindow mw, IEnumerable<MFPage> pages)
         {
             DataContext = this;
             InitializeComponent();
 
             Pages.CollectionChanged += ReIndexPages;
 
-            _activePage = new();
-            AddPage(_activePage);
+            if (pages.Count() == 0)
+            {
+                AddPage(new());
+            }
+            else
+            {
+                foreach (var page in pages)
+                {
+                    AddPage(page);
+                }
+            }
+            _activePage = Pages[0].Page;
             SelectPage(_activePage);
+            
 
             Pages[0].IsButtonEnabled = false;
 

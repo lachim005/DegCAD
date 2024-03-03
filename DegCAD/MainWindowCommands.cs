@@ -55,8 +55,19 @@ namespace DegCAD
         }
         private async void OpenFileAsync(string path)
         {
-            if (await OpenEditorAsync(path) is not Editor ed) return;
-            openTabs.Add(new EditorTab(ed));
+            if (Path.GetExtension(path) == ".dgproj")
+            {
+                if (await OpenEditorAsync(path) is not Editor ed) return;
+                openTabs.Add(new EditorTab(ed));
+            } else if (Path.GetExtension(path) == ".dgcomp")
+            {
+                if (await OpenMFEditorAsync(path) is not MFEditor ed) return;
+                openTabs.Add(new MFEditorTab(ed));
+            } else
+            {
+                MessageBox.Show("Tento formát není podporován", "Chyba při otevírání", MessageBoxButton.OK, MessageBoxImage.Error);
+                return;
+            }
             editorTabs.SelectedIndex = openTabs.Count - 1;
         }
         public static async Task<Editor?> OpenEditorAsync(string path)
@@ -72,6 +83,20 @@ namespace DegCAD
                 return null;
             }
             ed.Changed = false;
+            return ed;
+        }
+        public async Task<MFEditor?> OpenMFEditorAsync(string path)
+        {
+            MFEditor ed;
+            try
+            {
+                ed = await MFLoader.Load(path, this);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message + "\n\n" + ex.InnerException?.Message + "\n\n" + ex.InnerException?.InnerException?.Message, "Chyba při načítání souboru", MessageBoxButton.OK, MessageBoxImage.Error);
+                return null;
+            }
             return ed;
         }
 
