@@ -204,6 +204,8 @@ namespace DegCAD.MultiFile
         {
             if (SelectedContainer is null) return;
             var copy = SelectedContainer.Clone();
+            copy.CX += 5;
+            copy.CY += 5;
             ActivePage.AddItem(copy);
             copy.Select();
             ActivePage.Redraw();

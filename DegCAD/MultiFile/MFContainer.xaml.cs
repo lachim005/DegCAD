@@ -161,7 +161,7 @@ namespace DegCAD.MultiFile
 
         public MFContainer Clone()
         {
-            return new(Page, Item.Clone()) { CX = CX+5, CY = CY+5, CWidth = CWidth, CHeight = CHeight};
+            return new(Page, Item.Clone()) { CX = CX, CY = CY, CWidth = CWidth, CHeight = CHeight};
         }
     }
 
