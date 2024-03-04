@@ -18,5 +18,10 @@ namespace DegCAD
             YAxis = yAxis;
             ZAxis = zAxis;
         }
+
+        public AxonometryAxes Clone()
+        {
+            return new(XAxis, YAxis, ZAxis);
+        }
     }
 }

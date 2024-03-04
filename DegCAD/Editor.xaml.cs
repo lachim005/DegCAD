@@ -288,6 +288,12 @@ namespace DegCAD
             {
                 ed.Guide = Guide.Clone();
             }
+
+            // Clone axonometry axes
+            if (AxonometryAxes is not null)
+            {
+                ed.AxonometryAxes = AxonometryAxes.Clone();
+            }
             return ed;
         }
     }
