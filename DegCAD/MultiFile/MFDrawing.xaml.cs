@@ -90,8 +90,15 @@ namespace DegCAD.MultiFile
 
         public override MFItem Clone()
         {
-            
-            return new MFDrawing(editor.Clone());
+            var dwg = new MFDrawing(editor.Clone())
+            {
+                PositionLocked = PositionLocked,
+                UnitSize = UnitSize,
+                VisibleItems = VisibleItems
+            };
+            dwg.Viewport.OffsetX = Viewport.OffsetX;
+            dwg.Viewport.OffsetY = Viewport.OffsetY;
+            return dwg;
         }
 
         public override void SwapWhiteAndBlack()
