@@ -1,0 +1,109 @@
+﻿<Window x:Class="DegCAD.MultiFile.MFPrintDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DegCAD.MultiFile"
+        xmlns:ctls="clr-namespace:DegCAD.Controls"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource bg}"
+        Foreground="{DynamicResource fg}"
+        MinHeight="550" MinWidth="800"
+        Title="Tisk kompozice" Height="700" Width="1000">
+    <Grid Margin="20">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="175"/>
+            <ColumnDefinition Width="175"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="vpGrid" Margin="5,5,5,5">
+            <ctls:AspectRationBox x:Name="paperBox" SizeChanged="PaperBoxSizeChanged">
+                <Border Background="white" SnapsToDevicePixels="True" BorderBrush="{DynamicResource fg}" BorderThickness="1" x:Name="paperBorder">
+                    <ItemsControl x:Name="sheetIc" ItemsSource="{Binding Pages}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Rows="{Binding Rows}" Columns="{Binding Columns}"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <ContentPresenter Content="{Binding PagePreviewCopy}"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </Border>
+            </ctls:AspectRationBox>
+        </Grid>
+        <StackPanel Orientation="Horizontal" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Text="Náhled strany" VerticalAlignment="Center"/>
+            <Button Content="&lt;" VerticalAlignment="Center" Width="27" Margin="10" Click="PreviousSheet" x:Name="nextSheetBtn"/>
+            <TextBlock Text="1" VerticalAlignment="Center" x:Name="currentSheetTbl"/>
+            <TextBlock Text="/" VerticalAlignment="Center"/>
+            <TextBlock Text="6" VerticalAlignment="Center" x:Name="sheetCountTbl"/>
+            <Button Content="&gt;" VerticalAlignment="Center" Width="27" Margin="10" Click="NextSheet" x:Name="previousSheetBtn"/>
+        </StackPanel>
+        <ScrollViewer Grid.Column="1" VerticalScrollBarVisibility="Auto" Grid.ColumnSpan="2">
+            <StackPanel Margin="30,0" VerticalAlignment="Center">
+                <Label Target="{Binding ElementName=printersCbx}">_Tiskárna</Label>
+                <ComboBox x:Name="printersCbx" SelectionChanged="PrinterChanged"/>
+                <Label Target="{Binding ElementName=paperCbx}" Margin="0,10,0,0">_Velikost papíru</Label>
+                <ComboBox x:Name="paperCbx" SelectionChanged="ComboBoxSelectionChanged"/>
+                <CheckBox x:Name="landscapeChbx" Margin="0,15" Checked="CheckboxChanged" Unchecked="CheckboxChanged">Na šířku</CheckBox>
+                <Label Target="{Binding ElementName=pagesPerSheetCbx}">Počet _stránek na list</Label>
+                <ComboBox x:Name="pagesPerSheetCbx" SelectedIndex="0" SelectionChanged="ComboBoxSelectionChanged">
+                    <ComboBoxItem Content="1"/>
+                    <ComboBoxItem Content="2"/>
+                    <ComboBoxItem Content="4"/>
+                    <ComboBoxItem Content="9"/>
+                </ComboBox>
+                <Label Target="{Binding ElementName=collationCbx}" Margin="0,10,0,0">_Velikost</Label>
+                <ComboBox Name="scaleCbx" SelectedIndex="0" SelectionChanged="ComboBoxSelectionChanged">
+                    <ComboBoxItem>Přizpůsobit papíru</ComboBoxItem>
+                    <ComboBoxItem>Zachovat měřítko</ComboBoxItem>
+                </ComboBox>
+                <Label Target="{Binding ElementName=duplexingCbx}" x:Name="duplexingLbl" Margin="0,10,0,0">_Oboustranný tisk</Label>
+                <ComboBox Name="duplexingCbx">
+                    <ComboBoxItem x:Name="duplexingOptionOne">Jednostranný tisk</ComboBoxItem>
+                    <ComboBoxItem x:Name="duplexingOptionTwoLong">Oboustranný tisk (překlápění po delší hraně)</ComboBoxItem>
+                    <ComboBoxItem x:Name="duplexingOptionTwoShort">Oboustranný tisk (překlápění po kratší hraně)</ComboBoxItem>
+                    <ComboBoxItem x:Name="duplexingOptionUnknown">Neznámé</ComboBoxItem>
+                </ComboBox>
+                <Label Target="{Binding ElementName=copyCountTbx}" Margin="0,10,0,0">_Počet kopií</Label>
+                <TextBox x:Name="copyCountTbx" Text="1"/>
+                <Label Target="{Binding ElementName=collationCbx}" x:Name="collationLbl" Margin="0,10,0,0">_Kompletovat</Label>
+                <ComboBox Name="collationCbx">
+                    <ComboBoxItem x:Name="collateOptionYes">Kompletovat (1,2,3, 1,2,3, 1,2,3)</ComboBoxItem>
+                    <ComboBoxItem x:Name="collateOptionNo">Nekompletovat (1,1,1, 2,2,2, 3,3,3)</ComboBoxItem>
+                    <ComboBoxItem x:Name="collateOptionUnknown">Neznámé</ComboBoxItem>
+                </ComboBox>
+                <Label Margin="0,10,0,0">Tisknout strany</Label>
+                <ItemsControl x:Name="pagesButtonsIc">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid>
+                                <CheckBox IsChecked="{Binding ShouldPrint}" Grid.Column="1" VerticalAlignment="Center" Checked="PageSelectionChanged" Unchecked="PageSelectionChanged">
+                                    <CheckBox.ToolTip>
+                                        <Grid Width="200" Height="200" Background="White">
+                                            <ContentPresenter Content="{Binding Page}"/>
+                                        </Grid>
+                                    </CheckBox.ToolTip>
+                                    <TextBlock>
+                                        <Run>Strana</Run>
+                                        <Run Text="{Binding PageNumber}"/>
+                                    </TextBlock>
+                                </CheckBox>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </StackPanel>
+        </ScrollViewer>
+        <Button Content="Zrušit" Padding="50,0" HorizontalAlignment="Center" Click="CancelPrintClick" Grid.Row="1" Grid.Column="1"/>
+        <Button Content="Tisknout" Style="{DynamicResource accentBtn}" Padding="50,0" HorizontalAlignment="Center" Click="PrintClick" Grid.Row="1" Grid.Column="2"/>
+    </Grid>
+</Window>

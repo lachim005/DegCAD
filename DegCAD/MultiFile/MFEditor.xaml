@@ -203,6 +203,7 @@
                 <GroupBox Header="Kompozice" Padding="10" x:Name="insComposition">
                     <StackPanel>
                         <CheckBox Content="Obrysy" x:Name="insCompBordersVisibility" Checked="InsCompShowBorders" Unchecked="InsCompHideBorders" IsChecked="True"/>
+                        <Button Content="Vytisknout kompozici" Click="PrintClick" Margin="0,20,0,0"/>
                     </StackPanel>
                 </GroupBox>
                 <GroupBox Header="Strany" Padding="10" x:Name="insPages">

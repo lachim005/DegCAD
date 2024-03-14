@@ -589,5 +589,11 @@ namespace DegCAD.MultiFile
         {
             ActivePage.CenterPage();
         }
+
+        private void PrintClick(object sender, RoutedEventArgs e)
+        {
+            MFPrintDialog pd = new(this);
+            pd.ShowDialog();
+        }
     }
 }
