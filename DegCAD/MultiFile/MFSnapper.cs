@@ -11,7 +11,9 @@ namespace DegCAD.MultiFile
         public MFPage Page { get; set; }
 
         public double SnapThreshold { get; set; } = 4;
-        public double? SnapToGrid { get; set; }
+        public bool SnapToGrid { get; set; }
+        public double GridWidth { get; set; } = 5;
+        public double GridHeight { get; set; } = 3;
 
         public MFSnapper(MFPage page)
         {
@@ -44,7 +46,13 @@ namespace DegCAD.MultiFile
                 TestVal(item.CX + item.CWidth);
             }
 
-            return (closestDistance < SnapThreshold) ? closestX : null;
+            if (closestDistance < SnapThreshold)
+            {
+                return closestX;
+            }
+            if (!SnapToGrid) return null;
+
+            return Math.Round(x / GridWidth) * GridWidth;
         }
 
         public double? TrySnapY(double y)
@@ -73,7 +81,13 @@ namespace DegCAD.MultiFile
                 TestVal(item.CY + item.CHeight);
             }
 
-            return (closestDistance < SnapThreshold) ? closestY : null;
+            if (closestDistance < SnapThreshold)
+            {
+                return closestY;
+            }
+            if (!SnapToGrid) return null;
+
+            return Math.Round(y / GridHeight) * GridHeight;
         }
 
         public double SnapX(double x) => TrySnapX(x) ?? x;
