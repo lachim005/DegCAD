@@ -34,6 +34,7 @@ namespace DegCAD.MultiFile
         public event EventHandler<TransformChange>? Updated;
         public MFPage Page { get; set; }
         public MFItem Item { get; init; }
+        public bool IsSelected { get; private set; }
 
         private TransformChange trChange = new();
 
@@ -59,10 +60,12 @@ namespace DegCAD.MultiFile
         public void Deselect()
         {
             handles.Visibility = Visibility.Collapsed;
+            IsSelected = false;
             Deselected?.Invoke(this, EventArgs.Empty);
         }
         public void Select()
         {
+            IsSelected = true;
             Selected?.Invoke(this, EventArgs.Empty);
             handles.Visibility = Visibility.Visible;
         }
@@ -175,7 +178,7 @@ namespace DegCAD.MultiFile
 
             if (x1 is not null && x2 is not null)
             {
-                if (Math.Abs(x1.Value - CX) > Math.Abs(x2.Value - CX) && x2 != CX) CX = x2.Value;
+                if (Math.Abs(x1.Value - CX - cd.X) > Math.Abs(x2.Value - CX - cd.X)) CX = x2.Value;
                 else CX = x1.Value;
             }
             else if (x1 is not null && x2 is null) CX = x1.Value;
@@ -185,7 +188,7 @@ namespace DegCAD.MultiFile
 
             if (y1 is not null && y2 is not null)
             {
-                if (Math.Abs(y1.Value - CY) > Math.Abs(y2.Value - CY) && y2 != CY) CY = y2.Value;
+                if (Math.Abs(y1.Value - CY - cd.Y) > Math.Abs(y2.Value - CY - cd.Y)) CY = y2.Value;
                 else CY = y1.Value;
             }
             else if (y1 is not null && y2 is null) CY = y1.Value;
