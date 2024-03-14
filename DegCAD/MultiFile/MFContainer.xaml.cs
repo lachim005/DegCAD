@@ -20,6 +20,8 @@ namespace DegCAD.MultiFile
     /// </summary>
     public partial class MFContainer : UserControl
     {
+        public const double minSize = 5;
+
         private bool _borderVisible = true;
         private MFSnapper _snapper;
 
@@ -82,88 +84,68 @@ namespace DegCAD.MultiFile
         private void Handle1Delta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             var cd = new Vector2(e.HorizontalChange, e.VerticalChange) / Page.Scale / MFPage.unitSize;
-            if (CWidth - cd.X <= 5 || CHeight - cd.Y <= 5) return;
 
-            var cx = CX;
-            var cy = CY;
-            CX = _snapper.SnapX(CX + cd.X);
-            CY = _snapper.SnapY(CY + cd.Y);
-            CWidth -= CX - cx;
-            CHeight -= CY - cy;
+            OffsetCX(cd.X);
+            OffsetCY(cd.Y);
 
             Updating?.Invoke(this, EventArgs.Empty);
         }
         private void Handle2Delta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             var vc = e.VerticalChange / Page.Scale / MFPage.unitSize;
-            if (CHeight - vc <= 5) return;
 
-            var cy = CY;
-            CY = _snapper.SnapY(CY + vc);
-            CHeight -= CY - cy;
+            OffsetCY(vc);
 
             Updating?.Invoke(this, EventArgs.Empty);
         }
         private void Handle3Delta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             var cd = new Vector2(e.HorizontalChange, e.VerticalChange) / Page.Scale / MFPage.unitSize;
-            if (CWidth + cd.X <= 5 || CHeight - cd.Y <= 5) return;
 
-            var cy = CY;
-            CY = _snapper.SnapY(CY + cd.Y);
-            CHeight -= CY - cy;
-            CWidth = _snapper.SnapX(CWidth + CX + cd.X) - CX;
+            OffsetCWidth(cd.X);
+            OffsetCY(cd.Y);
 
             Updating?.Invoke(this, EventArgs.Empty);
         }
         private void Handle4Delta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             var hc = e.HorizontalChange / Page.Scale / MFPage.unitSize;
-            if (CWidth - hc <= 5 ) return;
 
-            var cx = CX;
-            CX = _snapper.SnapX(CX + hc);
-            CWidth -= CX - cx;
+            OffsetCX(hc);
 
             Updating?.Invoke(this, EventArgs.Empty);
         }
         private void Handle5Delta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             var hc = e.HorizontalChange / Page.Scale / MFPage.unitSize;
-            if (CWidth + hc <= 5) return;
 
-            CWidth = _snapper.SnapX(CWidth + CX + hc) - CX;
+            OffsetCWidth(hc);
 
             Updating?.Invoke(this, EventArgs.Empty);
         }
         private void Handle6Delta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             var cd = new Vector2(e.HorizontalChange, e.VerticalChange) / Page.Scale / MFPage.unitSize;
-            if (CWidth - cd.X <= 5 || CHeight + cd.Y <= 5) return;
 
-            var cx = CX;
-            CX = _snapper.SnapX(CX + cd.X);
-            CWidth -= CX - cx;
-            CHeight = _snapper.SnapY(CHeight + CY + cd.Y) - CY;
+            OffsetCX(cd.X);
+            OffsetCHeight(cd.Y);
 
             Updating?.Invoke(this, EventArgs.Empty);
         }
         private void Handle7Delta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             var vc = e.VerticalChange / Page.Scale / MFPage.unitSize;
-            if (CHeight + vc <= 5) return;
 
-            CHeight = _snapper.SnapY(CHeight + CY + vc) - CY;
+            OffsetCHeight(vc);
 
             Updating?.Invoke(this, EventArgs.Empty);
         }
         private void Handle8Delta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             var cd = new Vector2(e.HorizontalChange, e.VerticalChange) / Page.Scale / MFPage.unitSize;
-            if (CWidth + cd.X <= 5 || CHeight + cd.Y <= 5) return;
 
-            CWidth = _snapper.SnapX(CWidth + CX + cd.X) - CX;
-            CHeight = _snapper.SnapY(CHeight + CY + cd.Y) - CY;
+            OffsetCWidth(cd.X);
+            OffsetCHeight(cd.Y);
 
             Updating?.Invoke(this, EventArgs.Empty);
         }
@@ -196,6 +178,39 @@ namespace DegCAD.MultiFile
             else CY += cd.Y;
 
             Updating?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void OffsetCX(double offset)
+        {
+            var snapped = _snapper.SnapX(CX + offset);
+            var diff = snapped - CX;
+            if (CWidth - diff < minSize)
+            {
+                diff = CWidth - 5;
+                snapped = diff + CX;
+            }
+            CX = snapped;
+            CWidth -= diff;
+        }
+        private void OffsetCY(double offset)
+        {
+            var snapped = _snapper.SnapY(CY + offset);
+            var diff = snapped - CY;
+            if (CHeight - diff < minSize)
+            {
+                diff = CHeight - 5;
+                snapped = diff + CY;
+            }
+            CY = snapped;
+            CHeight -= diff;
+        }
+        private void OffsetCWidth(double offset)
+        {
+            CWidth = Math.Max(_snapper.SnapX(CWidth + offset + CX) - CX, minSize);
+        }
+        private void OffsetCHeight(double offset)
+        {
+            CHeight = Math.Max(_snapper.SnapY(CHeight + offset + CY) - CY, minSize);
         }
 
         private void TransformStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
