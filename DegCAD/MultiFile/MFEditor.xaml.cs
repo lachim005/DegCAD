@@ -106,11 +106,13 @@ namespace DegCAD.MultiFile
             insText.Visibility = Visibility.Collapsed;
             insComposition.Visibility = Visibility.Collapsed;
             insPages.Visibility = Visibility.Collapsed;
+            insSnapping.Visibility = Visibility.Collapsed;
             SelectedContainer = null;
             if (e is null)
             {
                 insPages.Visibility = Visibility.Visible;
                 insComposition.Visibility = Visibility.Visible;
+                insSnapping.Visibility = Visibility.Visible;
                 return;
             }
             insTransform.Visibility = Visibility.Visible;
@@ -431,6 +433,7 @@ namespace DegCAD.MultiFile
             page.SelectionChanged += PageSelectionChanged;
             page.ContainerUpdated += ContainerUpdated;
             page.BordersVisible = insCompBordersVisibility.IsChecked == true;
+            page.Snapper.CopySettings(Pages[0].Page.Snapper);
         }
         public void RemovePage(MFPage page)
         {
@@ -490,11 +493,11 @@ namespace DegCAD.MultiFile
         private void InsPagesRemove(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("Opravdu chcete tuto stranu odstranit?", "Kompozice", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;                
-            RemovePage(ActivePage);
-            if (Pages.Count == 0)
+            if (Pages.Count == 1)
             {
                 AddPage(new());
             }
+            RemovePage(ActivePage);
             SelectPage(Pages[0].Page);
         }
         private void InsPageSizeChanged(object sender, TextChangedEventArgs e)
@@ -529,6 +532,36 @@ namespace DegCAD.MultiFile
             e.Handled = true;
             SelectPage(pm.Page);
             DragDrop.DoDragDrop(btn, pm, DragDropEffects.Move);
+        }
+        #endregion
+
+        #region Snapper settings
+        private void SnapSettingsChanged(object sender, RoutedEventArgs e)
+        {
+            if (!initiated) return;
+            bool snapToPage = insSnapToPageCbx.IsChecked == true;
+            bool snapToObjects = insSnapToObjectsCbx.IsChecked == true;
+            bool snapToGrid = insSnapToGridCbx.IsChecked == true;
+
+            foreach (var page in Pages)
+            {
+                page.Page.Snapper.SnapToPage = snapToPage;
+                page.Page.Snapper.SnapToObjects = snapToObjects;
+                page.Page.Snapper.SnapToGrid = snapToGrid;
+            }
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!initiated) return;
+            if (!double.TryParse(insSnapGridWidth.Text, out double w) || w < .001) return;
+            if (!double.TryParse(insSnapGridHeight.Text, out double h) || h < .001) return;
+
+            foreach (var page in Pages)
+            {
+                page.Page.Snapper.GridWidth = w;
+                page.Page.Snapper.GridHeight = h;
+            }
         }
         #endregion
 

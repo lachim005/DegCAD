@@ -11,6 +11,8 @@ namespace DegCAD.MultiFile
         public MFPage Page { get; set; }
 
         public double SnapThreshold { get; set; } = 4;
+        public bool SnapToPage { get; set; } = true;
+        public bool SnapToObjects { get; set; } = true;
         public bool SnapToGrid { get; set; }
         public double GridWidth { get; set; } = 5;
         public double GridHeight { get; set; } = 3;
@@ -35,15 +37,21 @@ namespace DegCAD.MultiFile
                 }
             }
 
-            TestVal(0);
-            TestVal(Page.PaperWidth);
-
-            foreach (var item in Page.Items)
+            if (SnapToPage)
             {
-                if (item.IsSelected) continue;
+                TestVal(0);
+                TestVal(Page.PaperWidth);
+            }
 
-                TestVal(item.CX);
-                TestVal(item.CX + item.CWidth);
+            if (SnapToObjects)
+            {
+                foreach (var item in Page.Items)
+                {
+                    if (item.IsSelected) continue;
+
+                    TestVal(item.CX);
+                    TestVal(item.CX + item.CWidth);
+                }
             }
 
             if (closestDistance < SnapThreshold)
@@ -70,15 +78,21 @@ namespace DegCAD.MultiFile
                 }
             }
 
-            TestVal(0);
-            TestVal(Page.PaperHeight);
-
-            foreach (var item in Page.Items)
+            if (SnapToPage)
             {
-                if (item.IsSelected) continue;
+                TestVal(0);
+                TestVal(Page.PaperHeight);
+            }
 
-                TestVal(item.CY);
-                TestVal(item.CY + item.CHeight);
+            if (SnapToObjects)
+            {
+                foreach (var item in Page.Items)
+                {
+                    if (item.IsSelected) continue;
+
+                    TestVal(item.CY);
+                    TestVal(item.CY + item.CHeight);
+                }
             }
 
             if (closestDistance < SnapThreshold)
@@ -92,5 +106,14 @@ namespace DegCAD.MultiFile
 
         public double SnapX(double x) => TrySnapX(x) ?? x;
         public double SnapY(double y) => TrySnapY(y) ?? y;
+
+        public void CopySettings(MFSnapper s)
+        {
+            SnapToPage = s.SnapToPage;
+            SnapToObjects = s.SnapToObjects;
+            SnapToGrid = s.SnapToGrid;
+            GridWidth = s.GridWidth;
+            GridHeight = s.GridHeight;
+        }
     }
 }
