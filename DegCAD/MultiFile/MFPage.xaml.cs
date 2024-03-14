@@ -94,6 +94,8 @@ namespace DegCAD.MultiFile
         public List<MFContainer> Items { get; init; } = new();
         private MFContainer? _selectedItem;
 
+        public MFSnapper Snapper { get; init; }
+
         public MFContainer? SelectedItem
         {
             get => _selectedItem;
@@ -127,6 +129,7 @@ namespace DegCAD.MultiFile
 
             ViewportChanged += ViewPortChanged;
             SizeChanged += ViewPortChanged;
+            Snapper = new(this);
         }
 
         public void AddItem(MFContainer container)

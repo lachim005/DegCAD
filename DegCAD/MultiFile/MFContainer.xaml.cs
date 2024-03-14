@@ -21,6 +21,7 @@ namespace DegCAD.MultiFile
     public partial class MFContainer : UserControl
     {
         private bool _borderVisible = true;
+        private MFSnapper _snapper;
 
         public double CWidth { get; set; } = 100;
         public double CHeight { get; set; } = 100;
@@ -33,6 +34,7 @@ namespace DegCAD.MultiFile
         public event EventHandler<TransformChange>? Updated;
         public MFPage Page { get; set; }
         public MFItem Item { get; init; }
+
         private TransformChange trChange = new();
 
         public bool BorderVisible
@@ -51,6 +53,7 @@ namespace DegCAD.MultiFile
             Page = page;
             Item = item;
             contentBorder.Child = item;
+            _snapper = page.Snapper;
         }
 
         public void Deselect()
@@ -77,73 +80,118 @@ namespace DegCAD.MultiFile
         {
             var cd = new Vector2(e.HorizontalChange, e.VerticalChange) / Page.Scale / MFPage.unitSize;
             if (CWidth - cd.X <= 5 || CHeight - cd.Y <= 5) return;
-            CX += cd.X;
-            CY += cd.Y;
-            CWidth -= cd.X;
-            CHeight -= cd.Y;
+
+            var cx = CX;
+            var cy = CY;
+            CX = _snapper.SnapX(CX + cd.X);
+            CY = _snapper.SnapY(CY + cd.Y);
+            CWidth -= CX - cx;
+            CHeight -= CY - cy;
+
             Updating?.Invoke(this, EventArgs.Empty);
         }
         private void Handle2Delta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             var vc = e.VerticalChange / Page.Scale / MFPage.unitSize;
             if (CHeight - vc <= 5) return;
-            CY += vc;
-            CHeight -= vc;
+
+            var cy = CY;
+            CY = _snapper.SnapY(CY + vc);
+            CHeight -= CY - cy;
+
             Updating?.Invoke(this, EventArgs.Empty);
         }
         private void Handle3Delta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             var cd = new Vector2(e.HorizontalChange, e.VerticalChange) / Page.Scale / MFPage.unitSize;
             if (CWidth + cd.X <= 5 || CHeight - cd.Y <= 5) return;
-            CY += cd.Y;
-            CWidth += cd.X;
-            CHeight -= cd.Y;
+
+            var cy = CY;
+            CY = _snapper.SnapY(CY + cd.Y);
+            CHeight -= CY - cy;
+            CWidth = _snapper.SnapX(CWidth + CX + cd.X) - CX;
+
             Updating?.Invoke(this, EventArgs.Empty);
         }
         private void Handle4Delta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             var hc = e.HorizontalChange / Page.Scale / MFPage.unitSize;
             if (CWidth - hc <= 5 ) return;
-            CX += hc;
-            CWidth -= hc;
+
+            var cx = CX;
+            CX = _snapper.SnapX(CX + hc);
+            CWidth -= CX - cx;
+
             Updating?.Invoke(this, EventArgs.Empty);
         }
         private void Handle5Delta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             var hc = e.HorizontalChange / Page.Scale / MFPage.unitSize;
             if (CWidth + hc <= 5) return;
-            CWidth += hc;
+
+            CWidth = _snapper.SnapX(CWidth + CX + hc) - CX;
+
             Updating?.Invoke(this, EventArgs.Empty);
         }
         private void Handle6Delta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             var cd = new Vector2(e.HorizontalChange, e.VerticalChange) / Page.Scale / MFPage.unitSize;
             if (CWidth - cd.X <= 5 || CHeight + cd.Y <= 5) return;
-            CX += cd.X;
-            CWidth -= cd.X;
-            CHeight += cd.Y;
+
+            var cx = CX;
+            CX = _snapper.SnapX(CX + cd.X);
+            CWidth -= CX - cx;
+            CHeight = _snapper.SnapY(CHeight + CY + cd.Y) - CY;
+
             Updating?.Invoke(this, EventArgs.Empty);
         }
         private void Handle7Delta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             var vc = e.VerticalChange / Page.Scale / MFPage.unitSize;
             if (CHeight + vc <= 5) return;
-            CHeight += vc;
+
+            CHeight = _snapper.SnapY(CHeight + CY + vc) - CY;
+
             Updating?.Invoke(this, EventArgs.Empty);
         }
         private void Handle8Delta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             var cd = new Vector2(e.HorizontalChange, e.VerticalChange) / Page.Scale / MFPage.unitSize;
             if (CWidth + cd.X <= 5 || CHeight + cd.Y <= 5) return;
-            CWidth += cd.X;
-            CHeight += cd.Y;
+
+            CWidth = _snapper.SnapX(CWidth + CX + cd.X) - CX;
+            CHeight = _snapper.SnapY(CHeight + CY + cd.Y) - CY;
+
             Updating?.Invoke(this, EventArgs.Empty);
         }
         private void MoveDelta(object sender, System.Windows.Controls.Primitives.DragDeltaEventArgs e)
         {
             var cd = new Vector2(e.HorizontalChange, e.VerticalChange) / Page.Scale / MFPage.unitSize;
-            CX += cd.X;
-            CY += cd.Y;
+
+            var x1 = _snapper.TrySnapX(CX + cd.X);
+            var x2 = _snapper.TrySnapX(CX + cd.X + CWidth) - CWidth;
+            var y1 = _snapper.TrySnapY(CY + cd.Y);
+            var y2 = _snapper.TrySnapY(CY + cd.Y + CHeight) - CHeight;
+
+            if (x1 is not null && x2 is not null)
+            {
+                if (Math.Abs(x1.Value - CX) > Math.Abs(x2.Value - CX) && x2 != CX) CX = x2.Value;
+                else CX = x1.Value;
+            }
+            else if (x1 is not null && x2 is null) CX = x1.Value;
+            else if (x1 is null && x2 is not null) CX = x2.Value;
+            else CX += cd.X;
+
+
+            if (y1 is not null && y2 is not null)
+            {
+                if (Math.Abs(y1.Value - CY) > Math.Abs(y2.Value - CY) && y2 != CY) CY = y2.Value;
+                else CY = y1.Value;
+            }
+            else if (y1 is not null && y2 is null) CY = y1.Value;
+            else if (y1 is null && y2 is not null) CY = y2.Value;
+            else CY += cd.Y;
+
             Updating?.Invoke(this, EventArgs.Empty);
         }
 
