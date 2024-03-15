@@ -212,6 +212,7 @@
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
+                            <RowDefinition Height="15"/>
                             <RowDefinition Height="auto"/>
                             <RowDefinition Height="auto"/>
                         </Grid.RowDefinitions>
@@ -222,10 +223,10 @@
                         <CheckBox Grid.Row="0" Grid.ColumnSpan="2" x:Name="insSnapToPageCbx" Checked="SnapSettingsChanged" Unchecked="SnapSettingsChanged" IsChecked="True">Přichytávat ke stránce</CheckBox>
                         <CheckBox Grid.Row="1" Grid.ColumnSpan="2" x:Name="insSnapToObjectsCbx" Checked="SnapSettingsChanged" Unchecked="SnapSettingsChanged" IsChecked="True">Přichytávat k objektům</CheckBox>
                         <CheckBox Grid.Row="2" Grid.ColumnSpan="2" x:Name="insSnapToGridCbx" Checked="SnapSettingsChanged" Unchecked="SnapSettingsChanged">Přichytávat k mřížce</CheckBox>
-                        <Label Content="Šířka mřížky:" Grid.Row="3"/>
-                        <TextBox PreviewMouseLeftButtonDown="SelectWhole" Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" IsEnabled="{Binding ElementName=insSnapToGridCbx, Path=IsChecked}" TextChanged="TextBox_TextChanged" x:Name="insSnapGridWidth" Text="5"/>
-                        <Label Content="Výška mřížky:" Grid.Row="4"/>
-                        <TextBox PreviewMouseLeftButtonDown="SelectWhole" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" IsEnabled="{Binding ElementName=insSnapToGridCbx, Path=IsChecked}" TextChanged="TextBox_TextChanged" x:Name="insSnapGridHeight" Text="3"/>
+                        <Label Content="Šířka mřížky:" Grid.Row="4" HorizontalAlignment="Right"/>
+                        <TextBox PreviewMouseLeftButtonDown="SelectWhole" Grid.Row="4" Grid.Column="1" VerticalAlignment="Center" IsEnabled="{Binding ElementName=insSnapToGridCbx, Path=IsChecked}" TextChanged="TextBox_TextChanged" x:Name="insSnapGridWidth" Text="5"/>
+                        <Label Content="Výška mřížky:" Grid.Row="5" HorizontalAlignment="Right"/>
+                        <TextBox PreviewMouseLeftButtonDown="SelectWhole" Grid.Row="5" Grid.Column="1" VerticalAlignment="Center" IsEnabled="{Binding ElementName=insSnapToGridCbx, Path=IsChecked}" TextChanged="TextBox_TextChanged" x:Name="insSnapGridHeight" Text="3"/>
                     </Grid>
                 </GroupBox>
                 <GroupBox Header="Strany" Padding="10" x:Name="insPages">
