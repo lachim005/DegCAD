@@ -92,5 +92,10 @@ namespace DegCAD
             Editor.viewPort.SwapWhiteAndBlack();
             Editor.styleSelector.SwapWhiteAndBlack();
         }
+        public void Print()
+        {
+            Dialogs.PrintDialog pd = new(Editor);
+            pd.ShowDialog();
+        }
     }
 }

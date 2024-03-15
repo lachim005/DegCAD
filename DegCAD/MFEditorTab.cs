@@ -27,7 +27,7 @@ namespace DegCAD
 
         public bool CanExecuteCommand => true;
 
-        public bool CanPrint => false;
+        public bool CanPrint => true;
 
         public bool CanLayout => false;
 
@@ -131,6 +131,10 @@ namespace DegCAD
 
             if (sfd.ShowDialog() != true) return null;
             return sfd.FileName;
+        }
+        public void Print()
+        {
+            Editor.Print();
         }
     }
 }

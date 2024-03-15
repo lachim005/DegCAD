@@ -20,12 +20,6 @@ namespace DegCAD
         public static RoutedCommand addGuideCommand = new();
         public static RoutedCommand openDebugMenuCommand = new();
 
-        private bool IsActiveEditorIdle()
-        {
-            if (ActiveEditor is null) return false;
-            if (ActiveEditor.ExecutingCommand) return false;
-            return true;
-        }
         public static bool OpenEditorSaveFileDialog(Editor editor)
         {
             if (editor is null) return false;
@@ -187,13 +181,7 @@ namespace DegCAD
             ExportDialog ed = new(ActiveEditor.viewPort);
             ed.ShowDialog();
         }
-        private void PrintCommand(object sender, ExecutedRoutedEventArgs e)
-        {
-            if (ActiveEditor is null) return;
-
-            PrintDialog pd = new(ActiveEditor);
-            pd.ShowDialog();
-        }
+        private void PrintCommand(object sender, ExecutedRoutedEventArgs e) => ActiveTab.Print();
         private async void CloseCommand(object sender, ExecutedRoutedEventArgs e)
         {
             if (await CanCloseTab(ActiveTab))

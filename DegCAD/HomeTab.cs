@@ -66,5 +66,9 @@ namespace DegCAD
         {
 
         }
+        public void Print()
+        {
+
+        }
     }
 }

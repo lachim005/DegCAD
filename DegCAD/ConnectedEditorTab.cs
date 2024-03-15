@@ -79,5 +79,10 @@ namespace DegCAD
         {
 
         }
+        public void Print()
+        {
+            Dialogs.PrintDialog pd = new(Editor);
+            pd.ShowDialog();
+        }
     }
 }
