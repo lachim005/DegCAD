@@ -462,5 +462,32 @@ namespace DegCAD.MultiFile
         {
             Close();
         }
+
+        private void StartPageReorderDrag(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is not FrameworkElement btn) return;
+            if (btn.DataContext is not PageButtonModel pm) return;
+
+            e.Handled = true;
+            DragDrop.DoDragDrop(btn, pm, DragDropEffects.Move);
+        }
+
+        private void PageReorder(object sender, DragEventArgs e)
+        {
+            //Gets the dragged and dropped tab
+            if (e.Data.GetData(typeof(PageButtonModel)) is not PageButtonModel dragPage) return;
+
+            if (sender is not FrameworkElement f) return;
+            if (f.DataContext is not PageButtonModel m) return;
+
+            int dragIndex = pages.IndexOf(dragPage);
+            int dropIndex = pages.IndexOf(m);
+            if (dragIndex == dropIndex) return;
+            if (dragIndex == -1 || dropIndex == -1) return;
+
+            e.Handled = true;
+            pages.Move(dragIndex, dropIndex);
+            UpdatePreview();
+        }
     }
 }
