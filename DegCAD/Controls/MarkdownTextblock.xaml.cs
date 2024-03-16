@@ -68,7 +68,7 @@ namespace DegCAD.Controls
                     currentRun.Text += '\n';
                     innerTextBlock.Inlines.Add(currentRun);
                     mode = 'h';
-                    currentRun = new() { FontSize = 24, FontWeight = FontWeights.Bold };
+                    currentRun = new() { FontSize = FontSize * 1.5, FontWeight = FontWeights.Bold };
                     continue;
                 }
                 //Star

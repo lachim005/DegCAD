@@ -47,7 +47,7 @@
                     <Run Text="Krok "/>
                     <Run Text="{Binding Position}"/>
                     </TextBlock>
-                    <c:MarkdownTextblock MinHeight="250" Margin="10" Text="{Binding Description}"/>
+                    <c:MarkdownTextblock MinHeight="300" FontSize="20" Margin="10" Text="{Binding Description}"/>
                     <Grid Margin="10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="100"/>
