@@ -25,7 +25,7 @@ namespace DegCAD
     {
         MainWindow? mw;
         public List<(GeometryCommandData, Button)> Buttons { get; init; } = new();
-
+        public List<Rectangle> Spacers { get; init; } = new();
         public CommandPallete()
         {
             InitializeComponent();
@@ -129,11 +129,17 @@ namespace DegCAD
                 Height = cmdButtons.Height,
                 Fill = FindResource("border") as System.Windows.Media.Brush
             };
+            Spacers.Add(r);
             cmdButtons.Children.Add(r);
         }
 
         public void ShowButtons(FileType projType)
         {
+            Spacers.ForEach(
+                (r) => r.Visibility = 
+                projType.HasFlag(FileType.None) || projType.HasFlag(FileType.MultiFile) ? 
+                Visibility.Collapsed : Visibility.Visible);
+
             foreach (var btn in Buttons)
             {
                 if (btn.Item1.FileTypes.HasFlag(projType))
