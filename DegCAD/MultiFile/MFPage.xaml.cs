@@ -345,6 +345,7 @@ namespace DegCAD.MultiFile
             foreach (var file in files)
             {
                 if (System.IO.Path.GetExtension(file) != ".dgproj") continue;
+                if (!System.IO.File.Exists(file)) continue;
 
                 var ed = await EditorLoader.CreateFromFile(file);
 
