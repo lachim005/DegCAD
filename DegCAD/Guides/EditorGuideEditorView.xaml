@@ -20,7 +20,7 @@
                 <ItemsControl x:Name="stepsIc">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Button Padding="20, 5" x:Name="stepButton" HorizontalContentAlignment="Stretch" Height="80" Click="StepButtonClick" Style="{StaticResource selectableBtnStyle}">
+                            <Button Padding="20, 5" x:Name="stepButton" HorizontalContentAlignment="Stretch" Height="80" Click="StepButtonClick" Style="{DynamicResource selectableBtnStyle}">
                                 <Grid>
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="*"/>
@@ -39,7 +39,7 @@
                 <Button Content="+ Přidat krok" Margin="0,15,0,0" Click="AddStep"/>
             </StackPanel>
         </ScrollViewer>
-        <GridSplitter Grid.Column="1" Width="1" Background="{StaticResource border}" HorizontalAlignment="Stretch"/>
+        <GridSplitter Grid.Column="1" Width="1" Background="{DynamicResource border}" HorizontalAlignment="Stretch"/>
         <ScrollViewer VerticalScrollBarVisibility="Auto" Grid.Column="2">
             <StackPanel x:Name="stepEditor" Visibility="Collapsed" Margin="10">
                 <Label>Počet prvků</Label>
@@ -57,7 +57,7 @@
                 <Button Content="Odebrat krok" Margin="0,50,0,0" Click="RemoveStep"/>
             </StackPanel>
         </ScrollViewer>
-        <GridSplitter Grid.Column="3" Width="1" Background="{StaticResource border}" HorizontalAlignment="Stretch"/>
+        <GridSplitter Grid.Column="3" Width="1" Background="{DynamicResource border}" HorizontalAlignment="Stretch"/>
         <Border x:Name="vpBorder" Grid.Column="4"/>
     </Grid>
 </UserControl>

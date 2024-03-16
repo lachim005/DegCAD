@@ -13,7 +13,7 @@
         </StackPanel>
         <DockPanel Visibility="Collapsed" x:Name="fileScreen">
             <TextBlock x:Name="fileName" FontSize="20" FontWeight="Bold" Margin="10" DockPanel.Dock="Top"/>
-            <Border BorderBrush="{StaticResource border}" SnapsToDevicePixels="True" BorderThickness="0,1,0,0">
+            <Border BorderBrush="{DynamicResource border}" SnapsToDevicePixels="True" BorderThickness="0,1,0,0">
                 <TabControl TabStripPlacement="Left" x:Name="fileTabs">
                     <TabControl.ItemTemplate>
                         <DataTemplate>
