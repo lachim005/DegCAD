@@ -36,6 +36,7 @@ namespace DegCAD
         public Snapper Snapper { get; protected set; }
         public ProjectionType ProjectionType { get; set; }
         public AxonometryAxes? AxonometryAxes { get; set; } = null;
+        public Control? ActiveView { get; protected set; }
 
         public bool ExecutingCommand
         {
@@ -176,6 +177,7 @@ namespace DegCAD
             altViewGrid.Visibility = Visibility.Visible;
             altView.Child = view;
             altViewTitle.Content = viewTitle;
+            ActiveView = view;
             if (changed)
                 Changed = true;
         }
@@ -186,6 +188,7 @@ namespace DegCAD
             mainView.Visibility = Visibility.Visible;
             altView.Child = null;
             ExecutingCommand = false;
+            ActiveView = null;
         }
 
         #region Guide
@@ -257,6 +260,16 @@ namespace DegCAD
             }
         }
 
+        public void SwapWhiteAndBlack()
+        {
+            viewPort.SwapWhiteAndBlack();
+            styleSelector.SwapWhiteAndBlack();
+            if (ActiveView is IChangesWithDarkMode cwdm)
+            {
+                cwdm.SwapWhiteAndBlack();
+            }
+        }
+
         public Editor Clone()
         {
             Editor ed = new(FileName, ProjectionType);
@@ -296,5 +309,10 @@ namespace DegCAD
             }
             return ed;
         }
+    }
+
+    public interface IChangesWithDarkMode
+    {
+        void SwapWhiteAndBlack();
     }
 }

@@ -17,7 +17,7 @@ namespace DegCAD.Dialogs
     /// <summary>
     /// Interaction logic for PageLayoutWindow.xaml
     /// </summary>
-    public partial class PageLayoutWindow : UserControl
+    public partial class PageLayoutWindow : UserControl, IChangesWithDarkMode
     {
         //Last values
         private static double lastW = 210;
@@ -213,6 +213,11 @@ namespace DegCAD.Dialogs
         private void UserControlUnloaded(object sender, RoutedEventArgs e)
         {
             SaveLastValues();
+        }
+
+        public void SwapWhiteAndBlack()
+        {
+            ViewPort.SwapWhiteAndBlack();
         }
     }
 }

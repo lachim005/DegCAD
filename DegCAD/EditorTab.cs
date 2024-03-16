@@ -89,8 +89,7 @@ namespace DegCAD
         }
         public void SwapWhiteAndBlack()
         {
-            Editor.viewPort.SwapWhiteAndBlack();
-            Editor.styleSelector.SwapWhiteAndBlack();
+            Editor.SwapWhiteAndBlack();
         }
         public void Print()
         {

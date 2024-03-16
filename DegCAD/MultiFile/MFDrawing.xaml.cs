@@ -104,7 +104,7 @@ namespace DegCAD.MultiFile
         public override void SwapWhiteAndBlack()
         {
             Viewport.SwapWhiteAndBlack();
-            editor.viewPort.SwapWhiteAndBlack();
+            editor.SwapWhiteAndBlack();
         }
     }
 }

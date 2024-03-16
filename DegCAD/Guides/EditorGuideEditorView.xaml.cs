@@ -19,7 +19,7 @@ namespace DegCAD.Guides
     /// <summary>
     /// Interaction logic for EditorGuideEditorView.xaml
     /// </summary>
-    public partial class EditorGuideEditorView : UserControl
+    public partial class EditorGuideEditorView : UserControl, IChangesWithDarkMode
     {
         private Guide guide;
         private ViewPort vp;
@@ -120,6 +120,11 @@ namespace DegCAD.Guides
         {
             selectedStep.Items++;
             UpdateDrawingState();
+        }
+
+        public void SwapWhiteAndBlack()
+        {
+            vp.SwapWhiteAndBlack();
         }
     }
 }

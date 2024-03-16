@@ -18,7 +18,7 @@ namespace DegCAD.Guides
     /// <summary>
     /// Interaction logic for EditorGuideView.xaml
     /// </summary>
-    public partial class EditorGuideView : UserControl
+    public partial class EditorGuideView : UserControl, IChangesWithDarkMode
     {
         Timeline clonedTl;
         Guide guide;
@@ -133,6 +133,10 @@ namespace DegCAD.Guides
             fs.ShowDialog();
 
             SelectStep(egv.selectedStep);
+        }
+        public void SwapWhiteAndBlack()
+        {
+            vp.SwapWhiteAndBlack();
         }
     }
 }

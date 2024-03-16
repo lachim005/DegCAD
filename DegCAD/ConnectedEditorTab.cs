@@ -77,7 +77,7 @@ namespace DegCAD
         }
         public void SwapWhiteAndBlack()
         {
-
+            
         }
         public void Print()
         {
