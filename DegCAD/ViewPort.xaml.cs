@@ -335,7 +335,7 @@ namespace DegCAD
         }
         public void SwapWhiteAndBlack()
         {
-            foreach (var c in Timeline.CommandHistory)
+            foreach (var c in Timeline.CommandHistory.Concat(Timeline.UndoneCommands))
             {
                 foreach (var i in c.Items)
                 {
