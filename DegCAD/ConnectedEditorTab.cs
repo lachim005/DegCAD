@@ -31,7 +31,14 @@ namespace DegCAD
         public bool CanExport => true;
 
         public bool HasChanges => false;
-        public string Name => "Propojený editor";
+        public string Name => "Propojený editor"; 
+        public string Icon => Editor.ProjectionType switch
+        {
+            ProjectionType.Plane => "M 0 7.5 L 15 7.5 M 7.5 0 L 7.5 15",
+            ProjectionType.Monge => "M 0 7.5 L 15 7.5 M 12 7.5 L 4 0 M 4 7.5 L 12 15",
+            ProjectionType.Axonometry => "M 0 15 L 7.5 10 L 15 15 M 7.5 10 L 7.5 0",
+            _ => ""
+        };
 
         public ConnectedEditorTab(Editor editor)
         {

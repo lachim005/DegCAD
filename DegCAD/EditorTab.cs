@@ -32,6 +32,13 @@ namespace DegCAD
 
         public bool HasChanges => Editor.Changed;
         public string Name => Editor.FileName;
+        public string Icon => Editor.ProjectionType switch
+        {
+            ProjectionType.Plane => "M 0 7.5 L 15 7.5 M 7.5 0 L 7.5 15",
+            ProjectionType.Monge => "M 0 7.5 L 15 7.5 M 12 7.5 L 4 0 M 4 7.5 L 12 15",
+            ProjectionType.Axonometry => "M 0 15 L 7.5 10 L 15 15 M 7.5 10 L 7.5 0",
+            _ => ""
+        };
 
         public EditorTab(Editor editor)
         {

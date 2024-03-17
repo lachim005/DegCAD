@@ -21,6 +21,7 @@ namespace DegCAD
         bool CanExport { get; }
         bool HasChanges { get; }
         string Name { get; }
+        string Icon { get; }
 
         Task<bool> Save();
         Task<bool> SaveAs();
