@@ -129,6 +129,7 @@ namespace DegCAD
                 if (!(await CanCloseTab(openTabs[i])))
                 {
                     e.Cancel = true;
+                    return;
                 }
             }
         }
