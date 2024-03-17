@@ -53,6 +53,17 @@
         <Line X1="20" Y1="47" X2="20" Y2="50" Stroke="{DynamicResource fg}" StrokeThickness="1.4"/>
         <Line X1="40" Y1="23" X2="44" Y2="23" Stroke="{DynamicResource fg}" StrokeThickness="1.4"/>
     </Canvas>
+    <Canvas x:Key="cmdTranslateHeightIcon">
+        <Line X1="40" Y1="15" X2="40" Y2="10" Stroke="{DynamicResource fg}" StrokeThickness="1.4"/>
+        <Line X1="40" Y1="40" X2="10" Y2="50" Stroke="{DynamicResource fg}" StrokeThickness="1.4"/>
+        <Line X1="40" Y1="40" X2="50" Y2="46" Stroke="{DynamicResource fg}" StrokeThickness="1.4"/>
+        <Line X1="36" Y1="15" X2="44" Y2="15" Stroke="{DynamicResource fg}" StrokeThickness="1.4"/>
+        <Line X1="40" Y1="40" X2="40" Y2="15" Stroke="{DynamicResource blue}" StrokeThickness="1.4"/>
+        <Line X1="27" Y1="50" X2="33" Y2="50" Stroke="{DynamicResource fg}" StrokeThickness="1.4"/>
+        <Line X1="30" Y1="50" X2="30" Y2="31" Stroke="{DynamicResource blue}" StrokeThickness="1.4"/>
+        <Line X1="30" Y1="21" X2="30" Y2="31" Stroke="{DynamicResource red}" StrokeThickness="1.4"/>
+        <Line X1="25" Y1="26" X2="35" Y2="26" Stroke="{DynamicResource red}" StrokeThickness="1.4"/>
+    </Canvas>
     <Canvas x:Key="cmdInfLineIcon">
         <Line X1="10" Y1="40" X2="50" Y2="20" Stroke="{DynamicResource red}" StrokeThickness="1.4"/>
         <Line X1="25" Y1="35" X2="15" Y2="35" Stroke="{DynamicResource fg}" StrokeThickness="1.4"/>

@@ -44,6 +44,7 @@ namespace DegCAD
             AddCommand(new("Doplnit průmět", "Doplní k průmětu bodu průmět v druhé průmětně", Key.None, ModifierKeys.None, (_, _) => executeCommand(new AddPointProjection()), "cmdPointAddProjectionIcon", FileType.Monge));
             AddCommand(new("Střed", "Střed mezi dvěma body", Key.S, ModifierKeys.Control, (_, _) => executeCommand(new Middle()), "cmdMiddleIcon", FileType.Plane | FileType.Monge | FileType.Axonometry));
             AddCommand(new("Doplnit rovnoběžník", "Přidá bod, který doplní rovnoběžník", Key.S, ModifierKeys.Control, (_, _) => executeCommand(new CompleteParallelogram()), "cmdCompleteParallelogramIcon", FileType.Axonometry));
+            AddCommand(new("Nanést výšku", "Přenese vertikální vzdálenost", Key.None, ModifierKeys.None, (_, _) => executeCommand(new TranslateHeight()), "cmdTranslateHeightIcon", FileType.Axonometry));
             AddCommand(new("Vynést body", "Umístí body podle zadaných souřadnic", Key.B, ModifierKeys.Control | ModifierKeys.Shift, (_, _) => executeCommand(new MongePointCoordInput()), "cmdPointInputIcon", FileType.Monge));
             AddCommand(new("Vynést body", "Umístí body podle zadaných souřadnic", Key.B, ModifierKeys.Control | ModifierKeys.Shift, (_, _) => executeCommand(new PointCoordInput2D()), "cmdPointInputIcon2D", FileType.Plane));
             AddSeparator();
