@@ -52,10 +52,16 @@ namespace DegCAD.MultiFile
             InitializeComponent();
 
             var server = new PrintServer();
+            var defaultPrinter = LocalPrintServer.GetDefaultPrintQueue();
             queues = server.GetPrintQueues();
+
+            int index = 0;
+            int defaultIndex = 0;
             foreach (var q in queues)
             {
                 printersCbx.Items.Add(q.Name);
+                if (q.Name == defaultPrinter.Name) defaultIndex = index;
+                index++;
             }
 
             for (int i = 0; i < e.Pages.Count; i++)
@@ -64,7 +70,7 @@ namespace DegCAD.MultiFile
             }
 
             pagesButtonsIc.ItemsSource = pages;
-            printersCbx.SelectedIndex = 0;
+            printersCbx.SelectedIndex = defaultIndex;
 
             LoadLastValues();
         }

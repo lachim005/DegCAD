@@ -23,6 +23,7 @@ namespace DegCAD.Dialogs
     public partial class PrintDialog : Window
     {
         //Last values
+        private static bool lastValuesSet = false;
         private static int lastPrinter = 0;
         private static int lastPaperSize = 0;
         private static double lastUnitSize = 10;
@@ -42,10 +43,16 @@ namespace DegCAD.Dialogs
             InitializeComponent();
 
             var server = new PrintServer();
+            var defaultPrinter = LocalPrintServer.GetDefaultPrintQueue();
             queues = server.GetPrintQueues();
+
+            int index = 0;
+            int defaultIndex = 0;
             foreach (var q in queues)
             {
                 printersCbx.Items.Add(q.Name);
+                if (q.Name == defaultPrinter.Name) defaultIndex = index;
+                index++;
             }
 
             vp = e.viewPort.Clone();
@@ -59,12 +66,15 @@ namespace DegCAD.Dialogs
             vpSv.Child = vp;
 
             editor = e;
+
+            printersCbx.SelectedIndex = defaultIndex;
             
             LoadLastValues();
         }
 
         private void LoadLastValues()
         {
+            if (!lastValuesSet) return;
             printersCbx.SelectedIndex = Math.Min(lastPrinter, printersCbx.Items.Count - 1);
             paperCbx.SelectedIndex = Math.Min(lastPaperSize, paperCbx.Items.Count - 1);
             unitSizeTbx.Text = lastUnitSize.ToString();
@@ -80,6 +90,7 @@ namespace DegCAD.Dialogs
             lastOffsetX = vp.OffsetX;
             lastOffsetY = vp.OffsetY;
             lastLandscape = landscapeChbx.IsChecked == true;
+            lastValuesSet = true;
         }
 
         private void PrinterChanged(object sender, SelectionChangedEventArgs e)
