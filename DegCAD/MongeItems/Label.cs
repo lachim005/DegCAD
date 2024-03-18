@@ -112,7 +112,7 @@ namespace DegCAD.MongeItems
         public void Draw()
         {
             if (_vpl is null) return;
-            double fontSize = FontSize * _vpl.Viewport.Scale;
+            double fontSize = Math.Clamp(FontSize * _vpl.Viewport.Scale, 0.01, 35000);
 
             _lblTbl.FontSize = fontSize;
             _subTbl.FontSize = fontSize * .5;

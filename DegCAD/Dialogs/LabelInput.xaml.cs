@@ -27,7 +27,7 @@ namespace DegCAD.Dialogs
         public string LabelText => labelTextTbx.Text;
         public string Superscript => superscriptTbx.Text;
         public string Subscript => subscriptTbx.Text;
-        public int TextSize => Math.Clamp(int.Parse(fontSizeTbx.Text), 8, 100);
+        public int TextSize => int.Parse(fontSizeTbx.Text);
 
         private TextBox lastFocusedTbx;
 
@@ -44,7 +44,7 @@ namespace DegCAD.Dialogs
 
         private void Confirm(object sender, ExecutedRoutedEventArgs e)
         {
-            if (!int.TryParse(fontSizeTbx.Text, out int size) || size < 1)
+            if (!int.TryParse(fontSizeTbx.Text, out int size))
             {
                 MessageBox.Show("Neplatná velikost písma", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
