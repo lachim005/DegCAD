@@ -271,6 +271,29 @@ namespace DegCAD.MongeItems
 
             Position = (Vector2)(dragStartPos + (_vpl.Viewport.ScreenToCanvas(e.GetPosition(sender as Canvas)) - dragStart));
 
+            //Snap to other labels
+            var closestYDiff = double.MaxValue;
+            foreach (var cmd in _vpl.Viewport.Timeline.CommandHistory)
+            {
+                foreach (var item in cmd.Items)
+                {
+                    if (item is not Label lbl) continue;
+                    if (ReferenceEquals(lbl, this)) continue;
+                    var diff = Position - lbl.Position;
+                    if (Math.Abs(diff.X - .3 / 16 * FontSize) < .4 / 16 * FontSize && Math.Abs(diff.Y) < .1 / 16 * FontSize)
+                    {
+                        if (closestYDiff > diff.Y)
+                        {
+                            closestYDiff = diff.Y;
+                        }
+                    }
+                }
+            }
+            if (closestYDiff != double.MaxValue)
+            {
+                Position = (Position.X, Position.Y - closestYDiff);
+            }
+
             if (!startedMoving)
             {
                 _vpl.Canvas.CaptureMouse();
