@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:DegCAD.MultiFile"
         xmlns:ctls="clr-namespace:DegCAD.Controls"
         mc:Ignorable="d"
+        Closed="OnWindowClosed"
         WindowStartupLocation="CenterScreen"
         Background="{DynamicResource bg}"
         Foreground="{DynamicResource fg}"

@@ -26,6 +26,17 @@ namespace DegCAD.MultiFile
     /// </summary>
     public partial class MFPrintDialog : Window
     {
+        //Last values
+        private static bool lastValuesSet = false;
+        private static int lastPrinter = 0;
+        private static int lastPaperSize = 0;
+        private static bool lastLandscape = false;
+        private static int lastPagesPerSheet = 0;
+        private static int lastScale = 0;
+        private static int lastDuplexing = 0;
+        private static string lastCopyCount = "1";
+        private static int lastCollation = 1;
+
         PrintQueueCollection queues;
         PrintQueue? selectedQueue;
         PrintCapabilities? capabilities;
@@ -54,6 +65,34 @@ namespace DegCAD.MultiFile
 
             pagesButtonsIc.ItemsSource = pages;
             printersCbx.SelectedIndex = 0;
+
+            LoadLastValues();
+        }
+
+        private void LoadLastValues()
+        {
+            if (!lastValuesSet) return;
+            printersCbx.SelectedIndex = lastPrinter;
+            paperCbx.SelectedIndex = lastPaperSize;
+            landscapeChbx.IsChecked = lastLandscape;
+            pagesPerSheetCbx.SelectedIndex = lastPagesPerSheet;
+            scaleCbx.SelectedIndex = lastScale;
+            duplexingCbx.SelectedIndex = lastDuplexing;
+            copyCountTbx.Text = lastCopyCount;
+            collationCbx.SelectedIndex = lastCollation;
+        }
+
+        private void SaveLastValues()
+        {
+            lastPrinter = printersCbx.SelectedIndex;
+            lastPaperSize = paperCbx.SelectedIndex;
+            lastLandscape = landscapeChbx.IsChecked == true;
+            lastPagesPerSheet = pagesPerSheetCbx.SelectedIndex;
+            lastScale = scaleCbx.SelectedIndex;
+            lastDuplexing = duplexingCbx.SelectedIndex;
+            lastCopyCount = copyCountTbx.Text;
+            lastCollation = collationCbx.SelectedIndex;
+            lastValuesSet = true;
         }
 
         private void PrinterChanged(object sender, SelectionChangedEventArgs e)
@@ -488,6 +527,11 @@ namespace DegCAD.MultiFile
             e.Handled = true;
             pages.Move(dragIndex, dropIndex);
             UpdatePreview();
+        }
+
+        private void OnWindowClosed(object sender, EventArgs e)
+        {
+            SaveLastValues();
         }
     }
 }
