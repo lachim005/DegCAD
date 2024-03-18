@@ -18,6 +18,7 @@ namespace DegCAD
         public static RoutedCommand exportCommand = new();
         public static RoutedCommand pageLayoutCommand = new();
         public static RoutedCommand addGuideCommand = new();
+        public static RoutedCommand changeGlobalFontSizeCommand = new();
         public static RoutedCommand openDebugMenuCommand = new();
 
         public static bool OpenEditorSaveFileDialog(Editor editor)
@@ -202,6 +203,13 @@ namespace DegCAD
             if (ActiveEditor is null) return;
 
             ActiveEditor.Guide = new();
+        }
+        private void ChangeGlobalFontSize(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (ActiveEditor is null) return;
+
+            ChangeGlobalFontSize d = new(ActiveEditor);
+            d.ShowDialog();
         }
         private void OpenDebugMenu(object sender, ExecutedRoutedEventArgs e)
         {
