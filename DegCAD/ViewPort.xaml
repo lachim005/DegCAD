@@ -14,7 +14,10 @@
              Focusable="True"
              FocusVisualStyle="{DynamicResource NoFocusVisual}"
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid x:Name="vpLayers">
-        
+    <Grid>
+        <Grid x:Name="vpLayers">
+
+        </Grid>
+        <Rectangle Fill="Transparent" Visibility="Collapsed" x:Name="labelBlocker"/>
     </Grid>
 </UserControl>
