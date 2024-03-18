@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:DegCAD.Dialogs"
         mc:Ignorable="d"
         MinWidth="450" MinHeight="250"
+        WindowStartupLocation="CenterScreen"
         Background="{DynamicResource bg}"
         Foreground="{DynamicResource fg}"
         Loaded="OnLoaded"
