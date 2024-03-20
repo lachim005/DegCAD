@@ -44,6 +44,8 @@ namespace DegCAD.Dialogs
         private void SaveSettings()
         {
             Settings.DarkMode = darkModeChbx.IsChecked == true;
+
+            Settings.SaveSettings();
         }
 
         public static void OpenDialog()

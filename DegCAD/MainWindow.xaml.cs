@@ -40,6 +40,8 @@ namespace DegCAD
         public MainWindow()
         {
             InitializeComponent();
+            Settings.LoadSettings();
+
             cmdPallete.GenerateCommands(this);
             cmdPallete.ShowButtons(FileType.None);
             AppDomain.CurrentDomain.UnhandledException += (s, e) => MessageBox.Show($"{e.ExceptionObject}");
