@@ -16,6 +16,7 @@ namespace DegCAD
     {
         public static RoutedCommand newMFCommand = new();
         public static RoutedCommand exportCommand = new();
+        public static RoutedCommand settingsCommand = new();
         public static RoutedCommand pageLayoutCommand = new();
         public static RoutedCommand addGuideCommand = new();
         public static RoutedCommand changeGlobalFontSizeCommand = new();
@@ -190,6 +191,7 @@ namespace DegCAD
         }
         private void UndoCommand(object sender, ExecutedRoutedEventArgs e) => ActiveTab.Undo();
         private void RedoCommand(object sender, ExecutedRoutedEventArgs e) => ActiveTab.Redo();
+        private void SettingsCommand(object sender, ExecutedRoutedEventArgs e) => SettingsWindow.OpenDialog();
         private void AboutClick(object sender, RoutedEventArgs e) => AboutDialog.Open();
         private void OpenPageLayoutWindow(object sender, ExecutedRoutedEventArgs e)
         {

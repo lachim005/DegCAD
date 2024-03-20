@@ -1,0 +1,50 @@
+﻿<Window x:Class="DegCAD.Dialogs.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DegCAD.Dialogs"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource bg}"
+        Foreground="{DynamicResource fg}"
+        MinHeight="200" MinWidth="340"
+        Title="Nastavení" Height="450" Width="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1"/>
+            <RowDefinition/>
+            <RowDefinition Height="1"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Rectangle Fill="{DynamicResource border}"/>
+        <TabControl TabStripPlacement="Left" Grid.Row="1" SelectedIndex="0">
+            <TabItem Header="Vz_hled">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="10">
+                    <StackPanel>
+                        <CheckBox x:Name="darkModeChbx" Content="_Tmavý režim"/>
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="_Výchozí">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="10">
+                    <StackPanel>
+                        
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="_Chování">
+                <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="10">
+                    <StackPanel>
+                        
+                    </StackPanel>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+        <Rectangle Fill="{DynamicResource border}" Grid.Row="2"/>
+        <StackPanel Orientation="Horizontal" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5">
+            <Button Content="_Zrušit" Width="150" Click="CloseClick"/>
+            <Button Style="{DynamicResource accentBtn}" Content="_Uložit" Width="150" Click="SaveClick"/>
+        </StackPanel>
+    </Grid>
+</Window>

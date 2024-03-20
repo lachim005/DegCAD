@@ -39,6 +39,8 @@
         <CommandBinding Command="Redo"
                         Executed="RedoCommand"
                         CanExecute="CanRedo"/>
+        <CommandBinding Command="{x:Static local:MainWindow.settingsCommand}"
+                        Executed="SettingsCommand"/>
         <CommandBinding Command="{x:Static local:MainWindow.pageLayoutCommand}"
                         Executed="OpenPageLayoutWindow"
                         CanExecute="CanLayout"/>
@@ -53,6 +55,7 @@
     </Window.CommandBindings>
     <Window.InputBindings>
         <KeyBinding Command="{x:Static local:MainWindow.newMFCommand}" Key="N" Modifiers="Ctrl+Shift"/>
+        <KeyBinding Command="{x:Static local:MainWindow.settingsCommand}" Key="OemComma" Modifiers="Ctrl"/>
         <KeyBinding Command="Close" Key="W" Modifiers="Ctrl"/>
         <KeyBinding Command="SaveAs" Key="S" Modifiers="Ctrl+Shift"/>
         <KeyBinding Command="{x:Static local:MainWindow.openDebugMenuCommand}" Key="D" Modifiers="Ctrl+Shift+Alt"/>
@@ -73,7 +76,7 @@
             <MenuItem Header="Úpr_avy">
                 <MenuItem Header="_Zpět" Command="Undo"/>
                 <MenuItem Header="_Opakovat" Command="Redo"/>
-                <MenuItem IsCheckable="True" Header="_Tmavý režim" Click="ChangeSkin"/>
+                <MenuItem Header="_Nastavení" Command="{x:Static local:MainWindow.settingsCommand}" InputGestureText="Ctrl+,"/>
             </MenuItem>
             <MenuItem Header="Nástroje">
                 <MenuItem Header="Rozložení na papíře" Command="{x:Static local:MainWindow.pageLayoutCommand}"/>

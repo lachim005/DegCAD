@@ -191,11 +191,14 @@ namespace DegCAD
             return false;
         }
 
-        private void ChangeSkin(object sender, RoutedEventArgs e)
+        public void ChangeSkin(Skin skin)
         {
             if (Application.Current is not App app) return;
-            
-            app.ChangeSkin((App.Skin == Skin.Light) ? Skin.Dark : Skin.Light);
+
+            var prevSkin = App.Skin;
+            app.ChangeSkin(skin);
+            if (prevSkin == skin) return;
+
             foreach (var tab in openTabs)
             {
                 tab.SwapWhiteAndBlack();
