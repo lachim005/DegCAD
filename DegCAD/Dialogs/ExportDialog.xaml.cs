@@ -45,6 +45,7 @@ namespace DegCAD.Dialogs
             InitializeComponent();
             this.vp = vp.Clone();
             this.vp.CanZoom = false;
+            this.vp.AllowLabelInteractions = false;
 
             if (App.Skin == Skin.Dark)
             {

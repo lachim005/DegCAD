@@ -39,6 +39,7 @@ namespace DegCAD.Dialogs
             InitializeComponent();
 
             ViewPort = vp.Clone();
+            ViewPort.AllowLabelInteractions = false;
             vpBorder.Child = ViewPort;
 
             ViewPort.CanZoom = false;

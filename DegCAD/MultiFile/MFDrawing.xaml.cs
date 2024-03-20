@@ -79,6 +79,7 @@ namespace DegCAD.MultiFile
 
             // Asigns it twice so it doesn't give a warning
             _viewPort = editor.viewPort.Clone();
+            _viewPort.AllowLabelInteractions = false;
             Viewport = _viewPort;
         }
 

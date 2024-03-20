@@ -604,6 +604,7 @@ namespace DegCAD.MultiFile
                 }
 
                 d.Viewport = d.editor.viewPort.Clone();
+                d.Viewport.AllowLabelInteractions = false;
                 d.Viewport.OffsetX = ox;
                 d.Viewport.OffsetY = oy;
                 d.Viewport.Scale = sc;

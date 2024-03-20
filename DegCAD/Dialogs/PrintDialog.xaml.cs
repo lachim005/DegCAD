@@ -57,6 +57,7 @@ namespace DegCAD.Dialogs
 
             vp = e.viewPort.Clone();
             vp.CanZoom = false;
+            vp.AllowLabelInteractions = false;
 
             if (App.Skin == Skin.Dark)
             {
