@@ -331,11 +331,20 @@ namespace DegCAD.MultiFile
 
         private async void OnDrop(object sender, DragEventArgs e)
         {
-            if (!e.Data.GetDataPresent(DataFormats.FileDrop))
+            var dragTab = (e.Data.GetData(typeof(Tuple<ITab>)) as Tuple<ITab>)?.Item1;
+
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) await DropFile(e);
+            else if (e.Data.GetData(typeof(Tuple<ITab>)) is Tuple<ITab> tab) DropTab(tab.Item1, e);
+            else
             {
                 e.Handled = false;
                 return;
             }
+            
+        }
+
+        private async Task DropFile(DragEventArgs e)
+        {
             var files = (string[])e.Data.GetData(DataFormats.FileDrop);
             if (files is null) return;
             e.Handled = true;
@@ -352,6 +361,20 @@ namespace DegCAD.MultiFile
 
                 AddItem(new(this, new MFDrawing(ed)) { CX = mPos.X + offset, CY = mPos.Y });
                 offset += 100;
+                Redraw();
+            }
+        }
+        private void DropTab(ITab tab, DragEventArgs e)
+        {
+            var mPos = ScreenToCanvas(e.GetPosition(this));
+            if (tab is EditorTab etab)
+            {
+                AddItem(new(this, new MFDrawing(etab.Editor.Clone())) { CX = mPos.X, CY = mPos.Y });
+                Redraw();
+            }
+            else if (tab is ConnectedEditorTab cetab)
+            {
+                AddItem(new(this, new MFDrawing(cetab.Editor.Clone())) { CX = mPos.X, CY = mPos.Y });
                 Redraw();
             }
         }
