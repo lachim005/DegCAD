@@ -44,5 +44,12 @@ namespace DegCAD.Guides
             ogd.ShowDialog();
             return ogd.Result;
         }
+
+        private void OnWindowClosed(object sender, EventArgs e)
+        {
+            if (dontShowAnymoreChbx.IsChecked == false) return;
+            Settings.AlertGuides = false;
+            Settings.SaveSettings();
+        }
     }
 }
