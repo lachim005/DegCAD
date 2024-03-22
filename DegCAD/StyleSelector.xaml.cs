@@ -147,5 +147,10 @@ namespace DegCAD
                 lineType1.IsEnabled = false;
             }
         }
+
+        private void ColorIndicatorClick(object sender, MouseButtonEventArgs e)
+        {
+            CurrentColor = Dialogs.ColorPicker.EditColor(CurrentColor);
+        }
     }
 }
