@@ -226,6 +226,7 @@ namespace DegCAD
 
         private async void CheckForNewVersion()
         {
+            if (!Settings.AlertNewVersions) return;
             try
             {
                 using System.Net.Http.HttpClient client = new();

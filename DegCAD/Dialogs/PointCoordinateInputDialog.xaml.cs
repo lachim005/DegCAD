@@ -22,7 +22,7 @@ namespace DegCAD.Dialogs
     public partial class PointCoordinateInputDialog : Window
     {
         //Last values
-        private static bool lastAxisDirectionLeft = true;
+        public static bool lastAxisDirectionLeft = true;
 
         ObservableCollection<PointInputStruct> inputValues = new() { new("","","","") };
 

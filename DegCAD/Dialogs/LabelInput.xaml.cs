@@ -20,7 +20,7 @@ namespace DegCAD.Dialogs
     public partial class LabelInput : Window
     {
         //Last values
-        private static int lastFontSize = 16;
+        public static int lastFontSize = 16;
 
         public bool Canceled = true;
 

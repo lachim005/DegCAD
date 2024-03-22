@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DegCAD.Dialogs;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,6 +12,8 @@ namespace DegCAD
     public static class Settings
     {
         private static bool _darkMode;
+        private static bool _defaultMongeXDirectionLeft = true;
+        private static int _defaultLabelFontSize = 16;
 
         public static bool DarkMode
         {
@@ -22,6 +25,31 @@ namespace DegCAD
                 mw.ChangeSkin(value ? Skin.Dark : Skin.Light);
             }
         }
+
+        public static bool DefaultMongeXDirectionLeft
+        {
+            get => _defaultMongeXDirectionLeft;
+            set
+            {
+                _defaultMongeXDirectionLeft = value;
+                PointCoordinateInputDialog.lastAxisDirectionLeft = _defaultMongeXDirectionLeft;
+            }
+        }
+
+        public static int DefaultLabelFontSize
+        {
+            get => _defaultLabelFontSize;
+            set
+            {
+                _defaultLabelFontSize = value;
+                LabelInput.lastFontSize = _defaultLabelFontSize;
+            }
+        }
+
+        public static bool AlertGuides { get; set; } = true;
+        public static bool AlertNewVersions { get; set; } = true;
+        public static bool SnapLabels { get; set; } = true;
+
 
         public static void LoadSettings()
         {
@@ -50,6 +78,26 @@ namespace DegCAD
                         case "DarkMode":
                             if (!bool.TryParse(value, out bool dm)) continue;
                             DarkMode = dm;
+                            break;
+                        case "DefaultMongeXDirectionLeft":
+                            if (!bool.TryParse(value, out bool dx)) continue;
+                            DefaultMongeXDirectionLeft = dx;
+                            break;
+                        case "DefaultLabelFontSize":
+                            if (!int.TryParse(value, out int fs)) continue;
+                            DefaultLabelFontSize = fs;
+                            break;
+                        case "AlertGuides":
+                            if (!bool.TryParse(value, out bool ag)) continue;
+                            AlertGuides = ag;
+                            break;
+                        case "AlertNewVersions":
+                            if (!bool.TryParse(value, out bool anv)) continue;
+                            AlertNewVersions = anv;
+                            break;
+                        case "SnapLabels":
+                            if (!bool.TryParse(value, out bool sl)) continue;
+                            SnapLabels = sl;
                             break;
                     }
                 }
@@ -82,6 +130,11 @@ namespace DegCAD
                 sw.WriteLine("Version:" + (System.Reflection.Assembly.GetExecutingAssembly().GetName().Version ?? new Version(0,0,0)));
 
                 sw.WriteLine("DarkMode:" + DarkMode);
+                sw.WriteLine("DefaultMongeXDirectionLeft:" + DefaultMongeXDirectionLeft);
+                sw.WriteLine("DefaultLabelFontSize:" + DefaultLabelFontSize);
+                sw.WriteLine("AlertGuides:" + AlertGuides);
+                sw.WriteLine("AlertNewVersions:" + AlertNewVersions);
+                sw.WriteLine("SnapLabels:" + SnapLabels);
             } catch (Exception ex)
             {
                 MessageBox.Show("Chyba při ukládání nastavení:\n" + ex.Message, img: MessageBoxImage.Error);

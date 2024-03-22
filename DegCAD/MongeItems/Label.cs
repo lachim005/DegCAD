@@ -84,9 +84,9 @@ namespace DegCAD.MongeItems
 
         public IMongeItem LabeledObject { get; init; }
 
-        public Label(string labelText, string subscript, string superscript, Vector2 position, Style style, IMongeItem labeledObject, ViewportLayer? vpl = null, int fontSize = 16)
+        public Label(string labelText, string subscript, string superscript, Vector2 position, Style style, IMongeItem labeledObject, ViewportLayer? vpl = null, int? fontSize = null)
         {
-            FontSize = fontSize;
+            FontSize = fontSize ?? Settings.DefaultLabelFontSize;
             LabelText = labelText;
             Subscript = subscript;
             Superscript = superscript;
@@ -272,26 +272,29 @@ namespace DegCAD.MongeItems
             Position = (Vector2)(dragStartPos + (_vpl.Viewport.ScreenToCanvas(e.GetPosition(sender as Canvas)) - dragStart));
 
             //Snap to other labels
-            var closestYDiff = double.MaxValue;
-            foreach (var cmd in _vpl.Viewport.Timeline.CommandHistory)
+            if (Settings.SnapLabels)
             {
-                foreach (var item in cmd.Items)
+                var closestYDiff = double.MaxValue;
+                foreach (var cmd in _vpl.Viewport.Timeline.CommandHistory)
                 {
-                    if (item is not Label lbl) continue;
-                    if (ReferenceEquals(lbl, this)) continue;
-                    var diff = Position - lbl.Position;
-                    if (Math.Abs(diff.X - .3 / 16 * FontSize) < .4 / 16 * FontSize && Math.Abs(diff.Y) < .1 / 16 * FontSize)
+                    foreach (var item in cmd.Items)
                     {
-                        if (closestYDiff > diff.Y)
+                        if (item is not Label lbl) continue;
+                        if (ReferenceEquals(lbl, this)) continue;
+                        var diff = Position - lbl.Position;
+                        if (Math.Abs(diff.X - .3 / 16 * FontSize) < .4 / 16 * FontSize && Math.Abs(diff.Y) < .1 / 16 * FontSize)
                         {
-                            closestYDiff = diff.Y;
+                            if (closestYDiff > diff.Y)
+                            {
+                                closestYDiff = diff.Y;
+                            }
                         }
                     }
                 }
-            }
-            if (closestYDiff != double.MaxValue)
-            {
-                Position = (Position.X, Position.Y - closestYDiff);
+                if (closestYDiff != double.MaxValue)
+                {
+                    Position = (Position.X, Position.Y - closestYDiff);
+                }
             }
 
             if (!startedMoving)

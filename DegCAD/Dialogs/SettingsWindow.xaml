@@ -29,14 +29,27 @@
             <TabItem Header="_Výchozí">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="10">
                     <StackPanel>
-                        
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Kladný směr osy x v Mongeově promítání:" Grid.Row="3" VerticalAlignment="Center" Margin="0,0,30,0"/>
+                            <RadioButton GroupName="defaultMongeXDirection" VerticalAlignment="Center" x:Name="defaultMongeXDirectionReverse"/>
+                            <Canvas VerticalAlignment="Center" Width="40">
+                                <Path Data="M 10 -5 L 5 0 L 35 0 L 30 -5 M 10 5 L 5 0 M 35 0 L 30 5 M 20 10 L 20 -10" Stroke="{DynamicResource fg}" StrokeThickness="1"/>
+                            </Canvas>
+                            <RadioButton GroupName="defaultMongeXDirection" VerticalAlignment="Center" IsChecked="True"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Target="{Binding ElementName=defaultLabelFontSizeTbx}" VerticalAlignment="Center">_Velikost písma popisků</Label>
+                            <TextBox x:Name="defaultLabelFontSizeTbx" Width="100" HorizontalAlignment="Left" VerticalAlignment="Center"/>
+                        </StackPanel>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
             <TabItem Header="_Chování">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="10">
                     <StackPanel>
-                        
+                        <CheckBox x:Name="alertGuides" Content="Upozorňovat na _návody"/>
+                        <CheckBox x:Name="alertNewVersions" Content="Upozorňovat na nové _verze"/>
+                        <CheckBox x:Name="snapLabels" Content="Přichytávat popisky"/>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>

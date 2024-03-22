@@ -28,6 +28,11 @@ namespace DegCAD.Dialogs
         private void LoadSettings()
         {
             darkModeChbx.IsChecked = Settings.DarkMode;
+            defaultMongeXDirectionReverse.IsChecked = Settings.DefaultMongeXDirectionLeft;
+            defaultLabelFontSizeTbx.Text = Settings.DefaultLabelFontSize.ToString();
+            alertGuides.IsChecked = Settings.AlertGuides;
+            alertNewVersions.IsChecked = Settings.AlertNewVersions;
+            snapLabels.IsChecked = Settings.SnapLabels;
         }
 
         private void CloseClick(object sender, RoutedEventArgs e)
@@ -44,6 +49,11 @@ namespace DegCAD.Dialogs
         private void SaveSettings()
         {
             Settings.DarkMode = darkModeChbx.IsChecked == true;
+            Settings.DefaultMongeXDirectionLeft = defaultMongeXDirectionReverse.IsChecked == true;
+            if (int.TryParse(defaultLabelFontSizeTbx.Text, out int fs)) Settings.DefaultLabelFontSize = fs;
+            Settings.AlertGuides = alertGuides.IsChecked == true;
+            Settings.AlertNewVersions = alertNewVersions.IsChecked == true;
+            Settings.SnapLabels = snapLabels.IsChecked == true;
 
             Settings.SaveSettings();
         }

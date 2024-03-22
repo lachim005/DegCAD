@@ -231,6 +231,7 @@ namespace DegCAD
         }
         public void PromptGuide()
         {
+            if (!Settings.AlertGuides) return;
             if (Guide is not Guide g) return;
             if (g.Steps.Count == 0) return;
             if (!OpenGuideDialog.OpenDialog()) return;
