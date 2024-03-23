@@ -40,6 +40,18 @@
                         <TextBox x:Name="yzLen" Width="100" Canvas.Left="270" Canvas.Top="130"/>
                         <TextBox x:Name="zxLen" Width="100" Canvas.Right="270" Canvas.Top="130"/>
                     </Canvas>
+                    <StackPanel Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Right">
+                        <Button Width="27" ToolTip="Náhodná axonometrie" Click="RandomAxoTriangle">
+                            <Grid Width="17" Height="17">
+                                <Path Data="M 2 1 L 15 1 L 16 2 L 16 15 L 15 16 L 2 16 L 1 15 L 1 2 z" Stroke="{DynamicResource fg}" StrokeThickness="1"/>
+                                <Ellipse Width="2" Height="2" Margin="0,0,7,7" Fill="{DynamicResource fg}"/>
+                                <Ellipse Width="2" Height="2" Margin="7,0,0,7" Fill="{DynamicResource fg}"/>
+                                <Ellipse Width="2" Height="2" Margin="7,7,0,0" Fill="{DynamicResource fg}"/>
+                                <Ellipse Width="2" Height="2" Margin="0,7,7,0" Fill="{DynamicResource fg}"/>
+                                <Ellipse Width="2" Height="2" VerticalAlignment="Center" HorizontalAlignment="Center" Fill="{DynamicResource fg}"/>
+                            </Grid>
+                        </Button>
+                    </StackPanel>
                 </Grid>
             </TabItem>
             <TabItem Header="Zadat úhly axonometrického osového kříže">
@@ -68,6 +80,18 @@
                             <TextBox x:Name="zxAngle" Width="100"/>
                         </StackPanel>
                     </Canvas>
+                    <StackPanel Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Right">
+                        <Button Width="27" ToolTip="Náhodná axonometrie" Click="RandomAxoAngles">
+                            <Grid Width="17" Height="17">
+                                <Path Data="M 2 1 L 15 1 L 16 2 L 16 15 L 15 16 L 2 16 L 1 15 L 1 2 z" Stroke="{DynamicResource fg}" StrokeThickness="1"/>
+                                <Ellipse Width="2" Height="2" Margin="0,0,7,7" Fill="{DynamicResource fg}"/>
+                                <Ellipse Width="2" Height="2" Margin="7,0,0,7" Fill="{DynamicResource fg}"/>
+                                <Ellipse Width="2" Height="2" Margin="7,7,0,0" Fill="{DynamicResource fg}"/>
+                                <Ellipse Width="2" Height="2" Margin="0,7,7,0" Fill="{DynamicResource fg}"/>
+                                <Ellipse Width="2" Height="2" VerticalAlignment="Center" HorizontalAlignment="Center" Fill="{DynamicResource fg}"/>
+                            </Grid>
+                        </Button>
+                    </StackPanel>
                 </Grid>
             </TabItem>
         </TabControl>

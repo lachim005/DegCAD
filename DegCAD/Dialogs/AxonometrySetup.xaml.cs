@@ -167,22 +167,22 @@ namespace DegCAD.Dialogs
                         switch (disabledAngle)
                         {
                             case 0:
-                                if (!double.TryParse(yzAngle.Text, out a2) || a2 <= 90 || a2 >= 180) { MessageBox.Show("Zadány neplatné hodnoty"); return; }
-                                if (!double.TryParse(zxAngle.Text, out a3) || a3 <= 90 || a3 >= 180) { MessageBox.Show("Zadány neplatné hodnoty"); return; }
+                                if (!double.TryParse(yzAngle.Text, out a2) || a2 <= 90 || a2 >= 180) { MessageBox.Show("Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
+                                if (!double.TryParse(zxAngle.Text, out a3) || a3 <= 90 || a3 >= 180) { MessageBox.Show("Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
                                 a1 = 360 - a2 - a3;
                                 if (a1 <= 90 || a1 >= 180) { MessageBox.Show("Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
                                 break;
                             case 1:
-                                if (!double.TryParse(xyAngle.Text, out a1) || a1 <= 90 || a1 >= 180) { MessageBox.Show("Zadány neplatné hodnoty"); return; }
-                                if (!double.TryParse(zxAngle.Text, out a3) || a3 <= 90 || a3 >= 180) { MessageBox.Show("Zadány neplatné hodnoty"); return; }
+                                if (!double.TryParse(xyAngle.Text, out a1) || a1 <= 90 || a1 >= 180) { MessageBox.Show("Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
+                                if (!double.TryParse(zxAngle.Text, out a3) || a3 <= 90 || a3 >= 180) { MessageBox.Show("Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
                                 a2 = 360 - a1 - a3;
-                                if (a2 <= 90 || a1 >= 180) { MessageBox.Show("Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
+                                if (a2 <= 90 || a2 >= 180) { MessageBox.Show("Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
                                 break;
                             default:
-                                if (!double.TryParse(xyAngle.Text, out a1) || a1 <= 90 || a1 >= 180) { MessageBox.Show("Zadány neplatné hodnoty"); return; }
-                                if (!double.TryParse(yzAngle.Text, out a2) || a2 <= 90 || a2 >= 180) { MessageBox.Show("Zadány neplatné hodnoty"); return; }
+                                if (!double.TryParse(xyAngle.Text, out a1) || a1 <= 90 || a1 >= 180) { MessageBox.Show("Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
+                                if (!double.TryParse(yzAngle.Text, out a2) || a2 <= 90 || a2 >= 180) { MessageBox.Show("Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
                                 a3 = 360 - a1 - a2;
-                                if (a3 <= 90 || a1 >= 180) { MessageBox.Show("Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
+                                if (a3 <= 90 || a3 >= 180) { MessageBox.Show("Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
                                 break;
                         }
 
@@ -253,6 +253,64 @@ namespace DegCAD.Dialogs
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             SaveLastValues();
+        }
+
+        private static bool ValidateAxoLengths(double xy, double yz, double zx)
+        {
+            double biggest = 0;
+            double squareSum = xy * xy + yz * yz + zx * zx;
+            if (xy > biggest) biggest = xy;
+            if (yz > biggest) biggest = yz;
+            if (zx > biggest) biggest = zx;
+            squareSum -= biggest * biggest;
+            if (biggest * biggest >= squareSum) { return false; }
+
+            Circle2 c1 = new((0, 0), zx);
+            Circle2 c2 = new((xy, 0), yz);
+            var intersections = c1.FindIntersections(c2);
+            if (intersections is null) { return false; }
+
+            return true;
+        }
+
+        private static bool ValidateAxoAngles(double a1, double a2)
+        {
+            double a3 = 360 - a1 - a2;
+            return a1 < 180 && a1 > 90 && a2 < 180 && a2 > 90 && a3 < 180 && a3 > 90;
+        }
+
+        private void RandomAxoTriangle(object sender, RoutedEventArgs e)
+        {
+            Random r = new(DateTime.Now.Millisecond);
+
+            int xy, yz, zx;
+            do
+            {
+                var b = r.Next(6, 9);
+                xy = b + 1;
+                yz = b + r.Next(0, 5);
+                zx = b + r.Next(0, 5);
+            } while (!ValidateAxoLengths(xy, yz, zx));
+
+            xyLen.Text = xy.ToString();
+            yzLen.Text = yz.ToString();
+            zxLen.Text = zx.ToString();
+        }
+
+        private void RandomAxoAngles(object sender, RoutedEventArgs e)
+        {
+            Random r = new(DateTime.Now.Millisecond);
+
+            int a1, a2;
+            do
+            {
+                a1 = r.Next(10, 18) * 10;
+                a2 = r.Next(10, 18) * 10;
+            } while (!ValidateAxoAngles(a1, a2));
+
+            xyAngle.Text = a1.ToString();
+            yzAngle.Text = a2.ToString();
+            zxAngle.Text = (360 - a1 - a2).ToString();
         }
     }
 }
