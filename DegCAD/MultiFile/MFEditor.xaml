@@ -253,6 +253,11 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Grid DragOver="PageRedrag" Drop="PageRedrag" Background="Transparent">
+                                        <Grid.ContextMenu>
+                                            <ContextMenu>
+                                                <MenuItem Click="DuplicatePageClick" Header="Duplikovat"/>
+                                            </ContextMenu>
+                                        </Grid.ContextMenu>
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="auto"/>
                                             <ColumnDefinition/>

@@ -634,5 +634,13 @@ namespace DegCAD.MultiFile
             MFPrintDialog pd = new(this);
             pd.ShowDialog();
         }
+
+        private void DuplicatePageClick(object sender, RoutedEventArgs e)
+        {
+            if (sender is not FrameworkElement fe) return;
+            if (fe.DataContext is not MFPageModel pm) return;
+
+            AddPage(pm.Page.Clone());
+        }
     }
 }

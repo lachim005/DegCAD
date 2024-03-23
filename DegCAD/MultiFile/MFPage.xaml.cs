@@ -412,6 +412,26 @@ namespace DegCAD.MultiFile
 
             Redraw();
         }
+
+        public MFPage Clone()
+        {
+            MFPage copy = new()
+            {
+                PaperWidth = PaperWidth,
+                PaperHeight = PaperHeight
+            };
+
+            foreach (var item in Items)
+            {
+                var clone = item.Clone();
+                copy.AddItem(clone);
+            }
+
+            copy.BordersVisible = BordersVisible;
+            copy.Redraw();
+
+            return copy;
+        }
     }
 
     public class MFPageModel : INotifyPropertyChanged
