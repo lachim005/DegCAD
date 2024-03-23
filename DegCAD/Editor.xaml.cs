@@ -139,6 +139,7 @@ namespace DegCAD
                 }
 
                 statusBar.ShowCommandStatus();
+                cancelCmdBtn.Visibility = Visibility.Visible;
                 try
                 {
                     var res = await command.ExecuteAsync(viewPort.Layers[2], viewPort.Layers[1], viewPort.Layers[0], InputMgr, statusBar);
@@ -161,6 +162,7 @@ namespace DegCAD
                     statusBar.HideCommandStatus();
                     statusBar.CommandName = "";
                     statusBar.CommandHelp = "";
+                    cancelCmdBtn.Visibility = Visibility.Collapsed;
                     //Reenables moving labels
                     foreach (var layer in viewPort.Layers)
                     {

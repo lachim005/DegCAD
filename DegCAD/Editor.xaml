@@ -34,6 +34,9 @@
                 <Button Margin="0" Width="27" Command="Redo" ToolTip="Znovu (Ctrl + Y)">
                     <Path Width="17" Height="17" Data="M 15 15 L 8 15 A 5 5 180 0 1 8 5 L 15 5 L 9 8 M 15 5 L 9 2" Stroke="{DynamicResource fg}" StrokeThickness="1" StrokeLineJoin="Round"/>
                 </Button>
+                <Button Width="27" Command="{x:Static local:MainWindow.cancelCommandCommand}" ToolTip="Zrušit příkaz (Esc)" x:Name="cancelCmdBtn" Visibility="Collapsed">
+                    <Path Width="17" Height="17" Data="M 3 3 L 14 14 M 14 3 L 3 14" Stroke="{DynamicResource fg}" StrokeThickness="1" StrokeLineJoin="Round"/>
+                </Button>
             </StackPanel>
             <GridSplitter Grid.Column="1" Grid.Row="1" Width="1" Background="{DynamicResource border}" HorizontalAlignment="Stretch"/>
             <ScrollViewer Grid.Column="2" Grid.Row="1" VerticalScrollBarVisibility="Auto">
