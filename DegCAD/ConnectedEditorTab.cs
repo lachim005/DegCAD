@@ -24,7 +24,7 @@ namespace DegCAD
 
         public bool CanPrint => true;
 
-        public bool CanLayout => true;
+        public bool CanLayout => !Editor.ExecutingCommand;
 
         public bool CanAddGuide => Editor.Guide is null;
 
