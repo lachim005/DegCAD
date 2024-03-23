@@ -52,6 +52,8 @@
                         CanExecute="CanLayout"/>
         <CommandBinding Command="{x:Static local:MainWindow.openDebugMenuCommand}"
                         Executed="OpenDebugMenu"/>
+        <CommandBinding Command="{x:Static local:MainWindow.cancelCommandCommand}"
+                        Executed="CancelCommandCommand"/>
     </Window.CommandBindings>
     <Window.InputBindings>
         <KeyBinding Command="{x:Static local:MainWindow.newMFCommand}" Key="N" Modifiers="Ctrl+Shift"/>
@@ -60,6 +62,7 @@
         <KeyBinding Command="SaveAs" Key="S" Modifiers="Ctrl+Shift"/>
         <KeyBinding Command="{x:Static local:MainWindow.openDebugMenuCommand}" Key="D" Modifiers="Ctrl+Shift+Alt"/>
         <KeyBinding Command="{x:Static local:MainWindow.exportCommand}" Key="E" Modifiers="Ctrl"/>
+        <KeyBinding Command="{x:Static local:MainWindow.cancelCommandCommand}" Key="Esc"/>
     </Window.InputBindings>
     <DockPanel>
         <Menu DockPanel.Dock="Top" Padding="2" BorderBrush="{DynamicResource border}" BorderThickness="0, 0, 0, 1">

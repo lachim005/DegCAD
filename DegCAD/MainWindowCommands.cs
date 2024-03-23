@@ -21,6 +21,9 @@ namespace DegCAD
         public static RoutedCommand addGuideCommand = new();
         public static RoutedCommand changeGlobalFontSizeCommand = new();
         public static RoutedCommand openDebugMenuCommand = new();
+        public static RoutedCommand cancelCommandCommand = new();
+
+        public event EventHandler? CommandCanceled;
 
         public static bool OpenEditorSaveFileDialog(Editor editor)
         {
@@ -217,6 +220,14 @@ namespace DegCAD
         {
             DebugMenu.DebugWindow dw = new(this);
             dw.Show();
+        }
+        private void CancelCommandCommand(object sender, ExecutedRoutedEventArgs e)
+        {
+            CancelCommand();
+        }
+        public void CancelCommand()
+        {
+            CommandCanceled?.Invoke(this, EventArgs.Empty);
         }
     }
 }
