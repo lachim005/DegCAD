@@ -3,6 +3,7 @@
     <SolidColorBrush x:Key="elementBg" Color="#343434"/>
 <SolidColorBrush x:Key="bg" Color="#262626"/>
 <SolidColorBrush x:Key="fg" Color="#d5d5d5"/>
+<SolidColorBrush x:Key="iconBtnFg" Color="#b5b5b5"/>
 <SolidColorBrush x:Key="hoverBg" Color="#404040"/>
 <SolidColorBrush x:Key="clickBg" Color="#555555"/>
 <SolidColorBrush x:Key="disabledFg" Color="gray"/>

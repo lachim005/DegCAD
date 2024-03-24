@@ -27,8 +27,8 @@
         <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Button x:Name="planeBtn" Height="232" Width="168" Margin="5px" Click="planeBtn_Click">
                 <Canvas>
-                    <Line X1="0" Y1="-60" X2="0" Y2="60" Stroke="{DynamicResource border}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
-                    <Line X1="-60" Y1="0" X2="60" Y2="0" Stroke="{DynamicResource border}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
+                    <Line X1="0" Y1="-60" X2="0" Y2="60" Stroke="{DynamicResource iconBtnFg}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
+                    <Line X1="-60" Y1="0" X2="60" Y2="0" Stroke="{DynamicResource iconBtnFg}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
                 </Canvas>
             </Button>
             <Label Content="_Rovina" Target="{Binding ElementName=planeBtn}" HorizontalAlignment="Center"/>
@@ -36,9 +36,9 @@
         <StackPanel Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Button x:Name="mongeBtn" Height="232" Width="168" Margin="5px" Click="mongeBtn_Click">
                 <Canvas>
-                    <Line X1="20" Y1="0" X2="-20" Y2="-60" Stroke="{DynamicResource border}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
-                    <Line X1="-20" Y1="0" X2="20" Y2="60" Stroke="{DynamicResource border}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
-                    <Line X1="-60" Y1="0" X2="60" Y2="0" Stroke="{DynamicResource border}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
+                    <Line X1="20" Y1="0" X2="-20" Y2="-60" Stroke="{DynamicResource iconBtnFg}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
+                    <Line X1="-20" Y1="0" X2="20" Y2="60" Stroke="{DynamicResource iconBtnFg}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
+                    <Line X1="-60" Y1="0" X2="60" Y2="0" Stroke="{DynamicResource iconBtnFg}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
                 </Canvas>
             </Button>
             <Label Content="_Mongeovo promítání" Target="{Binding ElementName=mongeBtn}" HorizontalAlignment="Center"/>
@@ -46,9 +46,9 @@
         <StackPanel Grid.Row="1" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Button x:Name="axonometryBtn" Height="232" Width="168" Margin="5px" Click="axonometryBtn_Click">
                 <Canvas>
-                    <Line X1="0" Y1="0" X2="0" Y2="-60" Stroke="{DynamicResource border}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
-                    <Line X1="0" Y1="0" X2="-60" Y2="50" Stroke="{DynamicResource border}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
-                    <Line X1="0" Y1="0" X2="60" Y2="50" Stroke="{DynamicResource border}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
+                    <Line X1="0" Y1="0" X2="0" Y2="-60" Stroke="{DynamicResource iconBtnFg}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
+                    <Line X1="0" Y1="0" X2="-60" Y2="50" Stroke="{DynamicResource iconBtnFg}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
+                    <Line X1="0" Y1="0" X2="60" Y2="50" Stroke="{DynamicResource iconBtnFg}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
                 </Canvas>
             </Button>
             <Label Content="Pravoúhlá _axonometrie" Target="{Binding ElementName=axonometryBtn}" HorizontalAlignment="Center"/>

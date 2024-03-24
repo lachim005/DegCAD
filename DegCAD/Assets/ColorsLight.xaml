@@ -4,6 +4,7 @@
     <SolidColorBrush x:Key="elementBg" Color="White"/>
     <SolidColorBrush x:Key="bg" Color="White"/>
     <SolidColorBrush x:Key="fg" Color="black"/>
+    <SolidColorBrush x:Key="iconBtnFg" Color="#606060"/>
     <SolidColorBrush x:Key="hoverBg" Color="#f3f3f3"/>
     <SolidColorBrush x:Key="clickBg" Color="#dedede"/>
     <SolidColorBrush x:Key="disabledFg" Color="gray"/>

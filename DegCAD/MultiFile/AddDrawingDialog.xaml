@@ -27,8 +27,8 @@
         <StackPanel Grid.Row="1" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Button x:Name="addBtn" Height="232" Width="168" Margin="5px" Click="AddEditor">
                 <Canvas>
-                    <Line X1="0" Y1="-60" X2="0" Y2="60" Stroke="{DynamicResource border}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
-                    <Line X1="-60" Y1="0" X2="60" Y2="0" Stroke="{DynamicResource border}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
+                    <Line X1="0" Y1="-60" X2="0" Y2="60" Stroke="{DynamicResource iconBtnFg}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
+                    <Line X1="-60" Y1="0" X2="60" Y2="0" Stroke="{DynamicResource iconBtnFg}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
                 </Canvas>
             </Button>
             <Label Content="Vytvořit _nový" Target="{Binding ElementName=addBtn}" HorizontalAlignment="Center"/>
@@ -36,7 +36,7 @@
         <StackPanel Grid.Row="1" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Button x:Name="openBtn" Height="232" Width="168" Margin="5px" Click="OpenEditor">
                 <Canvas>
-                    <Path Data="M -60 -10 L -60 60 L 60 60 L 60 -20 L 0 -20 L -10 -10 L -60 -10 L -60 -30 L -10 -30 L 0 -20" Stroke="{DynamicResource border}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
+                    <Path Data="M -60 -10 L -60 60 L 60 60 L 60 -20 L 0 -20 L -10 -10 L -60 -10 L -60 -30 L -10 -30 L 0 -20" Stroke="{DynamicResource iconBtnFg}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
                 </Canvas>
             </Button>
             <Label Content="_Otevřít" Target="{Binding ElementName=openBtn}" HorizontalAlignment="Center"/>
