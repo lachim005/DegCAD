@@ -10,7 +10,7 @@ namespace DegCAD
 {
     public class HomeTab : ITab
     {
-        public Control Body => new Control();
+        public Control Body => new HomeScreen();
 
         public bool CanSave => false;
 

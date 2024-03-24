@@ -130,17 +130,6 @@
                     </DataTemplate>
                 </TabControl.ContentTemplate>
             </TabControl>
-            <!-- Home page -->
-            <StackPanel x:Name="homePage" VerticalAlignment="Center" HorizontalAlignment="Center">
-                <TextBlock Text="Vítejte v DegCADu" FontSize="30px" Margin="0,0,0,80"/>
-                <Button Command="New" x:Name="homeNewBtn" Height="232" Width="168" Margin="5px">
-                    <Canvas>
-                        <Line X1="0" Y1="-30" X2="0" Y2="30" Stroke="{DynamicResource border}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
-                        <Line X1="-30" Y1="0" X2="30" Y2="0" Stroke="{DynamicResource border}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
-                    </Canvas>
-                </Button>
-                <Label Content="_Nový dokument" Target="{Binding ElementName=homeNewBtn}" HorizontalAlignment="Center"/>
-            </StackPanel>
             <ItemsControl x:Name="toastNotificationsIc" Background="Transparent" Width="300" HorizontalAlignment="Left" Margin="10,23,0,0" VerticalAlignment="Top">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>

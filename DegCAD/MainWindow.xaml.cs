@@ -46,6 +46,8 @@ namespace DegCAD
             cmdPallete.ShowButtons(FileType.None);
             AppDomain.CurrentDomain.UnhandledException += (s, e) => MessageBox.Show($"{e.ExceptionObject}");
 
+            openTabs.Add(new HomeTab());
+
             //Open editor is the user opens a file
             var args = Environment.GetCommandLineArgs();
             if (args.Length == 2)
@@ -68,15 +70,15 @@ namespace DegCAD
             //Home or invalid tab got selected
             if (editorTabs.SelectedIndex < 0)
             {
-                ActiveEditor = null;
-                ActiveTab = new HomeTab();
-                homePage.Visibility = Visibility.Visible;
-                cmdPallete.ShowButtons(FileType.None);
+                if (openTabs.Count == 0)
+                {
+                    openTabs.Add(new HomeTab());
+                    editorTabs.SelectedIndex = 0;
+                }
                 return;
             }
 
             ActiveTab = openTabs[editorTabs.SelectedIndex];
-            homePage.Visibility = Visibility.Hidden;
 
             //Editor tab got selected
             if (ActiveTab is EditorTab et)
@@ -92,6 +94,9 @@ namespace DegCAD
             else if (ActiveTab is MFEditorTab mf)
             {
                 cmdPallete.ShowButtons(FileType.MultiFile);
+            } else
+            {
+                cmdPallete.ShowButtons(FileType.None);
             }
 
             ActiveTab.TabSelected();
