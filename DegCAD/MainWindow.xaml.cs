@@ -61,9 +61,8 @@ namespace DegCAD
 
             editorTabs.ItemsSource = openTabs;
             toastNotificationsIc.ItemsSource = toastNotifications;
-#if !DEBUG
+
             CheckForNewVersion();
-#endif
         }
 
         private void TabSwitched(object sender, SelectionChangedEventArgs e)

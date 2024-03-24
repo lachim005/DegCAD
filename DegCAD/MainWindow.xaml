@@ -131,7 +131,7 @@
                     </DataTemplate>
                 </TabControl.ContentTemplate>
             </TabControl>
-            <ItemsControl x:Name="toastNotificationsIc" Background="Transparent" Width="300" HorizontalAlignment="Left" Margin="10,23,0,0" VerticalAlignment="Top">
+            <ItemsControl x:Name="toastNotificationsIc" Background="Transparent" Width="280" HorizontalAlignment="Right" Margin="0,0,10,47" VerticalAlignment="Bottom">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border MinHeight="120" Margin="0,13,0,0" BorderBrush="{DynamicResource border}" BorderThickness="1" CornerRadius="7" Background="{DynamicResource bg}">
