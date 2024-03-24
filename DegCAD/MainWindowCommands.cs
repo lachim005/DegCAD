@@ -242,5 +242,12 @@ namespace DegCAD
         {
             CommandCanceled?.Invoke(this, EventArgs.Empty);
         }
+
+        private void OpenHomeTabClick(object sender, RoutedEventArgs e)
+        {
+            openTabs.Add(new HomeTab(this));
+            editorTabs.SelectedIndex = openTabs.Count - 1;
+            editorCounter++;
+        }
     }
 }

@@ -75,6 +75,7 @@
                 <MenuItem Header="_Exportovat" Command="{x:Static local:MainWindow.exportCommand}" InputGestureText="Ctrl+E"/>
                 <MenuItem Header="_Tisk" Command="Print"/>
                 <MenuItem Header="_Zavřít" Command="Close" InputGestureText="Ctrl+W"/>
+                <MenuItem Header="Domovská obrazovka" Click="OpenHomeTabClick"/>
             </MenuItem>
             <MenuItem Header="Úpr_avy">
                 <MenuItem Header="_Zpět" Command="Undo"/>
