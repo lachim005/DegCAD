@@ -115,26 +115,31 @@ namespace DegCAD
 
         private void NewCommand(object sender, ExecutedRoutedEventArgs e)
         {
-            if (CreateNewEditor() is not Editor ed) return;
-            openTabs.Add(new EditorTab(ed));
-            editorTabs.SelectedIndex = openTabs.Count - 1;
-            editorCounter++;
+            AddEditor(CreateNewEditor());
         }
-        public static Editor? CreateNewEditor()
+        public static Editor? CreateNewEditor(ProjectionType? projection = null)
         {
-            NewFileDialog nfd = new();
-            nfd.ShowDialog();
-            if (nfd.ProjectionType is null) return null;
+            ProjectionType proj;
+            if (projection is null)
+            {
+                NewFileDialog nfd = new();
+                nfd.ShowDialog();
+                if (nfd.ProjectionType is null) return null;
+                proj = nfd.ProjectionType.Value;
+            } else
+            {
+                proj = projection.Value;
+            }
 
             Editor ed;
 
             //Opens the axonometry setup dialog if the user chose axonometry
-            if (nfd.ProjectionType == ProjectionType.Axonometry)
+            if (proj == ProjectionType.Axonometry)
             {
                 AxonometrySetup axo = new();
                 axo.ShowDialog();
                 if (axo.Canceled || axo.Axis is null) return null;
-                ed = new($"Bez názvu {editorCounter}", nfd.ProjectionType.Value);
+                ed = new($"Bez názvu {editorCounter}", proj);
 
                 foreach (var item in axo.Axis.Items)
                 {
@@ -146,7 +151,7 @@ namespace DegCAD
             }
             else
             {
-                ed = new($"Bez názvu {editorCounter}", nfd.ProjectionType.Value);
+                ed = new($"Bez názvu {editorCounter}", proj);
                 ed.AddAxis(ed.viewPort.Layers[1]);
             }
 
@@ -154,12 +159,20 @@ namespace DegCAD
             ed.Changed = false;
             return ed;
         }
+        public void AddEditor(Editor? ed)
+        {
+            if (ed is null) return;
+            
+            openTabs.Add(new EditorTab(ed));
+            editorTabs.SelectedIndex = openTabs.Count - 1;
+            editorCounter++;
+        }
         private void NewMFCommand(object sender, ExecutedRoutedEventArgs e)
         {
-            MFEditor ed;
-
-            ed = new(this);
-            
+            AddComposition(new(this));
+        }
+        public void AddComposition(MFEditor ed)
+        {
             openTabs.Add(new MFEditorTab(ed));
             editorTabs.SelectedIndex = openTabs.Count - 1;
             editorCounter++;

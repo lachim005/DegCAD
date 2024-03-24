@@ -10,7 +10,7 @@ namespace DegCAD
 {
     public class HomeTab : ITab
     {
-        public Control Body => new HomeScreen();
+        public Control Body { get; init; }
 
         public bool CanSave => false;
 
@@ -36,6 +36,10 @@ namespace DegCAD
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
+        public HomeTab(MainWindow mw)
+        {
+            Body = new HomeScreen(mw);
+        }
         public void Redo()
         {
             

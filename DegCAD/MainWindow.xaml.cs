@@ -28,7 +28,7 @@ namespace DegCAD
         /// The editor that the user has currently open
         /// </summary>
         public Editor? ActiveEditor { get; set; }
-        public ITab ActiveTab { get; set; } = new HomeTab();
+        public ITab ActiveTab { get; set; }
         public readonly ObservableCollection<ITab> openTabs = new();
         private readonly ObservableCollection<ToastNotification> toastNotifications = new();
 
@@ -46,7 +46,8 @@ namespace DegCAD
             cmdPallete.ShowButtons(FileType.None);
             AppDomain.CurrentDomain.UnhandledException += (s, e) => MessageBox.Show($"{e.ExceptionObject}");
 
-            openTabs.Add(new HomeTab());
+            openTabs.Add(new HomeTab(this));
+            ActiveTab = openTabs[0];
 
             //Open editor is the user opens a file
             var args = Environment.GetCommandLineArgs();
@@ -72,7 +73,7 @@ namespace DegCAD
             {
                 if (openTabs.Count == 0)
                 {
-                    openTabs.Add(new HomeTab());
+                    openTabs.Add(new HomeTab(this));
                     editorTabs.SelectedIndex = 0;
                 }
                 return;

@@ -20,9 +20,31 @@ namespace DegCAD
     /// </summary>
     public partial class HomeScreen : UserControl
     {
-        public HomeScreen()
+        MainWindow mw;
+        public HomeScreen(MainWindow mw)
         {
+            this.mw = mw;
             InitializeComponent();
+        }
+
+        private void NewPlaneClick(object sender, RoutedEventArgs e)
+        {
+            mw.AddEditor(MainWindow.CreateNewEditor(ProjectionType.Plane));
+        }
+
+        private void NewMongeClick(object sender, RoutedEventArgs e)
+        {
+            mw.AddEditor(MainWindow.CreateNewEditor(ProjectionType.Monge));
+        }
+
+        private void NewAxoClick(object sender, RoutedEventArgs e)
+        {
+            mw.AddEditor(MainWindow.CreateNewEditor(ProjectionType.Axonometry));
+        }
+
+        private void NewCompositionClick(object sender, RoutedEventArgs e)
+        {
+            mw.AddComposition(new(mw));
         }
     }
 }
