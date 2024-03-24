@@ -57,7 +57,7 @@ namespace DegCAD
             {
 
 #if RELEASE_PORTABLE
-                string settingsFolder = System.Reflection.Assembly.GetExecutingAssembly().Location;
+                string settingsFolder = Path.GetDirectoryName(AppContext.BaseDirectory) ?? ".";
 #else
                 string settingsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "DegCAD");
 #endif
@@ -114,7 +114,7 @@ namespace DegCAD
             {
 
 #if RELEASE_PORTABLE
-                string settingsFolder = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) ?? ".";
+                string settingsFolder = Path.GetDirectoryName(AppContext.BaseDirectory) ?? ".";
 #else
                 string settingsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "DegCAD");
 #endif
