@@ -14,45 +14,61 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <ScrollViewer VerticalScrollBarVisibility="Auto">
-            <StackPanel>
+            <StackPanel Margin="5">
                 <TextBlock Text="Nový soubor" FontSize="30" FontWeight="SemiBold" Margin="10" HorizontalAlignment="Center"/>
-                <StackPanel Orientation="Horizontal">
-                    <Button x:Name="planeBtn" Height="100" Width="100" Margin="5px" Click="NewPlaneClick">
-                        <Canvas>
-                            <Line X1="0" Y1="-30" X2="0" Y2="30" Stroke="{DynamicResource iconBtnFg}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
-                            <Line X1="-30" Y1="0" X2="30" Y2="0" Stroke="{DynamicResource iconBtnFg}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
+                <Button x:Name="planeBtn" Height="100" Margin="5px" Click="NewPlaneClick" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
+                    <Grid HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Canvas VerticalAlignment="Center" Width="60" Height="60">
+                            <Line X1="30" Y1="0" X2="30" Y2="60" Stroke="{DynamicResource iconBtnFg}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
+                            <Line X1="0" Y1="30" X2="60" Y2="30" Stroke="{DynamicResource iconBtnFg}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
                         </Canvas>
-                    </Button>
-                    <Label Content="_Rovina" Target="{Binding ElementName=planeBtn}" VerticalAlignment="Center"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Button x:Name="mongeBtn" Height="100" Width="100" Margin="5px" Click="NewMongeClick">
-                        <Canvas>
-                            <Line X1="15" Y1="0" X2="-10" Y2="-30" Stroke="{DynamicResource iconBtnFg}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
-                            <Line X1="-15" Y1="0" X2="10" Y2="30" Stroke="{DynamicResource iconBtnFg}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
-                            <Line X1="-30" Y1="0" X2="30" Y2="0" Stroke="{DynamicResource iconBtnFg}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
+                        <Label Content="_Rovina" Target="{Binding ElementName=planeBtn}" VerticalAlignment="Center" Grid.Column="1"/>
+                    </Grid>
+                </Button>
+                <Button x:Name="mongeBtn" Height="100" Margin="5px" Click="NewMongeClick" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
+                    <Grid HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Canvas VerticalAlignment="Center" Width="60" Height="60">
+                            <Line X1="45" Y1="30" X2="20" Y2="0" Stroke="{DynamicResource iconBtnFg}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
+                            <Line X1="15" Y1="30" X2="40" Y2="60" Stroke="{DynamicResource iconBtnFg}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
+                            <Line X1="0" Y1="30" X2="60" Y2="30" Stroke="{DynamicResource iconBtnFg}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
                         </Canvas>
-                    </Button>
-                    <Label Content="_Mongeovo promítání" Target="{Binding ElementName=mongeBtn}" VerticalAlignment="Center"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Button x:Name="axonometryBtn" Height="100" Width="100" Margin="5px" Click="NewAxoClick">
-                        <Canvas>
-                            <Line X1="0" Y1="10" X2="0" Y2="-30" Stroke="{DynamicResource iconBtnFg}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
-                            <Line X1="0" Y1="10" X2="-30" Y2="30" Stroke="{DynamicResource iconBtnFg}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
-                            <Line X1="0" Y1="10" X2="30" Y2="30" Stroke="{DynamicResource iconBtnFg}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
+                        <Label Content="_Mongeovo promítání" Target="{Binding ElementName=mongeBtn}" VerticalAlignment="Center" Grid.Column="1"/>
+                    </Grid>
+                </Button>
+                <Button x:Name="axonometryBtn" Height="100" Margin="5px" Click="NewAxoClick" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
+                    <Grid HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Canvas VerticalAlignment="Center" Width="60" Height="60">
+                            <Line X1="30" Y1="40" X2="30" Y2="0" Stroke="{DynamicResource iconBtnFg}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
+                            <Line X1="30" Y1="40" X2="0" Y2="60" Stroke="{DynamicResource iconBtnFg}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
+                            <Line X1="30" Y1="40" X2="60" Y2="60" Stroke="{DynamicResource iconBtnFg}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
                         </Canvas>
-                    </Button>
-                    <Label Content="_Pravoúhlá axonometrie" Target="{Binding ElementName=axonometryBtn}" VerticalAlignment="Center"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Button x:Name="compositionBtn" Height="100" Width="100" Margin="5px" Click="NewCompositionClick">
-                        <Canvas>
-                            <Path Data="M -30 -30 L 30 -30 L 30 -5 L -30 -5 z M -30 5 L -5 5 L -5 30 L -30 30 z M 5 5 L 30 5 L 30 30 L 5 30 z" Stroke="{DynamicResource iconBtnFg}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
+                        <Label Content="_Pravoúhlá axonometrie" Target="{Binding ElementName=axonometryBtn}" VerticalAlignment="Center" Grid.Column="1"/>
+                    </Grid>
+                </Button>
+                <Button x:Name="compositionBtn" Height="100" Margin="5px" Click="NewCompositionClick" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
+                    <Grid HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+                        <Canvas VerticalAlignment="Center" Width="60" Height="60">
+                            <Path Data="M 0 0 L 60 0 L 60 25 L 0 25 z M 0 35 L 25 35 L 25 60 L 0 60 z M 35 35 L 60 35 L 60 60 L 35 60 z" Stroke="{DynamicResource iconBtnFg}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
                         </Canvas>
-                    </Button>
-                    <Label Content="_Kompozice" Target="{Binding ElementName=compositionBtn}" VerticalAlignment="Center"/>
-                </StackPanel>
+                        <Label Content="_Kompozice" Target="{Binding ElementName=compositionBtn}" VerticalAlignment="Center" Grid.Column="1"/>
+                    </Grid>
+                </Button>
             </StackPanel>
         </ScrollViewer>
         <Rectangle Fill="{DynamicResource border}" Grid.Column="1"/>
