@@ -25,6 +25,15 @@ namespace DegCAD
         {
             this.mw = mw;
             InitializeComponent();
+
+            // Sets the greeting depending on the time of day
+            greetingsTextblock.Text = DateTime.Now.Hour switch
+            {
+                (< 4) or (>= 18) => "Dobrý večer,",
+                < 11 => "Dobré ráno,",
+                < 13 => "Dobré poledne,",
+                _ => "Dobré odpoledne,"
+            } + " vítejte v DegCADu!";
         }
 
         private void NewPlaneClick(object sender, RoutedEventArgs e)

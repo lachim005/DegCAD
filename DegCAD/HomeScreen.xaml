@@ -56,5 +56,11 @@
             </StackPanel>
         </ScrollViewer>
         <Rectangle Fill="{DynamicResource border}" Grid.Column="1"/>
+        <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="30">
+                <Image Grid.Row="1" Width="100" Source="/DegCAD;component/Assets/logo.ico" Height="100" VerticalAlignment="Center" Margin="0,0,0,20"/>
+                <TextBlock x:Name="greetingsTextblock" FontSize="30" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center"/>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </UserControl>
