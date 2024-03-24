@@ -136,9 +136,17 @@ namespace DegCAD
 
         public void ShowButtons(FileType projType)
         {
+            if (projType == FileType.None)
+            {
+                Visibility = Visibility.Collapsed;
+                return;
+            }
+
+            Visibility = Visibility.Visible;
+
             Spacers.ForEach(
                 (r) => r.Visibility = 
-                projType.HasFlag(FileType.None) || projType.HasFlag(FileType.MultiFile) ? 
+                projType.HasFlag(FileType.MultiFile) ? 
                 Visibility.Collapsed : Visibility.Visible);
 
             foreach (var btn in Buttons)
