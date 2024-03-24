@@ -68,6 +68,8 @@ namespace DegCAD.Guides
             selectedStep = step;
             stepEditor.Visibility = Visibility.Visible;
             UpdateDrawingState();
+
+            guide.LastEditedStep = guide.Steps.IndexOf(step);
         }
 
         private void UpdateDrawingState()
@@ -125,6 +127,14 @@ namespace DegCAD.Guides
         public void SwapWhiteAndBlack()
         {
             vp.SwapWhiteAndBlack();
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            if (guide.Steps.Count > 0)
+            {
+                SelectStep(guide.Steps[Math.Clamp(guide.LastEditedStep, 0, guide.Steps.Count - 1)]);
+            }
         }
     }
 }

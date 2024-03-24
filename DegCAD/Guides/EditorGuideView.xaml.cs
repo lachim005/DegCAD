@@ -56,6 +56,8 @@ namespace DegCAD.Guides
 
             topBar.Visibility = Visibility.Collapsed;
             fullscreenBtn.Visibility = Visibility.Collapsed;
+
+            SelectStep(g.Steps[Math.Clamp(g.LastViewedStep, 0, g.Steps.Count - 1)]);
         }
 
         private void StepButtonClick(object sender, RoutedEventArgs e)
@@ -91,6 +93,8 @@ namespace DegCAD.Guides
                 nextStepBtn.IsEnabled = false;
             else
                 nextStepBtn.IsEnabled = true;
+
+            guide.LastViewedStep = guide.Steps.IndexOf(step);
         }
         private void UpdateDrawingState()
         {
