@@ -51,7 +51,7 @@
                     <Line X1="0" Y1="0" X2="60" Y2="50" Stroke="{DynamicResource border}" StrokeEndLineCap="Round" StrokeStartLineCap="Round" StrokeThickness="3"/>
                 </Canvas>
             </Button>
-            <Label Content="_Pravoúhlá axonometrie" Target="{Binding ElementName=mongeBtn}" HorizontalAlignment="Center"/>
+            <Label Content="Pravoúhlá _axonometrie" Target="{Binding ElementName=axonometryBtn}" HorizontalAlignment="Center"/>
         </StackPanel>
     </Grid>
 </Window>
