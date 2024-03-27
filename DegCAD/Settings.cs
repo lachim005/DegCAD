@@ -110,10 +110,10 @@ namespace DegCAD
                         case "RecentFiles":
                             while ((line = sr.ReadLine()) is not null && line != "]")
                             {
-                                var vals = line.Split(';',3);
+                                var vals = line.Split(';', 3);
                                 if (!int.TryParse(vals[0], out int ft)) continue;
                                 if (!long.TryParse(vals[1], out long ticks)) continue;
-                                recentFiles.Add(new(vals[2], (FileType)ft, new(ticks)));
+                                recentFiles.Add(new(vals[2], (FileType)ft, new(ticks)) { Visibility = File.Exists(vals[2]) ? Visibility.Visible : Visibility.Collapsed});
                             }
                             break;
                     }

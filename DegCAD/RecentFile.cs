@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using IOPath = System.IO.Path;
 
 namespace DegCAD
@@ -33,7 +34,7 @@ namespace DegCAD
             _ => "M 0 0 L 40 40",
         };
         public string LocalisedTimeOpen => TimeOpen.ToShortDateString() + " " + TimeOpen.ToShortTimeString();
-
+        public Visibility Visibility { get; set; } = Visibility.Visible;
 
         public RecentFile(string path, FileType fileType) : this(path, fileType, DateTime.Now) { }
 

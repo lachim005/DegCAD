@@ -80,7 +80,7 @@
                 <ItemsControl x:Name="recentFilesIC">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Button Style="{DynamicResource cmdPaletteBtnStyle}" HorizontalContentAlignment="Stretch" Margin="0" Click="RecentFileClick" Cursor="Hand">
+                            <Button Style="{DynamicResource cmdPaletteBtnStyle}" Visibility="{Binding Visibility}" HorizontalContentAlignment="Stretch" Margin="0" Click="RecentFileClick" Cursor="Hand">
                                 <Grid Margin="10">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="auto" />
