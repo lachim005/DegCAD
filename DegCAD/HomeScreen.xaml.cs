@@ -34,6 +34,8 @@ namespace DegCAD
                 < 13 => "Dobré poledne,",
                 _ => "Dobré odpoledne,"
             } + " vítejte v DegCADu!";
+
+            recentFilesIC.ItemsSource = Settings.RecentFiles.Files;
         }
 
         private void NewPlaneClick(object sender, RoutedEventArgs e)
@@ -54,6 +56,21 @@ namespace DegCAD
         private void NewCompositionClick(object sender, RoutedEventArgs e)
         {
             mw.AddComposition(new(mw));
+        }
+
+        private void RemoveRecentFile(object sender, RoutedEventArgs e)
+        {
+            if (sender is not FrameworkElement fe) return;
+            if (fe.DataContext is not RecentFile rf) return;
+            Settings.RecentFiles.RemoveFile(rf.Path);
+        }
+
+        private void RecentFileClick(object sender, RoutedEventArgs e)
+        {
+            if (sender is not FrameworkElement fe) return;
+            if (fe.DataContext is not RecentFile rf) return;
+
+            mw.OpenFileAsync(rf.Path);
         }
     }
 }

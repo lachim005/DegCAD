@@ -59,7 +59,7 @@ namespace DegCAD
             }
             return false;
         }
-        private async void OpenFileAsync(string path)
+        public async void OpenFileAsync(string path)
         {
             FileType openingFileType = FileType.None;
             if (Path.GetExtension(path) == ".dgproj")
