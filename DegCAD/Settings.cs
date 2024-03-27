@@ -167,7 +167,7 @@ namespace DegCAD
                 sw.WriteLine("AlertNewVersions:" + AlertNewVersions);
                 sw.WriteLine("SnapLabels:" + SnapLabels);
                 sw.WriteLine("RecentFiles:[");
-                foreach (var file in RecentFiles.Files.Reverse())
+                foreach (var file in RecentFiles.Files)
                 {
                     sw.WriteLine($"{(int)file.FileType};{file.TimeOpen.Ticks};{file.Path}");
                 }
