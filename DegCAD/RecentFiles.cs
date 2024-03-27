@@ -11,7 +11,7 @@ namespace DegCAD
     {
         public const int MaxRecentFiles = 20;
         public ObservableCollection<RecentFile> Files { get; init; }
-        public event EventHandler RecentFilesChanged;
+        public event EventHandler? RecentFilesChanged;
 
         public void AddFile(string path, FileType fileType)
         {

@@ -34,7 +34,9 @@ namespace DegCAD
         public string Icon => "M 6.5 10 L 6.5 15 L 2.5 15 L 2.5 7.5 L 0 7.5 L 7.5 0 15 7.5 L 12.5 7.5 L 12.5 15 L 8.5 15 L 8.5 10 z";
 
 
+#pragma warning disable CS0067 // The event 'HomeTab.PropertyChanged' is never used
         public event PropertyChangedEventHandler? PropertyChanged;
+#pragma warning restore CS0067 // The event 'HomeTab.PropertyChanged' is never used
 
         public HomeTab(MainWindow mw)
         {
