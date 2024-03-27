@@ -9,7 +9,7 @@ namespace DegCAD
 {
     public class RecentFiles
     {
-        public const int MaxRecentFiles = 20;
+        public const int MaxRecentFiles = 30;
         public ObservableCollection<RecentFile> Files { get; init; }
         public event EventHandler? RecentFilesChanged;
 
@@ -28,23 +28,10 @@ namespace DegCAD
             }
 
             Files.Insert(0, new(path, fileType));
-            RecentFilesChanged?.Invoke(this, EventArgs.Empty);
-        }
-        public void AddFile(RecentFile rf)
-        {
-            for (int i = 0; i < Files.Count; i++)
+            if (Files.Count > MaxRecentFiles)
             {
-                var file = Files[i];
-                if (file.PathEquals(rf.Path))
-                {
-                    file.TimeOpen = DateTime.Now;
-                    Files.Move(i, 0);
-                    RecentFilesChanged?.Invoke(this, EventArgs.Empty);
-                    return;
-                }
+                Files.RemoveAt(Files.Count - 1);
             }
-
-            Files.Insert(0, rf);
             RecentFilesChanged?.Invoke(this, EventArgs.Empty);
         }
 
