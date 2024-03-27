@@ -44,6 +44,13 @@ namespace DegCAD
             try
             {
                 await editor.SaveEditor();
+                if (editor.FolderPath is not null)
+                {
+                    Settings.RecentFiles.AddFile(
+                        Path.Combine(editor.FolderPath, editor.FileName + ".dgproj"),
+                        ProjectionTypeToFileType(editor.ProjectionType)
+                        );
+                }
                 return true;
             }
             catch (Exception ex)
@@ -54,10 +61,13 @@ namespace DegCAD
         }
         private async void OpenFileAsync(string path)
         {
+            FileType openingFileType = FileType.None;
             if (Path.GetExtension(path) == ".dgproj")
             {
                 if (await OpenEditorAsync(path) is not Editor ed) return;
                 openTabs.Add(new EditorTab(ed));
+
+                openingFileType = ProjectionTypeToFileType(ed.ProjectionType);
             } else if (Path.GetExtension(path) == ".dgcomp")
             {
                 if (await OpenMFEditorAsync(path) is not MFEditor ed) return;
@@ -67,12 +77,16 @@ namespace DegCAD
                     Name = Path.GetFileNameWithoutExtension(path)
                 };
                 openTabs.Add(et);
+
+                openingFileType = FileType.MultiFile;
             } else
             {
                 MessageBox.Show("Tento formát není podporován", "Chyba při otevírání", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             editorTabs.SelectedIndex = openTabs.Count - 1;
+
+            Settings.RecentFiles.AddFile(path, openingFileType);
         }
         public static async Task<Editor?> OpenEditorAsync(string path)
         {
@@ -249,5 +263,13 @@ namespace DegCAD
             editorTabs.SelectedIndex = openTabs.Count - 1;
             editorCounter++;
         }
+
+        public static FileType ProjectionTypeToFileType(ProjectionType pt) => pt switch
+        {
+            ProjectionType.Plane => FileType.Plane,
+            ProjectionType.Monge => FileType.Monge,
+            ProjectionType.Axonometry => FileType.Axonometry,
+            _ => FileType.None
+        };
     }
 }

@@ -50,6 +50,8 @@ namespace DegCAD
         public static bool AlertNewVersions { get; set; } = true;
         public static bool SnapLabels { get; set; } = true;
 
+        public static RecentFiles RecentFiles { get; set; } = new();
+
 
         public static void LoadSettings()
         {

@@ -76,6 +76,7 @@ namespace DegCAD
             try
             {
                 await Editor.Save(Path.Combine(FolderPath, $"{Name}.dgcomp"));
+                Settings.RecentFiles.AddFile(Path.Combine(FolderPath, $"{Name}.dgcomp"), FileType.MultiFile);
                 return true;
             }
             catch (Exception ex)
@@ -97,6 +98,7 @@ namespace DegCAD
             try
             {
                 await Editor.Save(Path.Combine(FolderPath, $"{Name}.dgcomp"));
+                Settings.RecentFiles.AddFile(Path.Combine(FolderPath, $"{Name}.dgcomp"), FileType.MultiFile);
                 return true;
             }
             catch (Exception ex)
