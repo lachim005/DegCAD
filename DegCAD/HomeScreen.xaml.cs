@@ -72,5 +72,13 @@ namespace DegCAD
 
             mw.OpenFileAsync(rf.Path);
         }
+
+        private void ClearRecentFilesClick(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Opravdu chcete vymazat historii souborů?", "DegCAD", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                Settings.RecentFiles.Clear();
+            }
+        }
     }
 }

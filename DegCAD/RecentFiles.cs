@@ -46,6 +46,12 @@ namespace DegCAD
             }
         }
 
+        public void Clear()
+        {
+            Files.Clear();
+            RecentFilesChanged?.Invoke(this, EventArgs.Empty);
+        }
+
         public RecentFiles() : this(new(MaxRecentFiles + 1))
         {
             

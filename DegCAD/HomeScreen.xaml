@@ -76,7 +76,10 @@
             <StackPanel Margin="30">
                 <Image Grid.Row="1" Width="100" Source="/DegCAD;component/Assets/logo.ico" Height="100" VerticalAlignment="Center" Margin="0,0,0,20"/>
                 <TextBlock x:Name="greetingsTextblock" FontSize="30" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center"/>
-                <TextBlock FontSize="30" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Left" Text="Nedávné soubory" Margin="30" FontWeight="SemiBold"/>
+                <StackPanel Orientation="Horizontal" Margin="30">
+                    <TextBlock FontSize="30" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Left" Text="Nedávné soubory" FontWeight="SemiBold"/>
+                    <Button Content="Vymazat seznam" VerticalAlignment="Center" Margin="30,0,0,0" Click="ClearRecentFilesClick" Padding="10,0"/>
+                </StackPanel>
                 <ItemsControl x:Name="recentFilesIC">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
