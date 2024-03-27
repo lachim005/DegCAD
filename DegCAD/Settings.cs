@@ -1,9 +1,11 @@
 ﻿using DegCAD.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -50,11 +52,13 @@ namespace DegCAD
         public static bool AlertNewVersions { get; set; } = true;
         public static bool SnapLabels { get; set; } = true;
 
-        public static RecentFiles RecentFiles { get; set; } = new();
+        public static RecentFiles RecentFiles { get; private set; } = new();
 
 
         public static void LoadSettings()
         {
+            CultureInfo currentCI = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
             try
             {
 
@@ -68,6 +72,8 @@ namespace DegCAD
                 if (!File.Exists(settingsFile)) return;
 
                 using StreamReader sr = new(settingsFile);
+
+                List<RecentFile> recentFiles = new();
 
                 string? line;
                 while((line = sr.ReadLine()) is not null)
@@ -101,17 +107,40 @@ namespace DegCAD
                             if (!bool.TryParse(value, out bool sl)) continue;
                             SnapLabels = sl;
                             break;
+                        case "RecentFiles":
+                            while ((line = sr.ReadLine()) is not null && line != "]")
+                            {
+                                var vals = line.Split(';',3);
+                                if (!int.TryParse(vals[0], out int ft)) continue;
+                                if (!long.TryParse(vals[1], out long ticks)) continue;
+                                recentFiles.Add(new(vals[2], (FileType)ft, new(ticks)));
+                            }
+                            break;
                     }
                 }
+
+                RecentFiles = new(recentFiles);
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Chyba při načítání nastavení:\n" + ex.Message, img: MessageBoxImage.Error);
             }
+            finally
+            {
+                Thread.CurrentThread.CurrentCulture = currentCI;
+            }
+            RecentFiles.RecentFilesChanged += RecentFilesChanged;
+        }
+
+        private static void RecentFilesChanged(object? sender, EventArgs e)
+        {
+            SaveSettings();
         }
 
         public static void SaveSettings()
         {
+            CultureInfo currentCI = Thread.CurrentThread.CurrentCulture;
+            Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
             try
             {
 
@@ -137,9 +166,18 @@ namespace DegCAD
                 sw.WriteLine("AlertGuides:" + AlertGuides);
                 sw.WriteLine("AlertNewVersions:" + AlertNewVersions);
                 sw.WriteLine("SnapLabels:" + SnapLabels);
+                sw.WriteLine("RecentFiles:[");
+                foreach (var file in RecentFiles.Files.Reverse())
+                {
+                    sw.WriteLine($"{(int)file.FileType};{file.TimeOpen.Ticks};{file.Path}");
+                }
+                sw.WriteLine(']');
             } catch (Exception ex)
             {
                 MessageBox.Show("Chyba při ukládání nastavení:\n" + ex.Message, img: MessageBoxImage.Error);
+            } finally
+            {
+                Thread.CurrentThread.CurrentCulture = currentCI;
             }
         }
     }
