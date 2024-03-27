@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IOPath = System.IO.Path;
 
 namespace DegCAD
 {
@@ -11,7 +12,7 @@ namespace DegCAD
     {
         private DateTime _timeOpen;
         public string Path { get; init; }
-        public string Name => System.IO.Path.GetFileNameWithoutExtension(Path);
+        public string Name => IOPath.GetFileNameWithoutExtension(Path);
         public DateTime TimeOpen
         {
             get => _timeOpen;
@@ -39,10 +40,22 @@ namespace DegCAD
         public RecentFile(string path, FileType fileType, DateTime time)
         {
             Path = path;
+#if RELEASE_PORTABLE
+            // Checks if the file is on the same drive as the app
+            if (IOPath.GetFullPath(path)[0] == AppContext.BaseDirectory[0])
+            {
+                Path = IOPath.GetRelativePath(AppContext.BaseDirectory, path);
+            }
+#endif
             TimeOpen = time;
             FileType = fileType;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
+
+        public bool PathEquals(string path)
+        {
+            return IOPath.GetFullPath(path) == IOPath.GetFullPath(Path);
+        }
     }
 }

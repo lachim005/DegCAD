@@ -18,7 +18,7 @@ namespace DegCAD
             for (int i = 0; i < Files.Count; i++)
             {
                 var file = Files[i];
-                if (file.Path == path)
+                if (file.PathEquals(path))
                 {
                     file.TimeOpen = DateTime.Now;
                     Files.Move(i, 0);
@@ -35,7 +35,7 @@ namespace DegCAD
             for (int i = 0; i < Files.Count; i++)
             {
                 var file = Files[i];
-                if (file.Path == rf.Path)
+                if (file.PathEquals(rf.Path))
                 {
                     file.TimeOpen = DateTime.Now;
                     Files.Move(i, 0);
@@ -52,7 +52,7 @@ namespace DegCAD
         {
             for (int i = 0; i < Files.Count; i++)
             {
-                if (Files[i].Path != path) continue;
+                if (!Files[i].PathEquals(path)) continue;
                 Files.RemoveAt(i);
                 RecentFilesChanged?.Invoke(this, EventArgs.Empty);
                 return;
