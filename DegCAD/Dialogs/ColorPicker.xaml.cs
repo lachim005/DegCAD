@@ -19,6 +19,8 @@ namespace DegCAD.Dialogs
     /// </summary>
     public partial class ColorPicker : Window
     {
+        private static bool lastTabRgb = false;
+
         public bool Saved { get; private set; } = false;
         public Color SelectedColor
         {
@@ -136,7 +138,14 @@ namespace DegCAD.Dialogs
         public ColorPicker(Color color)
         {
             InitializeComponent();
-            Loaded += (s, e) => HSVSelectedColor = color;
+            if (lastTabRgb)
+            {
+                pickerTabs.SelectedIndex = 1;   
+                Loaded += (s, e) => RGBSelectedColor = color;
+            } else
+            {
+                Loaded += (s, e) => HSVSelectedColor = color;
+            }
         }
 
         #region HSV handlers
@@ -467,6 +476,11 @@ namespace DegCAD.Dialogs
             picker.ShowDialog();
             if (!picker.Saved) return null;
             return picker.SelectedColor;
+        }
+
+        private void OnWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            lastTabRgb = pickerTabs.SelectedIndex == 1;
         }
     }
 }

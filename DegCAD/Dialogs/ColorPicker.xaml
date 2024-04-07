@@ -8,6 +8,7 @@
         Background="{DynamicResource bg}"
         Foreground="{DynamicResource fg}"
         ResizeMode="NoResize"
+        Closing="OnWindowClosing"
         WindowStartupLocation="CenterScreen"
         Title="Výběr barvy" Height="400" Width="500">
     <DockPanel Background="Transparent">
