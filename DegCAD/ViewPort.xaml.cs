@@ -48,7 +48,7 @@ namespace DegCAD
         /// <summary>
         /// True if the user is currently panning the canvas
         /// </summary>
-        bool Panning { get; set; }
+        byte Panning { get; set; }
         Vector2 mousePanBegin;
         Vector2 screenPanBegin;
 
@@ -155,7 +155,9 @@ namespace DegCAD
             {
                 Point mousePos = e.GetPosition(this);
 
-                Panning = true;
+                Panning++;
+                if (Panning > 1) return;
+
                 mousePanBegin = mousePos;
                 screenPanBegin = (OffsetX, OffsetY);
                 //Adds the pan handler to the mouse move event to update the screen on mouse move
@@ -170,7 +172,8 @@ namespace DegCAD
             //If the middle or right button got released, stops panning
             if (e.ChangedButton == MouseButton.Middle || e.ChangedButton == MouseButton.Right)
             {
-                Panning = false;
+                Panning--;
+                if (Panning > 0) return;
                 MouseMove -= Pan;
                 ReleaseMouseCapture();
                 Vector2 mousePos = Mouse.GetPosition(this);
@@ -192,6 +195,13 @@ namespace DegCAD
             //    (Math.Abs(mousePos.Y - mousePanBegin.Y) % 10) == 0)
             ViewportChanged?.Invoke(this, new(ScreenToCanvas(mousePos), mousePos));
             e.Handled = true;
+        }
+
+        private void OnLostMouseCapture(object sender, MouseEventArgs e)
+        {
+            if (Panning < 1) return;
+            Panning = 0;
+            MouseMove -= Pan;
         }
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
