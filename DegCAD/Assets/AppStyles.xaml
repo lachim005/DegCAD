@@ -474,7 +474,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="RepeatButton">
-                    <Border SnapsToDevicePixels="True" Background="{DynamicResource accentColor}"  BorderThickness="1" BorderBrush="{DynamicResource accentColor}" Height="3"/>
+                    <Grid Height="{TemplateBinding Height}" Background="Transparent">
+                        <Border SnapsToDevicePixels="True" Background="{DynamicResource accentColor}"  BorderThickness="1" BorderBrush="{DynamicResource accentColor}" Height="4"/>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -485,7 +487,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="RepeatButton">
-                    <Border SnapsToDevicePixels="True" Background="{DynamicResource accentColor}" BorderThickness="1" BorderBrush="{DynamicResource accentColor}" Width="3"/>
+                    <Grid Width="{TemplateBinding Width}" Background="Transparent">
+                        <Border SnapsToDevicePixels="True" Background="{DynamicResource accentColor}" BorderThickness="1" BorderBrush="{DynamicResource accentColor}" Width="4"/>
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
