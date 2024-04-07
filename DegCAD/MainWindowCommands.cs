@@ -149,7 +149,7 @@ namespace DegCAD
                 proj = projection.Value;
             }
 
-            Editor ed;
+            Editor ed = new($"Bez názvu {editorCounter++}", proj);
 
             //Opens the axonometry setup dialog if the user chose axonometry
             if (proj == ProjectionType.Axonometry)
@@ -157,7 +157,6 @@ namespace DegCAD
                 AxonometrySetup axo = new();
                 axo.ShowDialog();
                 if (axo.Canceled || axo.Axis is null) return null;
-                ed = new($"Bez názvu {editorCounter}", proj);
 
                 foreach (var item in axo.Axis.Items)
                 {
@@ -169,7 +168,6 @@ namespace DegCAD
             }
             else
             {
-                ed = new($"Bez názvu {editorCounter}", proj);
                 ed.AddAxis(ed.viewPort.Layers[1]);
             }
 
@@ -183,13 +181,11 @@ namespace DegCAD
             
             openTabs.Add(new EditorTab(ed));
             editorTabs.SelectedIndex = openTabs.Count - 1;
-            editorCounter++;
         }
         public void AddComposition(MFEditor ed)
         {
-            openTabs.Add(new MFEditorTab(ed));
+            openTabs.Add(new MFEditorTab(ed) { Name = $"Bez názvu {editorCounter++}" });
             editorTabs.SelectedIndex = openTabs.Count - 1;
-            editorCounter++;
         }
         private void OpenCommand(object sender, ExecutedRoutedEventArgs e)
         {
