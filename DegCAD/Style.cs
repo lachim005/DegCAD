@@ -64,7 +64,6 @@ namespace DegCAD
             hex += color.R.ToString("x2");
             hex += color.G.ToString("x2");
             hex += color.B.ToString("x2");
-            hex += color.A.ToString("x2");
             return hex;
         }
     }
