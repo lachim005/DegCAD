@@ -15,8 +15,6 @@
     <Window.CommandBindings>
         <CommandBinding Command="New"
                         Executed="NewCommand"/>
-        <CommandBinding Command="{x:Static local:MainWindow.newMFCommand}"
-                        Executed="NewMFCommand"/>
         <CommandBinding Command="Open"
                         Executed="OpenCommand"/>
         <CommandBinding Command="Save"
@@ -56,7 +54,6 @@
                         Executed="CancelCommandCommand"/>
     </Window.CommandBindings>
     <Window.InputBindings>
-        <KeyBinding Command="{x:Static local:MainWindow.newMFCommand}" Key="N" Modifiers="Ctrl+Shift"/>
         <KeyBinding Command="{x:Static local:MainWindow.settingsCommand}" Key="OemComma" Modifiers="Ctrl"/>
         <KeyBinding Command="Close" Key="W" Modifiers="Ctrl"/>
         <KeyBinding Command="SaveAs" Key="S" Modifiers="Ctrl+Shift"/>
@@ -68,7 +65,6 @@
         <Menu DockPanel.Dock="Top" Padding="2" BorderBrush="{DynamicResource border}" BorderThickness="0, 0, 0, 1">
             <MenuItem Header="_Soubor">
                 <MenuItem Header="_Nový" Command="New"/>
-                <MenuItem Header="_Nová kompozice" Command="{x:Static local:MainWindow.newMFCommand}" InputGestureText="Ctrl+Shift+N"/>
                 <MenuItem Header="_Otevřít" Command="Open"/>
                 <MenuItem Header="_Uložit" Command="Save"/>
                 <MenuItem Header="Uložit _jako" Command="SaveAs" InputGestureText="Ctrl+Shift+S"/>

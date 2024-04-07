@@ -14,7 +14,6 @@ namespace DegCAD
 {
     public partial class MainWindow
     {
-        public static RoutedCommand newMFCommand = new();
         public static RoutedCommand exportCommand = new();
         public static RoutedCommand settingsCommand = new();
         public static RoutedCommand pageLayoutCommand = new();
@@ -181,10 +180,6 @@ namespace DegCAD
             openTabs.Add(new EditorTab(ed));
             editorTabs.SelectedIndex = openTabs.Count - 1;
             editorCounter++;
-        }
-        private void NewMFCommand(object sender, ExecutedRoutedEventArgs e)
-        {
-            AddComposition(new(this));
         }
         public void AddComposition(MFEditor ed)
         {
