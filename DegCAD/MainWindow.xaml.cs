@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DegCAD.Dialogs;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -168,6 +169,7 @@ namespace DegCAD
             if (e.ChangedButton != MouseButton.Middle) return;
             if (sender is not FrameworkElement f) return;
             if (f.DataContext is not ITab tab) return;
+            e.Handled = true;
             if (await CanCloseTab(tab))
             {
 
@@ -251,6 +253,12 @@ namespace DegCAD
             {
 
             }
+        }
+
+        private void TabStripMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton != MouseButton.Middle) return;
+            CreateNewFile();
         }
     }
 }

@@ -88,11 +88,11 @@
             </MenuItem>
         </Menu>
         <local:CommandPallete DockPanel.Dock="Top" x:Name="cmdPallete" BorderBrush="{DynamicResource border}" BorderThickness="0,0,0,1"/>
-        <Grid>
+        <Grid Background="Transparent" MouseUp="TabStripMouseUp">
             <TabControl x:Name="editorTabs" TabStripPlacement="Bottom" SelectionChanged="TabSwitched" Padding="0">
                 <TabControl.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Horizontal" Drop="TabDrop" PreviewDragOver="TabDrop" AllowDrop="True" MouseDown="StackPanel_MouseDown" Background="Transparent">
+                        <StackPanel Orientation="Horizontal" Drop="TabDrop" PreviewDragOver="TabDrop" AllowDrop="True" MouseUp="StackPanel_MouseDown" Background="Transparent">
                             <Canvas VerticalAlignment="Center" Margin="2,2,6,2" Width="15" Height="15">
                                 <Path Stroke="{DynamicResource fg}" Data="{Binding Icon}" StrokeThickness="1" SnapsToDevicePixels="True"/>
                             </Canvas>

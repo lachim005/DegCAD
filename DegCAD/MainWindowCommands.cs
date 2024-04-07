@@ -128,6 +128,10 @@ namespace DegCAD
 
         private void NewCommand(object sender, ExecutedRoutedEventArgs e)
         {
+            CreateNewFile();
+        }
+        public void CreateNewFile()
+        {
             NewFileDialog nfd = new(this);
             nfd.ShowDialog();
         }
