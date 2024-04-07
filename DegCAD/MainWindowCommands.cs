@@ -136,7 +136,7 @@ namespace DegCAD
             ProjectionType proj;
             if (projection is null)
             {
-                NewFileDialog nfd = new();
+                NewDrawingDialog nfd = new();
                 nfd.ShowDialog();
                 if (nfd.ProjectionType is null) return null;
                 proj = nfd.ProjectionType.Value;

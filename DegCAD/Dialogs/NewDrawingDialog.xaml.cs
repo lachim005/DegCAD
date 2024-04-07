@@ -17,11 +17,11 @@ namespace DegCAD.Dialogs
     /// <summary>
     /// Interaction logic for NewFileDialog.xaml
     /// </summary>
-    public partial class NewFileDialog : Window
+    public partial class NewDrawingDialog : Window
     {
         public ProjectionType? ProjectionType { get; set; } = null;
 
-        public NewFileDialog()
+        public NewDrawingDialog()
         {
             InitializeComponent();
         }
