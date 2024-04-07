@@ -21,7 +21,7 @@
                     <Line X1="0" Y1="0" X2="200" Y2="0" Stroke="{DynamicResource fg}" StrokeThickness="1" StrokeDashArray="8, 8, 1, 8" VerticalAlignment="Center"/>
                 </Button>
                 <Label Content="_Tloušťka čáry" Target="{Binding ElementName=thicknessSlider}"/>
-                <Slider x:Name="thicknessSlider" Minimum="1" Maximum="5" TickFrequency="1" IsSnapToTickEnabled="True" ToolTip="{Binding ElementName=thicknessSlider, Path=Value}"/>
+                <Slider x:Name="thicknessSlider" Minimum="1" Maximum="5" TickFrequency="1" IsSnapToTickEnabled="True" ToolTip="{Binding ElementName=thicknessSlider, Path=Value}" Foreground="{DynamicResource fg}"/>
             </StackPanel>
         </GroupBox>
         <GroupBox Header="Barva" Padding="10">
