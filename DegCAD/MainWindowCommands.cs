@@ -129,7 +129,8 @@ namespace DegCAD
 
         private void NewCommand(object sender, ExecutedRoutedEventArgs e)
         {
-            AddEditor(CreateNewEditor());
+            NewFileDialog nfd = new(this);
+            nfd.ShowDialog();
         }
         public static Editor? CreateNewEditor(ProjectionType? projection = null)
         {
