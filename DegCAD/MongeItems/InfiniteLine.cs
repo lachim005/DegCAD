@@ -63,7 +63,7 @@ namespace DegCAD.MongeItems
         }
 
 
-        private readonly Line _line = new();
+        private readonly Line _line = new() { IsHitTestVisible = false };
 
         public void Draw()
         {

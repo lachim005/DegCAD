@@ -45,7 +45,7 @@ namespace DegCAD.MongeItems
                 AddToViewportLayer(vpl);
         }
 
-        Rectangle _rectangle = new();
+        Rectangle _rectangle = new() { IsHitTestVisible = false };
 
         public void AddToViewportLayer(ViewportLayer vpl)
         {

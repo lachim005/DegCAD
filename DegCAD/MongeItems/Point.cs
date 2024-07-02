@@ -74,8 +74,8 @@ namespace DegCAD.MongeItems
             if (vpl is not null) AddToViewportLayer(vpl);
         }
 
-        private readonly Line _line1 = new();
-        private readonly Line _line2 = new();
+        private readonly Line _line1 = new() { IsHitTestVisible = false };
+        private readonly Line _line2 = new() { IsHitTestVisible = false };
 
         public void Draw()
         {

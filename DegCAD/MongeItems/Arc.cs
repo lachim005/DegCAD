@@ -88,7 +88,7 @@ namespace DegCAD.MongeItems
             if (vpl is not null) AddToViewportLayer(vpl);
         }
 
-        Path _arc = new();
+        Path _arc = new() { IsHitTestVisible = false };
 
         public void Draw()
         {

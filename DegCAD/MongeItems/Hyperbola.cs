@@ -76,7 +76,7 @@ namespace DegCAD.MongeItems
             if (vpl is not null) AddToViewportLayer(vpl);
         }
 
-        System.Windows.Shapes.Path _hyperbola = new();
+        System.Windows.Shapes.Path _hyperbola = new() { IsHitTestVisible = false };
 
         private void RecalculateSvgPoints()
         {
