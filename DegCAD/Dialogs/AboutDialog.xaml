@@ -24,10 +24,16 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="40"/>
         </Grid.ColumnDefinitions>
-        <TextBlock Text="DegCAD" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" FontWeight="Bold" Grid.ColumnSpan="2" />
+        <TextBlock Text="DegCAD" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="24" FontWeight="Bold" Grid.ColumnSpan="3" />
         <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Vertical" Name="aboutStp">
             <TextBlock x:Name="versionTb" Text="Verze: X.X.X.X"/>
             <TextBlock Text="Vytvořil: Michal Šebesta"/>
+            <TextBlock>
+                Web:
+                <Hyperlink NavigateUri="https://degcad.cz" RequestNavigate="Hyperlink_RequestNavigate">
+                    https://degcad.cz
+                </Hyperlink>
+            </TextBlock>
             <TextBlock>
                 Repozitář:
                 <Hyperlink NavigateUri="https://github.com/lachim005/DegCAD" RequestNavigate="Hyperlink_RequestNavigate">
