@@ -29,6 +29,12 @@
                 <Button Width="27" Click="CenterScreenClick" ToolTip="Vycentrovat">
                     <Path Width="17" Height="17" Data="M 3 16 L 3 9 L 1 9 L 8.5 1 L 16 9 L 14 9 L 14 16 L 10 16 L 10 11 L 7 11 L 7 16 z" Stroke="{DynamicResource fg}" StrokeThickness="1"/>
                 </Button>
+                <Button Margin="0" Width="27" Command="Undo" ToolTip="Zpět (Ctrl + Z)">
+                    <Path Width="17" Height="17" Data="M 3 15 L 10 15 A 5 5 180 0 0 10 5 L 3 5 L 9 8 M 3 5 L 9 2" Stroke="{DynamicResource fg}" StrokeThickness="1" StrokeLineJoin="Round"/>
+                </Button>
+                <Button Width="27" Command="Redo" ToolTip="Znovu (Ctrl + Y)">
+                    <Path Width="17" Height="17" Data="M 15 15 L 8 15 A 5 5 180 0 1 8 5 L 15 5 L 9 8 M 15 5 L 9 2" Stroke="{DynamicResource fg}" StrokeThickness="1" StrokeLineJoin="Round"/>
+                </Button>
             </StackPanel>
         </Grid>
         <ScrollViewer Grid.Row="1" Grid.Column="2" VerticalScrollBarVisibility="Auto">
