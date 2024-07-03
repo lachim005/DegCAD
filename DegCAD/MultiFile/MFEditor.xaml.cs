@@ -1,4 +1,5 @@
 ﻿using DegCAD.Dialogs;
+using DegCAD.MultiFile.History;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -39,6 +40,7 @@ namespace DegCAD.MultiFile
         public MainWindow MainWindow { get; init; }
 
         public ObservableCollection<MFPageModel> Pages { get; init; } = new();
+        public MFTimeline Timeline { get; init; }
 
         public MFEditor(MainWindow mw) : this(mw, new MFPage[0])
         {
@@ -50,17 +52,20 @@ namespace DegCAD.MultiFile
             DataContext = this;
             InitializeComponent();
 
+            Timeline = new(this);
+
             Pages.CollectionChanged += ReIndexPages;
 
             if (pages.Count() == 0)
             {
-                AddPage(new());
+                AddPage(new(this));
             }
             else
             {
                 foreach (var page in pages)
                 {
                     AddPage(page);
+                    page.Editor = this;
                 }
             }
             _activePage = Pages[0].Page;
@@ -486,7 +491,7 @@ namespace DegCAD.MultiFile
         }
         private void InsPagesAdd(object sender, RoutedEventArgs e)
         {
-            MFPage page = new();
+            MFPage page = new(this);
             AddPage(page);
             SelectPage(page);
         }
@@ -495,7 +500,7 @@ namespace DegCAD.MultiFile
             if (MessageBox.Show("Opravdu chcete tuto stranu odstranit?", "Kompozice", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;                
             if (Pages.Count == 1)
             {
-                AddPage(new());
+                AddPage(new(this));
             }
             RemovePage(ActivePage);
             SelectPage(Pages[0].Page);

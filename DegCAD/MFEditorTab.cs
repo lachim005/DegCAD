@@ -21,9 +21,9 @@ namespace DegCAD
 
         public bool CanSave => true;
 
-        public bool CanUndo => false;
+        public bool CanUndo => Editor.Timeline.CanUndo;
 
-        public bool CanRedo => false;
+        public bool CanRedo => Editor.Timeline.CanRedo;
 
         public bool CanExecuteCommand => true;
 
@@ -59,7 +59,7 @@ namespace DegCAD
 
         public void Redo()
         {
-            throw new NotImplementedException();
+            Editor.Timeline.Redo();
         }
 
         public async Task<bool> Save()
@@ -110,7 +110,7 @@ namespace DegCAD
 
         public void Undo()
         {
-            throw new NotImplementedException();
+            Editor.Timeline.Undo();
         }
 
         public void TabSelected()

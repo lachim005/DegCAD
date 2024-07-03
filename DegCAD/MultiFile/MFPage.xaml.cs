@@ -71,6 +71,7 @@ namespace DegCAD.MultiFile
         public int CHeight => (int)ActualHeight;
 
         public bool CanZoom { get; set; } = true;
+        public MFEditor? Editor { get; set; }
 
         public double PaperWidth
         {
@@ -122,7 +123,7 @@ namespace DegCAD.MultiFile
             }
         }
 
-        public MFPage()
+        public MFPage(MFEditor? editor)
         {
             InitializeComponent();
 
@@ -130,6 +131,7 @@ namespace DegCAD.MultiFile
             ViewportChanged += ViewPortChanged;
             SizeChanged += ViewPortChanged;
             Snapper = new(this);
+            Editor = editor;
         }
 
         public void AddItem(MFContainer container)
@@ -415,7 +417,7 @@ namespace DegCAD.MultiFile
 
         public MFPage Clone()
         {
-            MFPage copy = new()
+            MFPage copy = new(Editor)
             {
                 PaperWidth = PaperWidth,
                 PaperHeight = PaperHeight

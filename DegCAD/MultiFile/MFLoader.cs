@@ -127,7 +127,7 @@ namespace DegCAD.MultiFile
             w = double.Parse(size[0]);
             h = double.Parse(size[1]);
 
-            MFPage page = new() { PaperWidth = w, PaperHeight = h };
+            MFPage page = new(null) { PaperWidth = w, PaperHeight = h };
             string? line;
             while (!string.IsNullOrWhiteSpace((line = await sr.ReadLineAsync())))
             {
