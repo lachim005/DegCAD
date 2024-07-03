@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DegCAD.MultiFile.History;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -217,6 +218,7 @@ namespace DegCAD.MultiFile
         {
             trChange = new();
             trChange.SetStartVals(this);
+            Page.Editor?.Timeline.AddState(new ContainerTransformState(this));
         }
 
         private void TransformCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)

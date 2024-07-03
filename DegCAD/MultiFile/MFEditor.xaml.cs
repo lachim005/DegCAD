@@ -200,6 +200,8 @@ namespace DegCAD.MultiFile
             if (!double.TryParse(insTrW.Text, out double w)) return;
             if (!double.TryParse(insTrH.Text, out double h)) return;
 
+            Timeline.AddState(new ContainerTransformState(SelectedContainer));
+
             SelectedContainer.CX = x;
             SelectedContainer.CY = y;
             SelectedContainer.CWidth = Math.Clamp(w, 5, 10_000);
