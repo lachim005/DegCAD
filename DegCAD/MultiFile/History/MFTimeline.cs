@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,7 +28,9 @@ namespace DegCAD.MultiFile.History
             var state = History.Pop();
             RedoStack.Push(state.GetOpositeState());
             state.ApplyState();
+
             Editor.ActivePage.Redraw();
+            Editor.Changed = true;
         }
 
         public void Redo()
@@ -36,7 +39,9 @@ namespace DegCAD.MultiFile.History
             var state = RedoStack.Pop();
             History.Push(state.GetOpositeState());
             state.ApplyState();
+
             Editor.ActivePage.Redraw();
+            Editor.Changed = true;
         }
 
         public void AddState(IMFHistoryState state)
@@ -46,6 +51,8 @@ namespace DegCAD.MultiFile.History
             {
                 RedoStack.Pop().Dispose();
             }
+
+            Editor.Changed = true;
         }
     }
 }

@@ -26,6 +26,7 @@ namespace DegCAD.MultiFile
     {
         private MFPage _activePage;
         private bool initiated;
+        private bool _changed;
 
         public MFPage ActivePage
         {
@@ -41,6 +42,15 @@ namespace DegCAD.MultiFile
 
         public ObservableCollection<MFPageModel> Pages { get; init; } = new();
         public MFTimeline Timeline { get; init; }
+        public bool Changed
+        {
+            get => _changed;
+            set
+            {
+                _changed = value;
+                PropertyChanged?.Invoke(this, new(nameof(Changed)));
+            }
+        }
 
         public MFEditor(MainWindow mw) : this(mw, new MFPage[0])
         {

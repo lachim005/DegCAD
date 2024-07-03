@@ -35,7 +35,7 @@ namespace DegCAD
 
         public bool CanExport => false;
 
-        public bool HasChanges => true;
+        public bool HasChanges => Editor.Changed;
 
         public string Name
         {
@@ -52,9 +52,18 @@ namespace DegCAD
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
+        private void EditorPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(Editor.Changed): PropertyChanged?.Invoke(this, new(nameof(HasChanges))); break;
+            }
+        }
+
         public MFEditorTab(MFEditor editor)
         {
             Editor = editor;
+            Editor.PropertyChanged += EditorPropertyChanged;
         }
 
         public void Redo()
@@ -77,6 +86,8 @@ namespace DegCAD
             {
                 await Editor.Save(Path.Combine(FolderPath, $"{Name}.dgcomp"));
                 Settings.RecentFiles.AddFile(Path.Combine(FolderPath, $"{Name}.dgcomp"), FileType.MultiFile);
+
+                Editor.Changed = false;
                 return true;
             }
             catch (Exception ex)
@@ -99,6 +110,8 @@ namespace DegCAD
             {
                 await Editor.Save(Path.Combine(FolderPath, $"{Name}.dgcomp"));
                 Settings.RecentFiles.AddFile(Path.Combine(FolderPath, $"{Name}.dgcomp"), FileType.MultiFile);
+
+                Editor.Changed = false;
                 return true;
             }
             catch (Exception ex)
