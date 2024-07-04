@@ -56,6 +56,7 @@ namespace DegCAD.MultiFile
             InitializeComponent();
             Page = page;
             Item = item;
+            item.Container = this;
             contentBorder.Child = item;
             _snapper = page.Snapper;
         }
