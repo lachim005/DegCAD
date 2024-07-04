@@ -369,6 +369,8 @@ namespace DegCAD.MultiFile
             if (sender is not Button b) return;
             if (SelectedContainer?.Item is not MFText txt) return;
 
+            Timeline.AddState(new TextStyleState(txt));
+
             insTxtVATop.IsEnabled = true;
             insTxtVACenter.IsEnabled = true;
             insTxtVABottom.IsEnabled = true;
@@ -386,6 +388,8 @@ namespace DegCAD.MultiFile
         {
             if (sender is not Button b) return;
             if (SelectedContainer?.Item is not MFText txt) return;
+
+            Timeline.AddState(new TextStyleState(txt));
 
             insTxtHALeft.IsEnabled = true;
             insTxtHACenter.IsEnabled = true;
@@ -405,6 +409,9 @@ namespace DegCAD.MultiFile
         private void InsTxtBold(object sender, MouseButtonEventArgs e)
         {
             if (SelectedContainer?.Item is not MFText txt) return;
+
+            Timeline.AddState(new TextStyleState(txt));
+
             bool enabled = !txt.Bold;
             insTxtBold.IsEnabled = !enabled;
             txt.Bold = enabled;
@@ -413,6 +420,9 @@ namespace DegCAD.MultiFile
         private void InsTxtItalic(object sender, MouseButtonEventArgs e)
         {
             if (SelectedContainer?.Item is not MFText txt) return;
+
+            Timeline.AddState(new TextStyleState(txt));
+
             bool enabled = !txt.Italic;
             insTxtItalic.IsEnabled = !enabled;
             txt.Italic = enabled;
@@ -421,6 +431,9 @@ namespace DegCAD.MultiFile
         private void InsTxtUnderline(object sender, MouseButtonEventArgs e)
         {
             if (SelectedContainer?.Item is not MFText txt) return;
+
+            Timeline.AddState(new TextStyleState(txt));
+
             bool enabled = !txt.Underline;
             insTxtUnderline.IsEnabled = !enabled;
             txt.Underline = enabled;
@@ -429,6 +442,9 @@ namespace DegCAD.MultiFile
         private void InsTxtStrikethrough(object sender, MouseButtonEventArgs e)
         {
             if (SelectedContainer?.Item is not MFText txt) return;
+
+            Timeline.AddState(new TextStyleState(txt));
+
             bool enabled = !txt.Strikethrough;
             insTxtStrikethrough.IsEnabled = !enabled;
             txt.Strikethrough = enabled;
@@ -439,6 +455,9 @@ namespace DegCAD.MultiFile
         {
             if (SelectedContainer?.Item is not MFText txt) return;
             if (!int.TryParse(insTxtFontSize.Text, out int fs)) return;
+
+            Timeline.AddState(new TextStyleState(txt));
+
             txt.TextFontSize = Math.Clamp(fs, 8, 256);
             txt.ViewUpdated(ActivePage.OffsetX, ActivePage.OffsetY, ActivePage.Scale);
         }
@@ -458,6 +477,9 @@ namespace DegCAD.MultiFile
         private void InsTxtChangeColor(object sender, MouseButtonEventArgs e)
         {
             if (SelectedContainer?.Item is not MFText txt) return;
+
+            Timeline.AddState(new TextStyleState(txt));
+
             var c = ColorPicker.EditColor(txt.Color);
             txt.Color = c;
             insTxtColor.Fill = new SolidColorBrush(c);
