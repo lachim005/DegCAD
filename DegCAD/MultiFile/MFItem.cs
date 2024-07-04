@@ -12,6 +12,6 @@ namespace DegCAD.MultiFile
         public abstract void ViewUpdated(double offsetX, double offsetY, double scale);
         public abstract MFItem Clone();
         public abstract void SwapWhiteAndBlack();
-        public abstract MFContainer? Container { get; set; }
+        public MFContainer? Container { get; set; }
     }
 }

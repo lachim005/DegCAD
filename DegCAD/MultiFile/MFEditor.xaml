@@ -92,7 +92,7 @@
 
                         <Label Content="Zobrazené prvky:" Grid.Row="4" Grid.ColumnSpan="5"/>
                         <Button Content="-" Grid.Row="5" Grid.Column="0" Click="InsDwItemsDecrement"/>
-                        <Slider Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" VerticalAlignment="Center" x:Name="insDwItems" IsSnapToTickEnabled="True" TickFrequency="1" ValueChanged="InsDwValueChanged"/>
+                        <Slider Grid.Row="5" Grid.Column="1" Grid.ColumnSpan="3" VerticalAlignment="Center" x:Name="insDwItems" IsSnapToTickEnabled="True" TickFrequency="1" ValueChanged="InsDwValueChanged" Thumb.DragStarted="InsDwItemsSliderDragStarted"/>
                         <Button Content="+" Grid.Row="5" Grid.Column="4" Click="InsDwItemsIncrement"/>
 
                         <Label Content="Velikost jednotky (mm):" Grid.Row="6" Grid.ColumnSpan="2" VerticalAlignment="Center"/>

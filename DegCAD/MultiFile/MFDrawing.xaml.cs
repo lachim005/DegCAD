@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DegCAD.MultiFile.History;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -106,6 +107,15 @@ namespace DegCAD.MultiFile
         {
             Viewport.SwapWhiteAndBlack();
             editor.SwapWhiteAndBlack();
+        }
+
+        private void OnPreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            //Adds a history point if the user changes the drawing position
+            if (PositionLocked) return;
+            if (!(e.ChangedButton == MouseButton.Middle || e.ChangedButton == MouseButton.Right)) return;
+
+            Container?.Page.Editor?.Timeline.AddState(new DrawingState(this));
         }
     }
 }

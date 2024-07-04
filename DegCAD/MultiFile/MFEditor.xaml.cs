@@ -253,16 +253,27 @@ namespace DegCAD.MultiFile
         private void InsDwCenterContent(object sender, RoutedEventArgs e)
         {
             if (SelectedContainer?.Item is not MFDrawing dwg) return;
+
+            Timeline.AddState(new DrawingState(dwg));
+
             dwg.Viewport.CenterContent();
         }
 
         private void InsDwItemsIncrement(object sender, RoutedEventArgs e)
         {
+            if (SelectedContainer?.Item is not MFDrawing dwg) return;
+
+            Timeline.AddState(new DrawingState(dwg));
+
             insDwItems.Value++;
         }
 
         private void InsDwItemsDecrement(object sender, RoutedEventArgs e)
         {
+            if (SelectedContainer?.Item is not MFDrawing dwg) return;
+
+            Timeline.AddState(new DrawingState(dwg));
+
             insDwItems.Value--;
         }
 
@@ -270,6 +281,13 @@ namespace DegCAD.MultiFile
         {
             if (SelectedContainer?.Item is not MFDrawing dwg) return;
             dwg.VisibleItems = (int)insDwItems.Value;
+        }
+
+        private void InsDwItemsSliderDragStarted(object sender, System.Windows.Controls.Primitives.DragStartedEventArgs e)
+        {
+            if (SelectedContainer?.Item is not MFDrawing dwg) return;
+
+            Timeline.AddState(new DrawingState(dwg));
         }
 
         private void InsDwUnitSizeDecrement(object sender, RoutedEventArgs e)
@@ -288,6 +306,8 @@ namespace DegCAD.MultiFile
         {
             if (SelectedContainer?.Item is not MFDrawing dwg) return;
             if (!double.TryParse(insDwUnitSize.Text, out double us)) return;
+
+            Timeline.AddState(new DrawingState(dwg));
 
             var center = dwg.Viewport.ScreenToCanvas((dwg.Viewport.CWidth / 2, dwg.Viewport.CHeight / 2));
 
@@ -330,6 +350,9 @@ namespace DegCAD.MultiFile
         private void InsDwLockPosChecked(object sender, RoutedEventArgs e)
         {
             if (SelectedContainer?.Item is not MFDrawing dwg) return;
+
+            Timeline.AddState(new DrawingState(dwg));
+
             dwg.PositionLocked = insDwLockPosition.IsChecked == true;
         }
         #endregion
