@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DegCAD.MultiFile.History;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -134,10 +135,18 @@ namespace DegCAD.MultiFile
             Editor = editor;
         }
 
-        public void AddItem(MFContainer container)
+        public void AddItem(MFContainer container, int? index = null)
         {
-            Items.Add(container);
-            canvas.Children.Add(container);
+            if (index is not null)
+            {
+                Items.Insert(index.Value, container);
+                canvas.Children.Insert(index.Value + 1, container);
+            } else
+            {
+                Items.Add(container);
+                canvas.Children.Add(container);
+            }
+
             container.Selected += ContainerSelected;
             container.Deselected += ContainerDeselected;
             container.Updating += OnContainerUpdating;
@@ -360,25 +369,33 @@ namespace DegCAD.MultiFile
 
                 var ed = await EditorLoader.CreateFromFile(file);
 
-
-                AddItem(new(this, new MFDrawing(ed)) { CX = mPos.X + offset, CY = mPos.Y });
+                MFContainer cont = new(this, new MFDrawing(ed)) { CX = mPos.X + offset, CY = mPos.Y };
+                AddItem(cont);
                 offset += 100;
-                Redraw();
+
+                Editor?.Timeline.AddState(new ContainerAddedState(cont));
             }
+            Redraw();
         }
         private void DropTab(ITab tab, DragEventArgs e)
         {
             var mPos = ScreenToCanvas(e.GetPosition(this));
+            MFContainer? cont = null;
             if (tab is EditorTab etab)
             {
-                AddItem(new(this, new MFDrawing(etab.Editor.Clone())) { CX = mPos.X, CY = mPos.Y });
-                Redraw();
+                cont = new(this, new MFDrawing(etab.Editor.Clone())) { CX = mPos.X, CY = mPos.Y };
             }
             else if (tab is ConnectedEditorTab cetab)
             {
-                AddItem(new(this, new MFDrawing(cetab.Editor.Clone())) { CX = mPos.X, CY = mPos.Y });
-                Redraw();
+                cont = new(this, new MFDrawing(cetab.Editor.Clone())) { CX = mPos.X, CY = mPos.Y };
             }
+
+            if (cont is null) return;
+
+            AddItem(cont);
+            Redraw();
+
+            Editor?.Timeline.AddState(new ContainerAddedState(cont));
         }
 
         public double GetMaxY()

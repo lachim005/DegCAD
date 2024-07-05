@@ -198,6 +198,8 @@ namespace DegCAD.MultiFile
             cont.Select();
 
             ActivePage.Redraw();
+
+            Timeline.AddState(new ContainerAddedState(cont));
         }
 
         #region Container inspector
@@ -228,11 +230,16 @@ namespace DegCAD.MultiFile
             ActivePage.AddItem(copy);
             copy.Select();
             ActivePage.Redraw();
+
+            Timeline.AddState(new ContainerAddedState(SelectedContainer));
         }
 
         private void InsDelete(object sender, RoutedEventArgs e)
         {
             if (SelectedContainer is null) return;
+
+            Timeline.AddState(new ContainerRemovedState(SelectedContainer));
+
             ActivePage.RemoveItem(SelectedContainer);
             ActivePage.SelectedItem = null;
             ActivePage.Redraw();
