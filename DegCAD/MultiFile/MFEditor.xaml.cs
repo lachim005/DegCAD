@@ -358,9 +358,24 @@ namespace DegCAD.MultiFile
         #endregion
 
         #region Text inspector
+
+        bool insTxtTextboxFocused;
+
+        private void InsTxtTextboxGotFocus(object sender, RoutedEventArgs e)
+        {
+            insTxtTextboxFocused = true;
+        }
+
         private void InsTxtTextChanged(object sender, TextChangedEventArgs e)
         {
             if (SelectedContainer?.Item is not MFText txt) return;
+
+            if (insTxtTextboxFocused)
+            {
+                insTxtTextboxFocused = false;
+                Timeline.AddState(new TextTextState(txt));
+            }
+
             txt.Text = insTxtText.Text;
         }
 

@@ -121,7 +121,7 @@
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBox AcceptsReturn="True" IsUndoEnabled="False" Grid.ColumnSpan="4" x:Name="insTxtText" TextChanged="InsTxtTextChanged" TextWrapping="Wrap"/>
+                        <TextBox AcceptsReturn="True" IsUndoEnabled="False" Grid.ColumnSpan="4" x:Name="insTxtText" TextChanged="InsTxtTextChanged" GotFocus="InsTxtTextboxGotFocus" TextWrapping="Wrap"/>
                         <StackPanel Grid.Row="2" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Center">
                             <Grid PreviewMouseLeftButtonUp="InsTxtBold">
                                 <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" Width="27" ToolTip="Tučný text" x:Name="insTxtBold">
