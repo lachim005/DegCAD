@@ -22,7 +22,10 @@ namespace DegCAD.MultiFile.History
         {
             textObject.Text = text;
 
-            textObject.Container?.Select();
+            if (textObject.Container is not MFContainer cont) return;
+
+            cont.Page.Editor?.SelectPage(cont.Page);
+            cont.Select();
         }
 
         public void Dispose() { }

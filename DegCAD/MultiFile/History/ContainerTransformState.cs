@@ -25,6 +25,8 @@ namespace DegCAD.MultiFile.History
 
         public void ApplyState()
         {
+            container.Page.Editor?.SelectPage(container.Page);
+
             container.CX = x;
             container.CY = y;
             container.CWidth = w;

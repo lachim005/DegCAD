@@ -45,7 +45,10 @@ namespace DegCAD.MultiFile.History
             textObject.Color = color;
             textObject.TextFontSize = fontSize;
 
-            textObject.Container?.Select();
+            if (textObject.Container is not MFContainer cont) return;
+
+            cont.Page.Editor?.SelectPage(cont.Page);
+            cont.Select();
         }
 
         public void Dispose() { }

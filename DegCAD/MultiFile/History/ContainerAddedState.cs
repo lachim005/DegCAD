@@ -17,6 +17,8 @@ namespace DegCAD.MultiFile.History
 
         public void ApplyState()
         {
+            container.Page.Editor?.SelectPage(container.Page);
+
             if (container.IsSelected)
             {
                 container.Deselect();

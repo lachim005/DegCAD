@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,7 +37,10 @@ namespace DegCAD.MultiFile.History
             drawing.Viewport.OffsetX = offsetX;
             drawing.Viewport.OffsetY = offsetY;
 
-            drawing.Container?.Select();
+            if (drawing.Container is not MFContainer cont) return;
+
+            cont.Page.Editor?.SelectPage(cont.Page);
+            cont.Select();
         }
 
         public void Dispose() { }
