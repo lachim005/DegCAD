@@ -588,7 +588,6 @@ namespace DegCAD.MultiFile
         }
         private void InsPagesRemove(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Opravdu chcete tuto stranu odstranit?", "Kompozice", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;
             Timeline.AddState(new PageRemovedState(ActivePage));
             if (Pages.Count == 1)
             {
