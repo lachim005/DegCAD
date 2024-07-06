@@ -511,9 +511,17 @@ namespace DegCAD.MultiFile
         #endregion
 
         #region Pages
-        public void AddPage(MFPage page)
+        public void AddPage(MFPage page, int? index = null)
         {
-            Pages.Add(new(page));
+            if (index is not null)
+            {
+                Pages.Insert(index.Value, new(page));
+            }
+            else
+            {
+                Pages.Add(new(page));
+            }
+
             page.SelectionChanged += PageSelectionChanged;
             page.ContainerUpdated += ContainerUpdated;
             page.BordersVisible = insCompBordersVisibility.IsChecked == true;
@@ -544,6 +552,8 @@ namespace DegCAD.MultiFile
         }
         public void SelectPage(MFPage page)
         {
+            SelectedContainer?.Deselect();
+
             var pm = GetPageModel(page);
             foreach (var p in Pages)
             {
@@ -573,10 +583,13 @@ namespace DegCAD.MultiFile
             MFPage page = new(this);
             AddPage(page);
             SelectPage(page);
+
+            Timeline.AddState(new PageAddedState(page));
         }
         private void InsPagesRemove(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Opravdu chcete tuto stranu odstranit?", "Kompozice", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;                
+            if (MessageBox.Show("Opravdu chcete tuto stranu odstranit?", "Kompozice", MessageBoxButton.YesNo, MessageBoxImage.Warning) != MessageBoxResult.Yes) return;
+            Timeline.AddState(new PageRemovedState(ActivePage));
             if (Pages.Count == 1)
             {
                 AddPage(new(this));
@@ -724,7 +737,11 @@ namespace DegCAD.MultiFile
             if (sender is not FrameworkElement fe) return;
             if (fe.DataContext is not MFPageModel pm) return;
 
-            AddPage(pm.Page.Clone());
+            var newPage = pm.Page.Clone();
+            AddPage(newPage, pm.Index);
+            SelectPage(newPage);
+
+            Timeline.AddState(new PageAddedState(newPage));
         }
     }
 }
