@@ -596,10 +596,23 @@ namespace DegCAD.MultiFile
             RemovePage(ActivePage);
             SelectPage(Pages[0].Page);
         }
+
+        bool insPageSizeFocused;
+        private void insPageWidth_GotFocus(object sender, RoutedEventArgs e)
+        {
+            insPageSizeFocused = true;
+        }
         private void InsPageSizeChanged(object sender, TextChangedEventArgs e)
         {
             if (!double.TryParse(insPageWidth.Text, out var w)) return;
             if (!double.TryParse(insPageHeight.Text, out var h)) return;
+
+            if (insPageSizeFocused)
+            {
+                Timeline.AddState(new PagePaperSizeState(ActivePage));
+                insPageSizeFocused = false;
+            }
+
             ActivePage.PaperWidth = Math.Max(w, 1);
             ActivePage.PaperHeight = Math.Max(h, 1);
         }

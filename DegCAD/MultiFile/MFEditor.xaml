@@ -251,9 +251,9 @@
                                 <RowDefinition Height="30"/>
                             </Grid.RowDefinitions>
                             <Label Content="Šířka:" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="0"/>
-                            <TextBox IsUndoEnabled="False" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" x:Name="insPageWidth" TextChanged="InsPageSizeChanged" PreviewMouseLeftButtonDown="SelectWhole"/>
+                            <TextBox IsUndoEnabled="False" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" x:Name="insPageWidth" TextChanged="InsPageSizeChanged" PreviewMouseLeftButtonDown="SelectWhole" GotFocus="insPageWidth_GotFocus"/>
                             <Label Content="Výška:" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="3"/>
-                            <TextBox IsUndoEnabled="False" VerticalAlignment="Center" Grid.Row="1" Grid.Column="4" x:Name="insPageHeight" TextChanged="InsPageSizeChanged" PreviewMouseLeftButtonDown="SelectWhole"/>
+                            <TextBox IsUndoEnabled="False" VerticalAlignment="Center" Grid.Row="1" Grid.Column="4" x:Name="insPageHeight" TextChanged="InsPageSizeChanged" PreviewMouseLeftButtonDown="SelectWhole" GotFocus="insPageWidth_GotFocus"/>
                         </Grid>
                         <ItemsControl x:Name="insPagesIc">
                             <ItemsControl.ItemTemplate>
