@@ -618,6 +618,10 @@ namespace DegCAD.MultiFile
 
             e.Handled = true;
             Pages.Move(dragIndex, dropIndex);
+            if (Timeline.History.Peek() is PageOrderChangeState pocs)
+            {
+                pocs.index2 = dropIndex;
+            }
         }
 
         private void StartPageReorder(object sender, MouseButtonEventArgs e)
@@ -627,6 +631,9 @@ namespace DegCAD.MultiFile
 
             e.Handled = true;
             SelectPage(pm.Page);
+
+            Timeline.AddState(new PageOrderChangeState(this, pm.Index - 1, pm.Index - 1));
+
             DragDrop.DoDragDrop(btn, pm, DragDropEffects.Move);
         }
         #endregion
