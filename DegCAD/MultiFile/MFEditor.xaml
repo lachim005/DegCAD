@@ -10,7 +10,6 @@
              d:DesignHeight="1250" d:DesignWidth="800">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="30"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -18,10 +17,7 @@
             <ColumnDefinition Width="1"/>
             <ColumnDefinition Width="350" MinWidth="320"/>
         </Grid.ColumnDefinitions>
-        <Border Grid.ColumnSpan="3" BorderBrush="{DynamicResource border}" BorderThickness="0,0,0,1">
-
-        </Border>
-        <Grid Grid.Row="1">
+        <Grid>
             <Border x:Name="pageBorder">
                 <ContentPresenter Content="{Binding ActivePage}"/>
             </Border>
@@ -37,7 +33,7 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <ScrollViewer Grid.Row="1" Grid.Column="2" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="10">
                 <GroupBox Header="Pozice" Padding="10" x:Name="insTransform">
                     <Grid>
@@ -295,6 +291,6 @@
                 </GroupBox>
             </StackPanel>
         </ScrollViewer>
-        <GridSplitter Grid.Column="1" Grid.Row="1" Width="1" Background="{DynamicResource border}" HorizontalAlignment="Stretch"/>
+        <GridSplitter Grid.Column="1" Width="1" Background="{DynamicResource border}" HorizontalAlignment="Stretch"/>
     </Grid>
 </UserControl>
