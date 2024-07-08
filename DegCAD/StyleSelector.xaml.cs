@@ -21,6 +21,7 @@ namespace DegCAD
     public partial class StyleSelector : UserControl
     {
         private Color _currentColor;
+        private int _selectedLineType;
 
         public Style CurrentStyle
         {
@@ -32,7 +33,7 @@ namespace DegCAD
             };
         }
 
-        Color CurrentColor
+        public Color CurrentColor
         { 
             get => _currentColor;
             set
@@ -42,12 +43,20 @@ namespace DegCAD
             }
         }
 
-        public int SelectedLineType { get; private set; }
+        public int SelectedLineType { 
+            get => _selectedLineType;
+            set => ChangeSelectedLineType(value);
+        }
+
         public int SelectedThickness
         {
             get
             {
                 return (int)thicknessSlider.Value - 1;
+            }
+            set
+            {
+                thicknessSlider.Value = Math.Clamp(value + 1, 1, 5);
             }
         }
 
@@ -130,21 +139,39 @@ namespace DegCAD
 
         private void LineTypeBtnClick(object sender, RoutedEventArgs e)
         {
+            
+            if (sender == lineType2)
+            {
+                ChangeSelectedLineType(1);
+                
+            } else if (sender  == lineType3)
+            {
+                ChangeSelectedLineType(2);
+            } else
+            {
+                ChangeSelectedLineType(0);
+            }
+        }
+
+        public void ChangeSelectedLineType(int lineType)
+        {
             lineType1.IsEnabled = true;
             lineType2.IsEnabled = true;
             lineType3.IsEnabled = true;
-            if (sender == lineType2)
+            _selectedLineType = lineType;
+            switch (lineType)
             {
-                SelectedLineType = 1;
-                lineType2.IsEnabled = false;
-            } else if (sender  == lineType3)
-            {
-                SelectedLineType = 2;
-                lineType3.IsEnabled = false;
-            } else
-            {
-                SelectedLineType = 0;
-                lineType1.IsEnabled = false;
+                case 1:
+                    lineType2.IsEnabled = false;
+                    break;
+                case 2:
+                    lineType3.IsEnabled = false;
+                    break;
+                default:
+                    // Asigns _selectedLineType again in case an invalid number is entered
+                    _selectedLineType = 0;
+                    lineType1.IsEnabled = false;
+                    break;
             }
         }
 

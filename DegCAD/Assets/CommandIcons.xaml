@@ -238,6 +238,11 @@
         <Line X1="40" Y1="30" X2="35" Y2="33" Stroke="{DynamicResource red}" StrokeThickness="1.4"/>
         <Line X1="40" Y1="30" X2="35" Y2="27" Stroke="{DynamicResource red}" StrokeThickness="1.4"/>
     </Canvas>
+    <Canvas x:Key="cmdStylePickerIcon">
+        <Line X1="5" Y1="30" X2="30" Y2="55" Stroke="{DynamicResource red}" StrokeDashArray="6 3" StrokeThickness="1.4"/>
+        <Path Data="M 30 26 L 21 35 L 21 38 L 22 39 L 25 39 L 34 30" Stroke="{DynamicResource fg}" StrokeThickness="1.4"/>
+        <Path Data="M 46 18 L 42 14 L 36 20 L 34 18 L 30 22 L 38 30 L 42 26 L 40 24 L 46 18 z" Stroke="{DynamicResource fg}" StrokeThickness="1.4"/>
+    </Canvas>
     <Canvas x:Key="cmdAddLabelIcon">
         <Line X1="20" Y1="30" X2="40" Y2="30" Stroke="{DynamicResource fg}" StrokeThickness="1.4"/>
         <Line X1="30" Y1="20" X2="30" Y2="40" Stroke="{DynamicResource fg}" StrokeThickness="1.4"/>

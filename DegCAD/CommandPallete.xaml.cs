@@ -75,6 +75,7 @@ namespace DegCAD
             AddSeparator();
             AddCommand(new("Skrýt", "Skryje vybraný prvek", Key.None, ModifierKeys.None, (_, _) => executeCommand(new Hide()), "cmdHideIcon", FileType.Plane | FileType.Monge | FileType.Axonometry));
             AddCommand(new("Změnit styl", "Změní styl vybraného prvku na aktuálně zvolený styl", Key.None, ModifierKeys.None, (_, _) => executeCommand(new ChangeStyle()), "cmdChangeStyleIcon", FileType.Plane | FileType.Monge | FileType.Axonometry));
+            AddCommand(new("Vybrat styl", "Nastaví aktuálně zvolený styl na styl vybraného prvku", Key.None, ModifierKeys.None, (_, _) => executeCommand(new StylePicker()), "cmdStylePickerIcon", FileType.Plane | FileType.Monge | FileType.Axonometry));
             AddCommand(new("Pojmenovat", "Přidá štítek vybranému prvku", Key.None, ModifierKeys.None, (_, _) => executeCommand(new AddLabel()), "cmdAddLabelIcon", FileType.Plane | FileType.Monge | FileType.Axonometry));
             AddSeparator();
             AddCommand(new("Nanést vzdálenost", "Nanese zadanou délku", Key.None, ModifierKeys.None, (_, _) => executeCommand(new InputLength()), "cmdInputLengthIcon", FileType.Plane | FileType.Monge | FileType.Axonometry));
