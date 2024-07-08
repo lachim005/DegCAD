@@ -11,6 +11,14 @@
         Closing="Window_Closing"
         WindowStartupLocation="CenterScreen"
         Title="Nastavení axonometrie" Height="450" Width="600">
+    <Window.CommandBindings>
+        <CommandBinding Command="Close" Executed="CancelClick"/>
+        <CommandBinding Command="Save" Executed="SubmitClick"/>
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="Close"/>
+        <KeyBinding Key="Enter" Command="Save"/>
+    </Window.InputBindings>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
