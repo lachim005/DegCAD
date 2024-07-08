@@ -129,8 +129,8 @@ namespace DegCAD
             {
                 Width = 1,
                 Height = cmdButtons.Height,
-                Fill = FindResource("border") as System.Windows.Media.Brush
             };
+            r.SetResourceReference(Rectangle.FillProperty, "border");
             Spacers.Add(r);
             cmdButtons.Children.Add(r);
         }
