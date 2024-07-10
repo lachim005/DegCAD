@@ -45,7 +45,11 @@ namespace DegCAD
 
             cmdPallete.GenerateCommands(this);
             cmdPallete.ShowButtons(FileType.None);
-            AppDomain.CurrentDomain.UnhandledException += (s, e) => MessageBox.Show($"{e.ExceptionObject}");
+
+            if (!Debugger.IsAttached)
+            {
+                Application.Current.DispatcherUnhandledException += CrashHandler.Open;
+            }
 
             openTabs.Add(new HomeTab(this));
             ActiveTab = openTabs[0];
