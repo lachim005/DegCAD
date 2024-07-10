@@ -13,6 +13,7 @@
             <TextBlock DockPanel.Dock="Top" Text="Debug menu" FontSize="28" FontWeight="Bold"/>
             <WrapPanel Margin="10">
                 <Button Content="Zobrazit obsah souboru" Padding="20, 0" Click="ShowFileContents"/>
+                <Button Content="Crashnout" Padding="20, 0" Click="CrashButtonClick"/>
             </WrapPanel>
         </DockPanel>
         <Grid x:Name="altViewGrid" Visibility="Collapsed">

@@ -44,5 +44,10 @@ namespace DegCAD.DebugMenu
         {
             ShowView(new ShowFileContents(), "Zobrazit obsah souboru");
         }
+
+        private void CrashButtonClick(object sender, RoutedEventArgs e)
+        {
+            throw new Exception("Vyvoláno umělé spadnutí");
+        }
     }
 }
