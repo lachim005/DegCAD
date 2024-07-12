@@ -7,17 +7,16 @@
              mc:Ignorable="d" 
              Foreground="{DynamicResource fg}"
              d:DesignHeight="600" d:DesignWidth="350">
-    <StackPanel Margin="10">
-        <Label Content="Výběr stylu"/>
+    <StackPanel>
         <GroupBox Header="Typ čáry" Padding="10">
             <StackPanel>
-                <Button x:Name="lineType1" Click="LineTypeBtnClick" Tag="0" IsEnabled="False" Style="{DynamicResource selectableBtnStyle}">
+                <Button Margin="0" x:Name="lineType1" Click="LineTypeBtnClick" Tag="0" IsEnabled="False" Style="{DynamicResource selectableBtnStyle}">
                     <Line X1="0" Y1="0" X2="200" Y2="0" Stroke="{DynamicResource fg}" StrokeThickness="1" VerticalAlignment="Center"/>
                 </Button>
-                <Button x:Name="lineType2" Click="LineTypeBtnClick" Tag="1" Style="{DynamicResource selectableBtnStyle}">
+                <Button Margin="0" x:Name="lineType2" Click="LineTypeBtnClick" Tag="1" Style="{DynamicResource selectableBtnStyle}">
                     <Line X1="0" Y1="0" X2="200" Y2="0" Stroke="{DynamicResource fg}" StrokeThickness="1" StrokeDashArray="8, 8" VerticalAlignment="Center"/>
                 </Button>
-                <Button x:Name="lineType3" Click="LineTypeBtnClick" Tag="2" Style="{DynamicResource selectableBtnStyle}">
+                <Button Margin="0"  x:Name="lineType3" Click="LineTypeBtnClick" Tag="2" Style="{DynamicResource selectableBtnStyle}">
                     <Line X1="0" Y1="0" X2="200" Y2="0" Stroke="{DynamicResource fg}" StrokeThickness="1" StrokeDashArray="8, 8, 1, 8" VerticalAlignment="Center"/>
                 </Button>
                 <Label Content="_Tloušťka čáry" Target="{Binding ElementName=thicknessSlider}"/>

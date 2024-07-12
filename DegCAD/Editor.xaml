@@ -40,18 +40,21 @@
             </StackPanel>
             <GridSplitter Grid.Column="1" Grid.Row="1" Width="1" Background="{DynamicResource border}" HorizontalAlignment="Stretch"/>
             <ScrollViewer Grid.Column="2" Grid.Row="1" VerticalScrollBarVisibility="Auto">
-                <StackPanel>
+                <StackPanel Margin="10">
                     <local:StyleSelector x:Name="styleSelector"/>
-                    <CheckBox Content="Opakovat příkazy" Margin="10" x:Name="repeatCommandCbx"/>
-                    <StackPanel Margin="10" x:Name="guideButtons" Visibility="Collapsed">
-                        <GroupBox Header="Návod" Padding="10">
-                            <StackPanel>
-                                <Button x:Name="showGuide" Click="ShowGuideBtn" Style="{DynamicResource accentBtn}" Content="Zobrazit návod"/>
-                                <Button x:Name="editGuide" Click="EditGuideBtn" Content="Upravit návod"/>
-                                <Button x:Name="removeGuide" Click="RemoveGuideBtn" Content="Odebrat návod"/>
-                            </StackPanel>
-                        </GroupBox>
-                    </StackPanel>
+                    <GroupBox Header="Nástroje" Padding="10">
+                        <StackPanel>
+                            <CheckBox Content="Opakovat nástroje" x:Name="repeatCommandCbx" IsChecked="True"/>
+                            <CheckBox Content="Pojmenovávat nově vzniklé objekty" x:Name="nameNewItemsCbx" IsChecked="True"/>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="Návod" Padding="10" x:Name="guideButtons" Visibility="Collapsed">
+                        <StackPanel>
+                            <Button Margin="0,3" x:Name="showGuide" Click="ShowGuideBtn" Style="{DynamicResource accentBtn}" Content="Zobrazit návod"/>
+                            <Button Margin="0,3" x:Name="editGuide" Click="EditGuideBtn" Content="Upravit návod"/>
+                            <Button Margin="0,3"  x:Name="removeGuide" Click="RemoveGuideBtn" Content="Odebrat návod"/>
+                        </StackPanel>
+                    </GroupBox>
                 </StackPanel>
             </ScrollViewer>
             <local:EditorStatusBar Grid.ColumnSpan="3" x:Name="statusBar"/>
