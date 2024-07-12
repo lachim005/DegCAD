@@ -39,7 +39,8 @@ namespace DegCAD.GeometryCommands
                 mHeightPt1.Draw();
                 mHeightPt2.Draw();
                 mGivenHeightSeg.Draw();
-            });
+            },
+            lines: [new(hp1, (0,1))]); // Vertical snapping
 
             esb.CommandHelp = "Vyberte bod, do kterého chcete přenést výšku, pravým tlačítkem změníte směr výšky";
 

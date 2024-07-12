@@ -32,7 +32,8 @@ namespace DegCAD.GeometryCommands
                 mVertexPt.Coords = pt;
                 mVertexPt.Draw();
                 mCenterPt.Draw();
-            });
+            },
+            lines: [new(centerPt, (1, 0)), new(centerPt, (0, 1))]); // Snapping vertical and horizontal lines
 
             esb.CommandHelp = "Vyberte koncový bod hyperboly";
 

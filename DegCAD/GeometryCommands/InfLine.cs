@@ -36,7 +36,9 @@ namespace DegCAD.GeometryCommands
                 mPt2.Draw();
                 infLine.Direction = p1 - p;
                 infLine.Draw();
-            }, predicate: (p) => p != p1);
+            },
+            lines: [new(p1, (1, 0)), new(p1, (0, 1))], // Snapping vertical and horizontal lines
+            predicate: (p) => p != p1);
 
             Style curStyle = inputMgr.StyleSelector.CurrentStyle;
             List<IMongeItem> mItems = new List<IMongeItem>();

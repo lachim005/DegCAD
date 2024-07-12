@@ -42,7 +42,9 @@ namespace DegCAD.GeometryCommands
 
                 line.DirectionVector = lp1 - pt;
                 selectedLine.SetParaLine(previewVpl, line, double.NegativeInfinity, double.PositiveInfinity);
-            }, predicate: (pt) => pt != lp1);
+            },
+            lines: [new(lp1, (1, 0)), new(lp1, (0, 1))], // Snapping vertical and horizontal lines
+            predicate: (pt) => pt != lp1);
 
             line.DirectionVector = lp1 - lp2;
 

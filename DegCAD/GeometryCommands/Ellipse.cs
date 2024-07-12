@@ -42,7 +42,8 @@ namespace DegCAD.GeometryCommands
                 mPrimaryAxis.P1 = center + axisVec;
                 mPrimaryAxis.P2 = center - axisVec;
                 mPrimaryAxis.Draw();
-            });
+            },
+            lines: [new(center, (1, 0)), new(center, (0, 1))]); // Snapping vertical and horizontal lines
 
             esb.CommandHelp = "Vyberte vedlejší vrchol elipsy";
 
@@ -66,7 +67,8 @@ namespace DegCAD.GeometryCommands
                 mSecondaryAxis.P2 = center - axisVec;
                 mSecondaryAxis.Draw();
                 mPrimaryAxis.Draw();
-            });
+            },
+            lines: [new(center, (1, 0)), new(center, (0, 1))]); // Snapping vertical and horizontal lines
 
             Style curStyle = inputMgr.StyleSelector.CurrentStyle;
 

@@ -59,7 +59,9 @@ namespace DegCAD.GeometryCommands
                 mRay2.Draw();
                 mResult.Coords = vertex + ray2;
                 mResult.Draw();
-            }, predicate: (pt) => pt != vertex);
+            },
+            lines: [new(vertex, (1, 0)), new(vertex, (0, 1))], // Snapping vertical and horizontal lines
+            predicate: (pt) => pt != vertex);
 
             var ray1 = pt - vertex;
             var ray1Angle = Math.Atan(ray1.Y / ray1.X);

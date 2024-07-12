@@ -53,7 +53,9 @@ namespace DegCAD.GeometryCommands
 
                 mPt4.Coords = pt;
                 mPt4.Draw();
-            }, predicate: (pt) => pt != pt3, circles: new Circle2[1] { circle });
+            },
+            lines: [new(pt3, (1, 0)), new(pt3, (0, 1))], // Snapping vertical and horizontal lines
+            predicate: (pt) => pt != pt3, circles: new Circle2[1] { circle });
 
             var ptOnCircle = circle.TranslatePointToCircle(pt4);
 

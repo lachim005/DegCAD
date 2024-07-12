@@ -62,7 +62,10 @@ namespace DegCAD.GeometryCommands
 
                 mSeg1.P2 = pt;
                 mSeg1.Draw();
-            }, circles: new Circle2[1] { circle }, predicate: (pt) => pt != center);
+            }, 
+            circles: [circle],
+            lines: [new(center, (1, 0)), new(center, (0, 1))], // Snapping vertical and horizontal lines
+            predicate: (pt) => pt != center);
 
             Vector2 startPoint = circle.TranslatePointToCircle(pt1);
             Vector2 startVec = startPoint - center;
@@ -118,7 +121,10 @@ namespace DegCAD.GeometryCommands
                 mSeg1.Draw();
                 mSeg2.P2 = endPoint;
                 mSeg2.Draw();
-            }, circles: new Circle2[1] { circle }, predicate: (pt) => pt != center);
+            }, 
+            circles: [circle],
+            lines: [new(center, startVec), new(center, (startVec.Y, -startVec.X))], // Snapping arc length at 90° increments
+            predicate: (pt) => pt != center);
 
             Style curStyle = inputMgr.StyleSelector.CurrentStyle;
 

@@ -36,7 +36,8 @@ namespace DegCAD.GeometryCommands
                 mPt2.Draw();
                 lineSegment.P2 = p;
                 lineSegment.Draw();
-            });
+            },
+            lines: [new(p1, (1, 0)), new(p1, (0, 1))]); // Snapping vertical and horizontal lines
 
             var lseg = new MongeItems.LineSegment(p1, p2, inputMgr.StyleSelector.CurrentStyle, vpl);
 

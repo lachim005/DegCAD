@@ -45,7 +45,10 @@ namespace DegCAD.GeometryCommands
                 mLine.Line = line1;
                 mLine.Plane = plane;
                 mLine.Draw();
-            }, plane, predicate: (pt) => pt != pt1);
+            },
+            plane,
+            lines: [new(pt1, (1,0)), new(pt1, (0,1))], // Snapping vertical and horizontal lines
+            predicate: (pt) => pt != pt1);
 
 
             var curStyle = inputMgr.StyleSelector.CurrentStyle;

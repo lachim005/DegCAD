@@ -36,7 +36,8 @@ namespace DegCAD.GeometryCommands
 
                 mInfiniteParabola.Focus = pt;
                 mInfiniteParabola.Draw();
-            });
+            },
+            lines: [new(vertexPt, (1, 0)), new(vertexPt, (0, 1))]); // Snapping vertical and horizontal lines
 
             esb.CommandHelp = "Vyberte konec paraboly, pravým tlačítkem vyberete konečnou, nebo nekonečnou parabolu";
 

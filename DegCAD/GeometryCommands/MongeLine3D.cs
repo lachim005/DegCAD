@@ -46,7 +46,10 @@ namespace DegCAD.GeometryCommands
                 mLine1.Line = line1;
                 mLine1.Plane = plane;
                 mLine1.Draw();
-            }, plane, predicate: (pt) => pt != pt1);
+            }, 
+            plane,
+            lines: [new(pt1, (1, 0)), new(pt1, (0, 1))], // Snapping vertical and horizontal lines
+            predicate: (pt) => pt != pt1);
 
             esb.CommandHelp = "Vyberte první bod druhého průmětu";
 
@@ -84,7 +87,9 @@ namespace DegCAD.GeometryCommands
                 line2 = ParametricLine2.From2Points(pt3, p);
                 mLine2.Line = line2;
                 mLine2.Draw();
-            }, lines: new ParametricLine2[1] { line1 }, predicate: (pt) => pt != pt3);
+            }, 
+            lines: [line1, new(pt3, (1, 0)), new(pt3, (0, 1))],
+            predicate: (pt) => pt != pt3);
 
             var curStyle = inputMgr.StyleSelector.CurrentStyle;
 
