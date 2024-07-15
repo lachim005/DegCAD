@@ -45,7 +45,7 @@
                     <GroupBox Header="Nástroje" Padding="10">
                         <StackPanel>
                             <CheckBox Content="Opakovat nástroje" x:Name="repeatCommandCbx" IsChecked="True"/>
-                            <CheckBox Content="Pojmenovávat nově vzniklé objekty" x:Name="nameNewItemsCbx" IsChecked="True"/>
+                            <CheckBox Content="Pojmenovávat nově vzniklé objekty" x:Name="nameNewItemsCbx" IsChecked="True" Checked="NameNewItemsChanged" Unchecked="NameNewItemsChanged"/>
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Header="Návod" Padding="10" x:Name="guideButtons" Visibility="Collapsed">

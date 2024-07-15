@@ -58,13 +58,16 @@ namespace DegCAD.GeometryCommands
                 new LineProjection(line1, plane, curStyle, vpl)
             };
 
-            esb.CommandHelp = "Zadejte název přímky";
-            LabelInput lid = new();
-            lid.subscriptTbx.Text = plane ? "2" : "1";
-            lid.ShowDialog();
-            if (!lid.Canceled)
+            if (inputMgr.NameNewItems)
             {
-                mItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript, (pt2 + pt1) / 2, curStyle, mItems[0].Clone(), vpl, lid.TextSize));
+                esb.CommandHelp = "Zadejte název přímky";
+                LabelInput lid = new();
+                lid.subscriptTbx.Text = plane ? "2" : "1";
+                lid.ShowDialog();
+                if (!lid.Canceled)
+                {
+                    mItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript, (pt2 + pt1) / 2, curStyle, mItems[0].Clone(), vpl, lid.TextSize));
+                } 
             }
 
 

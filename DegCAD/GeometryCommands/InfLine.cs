@@ -44,13 +44,17 @@ namespace DegCAD.GeometryCommands
             List<IMongeItem> mItems = new List<IMongeItem>();
             mItems.Add(new MongeItems.InfiniteLine(new(p1, p1 - p2), curStyle, vpl));
 
-            esb.CommandHelp = "Zadejte název polopřímky";
-            LabelInput lid = new();
-            lid.ShowDialog();
-            if (!lid.Canceled)
+            if (inputMgr.NameNewItems)
             {
-                mItems.Add(new MongeItems.Label(lid.LabelText, lid.Subscript, lid.Superscript, p2, curStyle, mItems[0].Clone(), vpl, lid.TextSize));
+                esb.CommandHelp = "Zadejte název přímky";
+                LabelInput lid = new();
+                lid.ShowDialog();
+                if (!lid.Canceled)
+                {
+                    mItems.Add(new MongeItems.Label(lid.LabelText, lid.Subscript, lid.Superscript, p2, curStyle, mItems[0].Clone(), vpl, lid.TextSize));
+                } 
             }
+
             return new(mItems.ToArray());
         }
     }

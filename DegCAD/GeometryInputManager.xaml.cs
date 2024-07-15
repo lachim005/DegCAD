@@ -25,6 +25,7 @@ namespace DegCAD
         public Snapper Snapper { get; set; }
         public Style PreviewStyle { get; set; } = new Style() { Color = Color.FromRgb(0, 0, 255), LineStyle = 1 };
         public StyleSelector StyleSelector { get; set; }
+        public bool NameNewItems { get; set; } = true;
 
         private SemaphoreSlim inputSemaphore = new(1, 1);
 

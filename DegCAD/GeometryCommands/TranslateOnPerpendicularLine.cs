@@ -76,12 +76,15 @@ namespace DegCAD.GeometryCommands
                 new Point(p1.X, p1.Y, curStyle, vpl)
             };
 
-            esb.CommandHelp = "Zadejte název bodu";
-            LabelInput lid = new();
-            lid.ShowDialog();
-            if (!lid.Canceled)
+            if (inputMgr.NameNewItems)
             {
-                mItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript, p1, curStyle, mItems[0].Clone(), vpl, lid.TextSize));
+                esb.CommandHelp = "Zadejte název bodu";
+                LabelInput lid = new();
+                lid.ShowDialog();
+                if (!lid.Canceled)
+                {
+                    mItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript, p1, curStyle, mItems[0].Clone(), vpl, lid.TextSize));
+                } 
             }
 
             return new(mItems.ToArray());

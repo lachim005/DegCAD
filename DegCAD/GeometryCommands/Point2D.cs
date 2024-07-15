@@ -31,14 +31,18 @@ namespace DegCAD.GeometryCommands
                 new Point(pt.X, pt.Y, inputMgr.StyleSelector.CurrentStyle, vpl)
             };
 
-            esb.CommandHelp = "Zadejte název bodu";
-            var lid = new LabelInput();
-            lid.ShowDialog();
-
-            if (!lid.Canceled)
+            if (inputMgr.NameNewItems)
             {
-                mongeItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript, pt, inputMgr.StyleSelector.CurrentStyle, mongeItems[0].Clone(), vpl, lid.TextSize));
+                esb.CommandHelp = "Zadejte název bodu";
+                var lid = new LabelInput();
+                lid.ShowDialog();
+
+                if (!lid.Canceled)
+                {
+                    mongeItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript, pt, inputMgr.StyleSelector.CurrentStyle, mongeItems[0].Clone(), vpl, lid.TextSize));
+                } 
             }
+
             return new(mongeItems.ToArray());
         }
     }

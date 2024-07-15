@@ -60,12 +60,15 @@ namespace DegCAD.GeometryCommands
                 new InfiniteLine(line, curStyle, vpl)
             };
 
-            esb.CommandHelp = "Zadejte název přímky";
-            LabelInput lid = new();
-            lid.ShowDialog();
-            if (!lid.Canceled)
+            if (inputMgr.NameNewItems)
             {
-                mItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript, line.Point + line.DirectionVector.ChangeLength(2), curStyle, mItems[0].Clone(), vpl, lid.TextSize));
+                esb.CommandHelp = "Zadejte název přímky";
+                LabelInput lid = new();
+                lid.ShowDialog();
+                if (!lid.Canceled)
+                {
+                    mItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript, line.Point + line.DirectionVector.ChangeLength(2), curStyle, mItems[0].Clone(), vpl, lid.TextSize));
+                } 
             }
 
             return new(mItems.ToArray());

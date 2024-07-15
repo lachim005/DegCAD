@@ -60,16 +60,19 @@ namespace DegCAD.GeometryCommands
                 new Point(p2.X, p2.Y, curStyle, vpl)
             };
 
-            esb.CommandHelp = "Zadejte název bodu";
-            //Shows the dialog to input the point name
-            var lid = new LabelInput();
-            lid.subscriptTbx.Text = pl ? "2" : "1";
-            lid.ShowDialog();
-            //Adds the labels to the timeline item
-            if (!lid.Canceled)
+            if (inputMgr.NameNewItems)
             {
-                mongeItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript,
-                    p2, curStyle, mongeItems[0].Clone(), vpl, lid.TextSize));
+                esb.CommandHelp = "Zadejte název bodu";
+                //Shows the dialog to input the point name
+                var lid = new LabelInput();
+                lid.subscriptTbx.Text = pl ? "2" : "1";
+                lid.ShowDialog();
+                //Adds the labels to the timeline item
+                if (!lid.Canceled)
+                {
+                    mongeItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript,
+                        p2, curStyle, mongeItems[0].Clone(), vpl, lid.TextSize));
+                } 
             }
 
             return new(mongeItems.ToArray());

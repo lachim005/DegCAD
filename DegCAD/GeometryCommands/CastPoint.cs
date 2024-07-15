@@ -114,13 +114,16 @@ namespace DegCAD.GeometryCommands
             var mPoint = new Point(ptOnCircle.X, ptOnCircle.Y, curStyle, vpl);
             mItems.Add(mPoint);
 
-            //Label
-            esb.CommandHelp = "Zadejte název sklopeného bodu";
-            LabelInput lid = new();
-            lid.ShowDialog();
-            if (!lid.Canceled)
+            if (inputMgr.NameNewItems)
             {
-                mItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript, mPoint.Coords, curStyle, mPoint.Clone(), vpl, lid.TextSize));
+                //Label
+                esb.CommandHelp = "Zadejte název sklopeného bodu";
+                LabelInput lid = new();
+                lid.ShowDialog();
+                if (!lid.Canceled)
+                {
+                    mItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript, mPoint.Coords, curStyle, mPoint.Clone(), vpl, lid.TextSize));
+                } 
             }
 
             return new TimelineItem(mItems.ToArray());

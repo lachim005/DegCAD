@@ -312,6 +312,12 @@ namespace DegCAD
             }
             return ed;
         }
+
+        private void NameNewItemsChanged(object sender, RoutedEventArgs e)
+        {
+            if (!IsInitialized) return;
+            InputMgr.NameNewItems = nameNewItemsCbx.IsChecked == true;
+        }
     }
 
     public interface IChangesWithDarkMode
