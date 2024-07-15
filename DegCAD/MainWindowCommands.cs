@@ -58,7 +58,7 @@ namespace DegCAD
             }
             return false;
         }
-        public async void OpenFileAsync(string path)
+        public async void OpenFileAsync(string path, bool switchToTab = true)
         {
             FileType openingFileType = FileType.None;
             if (Path.GetExtension(path) == ".dgproj")
@@ -83,7 +83,11 @@ namespace DegCAD
                 MessageBox.Show("Tento formát není podporován", "Chyba při otevírání", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
-            editorTabs.SelectedIndex = openTabs.Count - 1;
+
+            if (switchToTab)
+            {
+                editorTabs.SelectedIndex = openTabs.Count - 1;
+            }
 
             Settings.RecentFiles.AddFile(path, openingFileType);
         }

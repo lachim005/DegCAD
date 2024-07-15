@@ -65,12 +65,31 @@ namespace DegCAD
             Settings.RecentFiles.RemoveFile(rf.Path);
         }
 
+        private void OpenRecentFileInBackground(object sender, RoutedEventArgs e)
+        {
+            if (sender is not FrameworkElement fe) return;
+            if (fe.DataContext is not RecentFile rf) return;
+
+            mw.OpenFileAsync(rf.Path, false);
+        }
+
         private void RecentFileClick(object sender, RoutedEventArgs e)
         {
             if (sender is not FrameworkElement fe) return;
             if (fe.DataContext is not RecentFile rf) return;
 
             mw.OpenFileAsync(rf.Path);
+        }
+
+        private void RecentFilePreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            // Open the recent file in the background on middle click
+            if (e.ChangedButton != MouseButton.Middle) return;
+            if (sender is not FrameworkElement fe) return;
+            if (fe.DataContext is not RecentFile rf) return;
+
+            mw.OpenFileAsync(rf.Path, false);
+            e.Handled = true;
         }
 
         private void ClearRecentFilesClick(object sender, RoutedEventArgs e)

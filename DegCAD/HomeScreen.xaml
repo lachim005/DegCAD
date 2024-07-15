@@ -83,7 +83,7 @@
                 <ItemsControl x:Name="recentFilesIC">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Button Style="{DynamicResource cmdPaletteBtnStyle}" Visibility="{Binding Visibility}" HorizontalContentAlignment="Stretch" Margin="0" Click="RecentFileClick" Cursor="Hand">
+                            <Button Style="{DynamicResource cmdPaletteBtnStyle}" Visibility="{Binding Visibility}" HorizontalContentAlignment="Stretch" Margin="0" Click="RecentFileClick" PreviewMouseDown="RecentFilePreviewMouseDown" Cursor="Hand">
                                 <Grid Margin="10">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="auto" />
@@ -104,6 +104,7 @@
                                 <Button.ContextMenu>
                                     <ContextMenu>
                                         <MenuItem Header="_Odebrat z tohoto seznamu" Click="RemoveRecentFile"/>
+                                        <MenuItem Header="Otevřít na _pozadí" Click="OpenRecentFileInBackground"/>
                                     </ContextMenu>
                                 </Button.ContextMenu>
                             </Button>
