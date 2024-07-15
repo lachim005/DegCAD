@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,10 +20,16 @@ namespace DegCAD.Dialogs
     /// </summary>
     public partial class SettingsWindow : Window
     {
+        private ObservableCollection<Color> DefaultColors { get; set; }
+
         public SettingsWindow()
         {
+            DataContext = this;
+
             InitializeComponent();
             LoadSettings();
+
+            defaultColorsDisplayIC.ItemsSource = DefaultColors;
         }
 
         private void LoadSettings()
@@ -31,6 +38,7 @@ namespace DegCAD.Dialogs
 
             defaultMongeXDirectionReverse.IsChecked = Settings.DefaultMongeXDirectionLeft;
             defaultLabelFontSizeTbx.Text = Settings.DefaultLabelFontSize.ToString();
+            DefaultColors = new(Settings.DefaultColors);
             repeatCommandsCbx.IsChecked = Settings.RepeatCommands;
             nameNewObjectsCbx.IsChecked = Settings.NameNewItems;
 
@@ -52,6 +60,10 @@ namespace DegCAD.Dialogs
 
         private void SaveSettings()
         {
+            // Default colors have to be set first because setting dark mode could change them
+            Settings.DefaultColors.Clear();
+            Settings.DefaultColors.AddRange(DefaultColors);
+
             Settings.DarkMode = darkModeChbx.IsChecked == true;
 
             Settings.DefaultMongeXDirectionLeft = defaultMongeXDirectionReverse.IsChecked == true;
@@ -70,6 +82,11 @@ namespace DegCAD.Dialogs
         {
             SettingsWindow sw = new();
             sw.ShowDialog();
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            EditColorsDialog.EditColors(DefaultColors);
         }
     }
 }

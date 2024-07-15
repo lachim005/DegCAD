@@ -72,17 +72,7 @@ namespace DegCAD
 
         public void AddDefaultColors()
         {
-            ColorPalette.Add(App.Skin == Skin.Light ? Colors.Black : Colors.White);
-            ColorPalette.Add(Color.FromRgb(153, 153, 153));
-            ColorPalette.Add(Color.FromRgb(255, 0, 0));
-            ColorPalette.Add(Color.FromRgb(255, 128, 0));
-            ColorPalette.Add(Color.FromRgb(242, 203, 12));
-            ColorPalette.Add(Color.FromRgb(67, 204, 0));
-            ColorPalette.Add(Color.FromRgb(40, 204, 204));
-            ColorPalette.Add(Color.FromRgb(0, 169, 255));
-            ColorPalette.Add(Color.FromRgb(0, 0, 255));
-            ColorPalette.Add(Color.FromRgb(134, 31, 186));
-            ColorPalette.Add(Color.FromRgb(229, 68, 229));
+            ColorPalette.AddRange(Settings.DefaultColors);
             UpdateColorPalette();
         }
 

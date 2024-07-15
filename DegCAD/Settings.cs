@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 
 namespace DegCAD
 {
@@ -22,9 +23,12 @@ namespace DegCAD
             get => _darkMode;
             set
             {
+                if (_darkMode == value) return;
+
                 _darkMode = value;
                 if (Application.Current.MainWindow is not MainWindow mw) return;
                 mw.ChangeSkin(value ? Skin.Dark : Skin.Light);
+                SwapBlackAndWhite();
             }
         }
 
@@ -47,6 +51,20 @@ namespace DegCAD
                 LabelInput.lastFontSize = _defaultLabelFontSize;
             }
         }
+        public static List<Color> DefaultColors { get; set; } =
+        [
+            Colors.Black,
+            Color.FromRgb(153, 153, 153),
+            Color.FromRgb(255, 0, 0),
+            Color.FromRgb(255, 128, 0),
+            Color.FromRgb(242, 203, 12),
+            Color.FromRgb(67, 204, 0),
+            Color.FromRgb(40, 204, 204),
+            Color.FromRgb(0, 169, 255),
+            Color.FromRgb(0, 0, 255),
+            Color.FromRgb(134, 31, 186),
+            Color.FromRgb(229, 68, 229)
+        ];
         public static bool RepeatCommands { get; set; } = false;
         public static bool NameNewItems { get; set; } = true;
 
@@ -96,6 +114,27 @@ namespace DegCAD
                         case "DefaultLabelFontSize":
                             if (!int.TryParse(value, out int fs)) continue;
                             DefaultLabelFontSize = fs;
+                            break;
+                        case "DefaultColors":
+                            DefaultColors.Clear();
+                            while ((line = sr.ReadLine()) is not null && line != "]")
+                            {
+                                var vals = line.Split(';', 3);
+                                if (!byte.TryParse(vals[0], out byte r)) continue;
+                                if (!byte.TryParse(vals[1], out byte g)) continue;
+                                if (!byte.TryParse(vals[2], out byte b)) continue;
+
+                                var c = Color.FromRgb(r, g, b);
+                                if (DarkMode)
+                                {
+                                    if (c == Colors.White)
+                                        c = Colors.Black;
+                                    else if (c == Colors.Black)
+                                        c = Colors.White;
+                                }
+
+                                DefaultColors.Add(c);
+                            }
                             break;
                         case "RepeatCommands":
                             if (!bool.TryParse(value, out bool rc)) continue;
@@ -173,6 +212,20 @@ namespace DegCAD
                 sw.WriteLine("DarkMode:" + DarkMode);
                 sw.WriteLine("DefaultMongeXDirectionLeft:" + DefaultMongeXDirectionLeft);
                 sw.WriteLine("DefaultLabelFontSize:" + DefaultLabelFontSize);
+                sw.WriteLine("DefaultColors:[");
+                foreach (var color in DefaultColors)
+                {
+                    var c = color;
+                    if (DarkMode)
+                    {
+                        if (color == Colors.White)
+                            c = Colors.Black;
+                        else if (color == Colors.Black)
+                            c = Colors.White;
+                    }
+                    sw.WriteLine($"{c.R};{c.G};{c.B}");
+                }
+                sw.WriteLine(']');
                 sw.WriteLine("RepeatCommands:" + RepeatCommands);
                 sw.WriteLine("NameNewItems:" + NameNewItems);
                 sw.WriteLine("AlertGuides:" + AlertGuides);
@@ -190,6 +243,17 @@ namespace DegCAD
             } finally
             {
                 Thread.CurrentThread.CurrentCulture = currentCI;
+            }
+        }
+
+        private static void SwapBlackAndWhite()
+        {
+            for (int i = 0; i < DefaultColors.Count; i++)
+            {
+                if (DefaultColors[i] == Colors.Black)
+                    DefaultColors[i] = Colors.White;
+                else if (DefaultColors[i] == Colors.White)
+                    DefaultColors[i] = Colors.Black;
             }
         }
     }

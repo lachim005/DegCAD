@@ -26,7 +26,7 @@ namespace DegCAD.Dialogs
         internal ObservableCollection<Tuple<Color, Brush>> colors;
         public bool saveColors = false;
 
-        public EditColorsDialog(List<Color> colors)
+        public EditColorsDialog(IList<Color> colors)
         {
             InitializeComponent();
 
@@ -115,7 +115,7 @@ namespace DegCAD.Dialogs
         } 
         #endregion
 
-        public static void EditColors(List<Color> colors)
+        public static void EditColors(IList<Color> colors)
         {
             var dialog = new EditColorsDialog(colors);
             dialog.ShowDialog();
