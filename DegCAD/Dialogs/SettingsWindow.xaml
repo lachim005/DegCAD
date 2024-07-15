@@ -42,8 +42,18 @@
                             <TextBox x:Name="defaultLabelFontSizeTbx" Width="100" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                         </StackPanel>
                         <GroupBox Header="Výchozí paleta" Padding="10" Margin="0,5,0,10">
-                            <StackPanel>
-                                <ItemsControl x:Name="defaultColorsDisplayIC">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition Width="10"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="auto"/>
+                                    <RowDefinition Height="30"/>
+                                    <RowDefinition Height="auto"/>
+                                </Grid.RowDefinitions>
+                                <ItemsControl x:Name="defaultColorsDisplayIC" Grid.ColumnSpan="3">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <WrapPanel Orientation="Horizontal"/>
@@ -59,8 +69,9 @@
                                         </DataTemplate>
                                     </ItemsControl.ItemTemplate>
                                 </ItemsControl>
-                                <Button HorizontalAlignment="Stretch" Margin="0,30,0,0" Click="Button_Click">U_pravit</Button>
-                            </StackPanel>
+                                <Button HorizontalAlignment="Stretch" Margin="0" Grid.Row="2" Click="EditColorPaletteClick">U_pravit</Button>
+                                <Button HorizontalAlignment="Stretch" Margin="0" Grid.Row="2" Grid.Column="2" Click="RestoreDefaultColorsClick">Obnovit původní barvy</Button>
+                            </Grid>
                         </GroupBox>
                         <CheckBox Content="_Opakovat nástroje" x:Name="repeatCommandsCbx"/>
                         <CheckBox Content="_Pojmenovávat nově vzniklé objekty" x:Name="nameNewObjectsCbx"/>

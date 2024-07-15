@@ -84,9 +84,26 @@ namespace DegCAD.Dialogs
             sw.ShowDialog();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void EditColorPaletteClick(object sender, RoutedEventArgs e)
         {
             EditColorsDialog.EditColors(DefaultColors);
+        }
+
+        private void RestoreDefaultColorsClick(object sender, RoutedEventArgs e)
+        {
+            if (MessageBox.Show("Opravdu chcete obnovit původní paletu?", btn: MessageBoxButton.YesNo, img: MessageBoxImage.Question) != MessageBoxResult.Yes) return;
+            DefaultColors.Clear();
+            DefaultColors.Add(App.Skin == Skin.Light ? Colors.Black : Colors.White);
+            DefaultColors.Add(Color.FromRgb(153, 153, 153));
+            DefaultColors.Add(Color.FromRgb(255, 0, 0));
+            DefaultColors.Add(Color.FromRgb(255, 128, 0));
+            DefaultColors.Add(Color.FromRgb(242, 203, 12));
+            DefaultColors.Add(Color.FromRgb(67, 204, 0));
+            DefaultColors.Add(Color.FromRgb(40, 204, 204));
+            DefaultColors.Add(Color.FromRgb(0, 169, 255));
+            DefaultColors.Add(Color.FromRgb(0, 0, 255));
+            DefaultColors.Add(Color.FromRgb(134, 31, 186));
+            DefaultColors.Add(Color.FromRgb(229, 68, 229));
         }
     }
 }
