@@ -41,6 +41,8 @@
                             <Label Target="{Binding ElementName=defaultLabelFontSizeTbx}" VerticalAlignment="Center">_Velikost písma popisků</Label>
                             <TextBox x:Name="defaultLabelFontSizeTbx" Width="100" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                         </StackPanel>
+                        <CheckBox Content="_Opakovat nástroje" x:Name="repeatCommandsCbx"/>
+                        <CheckBox Content="_Pojmenovávat nově vzniklé objekty" x:Name="nameNewObjectsCbx"/>
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>

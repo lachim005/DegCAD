@@ -47,6 +47,8 @@ namespace DegCAD
                 LabelInput.lastFontSize = _defaultLabelFontSize;
             }
         }
+        public static bool RepeatCommands { get; set; } = false;
+        public static bool NameNewItems { get; set; } = true;
 
         public static bool AlertGuides { get; set; } = true;
         public static bool AlertNewVersions { get; set; } = true;
@@ -94,6 +96,14 @@ namespace DegCAD
                         case "DefaultLabelFontSize":
                             if (!int.TryParse(value, out int fs)) continue;
                             DefaultLabelFontSize = fs;
+                            break;
+                        case "RepeatCommands":
+                            if (!bool.TryParse(value, out bool rc)) continue;
+                            RepeatCommands = rc;
+                            break;
+                        case "NameNewItems":
+                            if (!bool.TryParse(value, out bool nni)) continue;
+                            NameNewItems = nni;
                             break;
                         case "AlertGuides":
                             if (!bool.TryParse(value, out bool ag)) continue;
@@ -163,6 +173,8 @@ namespace DegCAD
                 sw.WriteLine("DarkMode:" + DarkMode);
                 sw.WriteLine("DefaultMongeXDirectionLeft:" + DefaultMongeXDirectionLeft);
                 sw.WriteLine("DefaultLabelFontSize:" + DefaultLabelFontSize);
+                sw.WriteLine("RepeatCommands:" + RepeatCommands);
+                sw.WriteLine("NameNewItems:" + NameNewItems);
                 sw.WriteLine("AlertGuides:" + AlertGuides);
                 sw.WriteLine("AlertNewVersions:" + AlertNewVersions);
                 sw.WriteLine("SnapLabels:" + SnapLabels);

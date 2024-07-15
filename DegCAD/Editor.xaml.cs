@@ -86,6 +86,9 @@ namespace DegCAD
 
             _fileName = fileName;
             ProjectionType = projectionType;
+
+            repeatCommandCbx.IsChecked = Settings.RepeatCommands;
+            nameNewItemsCbx.IsChecked = Settings.NameNewItems;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
