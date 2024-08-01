@@ -115,7 +115,7 @@ namespace DegCAD.MultiFile
 
         public override void ViewUpdated(double offsetX, double offsetY, double scale)
         {
-            textBlock.FontSize = scale * TextFontSize;
+            textBlock.FontSize = Math.Clamp(scale * TextFontSize, 0.01, 35000);
         }
         public override MFItem Clone()
         {
