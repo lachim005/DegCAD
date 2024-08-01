@@ -1,6 +1,7 @@
 ﻿using DegCAD.Dialogs;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -51,7 +52,7 @@ namespace DegCAD
                 LabelInput.lastFontSize = _defaultLabelFontSize;
             }
         }
-        public static List<Color> DefaultColors { get; set; } =
+        public static ObservableCollection<Color> DefaultColors { get; set; } =
         [
             Colors.Black,
             Color.FromRgb(153, 153, 153),

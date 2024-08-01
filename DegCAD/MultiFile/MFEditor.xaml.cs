@@ -88,6 +88,8 @@ namespace DegCAD.MultiFile
             insPagesIc.ItemsSource = Pages;
 
             MainWindow = mw;
+
+            intTxtColorPaletteIC.ItemsSource = Settings.DefaultColors;
         }
         private void EditorLoaded(object sender, RoutedEventArgs e)
         {
@@ -498,11 +500,28 @@ namespace DegCAD.MultiFile
 
         private void InsTxtChangeColor(object sender, MouseButtonEventArgs e)
         {
+            insTxtColorPalettePopup.IsOpen = true;
+        }
+        private void InsTxtCustomColorClick(object sender, RoutedEventArgs e)
+        {
             if (SelectedContainer?.Item is not MFText txt) return;
 
             Timeline.AddState(new TextStyleState(txt));
 
             var c = ColorPicker.EditColor(txt.Color);
+            txt.Color = c;
+            insTxtColor.Fill = new SolidColorBrush(c);
+            e.Handled = true;
+        }
+
+        private void InsTxtPaletteColorClick(object sender, MouseButtonEventArgs e)
+        {
+            if (SelectedContainer?.Item is not MFText txt) return;
+            if (sender is not FrameworkElement fe) return;
+            if (fe.DataContext is not Color c) return;
+
+            Timeline.AddState(new TextStyleState(txt));
+
             txt.Color = c;
             insTxtColor.Fill = new SolidColorBrush(c);
             e.Handled = true;

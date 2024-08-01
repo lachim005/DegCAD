@@ -62,7 +62,11 @@ namespace DegCAD.Dialogs
         {
             // Default colors have to be set first because setting dark mode could change them
             Settings.DefaultColors.Clear();
-            Settings.DefaultColors.AddRange(DefaultColors);
+
+            foreach (var color in DefaultColors) 
+            {
+                Settings.DefaultColors.Add(color);
+            }
 
             Settings.DarkMode = darkModeChbx.IsChecked == true;
 
