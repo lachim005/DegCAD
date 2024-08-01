@@ -599,7 +599,7 @@ namespace DegCAD.MultiFile
         }
         private void InsPagesAdd(object sender, RoutedEventArgs e)
         {
-            MFPage page = new(this);
+            MFPage page = new(this) { PaperWidth = ActivePage.PaperWidth, PaperHeight = ActivePage.PaperHeight };
             AddPage(page);
             SelectPage(page);
 
