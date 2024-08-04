@@ -21,6 +21,7 @@ namespace DegCAD.Dialogs
     public partial class SettingsWindow : Window
     {
         private ObservableCollection<Color> DefaultColors { get; set; }
+        private List<PaperSizePreset> paperSizePresets;
 
         public SettingsWindow()
         {
@@ -39,6 +40,7 @@ namespace DegCAD.Dialogs
             defaultMongeXDirectionReverse.IsChecked = Settings.DefaultMongeXDirectionLeft;
             defaultLabelFontSizeTbx.Text = Settings.DefaultLabelFontSize.ToString();
             DefaultColors = new(Settings.DefaultColors);
+            paperSizePresets = new(Settings.PaperSizePresets);
             repeatCommandsCbx.IsChecked = Settings.RepeatCommands;
             nameNewObjectsCbx.IsChecked = Settings.NameNewItems;
 
@@ -71,6 +73,11 @@ namespace DegCAD.Dialogs
             Settings.DarkMode = darkModeChbx.IsChecked == true;
 
             Settings.DefaultMongeXDirectionLeft = defaultMongeXDirectionReverse.IsChecked == true;
+            Settings.PaperSizePresets.Clear();
+            foreach (var preset in paperSizePresets)
+            {
+                Settings.PaperSizePresets.Add(preset);
+            }
             if (int.TryParse(defaultLabelFontSizeTbx.Text, out int fs)) Settings.DefaultLabelFontSize = fs;
             Settings.RepeatCommands = repeatCommandsCbx.IsChecked == true;
             Settings.NameNewItems = nameNewObjectsCbx.IsChecked == true;
@@ -108,6 +115,15 @@ namespace DegCAD.Dialogs
             DefaultColors.Add(Color.FromRgb(0, 0, 255));
             DefaultColors.Add(Color.FromRgb(134, 31, 186));
             DefaultColors.Add(Color.FromRgb(229, 68, 229));
+        }
+
+        private void EditPresetPaperSizes(object sender, RoutedEventArgs e)
+        {
+            PaperSizesPresetEditor editor = new(paperSizePresets);
+            editor.ShowDialog();
+            if (!editor.Save) return;
+            paperSizePresets.Clear();
+            paperSizePresets.AddRange(editor.Presets);
         }
     }
 }

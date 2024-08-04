@@ -41,7 +41,7 @@
                             <Label Target="{Binding ElementName=defaultLabelFontSizeTbx}" VerticalAlignment="Center">_Velikost písma popisků</Label>
                             <TextBox x:Name="defaultLabelFontSizeTbx" Width="100" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                         </StackPanel>
-                        <GroupBox Header="Výchozí paleta" Padding="10" Margin="0,5,0,10">
+                        <GroupBox Header="Výchozí paleta" Padding="10" Margin="0,5,0,5">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>
@@ -73,6 +73,7 @@
                                 <Button HorizontalAlignment="Stretch" Margin="0" Grid.Row="2" Grid.Column="2" Click="RestoreDefaultColorsClick">Obnovit původní barvy</Button>
                             </Grid>
                         </GroupBox>
+                        <Button Content="Upravit přednastavené velikosti papíru" Margin="0,15" HorizontalAlignment="Left" Padding="15,0" Click="EditPresetPaperSizes"/>
                         <CheckBox Content="_Opakovat nástroje" x:Name="repeatCommandsCbx"/>
                         <CheckBox Content="_Pojmenovávat nově vzniklé objekty" x:Name="nameNewObjectsCbx"/>
                     </StackPanel>

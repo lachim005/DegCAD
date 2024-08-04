@@ -66,6 +66,14 @@ namespace DegCAD
             Color.FromRgb(134, 31, 186),
             Color.FromRgb(229, 68, 229)
         ];
+        public static ObservableCollection<PaperSizePreset> PaperSizePresets { get; set; } =
+        [
+            new("A3", 297, 420),
+            new("A4", 210, 297),
+            new("A5", 148, 210),
+            new("Letter", 215.9, 279.4),
+            new("Legal", 215.9, 355.6)
+        ];
         public static bool RepeatCommands { get; set; } = false;
         public static bool NameNewItems { get; set; } = true;
 
@@ -135,6 +143,17 @@ namespace DegCAD
                                 }
 
                                 DefaultColors.Add(c);
+                            }
+                            break;
+                        case "PaperSizePresets":
+                            PaperSizePresets.Clear();
+                            while ((line = sr.ReadLine()) is not null && line != "]")
+                            {
+                                var vals = line.Split(';', 3);
+                                if (!double.TryParse(vals[0], out double w)) continue;
+                                if (!double.TryParse(vals[1], out double h)) continue;
+
+                                PaperSizePresets.Add(new(vals[2], w, h));
                             }
                             break;
                         case "RepeatCommands":
@@ -225,6 +244,12 @@ namespace DegCAD
                             c = Colors.White;
                     }
                     sw.WriteLine($"{c.R};{c.G};{c.B}");
+                }
+                sw.WriteLine(']');
+                sw.WriteLine("PaperSizePresets:[");
+                foreach(var preset in PaperSizePresets)
+                {
+                    sw.WriteLine($"{preset.Width};{preset.Height};{preset.Name}");
                 }
                 sw.WriteLine(']');
                 sw.WriteLine("RepeatCommands:" + RepeatCommands);
