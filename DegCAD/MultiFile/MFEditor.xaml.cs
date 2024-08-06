@@ -635,6 +635,15 @@ namespace DegCAD.MultiFile
             ActivePage.PaperWidth = Math.Max(w, 1);
             ActivePage.PaperHeight = Math.Max(h, 1);
         }
+        private void SelectPageSizePresetClick(object sender, RoutedEventArgs e)
+        {
+            var preset = SelectPaperSizePresetDialog.GetPaperSizePreset();
+            if (preset is null) return;
+
+            insPageSizeFocused = true;
+            insPageWidth.Text = preset.Width.ToString();
+            insPageHeight.Text = preset.Height.ToString();
+        }
         private void PageRedrag(object sender, DragEventArgs e)
         {
             //Gets the dragged and dropped tab

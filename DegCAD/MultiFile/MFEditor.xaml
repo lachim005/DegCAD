@@ -273,10 +273,11 @@
                                 <RowDefinition/>
                                 <RowDefinition Height="30"/>
                             </Grid.RowDefinitions>
-                            <Label Content="Šířka:" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="0"/>
-                            <TextBox IsUndoEnabled="False" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" x:Name="insPageWidth" TextChanged="InsPageSizeChanged" PreviewMouseLeftButtonDown="SelectWhole" GotFocus="insPageWidth_GotFocus"/>
-                            <Label Content="Výška:" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="3"/>
-                            <TextBox IsUndoEnabled="False" VerticalAlignment="Center" Grid.Row="1" Grid.Column="4" x:Name="insPageHeight" TextChanged="InsPageSizeChanged" PreviewMouseLeftButtonDown="SelectWhole" GotFocus="insPageWidth_GotFocus"/>
+                            <Label Content="Šířka:" HorizontalAlignment="Right" Grid.Column="0"/>
+                            <TextBox IsUndoEnabled="False" VerticalAlignment="Center" Grid.Column="1" x:Name="insPageWidth" TextChanged="InsPageSizeChanged" PreviewMouseLeftButtonDown="SelectWhole" GotFocus="insPageWidth_GotFocus"/>
+                            <Label Content="Výška:" HorizontalAlignment="Right" Grid.Column="3"/>
+                            <TextBox IsUndoEnabled="False" VerticalAlignment="Center" Grid.Column="4" x:Name="insPageHeight" TextChanged="InsPageSizeChanged" PreviewMouseLeftButtonDown="SelectWhole" GotFocus="insPageWidth_GotFocus"/>
+                            <Button Content="Vybrat z přednastavených velikostí" Grid.ColumnSpan="5" Margin="0,5" Grid.Row="1" Click="SelectPageSizePresetClick"/>
                         </Grid>
                         <ItemsControl x:Name="insPagesIc">
                             <ItemsControl.ItemTemplate>
@@ -296,7 +297,7 @@
                                             <Line X1="2" Y1="9" X2="17" Y2="9" Stroke="{DynamicResource border}" StrokeThickness="1"/>
                                             <Line X1="2" Y1="14" X2="17" Y2="14" Stroke="{DynamicResource border}" StrokeThickness="1"/>
                                         </Canvas>
-                                        <Button Style="{DynamicResource selectableBtnStyle}" IsEnabled="{Binding IsButtonEnabled}" Click="InsPageClick" Grid.Column="1">
+                                        <Button Style="{DynamicResource selectableBtnStyle}" IsEnabled="{Binding IsButtonEnabled}" Click="InsPageClick" Margin="5,2,0,2" Grid.Column="1">
                                             <TextBlock>
                                                 <Run>Strana</Run>
                                                 <Run Text="{Binding Index}"/>
@@ -306,13 +307,14 @@
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                        <Grid>
+                        <Grid Margin="0,5,0,0">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
+                                <ColumnDefinition Width="5"/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <Button Content="Přidat" Click="InsPagesAdd" Style="{DynamicResource accentBtn}"/>
-                            <Button Content="Smazat" Click="InsPagesRemove" Grid.Column="1"/>
+                            <Button Content="Přidat" Click="InsPagesAdd" Style="{DynamicResource accentBtn}" Margin="0"/>
+                            <Button Content="Smazat" Click="InsPagesRemove" Grid.Column="2" Margin="0"/>
                         </Grid>
                     </StackPanel>
                 </GroupBox>
