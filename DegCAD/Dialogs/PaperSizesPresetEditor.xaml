@@ -71,10 +71,7 @@
                     <ColumnDefinition Width="20"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <!--<Path StrokeThickness="1" Grid.ColumnSpan="2" Grid.RowSpan="2" Data="M 15.5 0.5 L 69.5 0.5 L 69.5 98.5 L 0.5 98.5 L 0.5 15.5 z l 0 15 l -15 0" VerticalAlignment="Top" HorizontalAlignment="Left" Stroke="{DynamicResource border}"/>-->
                 <Path Data="M 69.5 15.5 69.5 98.5 0.5 98.5 0.5 0.5 54.5 0.5 z l -15 0 l 0 -15" VerticalAlignment="Top" HorizontalAlignment="Left" Stroke="{DynamicResource border}"/>
-                <!--<Path StrokeThickness="1" Data="M 0.5 5 L 0 15 M 0.5 10.5 l 7 4 m -7 -4 l 7 -4 m -7 4 L 69.5 10.5 m 0 0 l -7 4 m 7 -4 l -7 -4 M 69.5 15 L 69.5 5" Grid.RowSpan="2" Grid.ColumnSpan="2" SnapsToDevicePixels="True" Grid.Row="1" Stroke="{DynamicResource border}"/>
-                <Path StrokeThickness="1" Data="M 5 0.5 L 15 0 M 10.5 0.5 l 4 7 m -4 -7 l -4 7 m 4 -7 L 10.5 98.5 m 0 0 l 4 -7 m -4 7 l -4 -7 M 15 98.5 L 5 98.5" Grid.RowSpan="2" Grid.ColumnSpan="2" SnapsToDevicePixels="True" Grid.Column="1" Stroke="{DynamicResource border}"/>-->
                 <Path Data="M 0.5 10.5 l 7 4 m -7 -4 l 7 -4 m -7 4 L 69.5 10.5 m 0 0 l -7 4 m 7 -4 l -7 -4" Grid.Row="1" Stroke="{DynamicResource border}"/>
                 <Path Data="M 10.5 0.5 l 4 7 m -4 -7 l -4 7 m 4 -7 L 10.5 98.5 m 0 0 l 4 -7 m -4 7 l -4 -7" Grid.Column="1" Stroke="{DynamicResource border}"/>
                 <TextBox Width="70" x:Name="paperWidthTbx" Grid.Row="2" VerticalAlignment="Center"/>

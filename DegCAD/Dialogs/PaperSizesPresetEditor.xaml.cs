@@ -68,17 +68,17 @@ namespace DegCAD.Dialogs
                 MessageBox.Show("Zadejte platný název", img: MessageBoxImage.Error);
                 return;
             }
-            if (!double.TryParse(paperWidthTbx.Text, out var width))
+            if (!double.TryParse(paperWidthTbx.Text, out var width) || width < 1)
             {
                 MessageBox.Show("Zadejte platnou šířku papíru", img: MessageBoxImage.Error);
                 return;
             }
-            if (!double.TryParse(paperHeightTbx.Text, out var height))
+            if (!double.TryParse(paperHeightTbx.Text, out var height) || height < 1)
             {
                 MessageBox.Show("Zadejte platnou výšku papíru", img: MessageBoxImage.Error);
                 return;
             }
-
+            
             Presets.Add(new(presetNameTbx.Text, width, height));
         }
 
