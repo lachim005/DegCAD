@@ -292,7 +292,7 @@
                                             <ColumnDefinition Width="auto"/>
                                             <ColumnDefinition/>
                                         </Grid.ColumnDefinitions>
-                                        <Canvas MouseLeftButtonDown="StartPageReorder" SnapsToDevicePixels="True" Background="Transparent" Cursor="Hand" VerticalAlignment="Center" HorizontalAlignment="Center" Width="19" Height="19">
+                                        <Canvas MouseLeftButtonDown="StartPageReorder" SnapsToDevicePixels="True" Background="Transparent" Cursor="SizeAll" VerticalAlignment="Center" HorizontalAlignment="Center" Width="19" Height="19">
                                             <Line X1="2" Y1="4" X2="17" Y2="4" Stroke="{DynamicResource border}" StrokeThickness="1"/>
                                             <Line X1="2" Y1="9" X2="17" Y2="9" Stroke="{DynamicResource border}" StrokeThickness="1"/>
                                             <Line X1="2" Y1="14" X2="17" Y2="14" Stroke="{DynamicResource border}" StrokeThickness="1"/>

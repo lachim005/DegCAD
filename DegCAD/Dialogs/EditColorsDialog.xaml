@@ -30,12 +30,12 @@
                                 <ColumnDefinition Width="150"/>
                                 <ColumnDefinition Width="150"/>
                             </Grid.ColumnDefinitions>
-                            <Canvas Background="Transparent" Cursor="Hand" VerticalAlignment="Center" HorizontalAlignment="Center" Width="19" Height="19" PreviewMouseLeftButtonDown="StartColorReorderDrag">
+                            <Canvas Background="Transparent" Cursor="SizeAll" VerticalAlignment="Center" HorizontalAlignment="Center" Width="19" Height="19" PreviewMouseLeftButtonDown="StartColorReorderDrag">
                                 <Line X1="2" Y1="4" X2="17" Y2="4" Stroke="{DynamicResource fg}" StrokeThickness="1"/>
                                 <Line X1="2" Y1="9" X2="17" Y2="9" Stroke="{DynamicResource fg}" StrokeThickness="1"/>
                                 <Line X1="2" Y1="14" X2="17" Y2="14" Stroke="{DynamicResource fg}" StrokeThickness="1"/>
                             </Canvas>
-                            <Rectangle Fill="{Binding Item2}" RadiusX="5" RadiusY="5" Grid.Column="1" Margin="0,0,5,0" PreviewMouseLeftButtonDown="StartColorReorderDrag" Cursor="Hand"/>
+                            <Rectangle Fill="{Binding Item2}" RadiusX="5" RadiusY="5" Grid.Column="1" Margin="0,0,5,0" PreviewMouseLeftButtonDown="StartColorReorderDrag" Cursor="SizeAll"/>
                             <Button Content="Odstranit" Grid.Column="2" Click="RemoveColor"/>
                             <Button Content="Upravit" Grid.Column="3" Click="EditColor"/>
                         </Grid>
