@@ -83,6 +83,7 @@ namespace DegCAD
 
             AddCommand(new("Přidat výkres", "Přidá do kompozice výkres", Key.None, ModifierKeys.None, (_, _) => executeCommand(new AddDrawingCommand()), "cmdMFAddDrawing", FileType.MultiFile));
             AddCommand(new("Přidat text", "Přidá do kompozice text", Key.None, ModifierKeys.None, (_, _) => executeCommand(new AddTextCommand()), "cmdMFAddText", FileType.MultiFile));
+            AddCommand(new("Vložit obrázek", "Přidá do kompozice obrázek formátu PNG, JPG, GIF nebo BMP", Key.None, ModifierKeys.None, (_, _) => executeCommand(new AddImageCommand()), "cmdMFAddImage", FileType.MultiFile));
         }
 
         public void AddCommand(GeometryCommandData cmd)

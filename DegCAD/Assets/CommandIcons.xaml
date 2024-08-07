@@ -267,4 +267,9 @@
         <Line X1="20" Y1="30" X2="40" Y2="50" Stroke="{DynamicResource fg}" StrokeThickness="1.4"/>
         <Line X1="10" Y1="30" X2="50" Y2="30" Stroke="{DynamicResource fg}" StrokeThickness="1.4"/>
     </Canvas>
+    <Canvas x:Key="cmdMFAddImage">
+        <Rectangle Width="40" Height="40" Stroke="{DynamicResource fg}" RadiusX="3" RadiusY="3" StrokeThickness="1.4" Margin="10,10,0,0"/>
+        <Ellipse Stroke="{DynamicResource fg}" StrokeThickness="1.4" Width="10" Height="10" Margin="18,18,0,0"/>
+        <Path Data="M 11 45 L 20 33 L 28 40 L 37 25 L 49 45" Stroke="{DynamicResource fg}" StrokeThickness="1.4"/>
+    </Canvas>
 </ResourceDictionary>
