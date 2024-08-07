@@ -1,0 +1,113 @@
+﻿<UserControl x:Class="DegCAD.Dialogs.PageLayoutEditorView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DegCAD.Dialogs"
+             xmlns:ctls="clr-namespace:DegCAD.Controls"
+             mc:Ignorable="d"
+             Loaded="OnLoaded"
+             Unloaded="OnUnloaded"
+             Foreground="{DynamicResource fg}"
+             d:DesignHeight="600" d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="1"/>
+            <ColumnDefinition Width="300"/>
+        </Grid.ColumnDefinitions>
+        <Grid Margin="15" HorizontalAlignment="Center" UseLayoutRounding="True">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="auto"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="1" HorizontalAlignment="Left" x:Name="xDistGrid" Height="41">
+                <Rectangle Width="1" Fill="{DynamicResource border}" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
+                <Rectangle Width="1" Fill="{DynamicResource border}" Height="20" VerticalAlignment="Bottom" HorizontalAlignment="Right" x:Name="xDistDash"/>
+                <Path Data="M 0 0.5 l 7 4 l -7 4" Margin="0,10,0,0" Stroke="{DynamicResource border}" StrokeThickness="1" VerticalAlignment="Center" HorizontalAlignment="Right" x:Name="xDistArrow"/>
+                <Rectangle VerticalAlignment="Center" Margin="0,10,0,0" Height="1" Fill="{DynamicResource border}"/>
+                <Canvas HorizontalAlignment="Center" Margin="0,0,0,35" Width="{Binding ElementName=xDistLabel, Path=ActualWidth}">
+                    <TextBlock x:Name="xDistLabel"/>
+                </Canvas>
+            </Grid>
+            <Grid Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Right" x:Name="yDistGrid" Width="41">
+                <Rectangle Height="1" Fill="{DynamicResource border}" Width="20" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+                <Rectangle Height="1" Fill="{DynamicResource border}" Width="20" HorizontalAlignment="Right" VerticalAlignment="Bottom" x:Name="yDistDash"/>
+                <Path Data="M 0.5 0 l 4 7 l 4 -7" Margin="10,0,0,0" Stroke="{DynamicResource border}" StrokeThickness="1" HorizontalAlignment="Center" VerticalAlignment="Bottom" x:Name="yDistArrow"/>
+                <Rectangle HorizontalAlignment="Center" Margin="10,0,0,0" Width="1" Fill="{DynamicResource border}"/>
+                <Canvas VerticalAlignment="Center" Margin="0,0,35,0" Height="{Binding ElementName=yDistLabel, Path=ActualHeight}">
+                    <TextBlock x:Name="yDistLabel" RenderTransformOrigin="0.5, 0.5">
+                        <TextBlock.RenderTransform>
+                            <RotateTransform Angle="270"/>
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+                </Canvas>
+            </Grid>
+            <ctls:AspectRationBox Grid.Column="1" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.Row="1" x:Name="aspectRatioBox" UseLayoutRounding="True" SizeChanged="OnAspectRatioBoxSizeChanged">
+                <Border BorderBrush="{DynamicResource border}" BorderThickness="1">
+                    <Grid>
+                        <Border x:Name="vpBorder"/>
+                        <Border x:Name="marginBorder" BorderBrush="{DynamicResource red}" BorderThickness="1"/>
+                        <Border x:Name="marginFillBorder" BorderBrush="{DynamicResource red}" Opacity=".3"/>
+                    </Grid>
+                </Border>
+            </ctls:AspectRationBox>
+            <TextBlock Grid.Column="1" Grid.Row="2" Margin="0,15" Text="Vyberte pozici počátku" HorizontalAlignment="Center"/>
+            <Button Content="Vycentrovat" Margin="0" Padding="10,0" Grid.Row="3" Grid.Column="1" Click="CenterContentClick" HorizontalAlignment="Center"/>
+        </Grid>
+        <Rectangle Grid.Column="1" Fill="{DynamicResource border}"/>
+        <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="10">
+                <TextBlock Text="Velikost papíru" Margin="0,0,0,10"/>
+                <Grid HorizontalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="99"/>
+                        <RowDefinition Height="20"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="20"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Path Data="M 69.5 15.5 69.5 98.5 0.5 98.5 0.5 0.5 54.5 0.5 z l -15 0 l 0 -15" VerticalAlignment="Top" HorizontalAlignment="Left" Stroke="{DynamicResource border}"/>
+                    <Path Data="M 0.5 10.5 l 7 4 m -7 -4 l 7 -4 m -7 4 L 69.5 10.5 m 0 0 l -7 4 m 7 -4 l -7 -4" Grid.Row="1" Stroke="{DynamicResource border}"/>
+                    <Path Data="M 10.5 0.5 l 4 7 m -4 -7 l -4 7 m 4 -7 L 10.5 98.5 m 0 0 l 4 -7 m -4 7 l -4 -7" Grid.Column="1" Stroke="{DynamicResource border}"/>
+                    <TextBox Width="70" TextChanged="TextChanged" x:Name="paperWidthTbx" Grid.Row="2" VerticalAlignment="Center"/>
+                    <TextBox Width="70" TextChanged="TextChanged" x:Name="paperHeightTbx" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="0,0.5,0,0"/>
+                </Grid>
+                <Button Content="Vybrat z přednastavených velikostí" Margin="0,20,0,40" Click="SelectPaperPresetClick"/>
+                <TextBlock Text="Okraje" Margin="0,0,0,10"/>
+                <Grid HorizontalAlignment="Center">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="99"/>
+                        <RowDefinition Height="10"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="70"/>
+                        <ColumnDefinition Width="10"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+                    <Path Grid.Column="2" Grid.Row="2" Data="M 69.5 0.5 69.5 98.5 0.5 98.5 0.5 0.5 z M 0.5 10.5 l 69 0 M 0.5 88.5 l 69 0 M 10.5 0.5 l 0 98 M 59.5 0.5 l 0 98 " VerticalAlignment="Top" HorizontalAlignment="Left" Stroke="{DynamicResource border}"/>
+                    <TextBox TextChanged="TextChanged" x:Name="marginLeftTbx" Grid.Row="2" Grid.Column="0" Width="70" VerticalAlignment="Center"/>
+                    <TextBox TextChanged="TextChanged" x:Name="marginTopTbx" Grid.Row="0" Grid.Column="2" Width="70" VerticalAlignment="Center"/>
+                    <TextBox TextChanged="TextChanged" x:Name="marginRightTbx" Grid.Row="2" Grid.Column="4" Width="70" VerticalAlignment="Center"/>
+                    <TextBox TextChanged="TextChanged" x:Name="marginBottomTbx" Grid.Row="4" Grid.Column="2" Width="70" VerticalAlignment="Center"/>
+                </Grid>
+                <TextBlock Text="Velikost jednotky" Margin="0,40,0,10"/>
+                <TextBox TextChanged="TextChanged" x:Name="unitSizeTbx"/>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

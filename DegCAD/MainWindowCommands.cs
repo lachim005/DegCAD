@@ -227,8 +227,8 @@ namespace DegCAD
         {
             if (ActiveEditor is null) return;
 
-            PageLayoutWindow plw = new(ActiveEditor.viewPort);
-            ActiveEditor.ShowView(plw, "Rozložení na papíře", false);
+            PageLayoutEditorView pl = new(ActiveEditor.viewPort);
+            ActiveEditor.ShowView(pl, "Rozložení na papíře", false);
         }
         private void AddGuideCommand(object sender, ExecutedRoutedEventArgs e)
         {
