@@ -364,19 +364,44 @@ namespace DegCAD.MultiFile
             int offset = 0;
             foreach (var file in files)
             {
-                if (System.IO.Path.GetExtension(file) != ".dgproj") continue;
                 if (!System.IO.File.Exists(file)) continue;
-
-                var ed = await EditorLoader.CreateFromFile(file);
-
-                MFContainer cont = new(this, new MFDrawing(ed)) { CX = mPos.X + offset, CY = mPos.Y };
-                AddItem(cont);
+                switch (System.IO.Path.GetExtension(file).ToLower())
+                {
+                    case ".dgproj":
+                        await DrawingDropped(file, offset, mPos);
+                        break;
+                    case ".png":
+                    case ".jpg":
+                    case ".jpeg":
+                    case ".bmp":
+                    case ".gif":
+                        ImageDropped(file, offset, mPos);
+                        break;
+                    default:
+                        offset -= 100;
+                        break;
+                }
                 offset += 100;
-
-                Editor?.Timeline.AddState(new ContainerAddedState(cont));
             }
             Redraw();
         }
+        private async Task DrawingDropped(string file, int offset, Vector2 mPos)
+        {
+            var ed = await EditorLoader.CreateFromFile(file);
+
+            MFContainer cont = new(this, new MFDrawing(ed)) { CX = mPos.X + offset, CY = mPos.Y };
+            AddItem(cont);
+
+            Editor?.Timeline.AddState(new ContainerAddedState(cont));
+        }
+        private void ImageDropped(string file, int offset, Vector2 mPos)
+        {
+            MFContainer cont = new(this, new MFImage(file)) { CX = mPos.X + offset, CY = mPos.Y };
+            AddItem(cont);
+
+            Editor?.Timeline.AddState(new ContainerAddedState(cont));
+        }
+
         private void DropTab(ITab tab, DragEventArgs e)
         {
             var mPos = ScreenToCanvas(e.GetPosition(this));

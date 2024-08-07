@@ -143,6 +143,7 @@ namespace DegCAD.MultiFile
                 {
                     "TXT" => ParseText(itemVals[1]),
                     "DWG" => await ReadDrawing(itemVals[1], folder),
+                    "IMG" => ReadImage(itemVals[1], folder),
                     _ => null
                 };
 
@@ -213,6 +214,12 @@ namespace DegCAD.MultiFile
             dwg.Viewport.OffsetY = double.Parse(vals[1]);
 
             return dwg;
+        }
+
+        public static MFImage ReadImage(string str, string folder)
+        {
+            var vals = str.Split(' ');
+            return new MFImage(Path.Combine(folder, vals[0]));
         }
     }
 

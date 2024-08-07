@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace DegCAD.MultiFile
 {
@@ -79,6 +80,7 @@ namespace DegCAD.MultiFile
             using StreamWriter sw = new(Path.Combine(dir, "page.txt"));
             await sw.WriteLineAsync(page.PaperWidth + "x" + page.PaperHeight);
             int dwgCounter = 0;
+            int imgCounter = 0;
             StringBuilder sb = new();
 
             foreach (var item in page.Items)
@@ -101,6 +103,14 @@ namespace DegCAD.MultiFile
                     await dwg.editor.SaveEditor();
                     sb.Append($"DWG {dwg.Viewport.OffsetX} {dwg.Viewport.OffsetY} {dwg.UnitSize} {dwg.VisibleItems} {dwg.PositionLocked} {dwgCounter}.dgproj");
                     dwgCounter++;
+                } else if (item.Item is MFImage img)
+                {
+                    BitmapEncoder encoder = new PngBitmapEncoder();
+                    encoder.Frames.Add(BitmapFrame.Create(img.imageSource));
+
+                    using FileStream fileStream = new(Path.Combine(dir, $"{imgCounter}.png"), FileMode.Create);
+                    encoder.Save(fileStream);
+                    sb.Append($"IMG {imgCounter++}.png");
                 }
                 await sw.WriteLineAsync(sb.ToString());
                 sb.Clear();
