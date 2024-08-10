@@ -26,6 +26,17 @@ namespace DegCAD
             new double[4] {15, 7, 2, 7}
         };
 
+        public Style()
+        {
+            
+        }
+        public Style(Style basedOn) 
+        {
+            Color = basedOn.Color;
+            LineStyle = basedOn.LineStyle;
+            Thickness = basedOn.Thickness;
+        }
+
         public override bool Equals(object? obj)
         {
             if (obj is not Style s) return false;

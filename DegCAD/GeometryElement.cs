@@ -33,7 +33,7 @@ namespace DegCAD
                 _isHighlighted = value;
                 if (IsHighlighted)
                 {
-                    ShowStyle(Style.HighlightStyle);
+                    ShowStyle(new(Style) { Color = Style.HighlightStyle.Color });
                 }
                 else
                 {
