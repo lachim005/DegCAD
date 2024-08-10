@@ -256,7 +256,8 @@ namespace DegCAD
             {
                 for (int i = 0; i < cmd.Items.Length; i++)
                 {
-                    cmd.Items[i].Draw();
+                    if (cmd.Items[i] is not GeometryElement ge) continue;
+                    ge.Draw();
                 }
             }
         }
@@ -278,7 +279,7 @@ namespace DegCAD
             {
                 foreach (var item in cmd.Items)
                 {
-                    if (!item.IsVisible()) continue;
+                    if (item is not GeometryElement ge || !ge.IsVisible) continue;
                     if (item is Arc arc)
                     {
                         Vector2 rad = (arc.Circle.Radius, arc.Circle.Radius);
@@ -360,12 +361,13 @@ namespace DegCAD
             {
                 foreach (var i in c.Items)
                 {
-                    if (i.Style.Color == Colors.Black)
+                    if (i is not GeometryElement ge) continue;
+                    if (ge.Style.Color == Colors.Black)
                     {
-                        i.Style = new() { Color = Colors.White, LineStyle = i.Style.LineStyle, Thickness = i.Style.Thickness };
-                    } else if (i.Style.Color == Colors.White)
+                        ge.Style = new() { Color = Colors.White, LineStyle = ge.Style.LineStyle, Thickness = ge.Style.Thickness };
+                    } else if (ge.Style.Color == Colors.White)
                     {
-                        i.Style = new() { Color = Colors.Black, LineStyle = i.Style.LineStyle, Thickness = i.Style.Thickness };
+                        ge.Style = new() { Color = Colors.Black, LineStyle = ge.Style.LineStyle, Thickness = ge.Style.Thickness };
                     }
                 }
             }

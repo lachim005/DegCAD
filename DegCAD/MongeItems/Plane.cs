@@ -12,62 +12,37 @@ using System.Windows.Shapes;
 
 namespace DegCAD.MongeItems
 {
-    public class Plane : IMongeItem
+    public class Plane : GeometryElement
     {
-        private Style _style;
-        private ViewportLayer? _vpl;
+        private readonly Rectangle _rectangle;
 
         public bool TopPlane { get; set; }
-
-        public Vector2[] SnapablePoints => new Vector2[0];
-
-        public ParametricSegment2[] SnapableLines => new ParametricSegment2[0];
-
-        public Circle2[] SnapableCircles => new Circle2[0];
-
-        public Style Style
-        {
-            get => _style;
-            set
-            {
-                _style = value;
-                _rectangle.Fill = new SolidColorBrush(_style.Color);
-            }
-        }
 
         public Plane(bool plane, ViewportLayer? vpl = null) : this(plane, new() { Color = Color.FromArgb(55, 255, 255, 0) }, vpl) { }
         public Plane(bool plane, Style style, ViewportLayer? vpl = null)
         {
             TopPlane = plane;
 
+            _rectangle = new();
+            AddShape(_rectangle);
+
             Style = style;
             if (vpl is not null)
                 AddToViewportLayer(vpl);
         }
 
-        Rectangle _rectangle = new() { IsHitTestVisible = false };
+        public override GeometryElement CloneElement() => new Plane(TopPlane);
 
-        public void AddToViewportLayer(ViewportLayer vpl)
+        public override void ShowStyle(Style style)
         {
-            vpl.Canvas.Children.Add(_rectangle);
-            _vpl = vpl;
+            _rectangle.Fill = new SolidColorBrush(Style.Color);
         }
 
-        public void RemoveFromViewportLayer()
+        public override void Draw()
         {
-            if (_vpl is null) return;
-            _vpl.Canvas.Children.Remove(_rectangle);
-            _vpl = null;
-        }
-
-        public IMongeItem Clone() => new Plane(TopPlane);
-
-
-        public void Draw()
-        {
-            if (_vpl is null) return;
-            _rectangle.Width = _vpl.Canvas.ActualWidth;
-            var split = _vpl.Viewport.CanvasToScreen((0, 0));
+            if (ViewportLayer is null) return;
+            _rectangle.Width = ViewportLayer.Canvas.ActualWidth;
+            var split = ViewportLayer.Viewport.CanvasToScreen((0, 0));
             if (TopPlane)
             {
                 Canvas.SetTop(_rectangle, 0);
@@ -76,9 +51,9 @@ namespace DegCAD.MongeItems
                     _rectangle.Height = 0;
                     return;
                 }
-                if (split.Y > _vpl.Canvas.ActualHeight)
+                if (split.Y > ViewportLayer.Canvas.ActualHeight)
                 {
-                    _rectangle.Height = _vpl.Canvas.ActualHeight;
+                    _rectangle.Height = ViewportLayer.Canvas.ActualHeight;
                     return;
                 }
                 _rectangle.Height = split.Y;
@@ -86,24 +61,17 @@ namespace DegCAD.MongeItems
             }
             if (split.Y < 0)
             {
-                _rectangle.Height = _vpl.Canvas.ActualHeight;
+                _rectangle.Height = ViewportLayer.Canvas.ActualHeight;
                 Canvas.SetTop(_rectangle, 0);
                 return;
             }
-            if (split.Y > _vpl.Canvas.ActualHeight)
+            if (split.Y > ViewportLayer.Canvas.ActualHeight)
             {
                 _rectangle.Height = 0;
                 return;
             }
             Canvas.SetTop( _rectangle, split.Y);
-            _rectangle.Height = _vpl.Canvas.ActualHeight - split.Y;
+            _rectangle.Height = ViewportLayer.Canvas.ActualHeight - split.Y;
         }
-
-        public void SetVisibility(Visibility visibility)
-        {
-            _rectangle.Visibility = visibility;
-        }
-        public bool IsVisible() => _rectangle.Visibility == Visibility.Visible;
-        public string ToSvg() => string.Empty;
     }
 }

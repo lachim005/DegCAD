@@ -9,29 +9,13 @@ using System.Windows.Media;
 
 namespace DegCAD.MongeItems
 {
-    public class Hyperbola : IMongeItem
+    public class Hyperbola : GeometryElement, ISvgConvertable
     {
-        private Style _style;
-        private ViewportLayer? _vpl;
         private Vector2 _center;
         private Vector2 _vertex;
         private Vector2 _point;
+        private readonly System.Windows.Shapes.Path _hyperbola;
 
-        public Vector2[] SnapablePoints { get; } = new Vector2[0];
-
-        public ParametricSegment2[] SnapableLines { get; } = new ParametricSegment2[0];
-
-        public Circle2[] SnapableCircles { get; } = new Circle2[0];
-
-        public Style Style
-        {
-            get => _style;
-            set
-            {
-                _style = value;
-                _hyperbola.SetStyle(value);
-            }
-        }
         public Vector2 Center
         {
             get => _center;
@@ -71,12 +55,13 @@ namespace DegCAD.MongeItems
             Vertex = vertex;
             Point = point;
 
+            _hyperbola = new();
+            AddShape(_hyperbola);
+
             Style = style;
 
             if (vpl is not null) AddToViewportLayer(vpl);
         }
-
-        System.Windows.Shapes.Path _hyperbola = new() { IsHitTestVisible = false };
 
         private void RecalculateSvgPoints()
         {
@@ -93,29 +78,13 @@ namespace DegCAD.MongeItems
             ControlPoint2 = Vertex + (endVec / 3);
         }
 
-        public void Draw()
+        public override void Draw()
         {
-            if (_vpl is null) return;
-            _hyperbola.SetHyperbola(_vpl, this);
+            if (ViewportLayer is null) return;
+            _hyperbola.SetHyperbola(ViewportLayer, this);
         }
 
-        public void AddToViewportLayer(ViewportLayer vpl)
-        {
-            _vpl = vpl;
-            vpl.Canvas.Children.Add(_hyperbola);
-        }
-        public void RemoveFromViewportLayer()
-        {
-            if (_vpl is null) return;
-            _vpl.Canvas.Children.Remove(_hyperbola);
-            _vpl = null;
-        }
-        public void SetVisibility(Visibility visibility)
-        {
-            _hyperbola.Visibility = visibility;
-        }
-        public bool IsVisible() => _hyperbola.Visibility == Visibility.Visible;
-        public IMongeItem Clone() => new Hyperbola(Vertex, Center, Point, Style);
+        public override GeometryElement CloneElement() => new Hyperbola(Vertex, Center, Point, Style);
         public string ToSvg() => $"<path d=\"{_hyperbola.Data}\" {Style.ToSvgParameters()}/>";
     }
 }

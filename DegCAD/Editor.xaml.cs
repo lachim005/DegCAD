@@ -98,25 +98,25 @@ namespace DegCAD
             switch (ProjectionType)
             {
                 case ProjectionType.Plane:
-                    Timeline.AddCommand(new TimelineItem(new IMongeItem[]
-                    {
+                    Timeline.AddCommand(new TimelineItem(
+                    [
                         new Axis(),
                         new InfiniteLine(new((0,0), (1,0)), DegCAD.Style.Default, vpl),
                         new InfiniteLine(new((0,0), (0,1)), DegCAD.Style.Default, vpl),
                         new MongeItems.Label("x", "", "", (8,0), DegCAD.Style.Default, new InfiniteLine(new((0,0), (1,0)), DegCAD.Style.Default), vpl),
                         new MongeItems.Label("y", "", "", (0,-8), DegCAD.Style.Default, new InfiniteLine(new((0,0), (0,1)), DegCAD.Style.Default), vpl),
                         new MongeItems.Label("0", "", "", (0,0), DegCAD.Style.Default, new MongeItems.Point(0,0), vpl),
-                    }));
+                    ]));
                     break;
                 case ProjectionType.Monge:
-                    Timeline.AddCommand(new TimelineItem(new IMongeItem[]
-                    {
+                    Timeline.AddCommand(new TimelineItem(
+                    [
                         new Axis(),
                         new InfiniteLine(new((0,0), (1,0)), DegCAD.Style.Default, vpl),
                         new MongeItems.Point(0, 0, DegCAD.Style.Default, vpl),
                         new MongeItems.Label("x", "1, 2", "", (8,0), DegCAD.Style.Default, new InfiniteLine(new((0,0), (1,0)), DegCAD.Style.Default), vpl),
                         new MongeItems.Label("0", "", "", (0,0), DegCAD.Style.Default, new MongeItems.Point(0,0), vpl),
-                    }));
+                    ]));
                     break;
             }
 
@@ -292,7 +292,7 @@ namespace DegCAD
             // Clone the commands
             foreach (var cmd in Timeline.CommandHistory)
             {
-                IMongeItem[] mits = new IMongeItem[cmd.Items.Length];
+                ITimelineElement[] mits = new ITimelineElement[cmd.Items.Length];
                 for (int i = 0; i < cmd.Items.Length; i++)
                 {
                     var it = cmd.Items[i].Clone();

@@ -24,7 +24,7 @@ namespace DegCAD.GeometryCommands
                 throw new CommandCanceledException();
             }
 
-            List<IMongeItem> pts = new();
+            List<GeometryElement> pts = new();
 
             Style curStyle = inputMgr.StyleSelector.CurrentStyle;
 
@@ -39,7 +39,7 @@ namespace DegCAD.GeometryCommands
                 }
             }
 
-            return Task.FromResult<TimelineItem?>(new(pts.ToArray()));
+            return Task.FromResult<TimelineItem?>(new([.. pts]));
         }
     }
 }

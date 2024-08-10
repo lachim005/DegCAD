@@ -73,7 +73,7 @@ namespace DegCAD.GeometryCommands
                 mpoints[1] = new(p1.X, p2.Y, curStyle, vpl);
             }
 
-            List<IMongeItem> mongeItems = new(3);
+            List<GeometryElement> mongeItems = new(3);
             mongeItems.AddRange(mpoints);
 
             if (inputMgr.NameNewItems)
@@ -87,9 +87,9 @@ namespace DegCAD.GeometryCommands
                 if (!lid.Canceled)
                 {
                     mongeItems.Add(new Label(lid.LabelText, "1", lid.Superscript,
-                        mpoints[0].Coords, curStyle, mpoints[0].Clone(), vpl, lid.TextSize));
+                        mpoints[0].Coords, curStyle, mpoints[0].CloneElement(), vpl, lid.TextSize));
                     mongeItems.Add(new Label(lid.LabelText, "2", lid.Superscript,
-                        mpoints[1].Coords, curStyle, mpoints[1].Clone(), vpl, lid.TextSize));
+                        mpoints[1].Coords, curStyle, mpoints[1].CloneElement(), vpl, lid.TextSize));
                 } 
             }
 

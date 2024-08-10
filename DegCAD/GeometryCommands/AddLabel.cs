@@ -18,8 +18,8 @@ namespace DegCAD.GeometryCommands
 
             Vector2 lastPt = (0,0);
 
-            IMongeItem? highlightedItem = null;
-            IMongeItem? highlightedItemClone = null;
+            GeometryElement? highlightedItem = null;
+            GeometryElement? highlightedItemClone = null;
             var item = await inputMgr.GetItem((pt, item) =>
             {
                 lastPt = pt;
@@ -33,7 +33,7 @@ namespace DegCAD.GeometryCommands
                 {
                     highlightedItemClone?.RemoveFromViewportLayer();
                     highlightedItem = item;
-                    highlightedItemClone = item.Clone();
+                    highlightedItemClone = item.CloneElement();
                     highlightedItemClone.Style = Style.HighlightStyle;
                     highlightedItemClone.AddToViewportLayer(previewVpl);
                 }
@@ -56,7 +56,7 @@ namespace DegCAD.GeometryCommands
             if (highlightedItem is null) return null;
             if (!lid.Canceled)
             {
-                return new(new[] { new Label(lid.LabelText, lid.Subscript, lid.Superscript, lastPt, inputMgr.StyleSelector.CurrentStyle, highlightedItem.Clone(), vpl, lid.TextSize) });
+                return new(new[] { new Label(lid.LabelText, lid.Subscript, lid.Superscript, lastPt, inputMgr.StyleSelector.CurrentStyle, highlightedItem.CloneElement(), vpl, lid.TextSize) });
             }
 
             return null;

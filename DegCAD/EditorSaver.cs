@@ -105,10 +105,13 @@ namespace DegCAD
                 foreach (var item in cmd.Items)
                 {
                     //If the style has changed, writes it to the file
-                    if (currentStyle != item.Style)
+                    if (item is GeometryElement ge)
                     {
-                        await sw.WriteLineAsync(SerializeStyle(item.Style));
-                        currentStyle = item.Style;
+                        if (currentStyle != ge.Style)
+                        {
+                            await sw.WriteLineAsync(SerializeStyle(ge.Style));
+                            currentStyle = ge.Style;
+                        }
                     }
 
                     await sw.WriteLineAsync(SerializeMongeItem(item));
@@ -154,7 +157,7 @@ namespace DegCAD
             sw.WriteLine(aa.ZAxis.Y.ToString());
         }
 
-        private static string SerializeMongeItem(IMongeItem item)
+        private static string SerializeMongeItem(ITimelineElement item)
         {
             return item switch
             {

@@ -33,9 +33,14 @@ namespace DegCAD
 
             foreach (var item in undoneCmd.Items)
             {
-                item.SetVisibility(System.Windows.Visibility.Hidden);
-                if (item is Modification mod)
+                if (item is GeometryElement ge)
+                {
+                    ge.Visibility = System.Windows.Visibility.Hidden;
+                }
+                else if (item is IModification mod)
+                {
                     mod.Remove(this);
+                }
             }
             UndoneCommands.Push(undoneCmd);
             TimelineChanged?.Invoke(this, EventArgs.Empty);
@@ -50,9 +55,14 @@ namespace DegCAD
 
             foreach (var item in redoneCmd.Items)
             {
-                item.SetVisibility(System.Windows.Visibility.Visible);
-                if (item is Modification mod)
+                if (item is GeometryElement ge)
+                {
+                    ge.Visibility = System.Windows.Visibility.Visible;
+                }
+                else if (item is IModification mod)
+                {
                     mod.Apply(this);
+                }
             }
             CommandHistory.Push(redoneCmd);
             TimelineChanged?.Invoke(this, EventArgs.Empty);
@@ -65,13 +75,14 @@ namespace DegCAD
             {
                 foreach (var item in undoneCmd.Items)
                 {
-                    item.RemoveFromViewportLayer();
+                    if (item is not GeometryElement ge) continue;
+                    ge.RemoveFromViewportLayer();
                 }
             }
             UndoneCommands.Clear();
             foreach (var it in cmd.Items)
             {
-                if (it is not Modification mod) continue;
+                if (it is not IModification mod) continue;
                 mod.Apply(this);
             }
             TimelineChanged?.Invoke(this, EventArgs.Empty);
@@ -83,7 +94,8 @@ namespace DegCAD
             {
                 foreach (var item in cmd.Items)
                 {
-                    item.AddToViewportLayer(vpl);
+                    if (item is not GeometryElement ge) continue;
+                    ge.AddToViewportLayer(vpl);
                 }
             }
         }
@@ -93,11 +105,11 @@ namespace DegCAD
             Timeline newTl = new();
             foreach (var cmd in CommandHistory)
             {
-                var items = new IMongeItem[cmd.Items.Length];
+                var items = new ITimelineElement[cmd.Items.Length];
                 for (int i = 0; i < items.Length; i++)
                 {
                     items[i] = cmd.Items[i].Clone();
-                    if (items[i] is Modification mod)
+                    if (items[i] is IModification mod)
                         mod.Apply(this);
                 }
                 newTl.AddCommand(new(items));

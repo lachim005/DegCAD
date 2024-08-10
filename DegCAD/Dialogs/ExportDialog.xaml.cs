@@ -268,8 +268,8 @@ namespace DegCAD.Dialogs
             {
                 foreach (var item in cmd.Items)
                 {
-                    if (!item.IsVisible()) continue;
-                    sw.WriteLine("\t" + item.ToSvg());
+                    if ( item is not ISvgConvertable svg || !svg.IsVisible) continue;
+                    sw.WriteLine("\t" + svg.ToSvg());
                 }
             }
             sw.WriteLine("</svg>");

@@ -17,8 +17,8 @@ namespace DegCAD.GeometryCommands
             esb.CommandHelp = "Vyberte prvek, jehož styl chcete vybrat";
 
 
-            IMongeItem? highlightedItem = null;
-            IMongeItem? highlightedItemClone = null;
+            GeometryElement? highlightedItem = null;
+            GeometryElement? highlightedItemClone = null;
             var item = await inputMgr.GetItem((pt, item) =>
             {
                 if (item is null)
@@ -31,7 +31,7 @@ namespace DegCAD.GeometryCommands
                 {
                     highlightedItemClone?.RemoveFromViewportLayer();
                     highlightedItem = item;
-                    highlightedItemClone = item.Clone();
+                    highlightedItemClone = item.CloneElement();
                     highlightedItemClone.Style = Style.HighlightStyle;
                     highlightedItemClone.AddToViewportLayer(previewVpl);
                 }

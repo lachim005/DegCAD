@@ -61,8 +61,8 @@ namespace DegCAD.GeometryCommands
             Style curStyle = inputMgr.StyleSelector.CurrentStyle;
 
             if (infinite)
-                return new(new IMongeItem[1] { new MongeItems.Parabola(focusPt, vertexPt, curStyle, vpl) });
-            return new(new IMongeItem[1] { new MongeItems.Parabola(focusPt, vertexPt, endPt, curStyle, vpl) });
+                return new([new MongeItems.Parabola(focusPt, vertexPt, curStyle, vpl)]);
+            return new([new MongeItems.Parabola(focusPt, vertexPt, endPt, curStyle, vpl)]);
         }
     }
 }

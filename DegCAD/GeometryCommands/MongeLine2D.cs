@@ -53,7 +53,7 @@ namespace DegCAD.GeometryCommands
 
             var curStyle = inputMgr.StyleSelector.CurrentStyle;
 
-            List<IMongeItem> mItems = new()
+            List<GeometryElement> mItems = new()
             {
                 new LineProjection(line1, plane, curStyle, vpl)
             };
@@ -66,12 +66,12 @@ namespace DegCAD.GeometryCommands
                 lid.ShowDialog();
                 if (!lid.Canceled)
                 {
-                    mItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript, (pt2 + pt1) / 2, curStyle, mItems[0].Clone(), vpl, lid.TextSize));
+                    mItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript, (pt2 + pt1) / 2, curStyle, mItems[0].CloneElement(), vpl, lid.TextSize));
                 } 
             }
 
 
-            return new TimelineItem(mItems.ToArray());
+            return new TimelineItem([.. mItems]);
         }
     }
 }

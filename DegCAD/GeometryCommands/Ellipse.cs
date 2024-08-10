@@ -72,7 +72,7 @@ namespace DegCAD.GeometryCommands
 
             Style curStyle = inputMgr.StyleSelector.CurrentStyle;
 
-            return new(new IMongeItem[1] {new MongeItems.Ellipse(center, primaryPt, secondaryPt, curStyle, vpl)});
+            return new([new MongeItems.Ellipse(center, primaryPt, secondaryPt, curStyle, vpl)]);
         }
     }
 }

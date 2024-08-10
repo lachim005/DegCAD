@@ -131,7 +131,7 @@ namespace DegCAD.Dialogs
                         var yMLn = new HalfLine((0, 0), yLine.DirectionVector, DegCAD.Style.Default);
                         var zMLn = new HalfLine((0, 0), zLine.DirectionVector, DegCAD.Style.Default);
 
-                        Axis = new(new IMongeItem[] {
+                        Axis = new([
                             new Axis(),
                             xMLn,
                             yMLn,
@@ -143,14 +143,14 @@ namespace DegCAD.Dialogs
                             xMPt,
                             yMPt,
                             zMPt,
-                            new MongeItems.Label("0", "", "", originPt.Coords, DegCAD.Style.Default, originPt.Clone()),
-                            new MongeItems.Label("X", "", "", xMPt.Coords, DegCAD.Style.Default, xMPt.Clone()),
-                            new MongeItems.Label("Y", "", "", yMPt.Coords, DegCAD.Style.Default, yMPt.Clone()),
-                            new MongeItems.Label("Z", "", "", zMPt.Coords, DegCAD.Style.Default, zMPt.Clone()),
-                            new MongeItems.Label("x", "", "", xLine.DirectionVector.ChangeLength(-5), DegCAD.Style.Default, xMLn.Clone()),
-                            new MongeItems.Label("y", "", "", yLine.DirectionVector.ChangeLength(-5), DegCAD.Style.Default, yMLn.Clone()),
-                            new MongeItems.Label("z", "", "", zLine.DirectionVector.ChangeLength(-5), DegCAD.Style.Default, zMLn.Clone()),
-                        }); ;
+                            new MongeItems.Label("0", "", "", originPt.Coords, DegCAD.Style.Default, originPt.CloneElement()),
+                            new MongeItems.Label("X", "", "", xMPt.Coords, DegCAD.Style.Default, xMPt.CloneElement()),
+                            new MongeItems.Label("Y", "", "", yMPt.Coords, DegCAD.Style.Default, yMPt.CloneElement()),
+                            new MongeItems.Label("Z", "", "", zMPt.Coords, DegCAD.Style.Default, zMPt.CloneElement()),
+                            new MongeItems.Label("x", "", "", xLine.DirectionVector.ChangeLength(-5), DegCAD.Style.Default, xMLn.CloneElement()),
+                            new MongeItems.Label("y", "", "", yLine.DirectionVector.ChangeLength(-5), DegCAD.Style.Default, yMLn.CloneElement()),
+                            new MongeItems.Label("z", "", "", zLine.DirectionVector.ChangeLength(-5), DegCAD.Style.Default, zMLn.CloneElement()),
+                        ]); ;
 
                         AxonometryAxes = new(xLine.DirectionVector, yLine.DirectionVector, zLine.DirectionVector);
 
@@ -196,17 +196,17 @@ namespace DegCAD.Dialogs
                         var yMLn = new HalfLine((0, 0), yLine, DegCAD.Style.Default);
                         var zMLn = new HalfLine((0, 0), zLine, DegCAD.Style.Default);
 
-                        Axis = new(new IMongeItem[] {
+                        Axis = new([
                             new Axis(),
                             xMLn,
                             yMLn,
                             zMLn,
                             originPt,
-                            new MongeItems.Label("0", "", "", originPt.Coords, DegCAD.Style.Default, originPt.Clone()),
-                            new MongeItems.Label("x", "", "", xLine.ChangeLength(-5), DegCAD.Style.Default, xMLn.Clone()),
-                            new MongeItems.Label("y", "", "", yLine.ChangeLength(-5), DegCAD.Style.Default, yMLn.Clone()),
-                            new MongeItems.Label("z", "", "", zLine.ChangeLength(-5), DegCAD.Style.Default, zMLn.Clone()),
-                        }); ;
+                            new MongeItems.Label("0", "", "", originPt.Coords, DegCAD.Style.Default, originPt.CloneElement()),
+                            new MongeItems.Label("x", "", "", xLine.ChangeLength(-5), DegCAD.Style.Default, xMLn.CloneElement()),
+                            new MongeItems.Label("y", "", "", yLine.ChangeLength(-5), DegCAD.Style.Default, yMLn.CloneElement()),
+                            new MongeItems.Label("z", "", "", zLine.ChangeLength(-5), DegCAD.Style.Default, zMLn.CloneElement()),
+                        ]); ;
 
                         AxonometryAxes = new(xLine, xLine, zLine);
 

@@ -33,17 +33,24 @@ namespace DegCAD
                 }
             }
 
-            //Goes through every snapable point and saves the closest one
+            // Saves all the ISnapable items into a list
+            List<ISnapable> snapableItems = new();
             foreach (var cmd in Timeline.CommandHistory)
             {
                 for (int j = 0; j < cmd.Items.Length; j++)
                 {
-                    if (!cmd.Items[j].IsVisible()) continue;
-                    for (int i = 0; i < cmd.Items[j].SnapablePoints.Length; i++)
-                    {
-                        SaveClosestPoint(cmd.Items[j].SnapablePoints[i]);
-                    } 
+                    if (cmd.Items[j] is not ISnapable snap || !snap.IsVisible) continue;
+                    snapableItems.Add(snap);
                 }
+            }
+
+            //Goes through every snapable point and saves the closest one
+            foreach (var item in  snapableItems)
+            { 
+                for (int i = 0; i < item.SnapablePoints.Length; i++)
+                {
+                    SaveClosestPoint(item.SnapablePoints[i]);
+                } 
             }
 
             //Adds the additional points
@@ -58,22 +65,18 @@ namespace DegCAD
             //Goes through every snapable line and saves all the ones that are close
             List<ParametricLine2> closeLines = new();
 
-            foreach(var cmd in Timeline.CommandHistory)
+            foreach (var item in snapableItems)
             {
-                for (int i = 0; i < cmd.Items.Length; i++)
+                for (int j = 0; j < item.SnapableLines.Length; j++)
                 {
-                    if (!cmd.Items[i].IsVisible()) continue;
-                    for (int j = 0; j < cmd.Items[i].SnapableLines.Length; j++)
+                    var line = item.SnapableLines[j];
+                    var point = line.Line.GetClosestPoint(v);
+                    double distance = (v - point).LengthSquared;
+                    if (distance < SnapThreshold && line.IsOnSegment(point))
                     {
-                        var line = cmd.Items[i].SnapableLines[j];
-                        var point = line.Line.GetClosestPoint(v);
-                        double distance = (v - point).LengthSquared;
-                        if (distance < SnapThreshold && line.IsOnSegment(point))
-                        {
-                            closeLines.Add(line.Line);
-                        }
+                        closeLines.Add(line.Line);
                     }
-                }
+                }      
             }
 
             //Adds the additional lines
@@ -84,20 +87,16 @@ namespace DegCAD
 
             //Goes through every snapable circle and saves all the ones that are close
             List<Circle2> closeCircles = new();
-            foreach (var cmd in Timeline.CommandHistory)
+            foreach(var item in snapableItems)
             {
-                for (int i = 0; i < cmd.Items.Length; i++)
+                for (int j = 0; j < item.SnapableCircles.Length; j++)
                 {
-                    if (!cmd.Items[i].IsVisible()) continue;
-                    for (int j = 0; j < cmd.Items[i].SnapableCircles.Length; j++)
+                    var circle = item.SnapableCircles[j];
+                    var point = circle.TranslatePointToCircle(v);
+                    double distance = (v - point).LengthSquared;
+                    if (distance < SnapThreshold)
                     {
-                        var circle = cmd.Items[i].SnapableCircles[j];
-                        var point = circle.TranslatePointToCircle(v);
-                        double distance = (v - point).LengthSquared;
-                        if (distance < SnapThreshold)
-                        {
-                            closeCircles.Add(circle);
-                        }
+                        closeCircles.Add(circle);
                     }
                 }
             }
@@ -189,22 +188,29 @@ namespace DegCAD
             ParametricLine2? closestLine = null;
             double closestLineDistance = SnapThreshold;
 
-            //Goes through every line and saves the closest one
-            foreach(var cmd in Timeline.CommandHistory)
+            // Saves all the ISnapable items into a list
+            List<ISnapable> snapableItems = new();
+            foreach (var cmd in Timeline.CommandHistory)
             {
-                for (int i = 0; i < cmd.Items.Length; i++)
+                for (int j = 0; j < cmd.Items.Length; j++)
                 {
-                    if (!cmd.Items[i].IsVisible()) continue;
-                    for (int j = 0; j < cmd.Items[i].SnapableLines.Length; j++)
+                    if (cmd.Items[j] is not ISnapable snap || !snap.IsVisible) continue;
+                    snapableItems.Add(snap);
+                }
+            }
+
+            //Goes through every line and saves the closest one
+            foreach (var item in snapableItems)
+            {
+                for (int j = 0; j < item.SnapableLines.Length; j++)
+                {
+                    var line = item.SnapableLines[j];
+                    Vector2 point = TranslatePointToLine(line.Line, v);
+                    double distance = (v - point).LengthSquared;
+                    if (distance < closestLineDistance && line.IsOnSegment(point))
                     {
-                        var line = cmd.Items[i].SnapableLines[j];
-                        Vector2 point = TranslatePointToLine(line.Line, v);
-                        double distance = (v - point).LengthSquared;
-                        if (distance < closestLineDistance && line.IsOnSegment(point))
-                        {
-                            closestLine = line.Line;
-                            closestLineDistance = distance;
-                        }
+                        closestLine = line.Line;
+                        closestLineDistance = distance;
                     }
                 }
             }
@@ -214,13 +220,12 @@ namespace DegCAD
         public (int, int)? SelectItem(Vector2 v)
         {
             //Finds labels
-            for(int k = 0; k < Timeline.CommandHistory.Count; k++)
+            for (int k = 0; k < Timeline.CommandHistory.Count; k++)
             {
                 var cmd = Timeline.CommandHistory[k];
                 for (int i = 0; i < cmd.Items.Length; i++)
                 {
-                    if (!cmd.Items[i].IsVisible()) continue;
-                    if (cmd.Items[i] is not MongeItems.Label lbl) continue;
+                    if (cmd.Items[i] is not MongeItems.Label lbl || !lbl.IsVisible) continue;
                     if (!lbl.IsOnLabel(v)) continue;
                     return (k, i);
                 }
@@ -232,10 +237,10 @@ namespace DegCAD
                 var cmd = Timeline.CommandHistory[k];
                 for (int j = 0; j < cmd.Items.Length; j++)
                 {
-                    if (!cmd.Items[j].IsVisible()) continue;
-                    for (int i = 0; i < cmd.Items[j].SnapablePoints.Length; i++)
+                    if (cmd.Items[j] is not ISnapable item || !item.IsVisible) continue;
+                    for (int i = 0; i < item.SnapablePoints.Length; i++)
                     {
-                        var distance = (v - cmd.Items[j].SnapablePoints[i]).LengthSquared;
+                        var distance = (v - item.SnapablePoints[i]).LengthSquared;
                         if (distance < SnapThreshold)
                         {
                             return (k, j);
@@ -253,10 +258,10 @@ namespace DegCAD
                 var cmd = Timeline.CommandHistory[k];
                 for (int i = 0; i < cmd.Items.Length; i++)
                 {
-                    if (!cmd.Items[i].IsVisible()) continue;
-                    for (int j = 0; j < cmd.Items[i].SnapableLines.Length; j++)
+                    if (cmd.Items[i] is not ISnapable item || !item.IsVisible) continue;
+                    for (int j = 0; j < item.SnapableLines.Length; j++)
                     {
-                        var line = cmd.Items[i].SnapableLines[j];
+                        var line = item.SnapableLines[j];
                         var point = line.Line.GetClosestPoint(v);
                         double distance = (v - point).LengthSquared;
                         if (distance < SnapThreshold && line.IsOnSegment(point))
@@ -274,10 +279,10 @@ namespace DegCAD
                 var cmd = Timeline.CommandHistory[k];
                 for (int i = 0; i < cmd.Items.Length; i++)
                 {
-                    if (!cmd.Items[i].IsVisible()) continue;
-                    for (int j = 0; j < cmd.Items[i].SnapableCircles.Length; j++)
+                    if (cmd.Items[i] is not ISnapable item || !item.IsVisible) continue;
+                    for (int j = 0; j < item.SnapableCircles.Length; j++)
                     {
-                        var circle = cmd.Items[i].SnapableCircles[j];
+                        var circle = item.SnapableCircles[j];
                         var point = circle.TranslatePointToCircle(v);
                         double distance = (v - point).LengthSquared;
                         if (distance < SnapThreshold)

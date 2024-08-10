@@ -11,12 +11,11 @@ using System.Windows.Shapes;
 
 namespace DegCAD.MongeItems
 {
-    public class LineSegment : IMongeItem
+    public class LineSegment : GeometryElement, ISnapable, ISvgConvertable
     {
-        private Style _style;
-        private ViewportLayer? _vpl;
         private Vector2 _p1;
         private Vector2 _p2;
+        private readonly Line _line;
 
         public Vector2 P1
         {
@@ -38,59 +37,36 @@ namespace DegCAD.MongeItems
                 SnapableLines[0] = new(ParametricLine2.From2Points(_p1, _p2), 0, 1);
             }
         }
-        public Style Style
-        {
-            get => _style;
-            set
-            {
-                _style = value;
-                _line.SetStyle(value);
-            }
-        }
 
         public Vector2[] SnapablePoints { get; private set; }
         public ParametricSegment2[] SnapableLines { get; private set; }
-        public Circle2[] SnapableCircles { get; } = new Circle2[0];
+        public Circle2[] SnapableCircles { get; } = [];
 
         public LineSegment(Vector2 p1, Vector2 p2, ViewportLayer? vpl = null) : this(p1, p2, Style.Default, vpl) { }
         public LineSegment(Vector2 p1, Vector2 p2, Style style, ViewportLayer? vpl = null)
         {
-            SnapableLines = new ParametricSegment2[1] { new(ParametricLine2.From2Points(p1, p2),0,1) };
-            SnapablePoints = new Vector2[2] { p1, p2 };
+            SnapableLines = [new(ParametricLine2.From2Points(p1, p2), 0, 1)];
+            SnapablePoints = [p1, p2];
 
             _p1 = p1;
             _p2 = p2;
+
+            _line = new();
+            AddShape(_line);
+
             Style = style;
 
             if (vpl is not null) AddToViewportLayer(vpl);
         }
 
-        private readonly Line _line = new() { IsHitTestVisible = false };
 
-        public void Draw()
+        public override void Draw()
         {
-            if (_vpl is null) return;
-            _line.SetLineSegment(_vpl, P1, P2);
-        }
-
-        public void AddToViewportLayer(ViewportLayer vpl)
-        {
-            vpl.Canvas.Children.Add(_line);
-            _vpl = vpl;
-        }
-        public void RemoveFromViewportLayer()
-        {
-            if (_vpl is null) return;
-            _vpl.Canvas.Children.Remove(_line);
-            _vpl = null;
+            if (ViewportLayer is null) return;
+            _line.SetLineSegment(ViewportLayer, P1, P2);
         }
 
-        public void SetVisibility(Visibility visibility)
-        {
-            _line.Visibility = visibility;
-        }
-        public bool IsVisible() => _line.Visibility == Visibility.Visible;
-        public IMongeItem Clone() => new LineSegment(P1, P2, Style);
+        public override GeometryElement CloneElement() => new LineSegment(P1, P2, Style);
         public string ToSvg() => $"<path d=\"M {_line.X1} {_line.Y1} L {_line.X2} {_line.Y2}\" {Style.ToSvgParameters()}/>";
     }
 }

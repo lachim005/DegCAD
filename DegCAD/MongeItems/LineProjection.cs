@@ -14,16 +14,15 @@ namespace DegCAD.MongeItems
     /// <summary>
     /// Projection of a line in one plane
     /// </summary>
-    public class LineProjection : IMongeItem
+    public class LineProjection : GeometryElement, ISnapable, ISvgConvertable
     {
-        private Style _style;
-        private ViewportLayer? _vpl;
         private ParametricLine2 _paraLine;
         private bool _plane;
+        private readonly Line _line;
 
-        public Vector2[] SnapablePoints { get; } = new Vector2[0];
+        public Vector2[] SnapablePoints { get; } = [];
 
-        public Circle2[] SnapableCircles { get; } = new Circle2[0];
+        public Circle2[] SnapableCircles { get; } = [];
 
         public ParametricSegment2[] SnapableLines { get; private set; }
 
@@ -52,16 +51,6 @@ namespace DegCAD.MongeItems
             }
         }
 
-        public Style Style
-        {
-            get => _style;
-            set
-            {
-                _style = value;
-                _line.SetStyle(value);
-            }
-        }
-
         public LineProjection(ParametricLine2 line, bool plane, Style style, ViewportLayer? vpl = null)
         {
             _paraLine = line;
@@ -69,46 +58,28 @@ namespace DegCAD.MongeItems
 
             RecalculateInfinitySign();
             if (Line.DirectionVector.Y == 0)
-                SnapableLines = new ParametricSegment2[1] { new(_paraLine, double.NegativeInfinity, double.PositiveInfinity) };
+                SnapableLines = [new(_paraLine, double.NegativeInfinity, double.PositiveInfinity)];
             else
-                SnapableLines = new ParametricSegment2[1] { new(_paraLine, Line.GetParamFromY(0), double.NegativeInfinity * infinitySign) };
+                SnapableLines = [new(_paraLine, Line.GetParamFromY(0), double.NegativeInfinity * infinitySign)];
 
+            _line = new();
+            AddShape(_line);
 
             Style = style;
 
             if (vpl is not null) AddToViewportLayer(vpl);
         }
 
-
-        private readonly Line _line = new() { IsHitTestVisible = false };
-
-        public void Draw()
+        public override void Draw()
         {
-            if (_vpl is null) return;
+            if (ViewportLayer is null) return;
             if (Line.DirectionVector.Y == 0)
-                _line.SetParaLine(_vpl, Line, double.NegativeInfinity, double.PositiveInfinity);
+                _line.SetParaLine(ViewportLayer, Line, double.NegativeInfinity, double.PositiveInfinity);
             else
-                _line.SetParaLine(_vpl, Line, Line.GetParamFromY(0), double.PositiveInfinity * infinitySign);
+                _line.SetParaLine(ViewportLayer, Line, Line.GetParamFromY(0), double.PositiveInfinity * infinitySign);
         }
 
-        public void AddToViewportLayer(ViewportLayer vpl)
-        {
-            vpl.Canvas.Children.Add(_line);
-            _vpl = vpl;
-        }
-        public void RemoveFromViewportLayer()
-        {
-            if (_vpl is null) return;
-            _vpl.Canvas.Children.Remove(_line);
-            _vpl = null;
-        }
-
-        public void SetVisibility(Visibility visibility)
-        {
-            _line.Visibility = visibility;
-        }
-        public bool IsVisible() => _line.Visibility == Visibility.Visible;
-        public IMongeItem Clone() => new LineProjection(Line, Plane, Style);
+        public override GeometryElement CloneElement() => new LineProjection(Line, Plane, Style);
         public string ToSvg() => $"<path d=\"M {_line.X1} {_line.Y1} L {_line.X2} {_line.Y2}\" {Style.ToSvgParameters()}/>";
 
         private void RecalculateInfinitySign()

@@ -90,7 +90,7 @@ namespace DegCAD.GeometryCommands
 
             p2 = line.GetClosestPoint(p2);
 
-            return new(new IMongeItem[1] { new MongeItems.LineSegment(p1, p2, inputMgr.StyleSelector.CurrentStyle, vpl) });
+            return new([new MongeItems.LineSegment(p1, p2, inputMgr.StyleSelector.CurrentStyle, vpl)]);
         }
     }
 }

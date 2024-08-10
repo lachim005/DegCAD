@@ -20,9 +20,8 @@ namespace DegCAD.MongeItems
     /// <summary>
     /// A label labeling a thing that's supposed to be labeled
     /// </summary>
-    public class Label : IMongeItem
+    public class Label : GeometryElement, ISvgConvertable
     {
-        private Style _style;
         private string _labelText = "";
         private string _subscript = "";
         private string _superscript = "";
@@ -58,33 +57,16 @@ namespace DegCAD.MongeItems
 
         public Vector2 Position { get; set; }
 
-        public Vector2[] SnapablePoints { get; } = new Vector2[0];
-
-        public ParametricSegment2[] SnapableLines { get; } = new ParametricSegment2[0];
-
-        public Circle2[] SnapableCircles { get; } = new Circle2[0];
-
-        public Style Style
-        {
-            get => _style;
-            set
-            {
-                _style = value;
-                _prevStyle = value;
-                SetStyle(Style);
-            }
-        }
-
-        private void SetStyle(Style style)
+        public override void ShowStyle(Style style)
         {
             _lblTbl.Foreground = new SolidColorBrush(style.Color);
             _subTbl.Foreground = new SolidColorBrush(style.Color);
             _supTbl.Foreground = new SolidColorBrush(style.Color);
         }
 
-        public IMongeItem LabeledObject { get; init; }
+        public GeometryElement LabeledObject { get; init; }
 
-        public Label(string labelText, string subscript, string superscript, Vector2 position, Style style, IMongeItem labeledObject, ViewportLayer? vpl = null, int? fontSize = null)
+        public Label(string labelText, string subscript, string superscript, Vector2 position, Style style, GeometryElement labeledObject, ViewportLayer? vpl = null, int? fontSize = null)
         {
             FontSize = fontSize ?? Settings.DefaultLabelFontSize;
             LabelText = labelText;
@@ -95,7 +77,7 @@ namespace DegCAD.MongeItems
             _prevStyle = style;
             LabeledObject = labeledObject;
             LabeledObject.Style = Style.HighlightStyle;
-            LabeledObject.SetVisibility(Visibility.Hidden);
+            LabeledObject.Visibility = Visibility.Hidden;
 
             if (vpl is not null) AddToViewportLayer(vpl);
 
@@ -109,20 +91,20 @@ namespace DegCAD.MongeItems
         TextBlock _subTbl = new() { FontFamily = new("Tahoma"), TextAlignment = TextAlignment.Right };
 
 
-        public void Draw()
+        public override void Draw()
         {
-            if (_vpl is null) return;
-            double fontSize = Math.Clamp(FontSize * _vpl.Viewport.Scale, 0.01, 35000);
+            if (ViewportLayer is null) return;
+            double fontSize = Math.Clamp(FontSize * ViewportLayer.Viewport.Scale, 0.01, 35000);
 
             _lblTbl.FontSize = fontSize;
             _subTbl.FontSize = fontSize * .5;
             _supTbl.FontSize = fontSize * .5;
 
 
-            var screenPos = _vpl.Viewport.CanvasToScreen(Position);
+            var screenPos = ViewportLayer.Viewport.CanvasToScreen(Position);
 
             Canvas.SetTop(_lblTbl, screenPos.Y);
-            Canvas.SetRight(_lblTbl, _vpl.Canvas.ActualWidth - screenPos.X);
+            Canvas.SetRight(_lblTbl, ViewportLayer.Canvas.ActualWidth - screenPos.X);
             Canvas.SetTop(_supTbl, screenPos.Y - fontSize * .1);
             Canvas.SetLeft(_supTbl, screenPos.X + fontSize * .05);
             Canvas.SetTop(_subTbl, screenPos.Y + fontSize * .6);
@@ -131,40 +113,39 @@ namespace DegCAD.MongeItems
             LabeledObject.Draw();
         }
 
-        public void AddToViewportLayer(ViewportLayer vpl)
+        public override void AddToViewportLayer(ViewportLayer vpl)
         {
             vpl.Canvas.Children.Add(_lblTbl);
             vpl.Canvas.Children.Add(_supTbl);
             vpl.Canvas.Children.Add(_subTbl);
             LabeledObject.AddToViewportLayer(vpl);
             vpl.Canvas.MouseMove += CanvasMouseMove;
-            _vpl = vpl;
+            ViewportLayer = vpl;
         }
-        public void RemoveFromViewportLayer()
+        public override void RemoveFromViewportLayer()
         {
-            if (_vpl is null) return;
-            _vpl.Canvas.Children.Remove(_lblTbl);
-            _vpl.Canvas.Children.Remove(_supTbl);
-            _vpl.Canvas.Children.Remove(_subTbl);
+            if (ViewportLayer is null) return;
+            ViewportLayer.Canvas.Children.Remove(_lblTbl);
+            ViewportLayer.Canvas.Children.Remove(_supTbl);
+            ViewportLayer.Canvas.Children.Remove(_subTbl);
             LabeledObject.RemoveFromViewportLayer();
-            _vpl.Canvas.MouseMove -= CanvasMouseMove;
-            _vpl = null;
+            ViewportLayer.Canvas.MouseMove -= CanvasMouseMove;
+            ViewportLayer = null;
         }
 
-        public void SetVisibility(Visibility visibility)
+        protected override void SetVisibility(Visibility visibility)
         {
             _lblTbl.Visibility = visibility;
             _subTbl.Visibility = visibility;
             _supTbl.Visibility = visibility;
         }
-        public bool IsVisible() => _lblTbl.Visibility == Visibility.Visible;
-        public IMongeItem Clone() => new Label(LabelText, Subscript, Superscript, Position, _prevStyle, LabeledObject.Clone(), fontSize: FontSize);
+        public override GeometryElement CloneElement() => new Label(LabelText, Subscript, Superscript, Position, Style, LabeledObject.CloneElement(), fontSize: FontSize);
         public string ToSvg()
         {
-            if (_vpl is null) return string.Empty;
+            if (ViewportLayer is null) return string.Empty;
 
             var t = Canvas.GetTop(_lblTbl);
-            var r = _vpl.Canvas.ActualWidth - Canvas.GetRight(_lblTbl);
+            var r = ViewportLayer.Canvas.ActualWidth - Canvas.GetRight(_lblTbl);
 
             var text = $"<text x=\"{r}\" " +
                 $"y=\"{t}\" " +
@@ -200,14 +181,14 @@ namespace DegCAD.MongeItems
 
         public bool IsOnLabel(Vector2 canvasPos)
         {
-            if (_vpl is null) return false;
+            if (ViewportLayer is null) return false;
 
             var t = Canvas.GetTop(_lblTbl);
-            var r = _vpl.Canvas.ActualWidth - Canvas.GetRight(_lblTbl);
+            var r = ViewportLayer.Canvas.ActualWidth - Canvas.GetRight(_lblTbl);
 
             var l = r - _lblTbl.ActualWidth;
             var b = t + _lblTbl.ActualHeight;
-            var pt = _vpl.Viewport.CanvasToScreen(canvasPos);
+            var pt = ViewportLayer.Viewport.CanvasToScreen(canvasPos);
             return pt.X >= l && pt.X <= r && pt.Y >= t && pt.Y <= b;
         }
 
@@ -217,19 +198,19 @@ namespace DegCAD.MongeItems
 
         private void LabelMouseEnter(object sender, MouseEventArgs e)
         {
-            LabeledObject.SetVisibility(Visibility.Visible);
-            SetStyle(Style.HighlightStyle);
+            LabeledObject.Visibility = Visibility.Visible;
+            _prevStyle = Style;
+            Style = Style.HighlightStyle;
         }
         private void LabelMouseLeave(object sender, MouseEventArgs e)
         {
-            LabeledObject.SetVisibility(Visibility.Hidden);
-            SetStyle(_prevStyle);
+            LabeledObject.Visibility = Visibility.Hidden;
+            Style = _prevStyle;
         }
 
         Vector2? dragStart = null;
         Vector2? dragStartPos = null;
         bool startedMoving = false;
-        ViewportLayer? _vpl;
         private void LabelMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (e.ClickCount == 2)
@@ -248,12 +229,12 @@ namespace DegCAD.MongeItems
                     Superscript = lid.Superscript;
                     FontSize = lid.TextSize;
                 }
-                if (_vpl is not null)
+                if (ViewportLayer is not null)
                     Draw();
             }
 
-            if (_vpl is null) return;
-            dragStart = _vpl.Viewport.ScreenToCanvas(e.GetPosition(_vpl.Canvas));
+            if (ViewportLayer is null) return;
+            dragStart = ViewportLayer.Viewport.ScreenToCanvas(e.GetPosition(ViewportLayer.Canvas));
             dragStartPos = Position;
             startedMoving = false;
         }
@@ -264,18 +245,18 @@ namespace DegCAD.MongeItems
             if (e.LeftButton == MouseButtonState.Released)
             {
                 dragStart = null;
-                _vpl?.Canvas.ReleaseMouseCapture();
+                ViewportLayer?.Canvas.ReleaseMouseCapture();
                 return;
             }
-            if (_vpl is null) return;
+            if (ViewportLayer is null) return;
 
-            Position = (Vector2)(dragStartPos + (_vpl.Viewport.ScreenToCanvas(e.GetPosition(sender as Canvas)) - dragStart));
+            Position = (Vector2)(dragStartPos + (ViewportLayer.Viewport.ScreenToCanvas(e.GetPosition(sender as Canvas)) - dragStart));
 
             //Snap to other labels
             if (Settings.SnapLabels)
             {
                 var closestYDiff = double.MaxValue;
-                foreach (var cmd in _vpl.Viewport.Timeline.CommandHistory)
+                foreach (var cmd in ViewportLayer.Viewport.Timeline.CommandHistory)
                 {
                     foreach (var item in cmd.Items)
                     {
@@ -299,7 +280,7 @@ namespace DegCAD.MongeItems
 
             if (!startedMoving)
             {
-                _vpl.Canvas.CaptureMouse();
+                ViewportLayer.Canvas.CaptureMouse();
                 startedMoving = true;
             }
 

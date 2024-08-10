@@ -55,7 +55,7 @@ namespace DegCAD.GeometryCommands
             Style curStyle = inputMgr.StyleSelector.CurrentStyle;
 
 
-            List<IMongeItem> mongeItems = new(2)
+            List<GeometryElement> mongeItems = new(2)
             {
                 new Point(p2.X, p2.Y, curStyle, vpl)
             };
@@ -71,11 +71,11 @@ namespace DegCAD.GeometryCommands
                 if (!lid.Canceled)
                 {
                     mongeItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript,
-                        p2, curStyle, mongeItems[0].Clone(), vpl, lid.TextSize));
+                        p2, curStyle, mongeItems[0].CloneElement(), vpl, lid.TextSize));
                 } 
             }
 
-            return new(mongeItems.ToArray());
+            return new([.. mongeItems]);
         }
     }
 }

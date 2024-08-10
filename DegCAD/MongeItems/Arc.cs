@@ -13,14 +13,12 @@ namespace DegCAD.MongeItems
     /// <summary>
     /// An arc defined by it's center, a point on the circle and two angles
     /// </summary>
-    public class Arc : IMongeItem
+    public class Arc : GeometryElement, ISnapable, ISvgConvertable
     {
-        private Style _style;
-        private ViewportLayer? _vpl;
         private Circle2 _circle2;
         private double _startAngle;
         private double _endAngle;
-
+        private readonly Path _arc;
 
         public Vector2[] SnapablePoints { get; init; }
 
@@ -59,63 +57,37 @@ namespace DegCAD.MongeItems
                 SnapablePoints[2] = _circle2.CalculatePointWithAngle(_endAngle);
             }
         }
-        public Style Style { 
-            get => _style; 
-            set
-            {
-                _style = value;
-                _arc.SetStyle(value);
-            }
-        }
 
         public Arc(Circle2 circle, double startPoint, double endPoint, Style style, ViewportLayer? vpl = null)
         {
-            SnapablePoints = new Vector2[3] {
+            SnapablePoints = [
                 circle.Center,
                 circle.CalculatePointWithAngle(startPoint),
                 circle.CalculatePointWithAngle(endPoint)
-            };
-            SnapableLines = new ParametricSegment2[0];
-            SnapableCircles = new Circle2[1] { circle };
+            ];
+            SnapableLines = [];
+            SnapableCircles = [ circle ];
 
 
             _circle2 = circle;
             _startAngle = startPoint;
             _endAngle = endPoint;
 
+            _arc = new();
+            AddShape(_arc);
+
             Style = style;
 
             if (vpl is not null) AddToViewportLayer(vpl);
         }
 
-        Path _arc = new() { IsHitTestVisible = false };
-
-        public void Draw()
+        public override void Draw()
         {
-            if (_vpl is null) return;
-            _arc.SetArc(_vpl, Circle, StartAngle, EndAngle);
+            if (ViewportLayer is null) return;
+            _arc.SetArc(ViewportLayer, Circle, StartAngle, EndAngle);
         }
 
-        public void AddToViewportLayer(ViewportLayer vpl)
-        {
-            vpl.Canvas.Children.Add(_arc);
-            _vpl = vpl;
-        }
-        public void RemoveFromViewportLayer()
-        {
-            if (_vpl is null) return;
-            _vpl.Canvas.Children.Remove(_arc);
-            _vpl = null;
-        }
-
-        public void SetVisibility(Visibility visibility)
-        {
-            _arc.Visibility = visibility;
-        }
-
-        public bool IsVisible() => _arc.Visibility == Visibility.Visible;
-
-        public IMongeItem Clone() => new Arc(Circle, StartAngle, EndAngle, Style);
+        public override GeometryElement CloneElement() => new Arc(Circle, StartAngle, EndAngle, Style);
 
         public string ToSvg() => $"<path d=\"{_arc.Data}\" {Style.ToSvgParameters()}/>";
     }

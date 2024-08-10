@@ -55,10 +55,10 @@ namespace DegCAD.GeometryCommands
 
             var curStyle = inputMgr.StyleSelector.CurrentStyle;
 
-            List<IMongeItem> mItems = new()
-            {
+            List<GeometryElement> mItems =
+            [
                 new InfiniteLine(line, curStyle, vpl)
-            };
+            ];
 
             if (inputMgr.NameNewItems)
             {
@@ -67,11 +67,11 @@ namespace DegCAD.GeometryCommands
                 lid.ShowDialog();
                 if (!lid.Canceled)
                 {
-                    mItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript, line.Point + line.DirectionVector.ChangeLength(2), curStyle, mItems[0].Clone(), vpl, lid.TextSize));
+                    mItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript, line.Point + line.DirectionVector.ChangeLength(2), curStyle, mItems[0].CloneElement(), vpl, lid.TextSize));
                 } 
             }
 
-            return new(mItems.ToArray());
+            return new([.. mItems]);
         }
     }
 }

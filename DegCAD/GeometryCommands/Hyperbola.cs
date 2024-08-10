@@ -54,7 +54,7 @@ namespace DegCAD.GeometryCommands
 
             Style curStyle = inputMgr.StyleSelector.CurrentStyle;
 
-            return new(new IMongeItem[1] { new MongeItems.Hyperbola(vertexPt, centerPt, endPt, curStyle, vpl) });
+            return new([new MongeItems.Hyperbola(vertexPt, centerPt, endPt, curStyle, vpl)]);
         }
     }
 }

@@ -130,8 +130,8 @@ namespace DegCAD.GeometryCommands
 
             //Swaps the start and end angles if necessary
             if (swap)
-                return new(new IMongeItem[1] { new MongeItems.Arc(circle, endAngle, startAngle, curStyle, vpl) });
-            return new(new IMongeItem[1] { new MongeItems.Arc(circle, startAngle, endAngle, curStyle, vpl) });
+                return new([new MongeItems.Arc(circle, endAngle, startAngle, curStyle, vpl)]);
+            return new([new MongeItems.Arc(circle, startAngle, endAngle, curStyle, vpl)]);
         }
     }
 }

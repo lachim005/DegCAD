@@ -9,29 +9,13 @@ using System.Windows.Media;
 
 namespace DegCAD.MongeItems
 {
-    public class Parabola : IMongeItem
+    public class Parabola : GeometryElement, ISvgConvertable
     {
-        private Style _style;
-        private ViewportLayer? _vpl;
         private Vector2 _focus;
         private Vector2 _vertex;
         private Vector2 _end;
+        private readonly System.Windows.Shapes.Path _parabola;
 
-        public Vector2[] SnapablePoints { get; } = new Vector2[0];
-
-        public ParametricSegment2[] SnapableLines { get; } = new ParametricSegment2[0];
-
-        public Circle2[] SnapableCircles { get; } = new Circle2[0];
-
-        public Style Style
-        {
-            get => _style;
-            set
-            {
-                _style = value;
-                _parabola.SetStyle(value);
-            }
-        }
         public Vector2 Focus
         {
             get => _focus;
@@ -77,14 +61,15 @@ namespace DegCAD.MongeItems
             Focus = focus;
             Vertex = vertex;
 
-            Style = style;
 
+            _parabola = new();
             _parabola.RenderTransform = new RotateTransform();
+            AddShape(_parabola);
+
+            Style = style;
 
             if (vpl is not null) AddToViewportLayer(vpl);
         }
-
-        System.Windows.Shapes.Path _parabola = new() { IsHitTestVisible = false };
 
         private void RecalculateSvgPoints()
         {
@@ -114,32 +99,16 @@ namespace DegCAD.MongeItems
             ControlPoint = axis.FindIntersection(t);
         }
 
-        public void Draw()
+        public override void Draw()
         {
-            if (_vpl is null) return;
+            if (ViewportLayer is null) return;
             if (!Infinite)
-                _parabola.SetParabola(_vpl, this);
+                _parabola.SetParabola(ViewportLayer, this);
             else
-                _parabola.SetInfiniteParabola(_vpl, this);
+                _parabola.SetInfiniteParabola(ViewportLayer, this);
         }
 
-        public void AddToViewportLayer(ViewportLayer vpl)
-        {
-            _vpl = vpl;
-            vpl.Canvas.Children.Add(_parabola);
-        }
-        public void RemoveFromViewportLayer()
-        {
-            if (_vpl is null) return;
-            _vpl.Canvas.Children.Remove(_parabola);
-            _vpl = null;
-        }
-        public void SetVisibility(Visibility visibility)
-        {
-            _parabola.Visibility = visibility;
-        }
-        public bool IsVisible() => _parabola.Visibility == Visibility.Visible;
-        public IMongeItem Clone()
+        public override GeometryElement CloneElement()
         {
             if (Infinite)
                 return new Parabola(Focus, Vertex, Style);

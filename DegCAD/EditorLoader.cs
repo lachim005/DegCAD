@@ -173,7 +173,7 @@ namespace DegCAD
             using StreamReader sr = new(path);
 
             string? line;
-            List<IMongeItem> items = new();
+            List<ITimelineElement> items = new();
             Style currentStyle = Style.Default;
             while((line = await sr.ReadLineAsync()) is not null)
             {
@@ -204,7 +204,10 @@ namespace DegCAD
                 var mItem = ParseMongeItem(line, currentStyle, md);
                 if (mItem is not null)
                 {
-                    mItem.AddToViewportLayer(e.viewPort.Layers[1]);
+                    if (mItem is GeometryElement ge)
+                    {
+                        ge.AddToViewportLayer(e.viewPort.Layers[1]);
+                    }
                     items.Add(mItem);
                 }
             }
@@ -279,7 +282,7 @@ namespace DegCAD
             e.AxonometryAxes = new(xLine, yLine, zLine);
         }
 
-        private static IMongeItem? ParseMongeItem(string s, Style stl, Metadata md)
+        private static ITimelineElement? ParseMongeItem(string s, Style stl, Metadata md)
         {
             var itemName = s[..3];
 
@@ -439,8 +442,8 @@ namespace DegCAD
         {
             string[] halves = s.Split("->", 2);
             string[] args = halves[0].SplitWithEscapeChar(' ', '\\').ToArray();
-            IMongeItem? labeledItem = ParseMongeItem(halves[1], stl, md);
-            if (labeledItem is null)
+            ITimelineElement? labeledItemElement = ParseMongeItem(halves[1], stl, md);
+            if (labeledItemElement is not GeometryElement labeledItem)
             {
                 labeledItem = new Point(0, 0);
             }

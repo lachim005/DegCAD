@@ -62,7 +62,7 @@ namespace DegCAD.GeometryCommands
                 mSegPt1.Coords = pt;
                 mSegPt1.Draw();
                 selectedLine.SetParaLine(previewVpl, line, double.NegativeInfinity, double.PositiveInfinity);
-            }, lines: new ParametricLine2[1] { line });
+            }, lines: [line]);
 
             p1 = line.GetClosestPoint(p1);
 
@@ -84,11 +84,11 @@ namespace DegCAD.GeometryCommands
                 mLineSeg.Draw();
 
                 selectedLine.SetParaLine(previewVpl, line, double.NegativeInfinity, double.PositiveInfinity);
-            }, lines: new ParametricLine2[1] { line });
+            }, lines: [line]);
 
             p2 = line.GetClosestPoint(p2);
 
-            return new(new IMongeItem[1] { new MongeItems.LineSegment(p1, p2, inputMgr.StyleSelector.CurrentStyle, vpl) });
+            return new([new MongeItems.LineSegment(p1, p2, inputMgr.StyleSelector.CurrentStyle, vpl)]);
         } 
     }
 }

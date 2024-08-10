@@ -14,9 +14,9 @@ namespace DegCAD.GeometryCommands
             esb.CommandName = "Změnit styl";
             esb.CommandHelp = "Vyberte prvek, kterému chcete změnit styl";
 
-            IMongeItem? highlightedItem = null;
-            IMongeItem? highlightedItemClone = null;
-            var item = await inputMgr.GetItem((pt, item) =>
+            GeometryElement? highlightedItem = null;
+            GeometryElement? highlightedItemClone = null;
+            var itemIndex = await inputMgr.GetItem((pt, item) =>
             {
                 if (item is null)
                 {
@@ -28,7 +28,7 @@ namespace DegCAD.GeometryCommands
                 {
                     highlightedItemClone?.RemoveFromViewportLayer();
                     highlightedItem = item;
-                    highlightedItemClone = item.Clone();
+                    highlightedItemClone = item.CloneElement();
                     highlightedItemClone.Style = Style.HighlightStyle;
                     highlightedItemClone.AddToViewportLayer(previewVpl);
                 }
@@ -38,7 +38,10 @@ namespace DegCAD.GeometryCommands
             highlightedItemClone?.RemoveFromViewportLayer();
 
             var curStyle = inputMgr.StyleSelector.CurrentStyle;
-            inputMgr.Snapper.Timeline.CommandHistory[item.Item1].Items[item.Item2].Style = curStyle;
+            var item = inputMgr.Snapper.Timeline.CommandHistory[itemIndex.Item1].Items[itemIndex.Item2];
+
+            if (item is not GeometryElement ge) return null;
+            ge.Style = curStyle;
 
             return null;
         }

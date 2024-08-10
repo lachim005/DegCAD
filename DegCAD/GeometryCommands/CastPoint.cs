@@ -72,7 +72,7 @@ namespace DegCAD.GeometryCommands
 
                 if (perp)
                 {
-                    mPerpendicularSeg.SetVisibility(System.Windows.Visibility.Visible);
+                    mPerpendicularSeg.Visibility = System.Windows.Visibility.Visible;
                     mPerpendicularSeg.P1 = ptOnCircle;
                     mPerpendicularSeg.P2 = point - sth;
                     mPerpendicularSeg.Draw();
@@ -86,7 +86,7 @@ namespace DegCAD.GeometryCommands
                 }
                 else
                 {
-                    mPerpendicularSeg.SetVisibility(System.Windows.Visibility.Hidden);
+                    mPerpendicularSeg.Visibility = System.Windows.Visibility.Hidden;
                     mDirectionSegment.P2 = ptOnCircle;
                     mPt2.Coords = ptOnCircle;
                 }
@@ -95,7 +95,7 @@ namespace DegCAD.GeometryCommands
                 mDirectionSegment.Draw();
             }, defaultPlane: true , circles: new Circle2[1] { circle }, predicate: (pt) => pt != point);
 
-            List<IMongeItem> mItems = new();
+            List<GeometryElement> mItems = new();
 
             Style curStyle = inputMgr.StyleSelector.CurrentStyle;
 
@@ -122,11 +122,11 @@ namespace DegCAD.GeometryCommands
                 lid.ShowDialog();
                 if (!lid.Canceled)
                 {
-                    mItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript, mPoint.Coords, curStyle, mPoint.Clone(), vpl, lid.TextSize));
+                    mItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript, mPoint.Coords, curStyle, mPoint.CloneElement(), vpl, lid.TextSize));
                 } 
             }
 
-            return new TimelineItem(mItems.ToArray());
+            return new TimelineItem([.. mItems]);
         }
     }
 }

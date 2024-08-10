@@ -26,7 +26,7 @@ namespace DegCAD.GeometryCommands
                 mPt.Draw();
             });
 
-            List<IMongeItem> mongeItems = new(2)
+            List<GeometryElement> mongeItems = new(2)
             {
                 new Point(pt.X, pt.Y, inputMgr.StyleSelector.CurrentStyle, vpl)
             };
@@ -39,11 +39,11 @@ namespace DegCAD.GeometryCommands
 
                 if (!lid.Canceled)
                 {
-                    mongeItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript, pt, inputMgr.StyleSelector.CurrentStyle, mongeItems[0].Clone(), vpl, lid.TextSize));
+                    mongeItems.Add(new Label(lid.LabelText, lid.Subscript, lid.Superscript, pt, inputMgr.StyleSelector.CurrentStyle, mongeItems[0].CloneElement(), vpl, lid.TextSize));
                 } 
             }
 
-            return new(mongeItems.ToArray());
+            return new([.. mongeItems]);
         }
     }
 }

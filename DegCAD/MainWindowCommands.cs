@@ -164,7 +164,8 @@ namespace DegCAD
 
                 foreach (var item in axo.Axis.Items)
                 {
-                    item.AddToViewportLayer(ed.viewPort.Layers[1]);
+                    if (item is not GeometryElement ge) continue;
+                    ge.AddToViewportLayer(ed.viewPort.Layers[1]);
                 }
 
                 ed.AxonometryAxes = axo.AxonometryAxes;

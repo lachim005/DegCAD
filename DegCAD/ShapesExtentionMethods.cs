@@ -14,20 +14,23 @@ namespace DegCAD
 {
     public static class ShapesExtentionMethods
     {
-        #region Line
+        #region Shape
         /// <summary>
-        /// Sets the style of the line
+        /// Sets the style of the shape
         /// </summary>
-        public static void SetStyle(this Line ln, Style style)
+        public static void SetStyle(this Shape s, Style style)
         {
-            ln.Stroke = new SolidColorBrush(style.Color);
-            ln.StrokeThickness = style.Thickness + 1;
-            ln.StrokeDashArray = new(Style.StrokeDashArrays[style.LineStyle]);
-            ln.StrokeStartLineCap = PenLineCap.Round;
-            ln.StrokeDashCap = PenLineCap.Round;
-            ln.StrokeEndLineCap = PenLineCap.Round;
-            ln.SnapsToDevicePixels = true;
+            s.Stroke = new SolidColorBrush(style.Color);
+            s.StrokeThickness = style.Thickness + 1;
+            s.StrokeDashArray = new(Style.StrokeDashArrays[style.LineStyle]);
+            s.StrokeStartLineCap = PenLineCap.Round;
+            s.StrokeDashCap = PenLineCap.Round;
+            s.StrokeEndLineCap = PenLineCap.Round;
+            s.SnapsToDevicePixels = true;
         }
+        #endregion
+
+        #region Line
         /// <summary>
         /// Sets the screen coordinates of the line to fit a line segment
         /// </summary>
@@ -56,19 +59,6 @@ namespace DegCAD
         #endregion
 
         #region Circle
-        /// <summary>
-        /// Sets the style of the ellipse
-        /// </summary>
-        public static void SetStyle(this Ellipse el, Style style)
-        {
-            el.Stroke = new SolidColorBrush(style.Color);
-            el.StrokeThickness = style.Thickness + 1;
-            el.StrokeDashArray = new(Style.StrokeDashArrays[style.LineStyle]);
-            el.StrokeStartLineCap = PenLineCap.Round;
-            el.StrokeDashCap = PenLineCap.Round;
-            el.StrokeEndLineCap = PenLineCap.Round;
-            el.SnapsToDevicePixels = true;
-        }
         /// <summary>
         /// Sets the screen coordinates of the ellipse to fit a circle
         /// </summary>
@@ -118,19 +108,6 @@ namespace DegCAD
         #endregion
 
         #region Path
-        /// <summary>
-        /// Sets the style of the path
-        /// </summary>
-        public static void SetStyle(this Path pth, Style style)
-        {
-            pth.Stroke = new SolidColorBrush(style.Color);
-            pth.StrokeThickness = style.Thickness + 1;
-            pth.StrokeDashArray = new(Style.StrokeDashArrays[style.LineStyle]);
-            pth.StrokeStartLineCap = PenLineCap.Round;
-            pth.StrokeDashCap = PenLineCap.Round;
-            pth.StrokeEndLineCap = PenLineCap.Round;
-            pth.SnapsToDevicePixels = true;
-        }
         /// <summary>
         /// Sets the data of the path to fit an arc
         /// </summary>

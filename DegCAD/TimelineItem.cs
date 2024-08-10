@@ -11,9 +11,9 @@ namespace DegCAD
     /// </summary>
     public class TimelineItem
     {
-        public IMongeItem[] Items { get; set; }
+        public ITimelineElement[] Items { get; set; }
 
-        public TimelineItem(IMongeItem[] items)
+        public TimelineItem(ITimelineElement[] items)
         {
             Items = items;
         }

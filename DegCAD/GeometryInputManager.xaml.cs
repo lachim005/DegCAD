@@ -244,7 +244,7 @@ namespace DegCAD
         /// <summary>
         /// Gets an index of a mongeitem from the user
         /// </summary>
-        public async Task<(int, int)> GetItem(Action<Vector2, IMongeItem?> preview)
+        public async Task<(int, int)> GetItem(Action<Vector2, GeometryElement?> preview)
         {
             await inputSemaphore.WaitAsync();
 
@@ -252,13 +252,19 @@ namespace DegCAD
             EventHandler<VPMouseEventArgs> previewPoint = (s, e) =>
             {
                 Vector2 snapPos = Snapper.Snap(e.CanvasPos);
-                var selectedItem = Snapper.SelectItem(e.CanvasPos);
-                if (selectedItem is null)
+                var selectedItemIndex = Snapper.SelectItem(e.CanvasPos);
+                if (selectedItemIndex is null)
                 {
                     preview(snapPos, null);
                     return;
                 }
-                preview(snapPos, Snapper.Timeline.CommandHistory[selectedItem.Value.Item1].Items[selectedItem.Value.Item2]);
+                var selectedItem = Snapper.Timeline.CommandHistory[selectedItemIndex.Value.Item1].Items[selectedItemIndex.Value.Item2];
+                if (selectedItem is not GeometryElement ge)
+                {
+                    preview(snapPos, null);
+                    return;
+                }
+                preview(snapPos, ge);
             };
 
             //Redraws the preview when the user moves the mouse or zooms/pans the viewport

@@ -9,15 +9,14 @@ using System.Windows.Shapes;
 
 namespace DegCAD.MongeItems
 {
-    internal class InfiniteLine : IMongeItem
+    internal class InfiniteLine : GeometryElement, ISnapable, ISvgConvertable
     {
-        private Style _style;
-        private ViewportLayer? _vpl;
         private ParametricLine2 _paraLine;
+        private readonly Line _line;
 
-        public Vector2[] SnapablePoints { get; } = new Vector2[0];
+        public Vector2[] SnapablePoints { get; } = [];
 
-        public Circle2[] SnapableCircles { get; } = new Circle2[0];
+        public Circle2[] SnapableCircles { get; } = [];
 
         public ParametricSegment2[] SnapableLines { get; private set; }
 
@@ -41,54 +40,26 @@ namespace DegCAD.MongeItems
             set => _paraLine.DirectionVector = value;
         }
 
-
-        public Style Style
-        {
-            get => _style;
-            set
-            {
-                _style = value;
-                _line.SetStyle(value);
-            }
-        }
-
         public InfiniteLine(ParametricLine2 line, Style style, ViewportLayer? vpl = null)
         {
             _paraLine = line;
-            SnapableLines = new ParametricSegment2[1] { new(_paraLine, double.NegativeInfinity, double.PositiveInfinity) };
+            SnapableLines = [new(_paraLine, double.NegativeInfinity, double.PositiveInfinity)];
+
+            _line = new();
+            AddShape(_line);
 
             Style = style;
 
             if (vpl is not null) AddToViewportLayer(vpl);
-        }
+        } 
 
-
-        private readonly Line _line = new() { IsHitTestVisible = false };
-
-        public void Draw()
+        public override void Draw()
         {
-            if (_vpl is null) return;
-            _line.SetParaLine(_vpl, Line, double.NegativeInfinity, double.PositiveInfinity);
+            if (ViewportLayer is null) return;
+            _line.SetParaLine(ViewportLayer, Line, double.NegativeInfinity, double.PositiveInfinity);
         }
 
-        public void AddToViewportLayer(ViewportLayer vpl)
-        {
-            vpl.Canvas.Children.Add(_line);
-            _vpl = vpl;
-        }
-        public void RemoveFromViewportLayer()
-        {
-            if (_vpl is null) return;
-            _vpl.Canvas.Children.Remove(_line);
-            _vpl = null;
-        }
-
-        public void SetVisibility(Visibility visibility)
-        {
-            _line.Visibility = visibility;
-        }
-        public bool IsVisible() => _line.Visibility == Visibility.Visible;
-        public IMongeItem Clone() => new InfiniteLine(Line, Style);
+        public override GeometryElement CloneElement() => new InfiniteLine(Line, Style);
         public string ToSvg() => $"<path d=\"M {_line.X1} {_line.Y1} L {_line.X2} {_line.Y2}\" {Style.ToSvgParameters()}/>";
     }
 }

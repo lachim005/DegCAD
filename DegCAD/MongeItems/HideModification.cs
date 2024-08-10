@@ -6,27 +6,25 @@ using System.Threading.Tasks;
 
 namespace DegCAD.MongeItems
 {
-    public class HideModification : Modification
+    public class HideModification(int cmdIndex, int itemIndex) : IModification
     {
-        public int CmdIndex { get; set; }
-        public int ItemIndex { get; set; }
+        public int CmdIndex { get; set; } = cmdIndex;
+        public int ItemIndex { get; set; } = itemIndex;
 
-        public HideModification(int cmdIndex, int itemIndex)
+        public ITimelineElement Clone() => new HideModification(CmdIndex, ItemIndex);
+
+        public void Apply(Timeline tl)
         {
-            CmdIndex = cmdIndex;
-            ItemIndex = itemIndex;
+            var item = tl.CommandHistory[CmdIndex].Items[ItemIndex];
+            if (item is not GeometryElement ge) return;
+            ge.Visibility = System.Windows.Visibility.Collapsed;
         }
 
-        public override IMongeItem Clone() => new HideModification(CmdIndex, ItemIndex);
-
-        public override void Apply(Timeline tl)
+        public void Remove(Timeline tl)
         {
-            tl.CommandHistory[CmdIndex].Items[ItemIndex].SetVisibility(System.Windows.Visibility.Collapsed);
-        }
-
-        public override void Remove(Timeline tl)
-        {
-            tl.CommandHistory[CmdIndex].Items[ItemIndex].SetVisibility(System.Windows.Visibility.Visible);
+            var item = tl.CommandHistory[CmdIndex].Items[ItemIndex];
+            if (item is not GeometryElement ge) return;
+            ge.Visibility = System.Windows.Visibility.Visible;
         }
     }
 }

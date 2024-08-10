@@ -44,7 +44,7 @@ namespace DegCAD.GeometryCommands
             predicate: (p) => p != p1);
 
             Style curStyle = inputMgr.StyleSelector.CurrentStyle;
-            List<IMongeItem> mItems = new List<IMongeItem>();
+            List<GeometryElement> mItems = [];
             mItems.Add(new MongeItems.HalfLine(p1, (p1 - p2) * (flip ? -1 : 1), curStyle, vpl));
 
             if (inputMgr.NameNewItems)
@@ -54,11 +54,11 @@ namespace DegCAD.GeometryCommands
                 lid.ShowDialog();
                 if (!lid.Canceled)
                 {
-                    mItems.Add(new MongeItems.Label(lid.LabelText, lid.Subscript, lid.Superscript, p1, curStyle, mItems[0].Clone(), vpl, lid.TextSize));
+                    mItems.Add(new MongeItems.Label(lid.LabelText, lid.Subscript, lid.Superscript, p1, curStyle, mItems[0].CloneElement(), vpl, lid.TextSize));
                 } 
             }
 
-            return new(mItems.ToArray());
+            return new([.. mItems]);
         }
     }
 }

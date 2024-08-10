@@ -11,26 +11,11 @@ using System.Windows.Shapes;
 
 namespace DegCAD.MongeItems
 {
-    public class Ellipse : IMongeItem
+    public class Ellipse : GeometryElement, ISvgConvertable
     {
-        private Style _style;
-        private ViewportLayer? _vpl;
+        private readonly System.Windows.Shapes.Ellipse _ellipse;
+        private readonly RotateTransform _ellTransform;
 
-        public Vector2[] SnapablePoints { get; } = new Vector2[0];
-
-        public ParametricSegment2[] SnapableLines { get; } = new ParametricSegment2[0];
-
-        public Circle2[] SnapableCircles { get; } = new Circle2[0];
-
-        public Style Style
-        {
-            get => _style;
-            set
-            {
-                _style = value;
-                _ellipse.SetStyle(value);
-            }
-        }
         public Vector2 Center { get; set; }
         public Vector2 P1 { get; set; }
         public Vector2 P2 { get; set; }
@@ -43,39 +28,21 @@ namespace DegCAD.MongeItems
 
             Style = style;
 
+            _ellipse = new();
             _ellTransform = new RotateTransform();
             _ellipse.RenderTransform = _ellTransform;
+            AddShape(_ellipse);
 
             if (vpl is not null) AddToViewportLayer(vpl);
         }
 
-        System.Windows.Shapes.Ellipse _ellipse = new() { IsHitTestVisible = false };
-        RotateTransform _ellTransform;
-
-        public void Draw()
+        public override void Draw()
         {
-            if (_vpl is null) return;
-            _ellipse.SetEllipse(_vpl, Center, P1, P2);
+            if (ViewportLayer is null) return;
+            _ellipse.SetEllipse(ViewportLayer, Center, P1, P2);
         }
 
-        public void AddToViewportLayer(ViewportLayer vpl)
-        {
-            _vpl = vpl;
-            vpl.Canvas.Children.Add(_ellipse);
-        }
-        public void RemoveFromViewportLayer()
-        {
-            if (_vpl is null) return;
-            _vpl.Canvas.Children.Remove(_ellipse);
-            _vpl = null;
-        }
-        public void SetVisibility(Visibility visibility)
-        {
-            _ellipse.Visibility = visibility;
-        }
-        public bool IsVisible() => _ellipse.Visibility == Visibility.Visible;
-
-        public IMongeItem Clone() => new Ellipse(Center, P1, P2, Style);
+        public override GeometryElement CloneElement() => new Ellipse(Center, P1, P2, Style);
         public string ToSvg()
         {
             double x = Canvas.GetLeft(_ellipse) + _ellipse.Width / 2;

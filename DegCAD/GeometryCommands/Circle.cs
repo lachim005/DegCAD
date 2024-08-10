@@ -39,7 +39,7 @@ namespace DegCAD.GeometryCommands
                 mCircle.Draw();
             }, predicate: (pt) => pt != center);
 
-            return new TimelineItem(new IMongeItem[1] { new MongeItems.Circle(new Circle2(center, pointOnCircle), inputMgr.StyleSelector.CurrentStyle, vpl) });
+            return new TimelineItem([new MongeItems.Circle(new Circle2(center, pointOnCircle), inputMgr.StyleSelector.CurrentStyle, vpl)]);
         }
     }
 }
