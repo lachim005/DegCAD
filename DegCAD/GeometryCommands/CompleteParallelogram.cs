@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Shapes;
 using System.Windows;
-using Point = DegCAD.MongeItems.Point;
+using Point = DegCAD.TimelineElements.Point;
 using DegCAD.Dialogs;
-using DegCAD.MongeItems;
+using DegCAD.TimelineElements;
 
 namespace DegCAD.GeometryCommands
 {
@@ -76,8 +76,8 @@ namespace DegCAD.GeometryCommands
             selectedLine2.SetStyle(Style.BlueDashStyle);
             selectedLine2.Visibility = Visibility.Visible;
             Point mLinePoint2 = new(0, 0, previewVpl);
-            MongeItems.LineSegment lseg1 = new(line1Point, (1, 0), Style.GreenStyle,  previewVpl);
-            MongeItems.LineSegment lseg2 = new((0, 0), (1, 0), Style.GreenStyle, previewVpl);
+            TimelineElements.LineSegment lseg1 = new(line1Point, (1, 0), Style.GreenStyle,  previewVpl);
+            TimelineElements.LineSegment lseg2 = new((0, 0), (1, 0), Style.GreenStyle, previewVpl);
             Point mResPoint = new(0, 0, Style.HighlightStyle, previewVpl);
 
             ParametricLine2 newLine1 = line2;

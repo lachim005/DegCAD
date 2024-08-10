@@ -5,13 +5,13 @@ using System.Text;
 using System.Windows.Media;
 using System.Threading.Tasks;
 using System.Numerics;
-using DegCAD.MongeItems;
+using DegCAD.TimelineElements;
 using DegCAD.Dialogs;
 using System.Security.Policy;
 using System.Windows.Shapes;
-using Plane = DegCAD.MongeItems.Plane;
+using Plane = DegCAD.TimelineElements.Plane;
 using System.Windows;
-using Point = DegCAD.MongeItems.Point;
+using Point = DegCAD.TimelineElements.Point;
 
 namespace DegCAD.GeometryCommands
 {

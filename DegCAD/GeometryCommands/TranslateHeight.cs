@@ -6,8 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Shapes;
 using System.Windows;
-using Point = DegCAD.MongeItems.Point;
-using DegCAD.MongeItems;
+using Point = DegCAD.TimelineElements.Point;
+using DegCAD.TimelineElements;
 
 namespace DegCAD.GeometryCommands
 {
@@ -28,7 +28,7 @@ namespace DegCAD.GeometryCommands
 
             esb.CommandHelp = "Vyberte druhý bod výšky";
 
-            MongeItems.LineSegment mGivenHeightSeg = new(hp1, hp1, Style.GreenStyle, previewVpl);
+            TimelineElements.LineSegment mGivenHeightSeg = new(hp1, hp1, Style.GreenStyle, previewVpl);
             Point mHeightPt2 = new(hp1.X, hp1.Y, previewVpl);
 
             var hp2 = await inputMgr.GetPoint((pt) =>
@@ -46,7 +46,7 @@ namespace DegCAD.GeometryCommands
 
             double height = hp2.Y - hp1.Y;
 
-            MongeItems.LineSegment mheightSeg = new(hp1, hp1, Style.BlueDashStyle, previewVpl);
+            TimelineElements.LineSegment mheightSeg = new(hp1, hp1, Style.BlueDashStyle, previewVpl);
             Point mResultPt = new(hp1.X, hp1.Y, Style.HighlightStyle, previewVpl);
             Point mResultStartPt = new(hp1.X, hp1.Y, previewVpl);
 

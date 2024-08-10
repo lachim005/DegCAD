@@ -1,4 +1,4 @@
-﻿using DegCAD.MongeItems;
+﻿using DegCAD.TimelineElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,7 +28,7 @@ namespace DegCAD.GeometryCommands
             esb.CommandHelp = "Vyberte průměr kružnice, na které bude oblouk ležet";
 
             Point mCirclePt = new(0, 0, previewVpl);
-            MongeItems.Circle mCircle = new(new(), Style.BlueDashStyle, previewVpl);
+            TimelineElements.Circle mCircle = new(new(), Style.BlueDashStyle, previewVpl);
 
             Vector2 radiusPoint = await inputMgr.GetPoint((pt) =>
             {
@@ -46,8 +46,8 @@ namespace DegCAD.GeometryCommands
 
             esb.CommandHelp = "Vyberte počáteční bod oblouku";
 
-            MongeItems.LineSegment mSeg1 = new(center, (0, 0), Style.HighlightStyle, previewVpl);
-            MongeItems.Arc mArc = new(circle, 0, 1, Style.HighlightStyle, previewVpl);
+            TimelineElements.LineSegment mSeg1 = new(center, (0, 0), Style.HighlightStyle, previewVpl);
+            TimelineElements.Arc mArc = new(circle, 0, 1, Style.HighlightStyle, previewVpl);
             Point mStartPt = new(0,0, previewVpl);
 
             Vector2 pt1 = await inputMgr.GetPoint((pt) =>
@@ -81,7 +81,7 @@ namespace DegCAD.GeometryCommands
 
             esb.CommandHelp = "Vyberte koncový bod oblouku, pravým tlačítkem myši změníte směr oblouku";
 
-            MongeItems.LineSegment mSeg2 = new(center, (0, 0), Style.HighlightStyle, previewVpl);
+            TimelineElements.LineSegment mSeg2 = new(center, (0, 0), Style.HighlightStyle, previewVpl);
             Point mEndPt = new(0, 0, previewVpl);
 
             (var pt2, var swap) = await inputMgr.GetPointWithPlane((pt, swap) =>
@@ -130,8 +130,8 @@ namespace DegCAD.GeometryCommands
 
             //Swaps the start and end angles if necessary
             if (swap)
-                return new([new MongeItems.Arc(circle, endAngle, startAngle, curStyle, vpl)]);
-            return new([new MongeItems.Arc(circle, startAngle, endAngle, curStyle, vpl)]);
+                return new([new TimelineElements.Arc(circle, endAngle, startAngle, curStyle, vpl)]);
+            return new([new TimelineElements.Arc(circle, startAngle, endAngle, curStyle, vpl)]);
         }
     }
 }

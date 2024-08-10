@@ -1,4 +1,4 @@
-﻿using DegCAD.MongeItems;
+﻿using DegCAD.TimelineElements;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -292,7 +292,7 @@ namespace DegCAD
                         AddPoint(cir.Circle2.Center + rad);
                         AddPoint(cir.Circle2.Center - rad);
                     }
-                    else if (item is MongeItems.Ellipse ell)
+                    else if (item is TimelineElements.Ellipse ell)
                     {
                         AddPoint(ell.P1);
                         AddPoint(ell.P2);
@@ -313,7 +313,7 @@ namespace DegCAD
                         AddPoint(inf.StartPoint);
                         AddPoint(inf.StartPoint + inf.Direction);
                     }
-                    else if (item is MongeItems.Label lbl)
+                    else if (item is TimelineElements.Label lbl)
                     {
                         AddPoint(lbl.Position);
                     }
@@ -322,7 +322,7 @@ namespace DegCAD
                         AddPoint(lne.Line.Point);
                         AddPoint(lne.Line.Point + lne.Line.DirectionVector);
                     }
-                    else if (item is MongeItems.LineSegment seg)
+                    else if (item is TimelineElements.LineSegment seg)
                     {
                         AddPoint(seg.P1);
                         AddPoint(seg.P2);
@@ -332,7 +332,7 @@ namespace DegCAD
                         AddPoint(pbl.Vertex);
                         if (!pbl.Infinite) AddPoint(pbl.End);
                     }
-                    else if (item is MongeItems.Point pnt)
+                    else if (item is TimelineElements.Point pnt)
                     {
                         AddPoint(pnt.Coords);
                     }

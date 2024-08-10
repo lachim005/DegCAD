@@ -1,4 +1,4 @@
-﻿using DegCAD.MongeItems;
+﻿using DegCAD.TimelineElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +38,7 @@ namespace DegCAD.GeometryCommands
             esb.CommandHelp = "Vyberte koncový bod hyperboly";
 
             Point mEndPt = new(0, 0, previewVpl);
-            MongeItems.Hyperbola mHyperbola = new(vertexPt, centerPt, centerPt, Style.HighlightStyle, previewVpl);
+            TimelineElements.Hyperbola mHyperbola = new(vertexPt, centerPt, centerPt, Style.HighlightStyle, previewVpl);
 
 
             Vector2 endPt = await inputMgr.GetPoint((pt) =>
@@ -54,7 +54,7 @@ namespace DegCAD.GeometryCommands
 
             Style curStyle = inputMgr.StyleSelector.CurrentStyle;
 
-            return new([new MongeItems.Hyperbola(vertexPt, centerPt, endPt, curStyle, vpl)]);
+            return new([new TimelineElements.Hyperbola(vertexPt, centerPt, endPt, curStyle, vpl)]);
         }
     }
 }

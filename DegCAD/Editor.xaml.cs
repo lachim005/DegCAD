@@ -1,4 +1,4 @@
-﻿using DegCAD.MongeItems;
+﻿using DegCAD.TimelineElements;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -103,9 +103,9 @@ namespace DegCAD
                         new Axis(),
                         new InfiniteLine(new((0,0), (1,0)), DegCAD.Style.Default, vpl),
                         new InfiniteLine(new((0,0), (0,1)), DegCAD.Style.Default, vpl),
-                        new MongeItems.Label("x", "", "", (8,0), DegCAD.Style.Default, new InfiniteLine(new((0,0), (1,0)), DegCAD.Style.Default), vpl),
-                        new MongeItems.Label("y", "", "", (0,-8), DegCAD.Style.Default, new InfiniteLine(new((0,0), (0,1)), DegCAD.Style.Default), vpl),
-                        new MongeItems.Label("0", "", "", (0,0), DegCAD.Style.Default, new MongeItems.Point(0,0), vpl),
+                        new TimelineElements.Label("x", "", "", (8,0), DegCAD.Style.Default, new InfiniteLine(new((0,0), (1,0)), DegCAD.Style.Default), vpl),
+                        new TimelineElements.Label("y", "", "", (0,-8), DegCAD.Style.Default, new InfiniteLine(new((0,0), (0,1)), DegCAD.Style.Default), vpl),
+                        new TimelineElements.Label("0", "", "", (0,0), DegCAD.Style.Default, new TimelineElements.Point(0,0), vpl),
                     ]));
                     break;
                 case ProjectionType.Monge:
@@ -113,9 +113,9 @@ namespace DegCAD
                     [
                         new Axis(),
                         new InfiniteLine(new((0,0), (1,0)), DegCAD.Style.Default, vpl),
-                        new MongeItems.Point(0, 0, DegCAD.Style.Default, vpl),
-                        new MongeItems.Label("x", "1, 2", "", (8,0), DegCAD.Style.Default, new InfiniteLine(new((0,0), (1,0)), DegCAD.Style.Default), vpl),
-                        new MongeItems.Label("0", "", "", (0,0), DegCAD.Style.Default, new MongeItems.Point(0,0), vpl),
+                        new TimelineElements.Point(0, 0, DegCAD.Style.Default, vpl),
+                        new TimelineElements.Label("x", "1, 2", "", (8,0), DegCAD.Style.Default, new InfiniteLine(new((0,0), (1,0)), DegCAD.Style.Default), vpl),
+                        new TimelineElements.Label("0", "", "", (0,0), DegCAD.Style.Default, new TimelineElements.Point(0,0), vpl),
                     ]));
                     break;
             }

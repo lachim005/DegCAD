@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Shapes;
 
-namespace DegCAD.MongeItems
+namespace DegCAD.TimelineElements
 {
     /// <summary>
     /// Circle defined by it's center and a point on it

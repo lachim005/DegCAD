@@ -9,7 +9,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace DegCAD.MongeItems
+namespace DegCAD.TimelineElements
 {
     public class Ellipse : GeometryElement, ISvgConvertable
     {

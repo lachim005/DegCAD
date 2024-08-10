@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DegCAD.MongeItems
+namespace DegCAD.TimelineElements
 {
     public class HideModification(int cmdIndex, int itemIndex) : IModification
     {

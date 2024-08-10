@@ -1,5 +1,5 @@
 ﻿using DegCAD.Dialogs;
-using DegCAD.MongeItems;
+using DegCAD.TimelineElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +29,7 @@ namespace DegCAD.GeometryCommands
             esb.CommandHelp = "Vyberte druhý bod vzdálenosti, kterou chcete přenést";
 
             Point mPt2 = new(0, 0, previewVpl);
-            MongeItems.LineSegment mSelSeg = new(pt1, pt1, Style.HighlightStyle, previewVpl);
+            TimelineElements.LineSegment mSelSeg = new(pt1, pt1, Style.HighlightStyle, previewVpl);
 
             Vector2 pt2 = await inputMgr.GetPoint((pt) =>
             {
@@ -49,7 +49,7 @@ namespace DegCAD.GeometryCommands
             Point mPt3 = new(0, 0, previewVpl);
             mSelSeg.Style = Style.GreenStyle;
             var circle = new Circle2(pt2, pt1);
-            MongeItems.Circle mCircle = new(circle, Style.BlueDashStyle, previewVpl);
+            TimelineElements.Circle mCircle = new(circle, Style.BlueDashStyle, previewVpl);
 
             Vector2 pt3 = await inputMgr.GetPoint((pt) =>
             {
@@ -68,7 +68,7 @@ namespace DegCAD.GeometryCommands
             esb.CommandHelp = "Vyberte směr, kterým chcete vzdálenost vynést";
 
             Point mPt4 = new(0, 0, previewVpl);
-            MongeItems.LineSegment mDirSeg = new(pt3, pt3, Style.HighlightStyle, previewVpl);
+            TimelineElements.LineSegment mDirSeg = new(pt3, pt3, Style.HighlightStyle, previewVpl);
 
             Vector2 pt4 = await inputMgr.GetPoint((pt) =>
             {

@@ -67,7 +67,7 @@ namespace DegCAD.Dialogs
             if (axis.Length == 18)
             {
                 //Gets the X monge point
-                if (axis[8] is not MongeItems.Point pt) return;
+                if (axis[8] is not TimelineElements.Point pt) return;
                 originOffset = -pt.Coords;
             }
 

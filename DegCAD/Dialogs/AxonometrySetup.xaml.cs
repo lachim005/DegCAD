@@ -1,4 +1,4 @@
-﻿using DegCAD.MongeItems;
+﻿using DegCAD.TimelineElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -122,10 +122,10 @@ namespace DegCAD.Dialogs
                         yPoint -= centerOffset;
                         zPoint -= centerOffset;
 
-                        MongeItems.Point originPt = new(0, 0);
-                        MongeItems.Point xMPt = new(xPoint.X, xPoint.Y, DegCAD.Style.Default);
-                        MongeItems.Point yMPt = new(yPoint.X, yPoint.Y, DegCAD.Style.Default);
-                        MongeItems.Point zMPt = new(zPoint.X, zPoint.Y, DegCAD.Style.Default);
+                        TimelineElements.Point originPt = new(0, 0);
+                        TimelineElements.Point xMPt = new(xPoint.X, xPoint.Y, DegCAD.Style.Default);
+                        TimelineElements.Point yMPt = new(yPoint.X, yPoint.Y, DegCAD.Style.Default);
+                        TimelineElements.Point zMPt = new(zPoint.X, zPoint.Y, DegCAD.Style.Default);
 
                         var xMLn = new HalfLine((0, 0), xLine.DirectionVector, DegCAD.Style.Default);
                         var yMLn = new HalfLine((0, 0), yLine.DirectionVector, DegCAD.Style.Default);
@@ -136,20 +136,20 @@ namespace DegCAD.Dialogs
                             xMLn,
                             yMLn,
                             zMLn,
-                            new MongeItems.LineSegment(xPoint, yPoint, DegCAD.Style.Default),
-                            new MongeItems.LineSegment(yPoint, zPoint, DegCAD.Style.Default),
-                            new MongeItems.LineSegment(zPoint, xPoint, DegCAD.Style.Default),
+                            new TimelineElements.LineSegment(xPoint, yPoint, DegCAD.Style.Default),
+                            new TimelineElements.LineSegment(yPoint, zPoint, DegCAD.Style.Default),
+                            new TimelineElements.LineSegment(zPoint, xPoint, DegCAD.Style.Default),
                             originPt,
                             xMPt,
                             yMPt,
                             zMPt,
-                            new MongeItems.Label("0", "", "", originPt.Coords, DegCAD.Style.Default, originPt.CloneElement()),
-                            new MongeItems.Label("X", "", "", xMPt.Coords, DegCAD.Style.Default, xMPt.CloneElement()),
-                            new MongeItems.Label("Y", "", "", yMPt.Coords, DegCAD.Style.Default, yMPt.CloneElement()),
-                            new MongeItems.Label("Z", "", "", zMPt.Coords, DegCAD.Style.Default, zMPt.CloneElement()),
-                            new MongeItems.Label("x", "", "", xLine.DirectionVector.ChangeLength(-5), DegCAD.Style.Default, xMLn.CloneElement()),
-                            new MongeItems.Label("y", "", "", yLine.DirectionVector.ChangeLength(-5), DegCAD.Style.Default, yMLn.CloneElement()),
-                            new MongeItems.Label("z", "", "", zLine.DirectionVector.ChangeLength(-5), DegCAD.Style.Default, zMLn.CloneElement()),
+                            new TimelineElements.Label("0", "", "", originPt.Coords, DegCAD.Style.Default, originPt.CloneElement()),
+                            new TimelineElements.Label("X", "", "", xMPt.Coords, DegCAD.Style.Default, xMPt.CloneElement()),
+                            new TimelineElements.Label("Y", "", "", yMPt.Coords, DegCAD.Style.Default, yMPt.CloneElement()),
+                            new TimelineElements.Label("Z", "", "", zMPt.Coords, DegCAD.Style.Default, zMPt.CloneElement()),
+                            new TimelineElements.Label("x", "", "", xLine.DirectionVector.ChangeLength(-5), DegCAD.Style.Default, xMLn.CloneElement()),
+                            new TimelineElements.Label("y", "", "", yLine.DirectionVector.ChangeLength(-5), DegCAD.Style.Default, yMLn.CloneElement()),
+                            new TimelineElements.Label("z", "", "", zLine.DirectionVector.ChangeLength(-5), DegCAD.Style.Default, zMLn.CloneElement()),
                         ]); ;
 
                         AxonometryAxes = new(xLine.DirectionVector, yLine.DirectionVector, zLine.DirectionVector);
@@ -190,7 +190,7 @@ namespace DegCAD.Dialogs
                         Vector2 yLine = Math.SinCos((a3 + a1) / 180 * Math.PI);
                         Vector2 zLine = (0, 1);
 
-                        MongeItems.Point originPt = new(0, 0);
+                        TimelineElements.Point originPt = new(0, 0);
 
                         var xMLn = new HalfLine((0, 0), xLine, DegCAD.Style.Default);
                         var yMLn = new HalfLine((0, 0), yLine, DegCAD.Style.Default);
@@ -202,10 +202,10 @@ namespace DegCAD.Dialogs
                             yMLn,
                             zMLn,
                             originPt,
-                            new MongeItems.Label("0", "", "", originPt.Coords, DegCAD.Style.Default, originPt.CloneElement()),
-                            new MongeItems.Label("x", "", "", xLine.ChangeLength(-5), DegCAD.Style.Default, xMLn.CloneElement()),
-                            new MongeItems.Label("y", "", "", yLine.ChangeLength(-5), DegCAD.Style.Default, yMLn.CloneElement()),
-                            new MongeItems.Label("z", "", "", zLine.ChangeLength(-5), DegCAD.Style.Default, zMLn.CloneElement()),
+                            new TimelineElements.Label("0", "", "", originPt.Coords, DegCAD.Style.Default, originPt.CloneElement()),
+                            new TimelineElements.Label("x", "", "", xLine.ChangeLength(-5), DegCAD.Style.Default, xMLn.CloneElement()),
+                            new TimelineElements.Label("y", "", "", yLine.ChangeLength(-5), DegCAD.Style.Default, yMLn.CloneElement()),
+                            new TimelineElements.Label("z", "", "", zLine.ChangeLength(-5), DegCAD.Style.Default, zMLn.CloneElement()),
                         ]); ;
 
                         AxonometryAxes = new(xLine, xLine, zLine);

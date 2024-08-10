@@ -1,5 +1,5 @@
 ﻿using DegCAD.Dialogs;
-using DegCAD.MongeItems;
+using DegCAD.TimelineElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +24,7 @@ namespace DegCAD.GeometryCommands
 
             Point mPt3 = new(0, 0, previewVpl);
             var circle = new Circle2((0,0), distance.Value);
-            MongeItems.Circle mCircle = new(circle, Style.BlueDashStyle, previewVpl);
+            TimelineElements.Circle mCircle = new(circle, Style.BlueDashStyle, previewVpl);
 
             Vector2 pt3 = await inputMgr.GetPoint((pt) =>
             {
@@ -39,7 +39,7 @@ namespace DegCAD.GeometryCommands
             esb.CommandHelp = "Vyberte směr, kterým chcete vzdálenost nanést";
 
             Point mPt4 = new(0, 0, previewVpl);
-            MongeItems.LineSegment mDirSeg = new(pt3, pt3, Style.HighlightStyle, previewVpl);
+            TimelineElements.LineSegment mDirSeg = new(pt3, pt3, Style.HighlightStyle, previewVpl);
 
             Vector2 pt4 = await inputMgr.GetPoint((pt) =>
             {

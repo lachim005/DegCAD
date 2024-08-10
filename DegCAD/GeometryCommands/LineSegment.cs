@@ -15,7 +15,7 @@ namespace DegCAD.GeometryCommands
 
             esb.CommandHelp = "Vyberte počáteční bod úsečky";
 
-            MongeItems.Point mPt1 = new(0, 0, previewVpl);
+            TimelineElements.Point mPt1 = new(0, 0, previewVpl);
 
             var p1 = await inputMgr.GetPoint((p) =>
             {
@@ -25,8 +25,8 @@ namespace DegCAD.GeometryCommands
 
             esb.CommandHelp = "Vyberte koncový bod úsečky";
 
-            MongeItems.Point mPt2 = new(0, 0, previewVpl);
-            MongeItems.LineSegment lineSegment = new(p1, p1, Style.HighlightStyle, previewVpl);
+            TimelineElements.Point mPt2 = new(0, 0, previewVpl);
+            TimelineElements.LineSegment lineSegment = new(p1, p1, Style.HighlightStyle, previewVpl);
 
             var p2 = await inputMgr.GetPoint((p) =>
             {
@@ -39,7 +39,7 @@ namespace DegCAD.GeometryCommands
             },
             lines: [new(p1, (1, 0)), new(p1, (0, 1))]); // Snapping vertical and horizontal lines
 
-            var lseg = new MongeItems.LineSegment(p1, p2, inputMgr.StyleSelector.CurrentStyle, vpl);
+            var lseg = new TimelineElements.LineSegment(p1, p2, inputMgr.StyleSelector.CurrentStyle, vpl);
 
             return new([lseg]);
         }

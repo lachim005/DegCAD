@@ -225,7 +225,7 @@ namespace DegCAD
                 var cmd = Timeline.CommandHistory[k];
                 for (int i = 0; i < cmd.Items.Length; i++)
                 {
-                    if (cmd.Items[i] is not MongeItems.Label lbl || !lbl.IsVisible) continue;
+                    if (cmd.Items[i] is not TimelineElements.Label lbl || !lbl.IsVisible) continue;
                     if (!lbl.IsOnLabel(v)) continue;
                     return (k, i);
                 }

@@ -1,4 +1,4 @@
-﻿using DegCAD.MongeItems;
+﻿using DegCAD.TimelineElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,8 +26,8 @@ namespace DegCAD.GeometryCommands
             esb.CommandHelp = "Vyberte hlavní vrchol elipsy";
 
             Point mPrimaryPt = new(0, 0, previewVpl);
-            MongeItems.Ellipse mEllipse = new(center, center, center, Style.HighlightStyle, previewVpl);
-            MongeItems.LineSegment mPrimaryAxis = new(center, center, Style.GreenStyle,previewVpl);
+            TimelineElements.Ellipse mEllipse = new(center, center, center, Style.HighlightStyle, previewVpl);
+            TimelineElements.LineSegment mPrimaryAxis = new(center, center, Style.GreenStyle,previewVpl);
 
             Vector2 primaryPt = await inputMgr.GetPoint((pt) =>
             {
@@ -48,7 +48,7 @@ namespace DegCAD.GeometryCommands
             esb.CommandHelp = "Vyberte vedlejší vrchol elipsy";
 
             Point mSecondaryPt = new(0, 0, previewVpl);
-            MongeItems.LineSegment mSecondaryAxis = new(center, center, Style.GreenStyle, previewVpl);
+            TimelineElements.LineSegment mSecondaryAxis = new(center, center, Style.GreenStyle, previewVpl);
             var primaryAxisVec = primaryPt - center;
             ParametricLine2 secondaryAxis = new(center, (primaryAxisVec.Y, -primaryAxisVec.X));
 
@@ -72,7 +72,7 @@ namespace DegCAD.GeometryCommands
 
             Style curStyle = inputMgr.StyleSelector.CurrentStyle;
 
-            return new([new MongeItems.Ellipse(center, primaryPt, secondaryPt, curStyle, vpl)]);
+            return new([new TimelineElements.Ellipse(center, primaryPt, secondaryPt, curStyle, vpl)]);
         }
     }
 }

@@ -1,14 +1,14 @@
 ﻿using DegCAD.Dialogs;
-using DegCAD.MongeItems;
+using DegCAD.TimelineElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Plane = DegCAD.MongeItems.Plane;
+using Plane = DegCAD.TimelineElements.Plane;
 using System.Windows;
 using System.Windows.Shapes;
-using Point = DegCAD.MongeItems.Point;
+using Point = DegCAD.TimelineElements.Point;
 
 namespace DegCAD.GeometryCommands
 {

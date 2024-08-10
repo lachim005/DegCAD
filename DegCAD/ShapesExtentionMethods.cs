@@ -133,7 +133,7 @@ namespace DegCAD
         /// <summary>
         /// Sets the data of the path to fit a parabola
         /// </summary>
-        public static void SetParabola(this Path pth, ViewportLayer vpl, MongeItems.Parabola pb)
+        public static void SetParabola(this Path pth, ViewportLayer vpl, TimelineElements.Parabola pb)
         {
             var ep1 = vpl.Viewport.CanvasToScreen(pb.EndPoint1);
             var ep2 = vpl.Viewport.CanvasToScreen(pb.EndPoint2);
@@ -146,7 +146,7 @@ namespace DegCAD
         /// <summary>
         /// Sets the data of the path to fit an infinite parabola
         /// </summary>
-        public static void SetInfiniteParabola(this Path pth, ViewportLayer vpl, MongeItems.Parabola pb)
+        public static void SetInfiniteParabola(this Path pth, ViewportLayer vpl, TimelineElements.Parabola pb)
         {
             var vertex = vpl.Viewport.CanvasToScreen(pb.Vertex);
             var focus = vpl.Viewport.CanvasToScreen(pb.Focus);
@@ -203,7 +203,7 @@ namespace DegCAD
 
             pth.Data = Geometry.Parse(para);
         }
-        public static void SetHyperbola(this Path pth, ViewportLayer vpl, MongeItems.Hyperbola hb)
+        public static void SetHyperbola(this Path pth, ViewportLayer vpl, TimelineElements.Hyperbola hb)
         {
             var ep1 = vpl.Viewport.CanvasToScreen(hb.EndPoint1);
             var ep2 = vpl.Viewport.CanvasToScreen(hb.EndPoint2);

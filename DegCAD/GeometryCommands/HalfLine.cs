@@ -17,7 +17,7 @@ namespace DegCAD.GeometryCommands
 
             esb.CommandHelp = "Vyberte počáteční bod polopřímky";
 
-            MongeItems.Point mPt1 = new(0, 0, previewVpl);
+            TimelineElements.Point mPt1 = new(0, 0, previewVpl);
 
             var p1 = await inputMgr.GetPoint((p) =>
             {
@@ -27,8 +27,8 @@ namespace DegCAD.GeometryCommands
 
             esb.CommandHelp = "Vyberte směr polopřímky, pravým tlačítkem převrátíte směr";
 
-            MongeItems.Point mPt2 = new(0, 0, previewVpl);
-            MongeItems.HalfLine halfLine = new(p1, (0,1), Style.HighlightStyle, previewVpl);
+            TimelineElements.Point mPt2 = new(0, 0, previewVpl);
+            TimelineElements.HalfLine halfLine = new(p1, (0,1), Style.HighlightStyle, previewVpl);
 
             (var p2, var flip) = await inputMgr.GetPointWithPlane((p, flip) =>
             {
@@ -45,7 +45,7 @@ namespace DegCAD.GeometryCommands
 
             Style curStyle = inputMgr.StyleSelector.CurrentStyle;
             List<GeometryElement> mItems = [];
-            mItems.Add(new MongeItems.HalfLine(p1, (p1 - p2) * (flip ? -1 : 1), curStyle, vpl));
+            mItems.Add(new TimelineElements.HalfLine(p1, (p1 - p2) * (flip ? -1 : 1), curStyle, vpl));
 
             if (inputMgr.NameNewItems)
             {
@@ -54,7 +54,7 @@ namespace DegCAD.GeometryCommands
                 lid.ShowDialog();
                 if (!lid.Canceled)
                 {
-                    mItems.Add(new MongeItems.Label(lid.LabelText, lid.Subscript, lid.Superscript, p1, curStyle, mItems[0].CloneElement(), vpl, lid.TextSize));
+                    mItems.Add(new TimelineElements.Label(lid.LabelText, lid.Subscript, lid.Superscript, p1, curStyle, mItems[0].CloneElement(), vpl, lid.TextSize));
                 } 
             }
 

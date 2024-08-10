@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 
-namespace DegCAD.MongeItems
+namespace DegCAD.TimelineElements
 {
     public class Parabola : GeometryElement, ISvgConvertable
     {

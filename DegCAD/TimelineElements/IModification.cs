@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
-namespace DegCAD.MongeItems
+namespace DegCAD.TimelineElements
 {
     public interface IModification : ITimelineElement
     {

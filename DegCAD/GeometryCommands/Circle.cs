@@ -1,4 +1,4 @@
-﻿using DegCAD.MongeItems;
+﻿using DegCAD.TimelineElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +26,7 @@ namespace DegCAD.GeometryCommands
             esb.CommandHelp = "Vyberte průměr kružnice";
 
             Point mCirclePt = new(0, 0, previewVpl);
-            MongeItems.Circle mCircle = new(new(), Style.HighlightStyle, previewVpl);
+            TimelineElements.Circle mCircle = new(new(), Style.HighlightStyle, previewVpl);
 
             Vector2 pointOnCircle = await inputMgr.GetPoint((pt) =>
             {
@@ -39,7 +39,7 @@ namespace DegCAD.GeometryCommands
                 mCircle.Draw();
             }, predicate: (pt) => pt != center);
 
-            return new TimelineItem([new MongeItems.Circle(new Circle2(center, pointOnCircle), inputMgr.StyleSelector.CurrentStyle, vpl)]);
+            return new TimelineItem([new TimelineElements.Circle(new Circle2(center, pointOnCircle), inputMgr.StyleSelector.CurrentStyle, vpl)]);
         }
     }
 }

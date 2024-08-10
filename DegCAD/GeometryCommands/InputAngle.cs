@@ -1,5 +1,5 @@
 ﻿using DegCAD.Dialogs;
-using DegCAD.MongeItems;
+using DegCAD.TimelineElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,8 +33,8 @@ namespace DegCAD.GeometryCommands
 
             esb.CommandHelp = "Vyberte bod udávající rameno úhlu, pravým tlačítkem změníte směr úhlu";
 
-            MongeItems.LineSegment mRay1 = new(vertex, vertex, Style.BlueDashStyle, previewVpl);
-            MongeItems.LineSegment mRay2 = new(vertex, vertex, Style.BlueDashStyle, previewVpl);
+            TimelineElements.LineSegment mRay1 = new(vertex, vertex, Style.BlueDashStyle, previewVpl);
+            TimelineElements.LineSegment mRay2 = new(vertex, vertex, Style.BlueDashStyle, previewVpl);
             Point mResult = new(0, 0, Style.HighlightStyle, previewVpl);
 
             (var pt, var dir) = await inputMgr.GetPointWithPlane((pt, dir) =>

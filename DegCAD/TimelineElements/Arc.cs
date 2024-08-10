@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
 
-namespace DegCAD.MongeItems
+namespace DegCAD.TimelineElements
 {
     /// <summary>
     /// An arc defined by it's center, a point on the circle and two angles

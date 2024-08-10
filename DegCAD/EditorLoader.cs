@@ -1,5 +1,5 @@
 ﻿using DegCAD.Guides;
-using DegCAD.MongeItems;
+using DegCAD.TimelineElements;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Media;
-using LineSegment = DegCAD.MongeItems.LineSegment;
+using LineSegment = DegCAD.TimelineElements.LineSegment;
 
 namespace DegCAD
 {

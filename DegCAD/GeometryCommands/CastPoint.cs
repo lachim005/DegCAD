@@ -1,5 +1,5 @@
 ﻿using DegCAD.Dialogs;
-using DegCAD.MongeItems;
+using DegCAD.TimelineElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +30,7 @@ namespace DegCAD.GeometryCommands
             esb.CommandHelp = "Vyberte druhý průmět bodu, který chcete sklopit";
 
             var circle = new Circle2(point, 0);
-            MongeItems.Circle mCircle = new(circle, Style.BlueDashStyle, previewVpl);
+            TimelineElements.Circle mCircle = new(circle, Style.BlueDashStyle, previewVpl);
 
             System.Windows.Shapes.Line secondProjectionLine = new();
             secondProjectionLine.SetStyle(Style.HighlightStyle);
@@ -57,8 +57,8 @@ namespace DegCAD.GeometryCommands
             //Get the direction
             esb.CommandHelp = "Vyberte směr, kterým chcete bod sklopit, pravým tlačítkem přepnete kolmý směr";
 
-            MongeItems.LineSegment mPerpendicularSeg = new(point, point, Style.GreenStyle, previewVpl);
-            MongeItems.LineSegment mDirectionSegment = new(point, point, Style.HighlightStyle, previewVpl);
+            TimelineElements.LineSegment mPerpendicularSeg = new(point, point, Style.GreenStyle, previewVpl);
+            TimelineElements.LineSegment mDirectionSegment = new(point, point, Style.HighlightStyle, previewVpl);
 
             (var dirPoint, var perpendicular) = await inputMgr.GetPointWithPlane((pt, perp) =>
             {
@@ -108,7 +108,7 @@ namespace DegCAD.GeometryCommands
                 Vector2 perpVec = new(sth.Y, -sth.X);
                 ptOnCircle = point - perpVec;
                 //Adds a line connecting the casted point and the original point
-                mItems.Add(new MongeItems.LineSegment(ptOnCircle, point, curStyle, vpl));
+                mItems.Add(new TimelineElements.LineSegment(ptOnCircle, point, curStyle, vpl));
             }
 
             var mPoint = new Point(ptOnCircle.X, ptOnCircle.Y, curStyle, vpl);

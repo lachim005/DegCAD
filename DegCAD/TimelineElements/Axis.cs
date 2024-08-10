@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Shapes;
 
-namespace DegCAD.MongeItems
+namespace DegCAD.TimelineElements
 {
     /// <summary>
     /// Static class that can display the x axis and the zero mark

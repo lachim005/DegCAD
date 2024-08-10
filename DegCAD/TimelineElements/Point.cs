@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Shapes;
 
-namespace DegCAD.MongeItems
+namespace DegCAD.TimelineElements
 {
     internal class Point : GeometryElement, ISnapable, ISvgConvertable
     {

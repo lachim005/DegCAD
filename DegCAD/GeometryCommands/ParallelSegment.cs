@@ -1,4 +1,4 @@
-﻿using DegCAD.MongeItems;
+﻿using DegCAD.TimelineElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using Point = DegCAD.MongeItems.Point;
+using Point = DegCAD.TimelineElements.Point;
 
 namespace DegCAD.GeometryCommands
 {
@@ -69,7 +69,7 @@ namespace DegCAD.GeometryCommands
             esb.CommandHelp = "Vyberte druhý bod úsečky";
 
             Point mSegPt2 = new(0, 0, previewVpl);
-            MongeItems.LineSegment mLineSeg = new(p1, p1, Style.HighlightStyle, previewVpl);
+            TimelineElements.LineSegment mLineSeg = new(p1, p1, Style.HighlightStyle, previewVpl);
 
             var p2 = await inputMgr.GetPoint((pt) =>
             {
@@ -88,7 +88,7 @@ namespace DegCAD.GeometryCommands
 
             p2 = line.GetClosestPoint(p2);
 
-            return new([new MongeItems.LineSegment(p1, p2, inputMgr.StyleSelector.CurrentStyle, vpl)]);
+            return new([new TimelineElements.LineSegment(p1, p2, inputMgr.StyleSelector.CurrentStyle, vpl)]);
         } 
     }
 }

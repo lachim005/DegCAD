@@ -15,7 +15,7 @@ namespace DegCAD.GeometryCommands
 
             esb.CommandHelp = "Vyberte první bod přímky";
 
-            MongeItems.Point mPt1 = new(0, 0, previewVpl);
+            TimelineElements.Point mPt1 = new(0, 0, previewVpl);
 
             var p1 = await inputMgr.GetPoint((p) =>
             {
@@ -25,8 +25,8 @@ namespace DegCAD.GeometryCommands
 
             esb.CommandHelp = "Vyberte druhý bod přímky";
 
-            MongeItems.Point mPt2 = new(0, 0, previewVpl);
-            MongeItems.InfiniteLine infLine = new(new(p1, (0, 1)), Style.HighlightStyle, previewVpl);
+            TimelineElements.Point mPt2 = new(0, 0, previewVpl);
+            TimelineElements.InfiniteLine infLine = new(new(p1, (0, 1)), Style.HighlightStyle, previewVpl);
 
             var p2 = await inputMgr.GetPoint((p) =>
             {
@@ -42,7 +42,7 @@ namespace DegCAD.GeometryCommands
 
             Style curStyle = inputMgr.StyleSelector.CurrentStyle;
             List<GeometryElement> mItems = [];
-            mItems.Add(new MongeItems.InfiniteLine(new(p1, p1 - p2), curStyle, vpl));
+            mItems.Add(new TimelineElements.InfiniteLine(new(p1, p1 - p2), curStyle, vpl));
 
             if (inputMgr.NameNewItems)
             {
@@ -51,7 +51,7 @@ namespace DegCAD.GeometryCommands
                 lid.ShowDialog();
                 if (!lid.Canceled)
                 {
-                    mItems.Add(new MongeItems.Label(lid.LabelText, lid.Subscript, lid.Superscript, p2, curStyle, mItems[0].CloneElement(), vpl, lid.TextSize));
+                    mItems.Add(new TimelineElements.Label(lid.LabelText, lid.Subscript, lid.Superscript, p2, curStyle, mItems[0].CloneElement(), vpl, lid.TextSize));
                 } 
             }
 

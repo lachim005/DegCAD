@@ -1,4 +1,4 @@
-﻿using DegCAD.MongeItems;
+﻿using DegCAD.TimelineElements;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +26,7 @@ namespace DegCAD.GeometryCommands
             esb.CommandHelp = "Vyberte ohnisko paraboly";
 
             Point mVertexPt = new(0, 0, previewVpl);
-            MongeItems.Parabola mInfiniteParabola = new(vertexPt, vertexPt, Style.BlueDashStyle, previewVpl);
+            TimelineElements.Parabola mInfiniteParabola = new(vertexPt, vertexPt, Style.BlueDashStyle, previewVpl);
 
             Vector2 focusPt = await inputMgr.GetPoint((pt) =>
             {
@@ -42,7 +42,7 @@ namespace DegCAD.GeometryCommands
             esb.CommandHelp = "Vyberte konec paraboly, pravým tlačítkem vyberete konečnou, nebo nekonečnou parabolu";
 
             Point mEndPt = new(0, 0, previewVpl);
-            MongeItems.Parabola mParabola = new(focusPt, vertexPt, vertexPt, Style.HighlightStyle, previewVpl);
+            TimelineElements.Parabola mParabola = new(focusPt, vertexPt, vertexPt, Style.HighlightStyle, previewVpl);
 
 
             (Vector2 endPt, bool infinite) = await inputMgr.GetPointWithPlane((pt, pl) =>
@@ -61,8 +61,8 @@ namespace DegCAD.GeometryCommands
             Style curStyle = inputMgr.StyleSelector.CurrentStyle;
 
             if (infinite)
-                return new([new MongeItems.Parabola(focusPt, vertexPt, curStyle, vpl)]);
-            return new([new MongeItems.Parabola(focusPt, vertexPt, endPt, curStyle, vpl)]);
+                return new([new TimelineElements.Parabola(focusPt, vertexPt, curStyle, vpl)]);
+            return new([new TimelineElements.Parabola(focusPt, vertexPt, endPt, curStyle, vpl)]);
         }
     }
 }

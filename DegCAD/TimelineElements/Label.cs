@@ -15,7 +15,7 @@ using System.Windows.Media;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace DegCAD.MongeItems
+namespace DegCAD.TimelineElements
 {
     /// <summary>
     /// A label labeling a thing that's supposed to be labeled
