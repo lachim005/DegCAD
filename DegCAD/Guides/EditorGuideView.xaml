@@ -57,6 +57,7 @@
                         <Button x:Name="prevStepBtn" Content="Předchozí" Click="PrevStep"/>
                         <Button x:Name="nextStepBtn" Content="Další" Grid.Column="2" Style="{DynamicResource accentBtn}" Click="NextStep"/>
                     </Grid>
+                    <CheckBox x:Name="highlightStepCbx" Content="Zvýraznit nové prvky" Margin="12" Checked="HighlightCurrentStepChecked" Unchecked="HighlightCurrentStepUnchecked"/>
                 </StackPanel>
             </ScrollViewer>
             <GridSplitter Grid.Column="1" Width="1" Background="{DynamicResource border}" HorizontalAlignment="Stretch"/>

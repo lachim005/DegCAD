@@ -70,6 +70,11 @@ namespace DegCAD.Guides
 
         private void SelectStep(GuideStep step)
         {
+            if (highlightStepCbx.IsChecked == true)
+            {
+                HighlightCurrentStep(false);
+            }
+
             stepButtonsIc.UpdateLayout();
             if (topBar.Visibility != Visibility.Collapsed)
                 for (int i = 0; i < stepButtonsIc.Items.Count; i++)
@@ -95,6 +100,11 @@ namespace DegCAD.Guides
                 nextStepBtn.IsEnabled = true;
 
             guide.LastViewedStep = guide.Steps.IndexOf(step);
+
+            if (highlightStepCbx.IsChecked == true)
+            {
+                HighlightCurrentStep(true);
+            }
         }
         private void UpdateDrawingState()
         {
@@ -141,6 +151,37 @@ namespace DegCAD.Guides
         public void SwapWhiteAndBlack()
         {
             vp.SwapWhiteAndBlack();
+        }
+
+        private void HighlightCurrentStep(bool highlight)
+        {
+            int sum = 1;
+            foreach (var step in guide.Steps)
+            {
+                if (ReferenceEquals(step, selectedStep)) break;
+                sum += step.Items;
+            }
+
+            for (int i = sum == 1 ? -1 : 0; i < selectedStep.Items; i++)
+            {
+                foreach (var item in vp.Timeline.CommandHistory[i + sum].Items)
+                {
+                    if (item is not GeometryElement ge) continue;
+                    ge.IsHighlighted = highlight;
+                }
+            }
+        }
+
+        private void HighlightCurrentStepChecked(object sender, RoutedEventArgs e)
+        {
+            HighlightCurrentStep(true);
+            vp.AllowLabelInteractions = false;
+        }
+
+        private void HighlightCurrentStepUnchecked(object sender, RoutedEventArgs e)
+        {
+            HighlightCurrentStep(false);
+            vp.AllowLabelInteractions = true;
         }
     }
 }
