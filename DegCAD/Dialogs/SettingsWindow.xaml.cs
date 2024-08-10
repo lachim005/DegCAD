@@ -20,8 +20,8 @@ namespace DegCAD.Dialogs
     /// </summary>
     public partial class SettingsWindow : Window
     {
-        private ObservableCollection<Color> DefaultColors { get; set; }
-        private List<PaperSizePreset> paperSizePresets;
+        private ObservableCollection<Color> DefaultColors { get; set; } = [];
+        private readonly List<PaperSizePreset> paperSizePresets = [];
 
         public SettingsWindow()
         {
@@ -39,8 +39,11 @@ namespace DegCAD.Dialogs
 
             defaultMongeXDirectionReverse.IsChecked = Settings.DefaultMongeXDirectionLeft;
             defaultLabelFontSizeTbx.Text = Settings.DefaultLabelFontSize.ToString();
-            DefaultColors = new(Settings.DefaultColors);
-            paperSizePresets = new(Settings.PaperSizePresets);
+            foreach (var col in Settings.DefaultColors)
+            {
+                DefaultColors.Add(col);
+            }
+            paperSizePresets.AddRange(Settings.PaperSizePresets);
             repeatCommandsCbx.IsChecked = Settings.RepeatCommands;
             nameNewObjectsCbx.IsChecked = Settings.NameNewItems;
 
