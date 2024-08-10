@@ -20,6 +20,8 @@ namespace DegCAD.Guides
     /// </summary>
     public partial class EditorGuideView : UserControl, IChangesWithDarkMode
     {
+        private static bool lastHighlightCurrentStep = false;
+
         Timeline clonedTl;
         Guide guide;
         ViewPort vp;
@@ -58,6 +60,10 @@ namespace DegCAD.Guides
             fullscreenBtn.Visibility = Visibility.Collapsed;
 
             SelectStep(g.Steps[Math.Clamp(g.LastViewedStep, 0, g.Steps.Count - 1)]);
+            if (lastHighlightCurrentStep)
+            {
+                highlightStepCbx.IsChecked = true;
+            }
         }
 
         private void StepButtonClick(object sender, RoutedEventArgs e)
@@ -176,12 +182,14 @@ namespace DegCAD.Guides
         {
             HighlightCurrentStep(true);
             vp.AllowLabelInteractions = false;
+            lastHighlightCurrentStep = true;
         }
 
         private void HighlightCurrentStepUnchecked(object sender, RoutedEventArgs e)
         {
             HighlightCurrentStep(false);
             vp.AllowLabelInteractions = true;
+            lastHighlightCurrentStep = false;
         }
     }
 }
