@@ -52,6 +52,7 @@ namespace DegCAD.Dialogs
             xyAngle.Text = lastXYAngle;
             yzAngle.Text = lastYZAngle;
             zxAngle.Text = lastZXAngle;
+            disabledAngle = lastDisabledAngle;
             switch (lastDisabledAngle)
             {
                 case 0: 
