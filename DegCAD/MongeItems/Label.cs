@@ -74,7 +74,6 @@ namespace DegCAD.MongeItems
             Superscript = superscript;
             Position = position;
             Style = style;
-            _prevStyle = style;
             LabeledObject = labeledObject;
             LabeledObject.Style = Style.HighlightStyle;
             LabeledObject.Visibility = Visibility.Hidden;
@@ -194,18 +193,15 @@ namespace DegCAD.MongeItems
 
         #region Handling labels
 
-        Style _prevStyle;
-
         private void LabelMouseEnter(object sender, MouseEventArgs e)
         {
             LabeledObject.Visibility = Visibility.Visible;
-            _prevStyle = Style;
-            Style = Style.HighlightStyle;
+            IsHighlighted = true;
         }
         private void LabelMouseLeave(object sender, MouseEventArgs e)
         {
             LabeledObject.Visibility = Visibility.Hidden;
-            Style = _prevStyle;
+            IsHighlighted = false;
         }
 
         Vector2? dragStart = null;

@@ -11,6 +11,7 @@ namespace DegCAD
     public abstract class GeometryElement : ITimelineElement
     {
         private Style _style;
+        private bool _isHighlighted;
         private Visibility _visibility;
         private readonly List<Shape> _shapes = [];
 
@@ -20,7 +21,24 @@ namespace DegCAD
             set
             {
                 _style = value;
+                if (IsHighlighted) return;
                 ShowStyle(value);
+            }
+        }
+        public bool IsHighlighted
+        {
+            get => _isHighlighted;
+            set
+            {
+                _isHighlighted = value;
+                if (IsHighlighted)
+                {
+                    ShowStyle(Style.HighlightStyle);
+                }
+                else
+                {
+                    ShowStyle(Style);
+                }
             }
         }
 
