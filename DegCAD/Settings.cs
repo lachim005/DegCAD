@@ -109,7 +109,7 @@ namespace DegCAD
                 string? line;
                 while((line = sr.ReadLine()) is not null)
                 {
-                    var pair = line.Split(':', 2);
+                    var pair = line.Split('=', 2);
                     var key = pair[0];
                     var value = pair[1];
                     switch (key)
@@ -233,12 +233,12 @@ namespace DegCAD
 
                 using StreamWriter sw = new(settingsFile);
 
-                sw.WriteLine("Version:" + (System.Reflection.Assembly.GetExecutingAssembly().GetName().Version ?? new Version(0,0,0)));
+                sw.WriteLine("Version=" + (System.Reflection.Assembly.GetExecutingAssembly().GetName().Version ?? new Version(0,0,0)));
 
-                sw.WriteLine("DarkMode:" + DarkMode);
-                sw.WriteLine("DefaultMongeXDirectionLeft:" + DefaultMongeXDirectionLeft);
-                sw.WriteLine("DefaultLabelFontSize:" + DefaultLabelFontSize);
-                sw.WriteLine("DefaultColors:[");
+                sw.WriteLine("DarkMode=" + DarkMode);
+                sw.WriteLine("DefaultMongeXDirectionLeft=" + DefaultMongeXDirectionLeft);
+                sw.WriteLine("DefaultLabelFontSize=" + DefaultLabelFontSize);
+                sw.WriteLine("DefaultColors=[");
                 foreach (var color in DefaultColors)
                 {
                     var c = color;
@@ -252,24 +252,24 @@ namespace DegCAD
                     sw.WriteLine($"{c.R};{c.G};{c.B}");
                 }
                 sw.WriteLine(']');
-                sw.WriteLine("PaperSizePresets:[");
+                sw.WriteLine("PaperSizePresets=[");
                 foreach(var preset in PaperSizePresets)
                 {
                     sw.WriteLine($"{preset.Width};{preset.Height};{preset.Name}");
                 }
                 sw.WriteLine(']');
-                sw.WriteLine("RepeatCommands:" + RepeatCommands);
-                sw.WriteLine("NameNewItems:" + NameNewItems);
-                sw.WriteLine("AlertGuides:" + AlertGuides);
-                sw.WriteLine("AlertNewVersions:" + AlertNewVersions);
-                sw.WriteLine("SnapLabels:" + SnapLabels);
-                sw.WriteLine("RecentFiles:[");
+                sw.WriteLine("RepeatCommands=" + RepeatCommands);
+                sw.WriteLine("NameNewItems=" + NameNewItems);
+                sw.WriteLine("AlertGuides=" + AlertGuides);
+                sw.WriteLine("AlertNewVersions=" + AlertNewVersions);
+                sw.WriteLine("SnapLabels=" + SnapLabels);
+                sw.WriteLine("RecentFiles=[");
                 foreach (var file in RecentFiles.Files)
                 {
                     sw.WriteLine($"{(int)file.FileType};{file.TimeOpen.Ticks};{file.Path}");
                 }
                 sw.WriteLine(']');
-                sw.WriteLine("OOBEState:" + OOBEState.Serialize());
+                sw.WriteLine("OOBEState=" + OOBEState.Serialize());
             } catch (Exception ex)
             {
                 MessageBox.Show("Chyba při ukládání nastavení:\n" + ex.Message, img: MessageBoxImage.Error);
