@@ -15,6 +15,8 @@ namespace DegCAD
 {
     public static class Settings
     {
+        public const string ConfigFileName = "Nastavení DegCADu.ini";
+
         private static bool _darkMode;
         private static bool _defaultMongeXDirectionLeft = true;
         private static int _defaultLabelFontSize = 16;
@@ -96,8 +98,8 @@ namespace DegCAD
 #else
                 string settingsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "DegCAD");
 #endif
-                string settingsFile = Path.Combine(settingsFolder, "Settings.dgconf");
-
+                string settingsFile = Path.Combine(settingsFolder, ConfigFileName);
+                
                 if (!File.Exists(settingsFile)) return;
 
                 using StreamReader sr = new(settingsFile);
@@ -227,7 +229,7 @@ namespace DegCAD
                     Directory.CreateDirectory(settingsFolder);
                 }
 
-                string settingsFile = Path.Combine(settingsFolder, "Settings.dgconf");
+                string settingsFile = Path.Combine(settingsFolder, ConfigFileName);
 
                 using StreamWriter sw = new(settingsFile);
 
