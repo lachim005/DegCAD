@@ -185,6 +185,10 @@ namespace DegCAD
                                 recentFiles.Add(new(vals[2], (FileType)ft, new(ticks)) { Visibility = File.Exists(vals[2]) ? Visibility.Visible : Visibility.Collapsed});
                             }
                             break;
+                        case "OOBEState":
+                            if (!long.TryParse(value, out long oobe)) continue;
+                            OOBEState.Deserialize(oobe);
+                            break;
                     }
                 }
 
@@ -263,6 +267,7 @@ namespace DegCAD
                     sw.WriteLine($"{(int)file.FileType};{file.TimeOpen.Ticks};{file.Path}");
                 }
                 sw.WriteLine(']');
+                sw.WriteLine("OOBEState:" + OOBEState.Serialize());
             } catch (Exception ex)
             {
                 MessageBox.Show("Chyba při ukládání nastavení:\n" + ex.Message, img: MessageBoxImage.Error);

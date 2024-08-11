@@ -144,6 +144,7 @@ namespace DegCAD
                     return;
                 }
             }
+            Settings.SaveSettings();
         }
 
         private void StartTabReorderDrag(object sender, MouseButtonEventArgs e)
