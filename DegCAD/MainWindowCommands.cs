@@ -236,6 +236,7 @@ namespace DegCAD
             if (ActiveEditor is null) return;
 
             ActiveEditor.Guide = new();
+            ActiveEditor.OOBEGuide.OpenIfTrue(ref Settings.OOBEState.guide);
         }
         private void ChangeGlobalFontSize(object sender, ExecutedRoutedEventArgs e)
         {

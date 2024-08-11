@@ -89,6 +89,9 @@ namespace DegCAD
 
             repeatCommandCbx.IsChecked = Settings.RepeatCommands;
             nameNewItemsCbx.IsChecked = Settings.NameNewItems;
+
+
+            OOBEToolsPanel.OpenIfTrue(ref Settings.OOBEState.toolsPanel);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -130,6 +133,9 @@ namespace DegCAD
         public async void ExecuteCommand(ICommand c)
         {
             if (c is not IGeometryCommand command) return;
+
+            OOBEStatusBar.OpenIfTrue(ref Settings.OOBEState.statusBar);
+
             do
             {
                 Debug.WriteLine($"Executing command: {command}");
@@ -173,6 +179,9 @@ namespace DegCAD
                     }
                 }
             } while (repeatCommandCbx.IsChecked == true);
+
+            await Task.Delay(100);
+            OOBEPanViewport.OpenIfTrue(ref Settings.OOBEState.panViewport);
         }
 
         public void ShowView(Control view, string viewTitle, bool changed = true)
@@ -320,6 +329,12 @@ namespace DegCAD
         {
             if (!IsInitialized) return;
             InputMgr.NameNewItems = nameNewItemsCbx.IsChecked == true;
+        }
+
+        private async void OOBEPanViewportClosed(object sender, EventArgs e)
+        {
+            await Task.Delay(200);
+            OOBEStyleSelector.OpenIfTrue(ref Settings.OOBEState.styleSelector);
         }
     }
 

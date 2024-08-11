@@ -82,7 +82,7 @@ namespace DegCAD
         public static bool SnapLabels { get; set; } = true;
 
         public static RecentFiles RecentFiles { get; private set; } = new();
-
+        public static OOBEState OOBEState { get; set; } = new();
 
         public static void LoadSettings()
         {

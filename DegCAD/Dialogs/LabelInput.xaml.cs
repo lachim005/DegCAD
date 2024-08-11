@@ -40,6 +40,13 @@ namespace DegCAD.Dialogs
 
             //Sets the last inputed font size
             fontSizeTbx.Text = lastFontSize.ToString();
+
+            if (Settings.OOBEState.labelInput)
+            {
+                OOBELabelText.OpenIfTrue(ref Settings.OOBEState.labelInput);
+                OOBESuperscript.IsOpen = true;
+                OOBESubscript.IsOpen = true;
+            }
         }
 
         private void Confirm(object sender, ExecutedRoutedEventArgs e)

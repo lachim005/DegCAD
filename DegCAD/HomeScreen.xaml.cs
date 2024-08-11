@@ -36,6 +36,8 @@ namespace DegCAD
             } + " vítejte v DegCADu!";
 
             recentFilesIC.ItemsSource = Settings.RecentFiles.Files;
+
+            OOBENewFile.OpenIfTrue(ref Settings.OOBEState.newFile);
         }
 
         private void NewPlaneClick(object sender, RoutedEventArgs e)

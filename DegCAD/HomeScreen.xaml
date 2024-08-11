@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DegCAD"
+             xmlns:ctls="clr-namespace:DegCAD.Controls"
              mc:Ignorable="d" 
              Foreground="{DynamicResource fg}"
              d:DesignHeight="800" d:DesignWidth="800">
@@ -13,7 +14,7 @@
             <ColumnDefinition Width="1"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <ScrollViewer VerticalScrollBarVisibility="Auto" x:Name="newFileButtons">
             <StackPanel Margin="5">
                 <TextBlock Text="Nový soubor" FontSize="30" FontWeight="SemiBold" Margin="10" HorizontalAlignment="Center"/>
                 <Button x:Name="planeBtn" Height="100" Margin="5px" Click="NewPlaneClick" HorizontalAlignment="Stretch" HorizontalContentAlignment="Left">
@@ -113,5 +114,6 @@
                 </ItemsControl>
             </StackPanel>
         </ScrollViewer>
+        <ctls:OOBEPopup Placement="Right" PlacementTarget="{Binding ElementName=newFileButtons}" x:Name="OOBENewFile" Header="Nový soubor" Body="Začněte vytvořením nového souboru. Vyberte typ souboru podle promítání, ve kterém chcete rýsovat." ArrowPosition="Left" VerticalOffset="119"/>
     </Grid>
 </UserControl>

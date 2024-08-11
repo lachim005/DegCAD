@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DegCAD"
+             xmlns:ctls="clr-namespace:DegCAD.Controls"
              mc:Ignorable="d" 
              Loaded="EditorLoaded"
              Foreground="{DynamicResource fg}"
@@ -69,6 +70,14 @@
                 <Label x:Name="altViewTitle" VerticalAlignment="Center"/>
             </StackPanel>
             <Border x:Name="altView" Grid.Row="1" BorderBrush="{DynamicResource border}" BorderThickness="0,1,0,0"/>
+        </Grid>
+        <Grid>
+            <!-- OOBE popups -->
+            <ctls:OOBEPopup Placement="RelativePoint" ArrowPosition="Top" HorizontalOffset="50" x:Name="OOBEToolsPanel" Header="Začněte rýsovat" Body="Vyberte v horním panelu nástroj"/>
+            <ctls:OOBEPopup Placement="Bottom" HorizontalOffset="10" PlacementTarget="{Binding ElementName=statusBar}" x:Name="OOBEStatusBar" Header="Rýsování" Body="Každý nástroj má několik kroků. V horní liště si můžete ke každému kroku přečíst popis." ArrowPosition="Top"/>
+            <ctls:OOBEPopup Placement="Center" x:Name="OOBEPanViewport" Header="Posuňte pohled" Body="Pokud chcete posunout pohled, zmáčkněte a držte kolečko nebo pravé tlačítko myši a táhněte. Pohled můžete také přiblížit nebo oddálit točením kolečka." ArrowPosition="None" Closed="OOBEPanViewportClosed"/>
+            <ctls:OOBEPopup Placement="Left" PlacementTarget="{Binding ElementName=styleSelector}" x:Name="OOBEStyleSelector" Header="Upravte styl" Body="V pravém panelu můžete upravit vzhled nově narýsovaných objektů" ArrowPosition="Right" VerticalOffset="30"/>
+            <ctls:OOBEPopup Placement="Left" PlacementTarget="{Binding ElementName=guideButtons}" x:Name="OOBEGuide" Header="Návod" Body="Zde můžete váš návod upravit nebo zobrazit" ArrowPosition="Right" VerticalOffset="39"/>
         </Grid>
     </Grid>
 </UserControl>

@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DegCAD.Dialogs"
+        xmlns:ctls="clr-namespace:DegCAD.Controls"
         mc:Ignorable="d"
         Background="{DynamicResource bg}"
         Foreground="{DynamicResource fg}"
@@ -53,5 +54,9 @@
         <TextBox Grid.Row="3" Grid.Column="1" VerticalAlignment="Center" Margin="5" Text="16" x:Name="fontSizeTbx"/>
         <Button x:Name="cancelBtn" Grid.Row="4" Content="_Zrušit" Margin="5" Command="Close"/>
         <Button x:Name="confirmBtn" Grid.Row="4" Content="_Potvrdit" Margin="5" Grid.Column="2" Command="Save" Style="{DynamicResource accentBtn}"/>
+
+        <ctls:OOBEPopup Placement="Left" PlacementTarget="{Binding ElementName=labelTextTbx}" x:Name="OOBELabelText" Header="Zadejte název" Body="Většina objektů se dá pojmenovat. Zde zadejte jméno objektu" ArrowPosition="Right" VerticalOffset="-26"/>
+        <ctls:OOBEPopup Placement="Right" PlacementTarget="{Binding ElementName=superscriptTbx}" x:Name="OOBESuperscript" Body="Horní index" ArrowPosition="Left" VerticalOffset="-16"/>
+        <ctls:OOBEPopup Placement="Right" PlacementTarget="{Binding ElementName=subscriptTbx}" x:Name="OOBESubscript" Body="Dolní index" ArrowPosition="Left" VerticalOffset="-16"/>
     </Grid>
 </Window>
