@@ -86,19 +86,28 @@ namespace DegCAD
         public static RecentFiles RecentFiles { get; private set; } = new();
         public static OOBEState OOBEState { get; set; } = new();
 
+        public static string GetSettingsFilePath()
+        {
+#if RELEASE_PORTABLE
+            string settingsFolder = Path.GetDirectoryName(AppContext.BaseDirectory) ?? ".";
+#else
+            string settingsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "DegCAD");
+#endif
+            return Path.Combine(settingsFolder, ConfigFileName);
+        }
+
+        public static bool SettingsFileExists()
+        {
+            return File.Exists(GetSettingsFilePath());
+        }
+
         public static void LoadSettings()
         {
             CultureInfo currentCI = Thread.CurrentThread.CurrentCulture;
             Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
             try
             {
-
-#if RELEASE_PORTABLE
-                string settingsFolder = Path.GetDirectoryName(AppContext.BaseDirectory) ?? ".";
-#else
-                string settingsFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "DegCAD");
-#endif
-                string settingsFile = Path.Combine(settingsFolder, ConfigFileName);
+                string settingsFile = GetSettingsFilePath();
                 
                 if (!File.Exists(settingsFile)) return;
 

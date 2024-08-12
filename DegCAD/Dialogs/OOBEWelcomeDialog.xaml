@@ -1,0 +1,115 @@
+﻿<Window x:Class="DegCAD.Dialogs.OOBEWelcomeDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DegCAD.Dialogs"
+        mc:Ignorable="d"
+        Background="{DynamicResource bg}"
+        Foreground="{DynamicResource fg}"
+        WindowStartupLocation="CenterScreen"
+        MinHeight="450" MinWidth="500"
+        Title="Vítejte" Height="500" Width="700">
+    <Grid>
+        <Grid x:Name="page1" VerticalAlignment="Center" Width="350" HorizontalAlignment="Center" Visibility="Visible">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Image Width="100" Source="/DegCAD;component/Assets/logo.ico" Grid.ColumnSpan="3" Height="100" VerticalAlignment="Center" Margin="0,0,0,15"/>
+            <TextBlock Text="Vítá vás DegCAD" FontSize="24" Grid.Row="1" Grid.ColumnSpan="3" TextAlignment="Center"/>
+            <TextBlock Text="Už zbývá nastavit jen pár věcí" Grid.Row="2" Grid.ColumnSpan="3" TextAlignment="Center" Margin="0,30"/>
+            <Button Content="Pře_skočit" Grid.Row="3" Margin="0" Click="SkipClick"/>
+            <Button Content="_Pojďme na to" Grid.Row="3" Grid.Column="2" Style="{DynamicResource accentBtn}" Margin="0" Click="Next1Click"/>
+        </Grid>
+        <Grid x:Name="page2" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed" UseLayoutRounding="True">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="60"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Vyberte vzhled rozhraní" FontSize="24" Grid.ColumnSpan="3" TextAlignment="Center"/>
+            <RadioButton Grid.Row="2" Grid.Column="0" Content="_Světlý" Checked="LightThemeChecked" x:Name="lightThemeCheckbox" GroupName="theme" IsChecked="True"/>
+            <RadioButton Grid.Row="2" Grid.Column="2" Content="_Tmavý" Checked="DarkThemeChecked" x:Name="darkThemeCheckbox" GroupName="theme"/>
+            <Border Grid.Row="3" Grid.Column="0" Margin="0,20" BorderBrush="{DynamicResource border}" BorderThickness="1">
+                <Canvas Background="#f0f0f0" Height="140" Width="220">
+                    <Rectangle Stroke="Gray" Fill="White" Width="200" Height="120" Margin="10"/>
+                    <Line X1="10" Y1="94.5" X2="210" Y2="94.5" Stroke="Gray"/>
+                    <Line X1="150.5" Y1="10" X2="150.5" Y2="94.5" Stroke="Gray"/>
+                    <Rectangle Stroke="Gray" Fill="White" RadiusX="5" RadiusY="5" Height="25" Width="90" Margin="15,100"/>
+                    <Rectangle Fill="#0f70b7" RadiusX="5" RadiusY="5" Height="25" Width="90" Margin="115,100"/>
+                    <Line X1="160.5" Y1="20" X2="200" Y2="20" StrokeThickness="2" Stroke="Black"/>
+                    <Line X1="160.5" Y1="30" X2="200" Y2="30" StrokeThickness="2" Stroke="Black"/>
+                    <Line X1="160.5" Y1="40" X2="200" Y2="40" StrokeThickness="2" Stroke="Black"/>
+                    <Line X1="40" Y1="50.5" X2="90" Y2="10.5" StrokeThickness="1" Stroke="Crimson"/>
+                    <Line X1="120" Y1="50.5" X2="70" Y2="94" StrokeThickness="1" Stroke="Crimson"/>
+                    <Line X1="10.5" Y1="50.5" X2="150" Y2="50.5" StrokeThickness="1" Stroke="Black"/>
+                </Canvas>
+            </Border>
+            <Border Grid.Row="3" Grid.Column="2" Margin="0,20" BorderBrush="{DynamicResource border}" BorderThickness="1">
+                <Canvas Height="140" Width="220" Background="#1e1e1e">
+                    <Rectangle Stroke="#505050" Fill="#262626" Width="200" Height="120" Margin="10"/>
+                    <Line X1="10" Y1="94.5" X2="210" Y2="94.5" Stroke="#505050"/>
+                    <Line X1="150.5" Y1="10" X2="150.5" Y2="94.5" Stroke="#505050"/>
+                    <Rectangle Stroke="#505050" Fill="#343434" RadiusX="5" RadiusY="5" Height="25" Width="90" Margin="15,100"/>
+                    <Rectangle Fill="#0f70b7" RadiusX="5" RadiusY="5" Height="25" Width="90" Margin="115,100"/>
+                    <Line X1="160.5" Y1="20" X2="200" Y2="20" StrokeThickness="2" Stroke="#d5d5d5"/>
+                    <Line X1="160.5" Y1="30" X2="200" Y2="30" StrokeThickness="2" Stroke="#d5d5d5"/>
+                    <Line X1="160.5" Y1="40" X2="200" Y2="40" StrokeThickness="2" Stroke="#d5d5d5"/>
+                    <Line X1="40" Y1="50.5" X2="90" Y2="10.5" StrokeThickness="1" Stroke="Crimson"/>
+                    <Line X1="120" Y1="50.5" X2="70" Y2="94" StrokeThickness="1" Stroke="Crimson"/>
+                    <Line X1="10.5" Y1="50.5" X2="150" Y2="50.5" StrokeThickness="1" Stroke="White"/>
+                </Canvas>
+            </Border>
+
+            <Button Content="_Další" Grid.Row="4" Grid.ColumnSpan="3" Style="{DynamicResource accentBtn}" Margin="0" Click="Next2Click"/>
+        </Grid>
+        <Grid x:Name="portableDisclaimer" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <TextBlock Text="Vybrali jste verzi portable" FontSize="24" TextAlignment="Center"/>
+            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Width="400" Grid.Row="1" Grid.ColumnSpan="3" Margin="0,30">
+                <Run Text="Verze portable ukládá nastavení programu ve stejné složce, ve které se nachází program, do souboru"/>
+                <Run Text="Nastavení DegCADu.ini" FontFamily="Consolas" Background="{DynamicResource disabledBg}"/>
+                <LineBreak/>
+                <LineBreak/>
+                <Run Text="Pokud budete DegCAD přemísťovat do jiné složky, nezapomeňte přesunout i soubor s nastavením"/>
+            </TextBlock>
+            <Border Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,0,30" BorderBrush="{DynamicResource border}" BorderThickness="1">
+                <Image Stretch="None" Source="/DegCAD;component/Assets/portableConfigDisclaimer.png"/>
+            </Border>
+            <Button Content="_Rozumím" Grid.Row="3" Grid.ColumnSpan="3" Style="{DynamicResource accentBtn}" Margin="0" Click="NextPortable"/>
+        </Grid>
+        <Grid x:Name="page3" VerticalAlignment="Center" HorizontalAlignment="Center" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <Image Width="100" Source="/DegCAD;component/Assets/logo.ico" Height="100" VerticalAlignment="Center" Margin="0,0,0,15"/>
+            <TextBlock Text="Vše je připraveno!" FontSize="24" Grid.Row="1" TextAlignment="Center"/>
+            <TextBlock TextAlignment="Center" TextWrapping="Wrap" Width="400" Grid.Row="2" Margin="0,30" Text="Děkujeme, že jste si stáhli DegCAD. Pokud budete s programem spokojeni, neváhejte o něm říct dalším lidem. Zároveň můžete podpořit vývoj, ať už finančně, nebo poskytnutím zpětné vazby. Veškeré informace naleznete na webu degcad.cz."/>
+            <Button Content="_Spustit DegCAD" Grid.Row="4" Style="{DynamicResource accentBtn}" Margin="0" Click="SkipClick"/>
+        </Grid>
+    </Grid>
+</Window>

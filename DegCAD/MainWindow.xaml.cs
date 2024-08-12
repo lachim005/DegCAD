@@ -41,7 +41,18 @@ namespace DegCAD
         public MainWindow()
         {
             InitializeComponent();
-            Settings.LoadSettings();
+
+            if (Settings.SettingsFileExists())
+            {
+                Settings.LoadSettings();
+            } else
+            {
+                // First time user
+                OOBEWelcomeDialog welcome = new();
+                welcome.ShowDialog();
+                Settings.SaveSettings();
+            }
+
 
             cmdPallete.GenerateCommands(this);
             cmdPallete.ShowButtons(FileType.None);
