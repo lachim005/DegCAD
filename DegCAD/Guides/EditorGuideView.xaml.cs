@@ -170,6 +170,11 @@ namespace DegCAD.Guides
 
             for (int i = sum == 1 ? -1 : 0; i < selectedStep.Items; i++)
             {
+                if (i + sum >= vp.Timeline.CommandHistory.Count)
+                {
+                    return;
+                }
+
                 foreach (var item in vp.Timeline.CommandHistory[i + sum].Items)
                 {
                     if (item is not GeometryElement ge) continue;
