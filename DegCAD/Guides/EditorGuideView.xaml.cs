@@ -29,7 +29,7 @@ namespace DegCAD.Guides
         /// <summary>
         /// Creates an editor guide view
         /// </summary>
-        public EditorGuideView(ViewPort evp, Guide g) : this(evp, g, g.Steps[0])
+        public EditorGuideView(ViewPort evp, Guide g) : this(evp, g, g.Steps[Math.Clamp(g.LastViewedStep, 0, g.Steps.Count - 1)])
         {
             topBar.Visibility = Visibility.Visible;
             fullscreenBtn.Visibility = Visibility.Visible;
@@ -59,7 +59,6 @@ namespace DegCAD.Guides
             topBar.Visibility = Visibility.Collapsed;
             fullscreenBtn.Visibility = Visibility.Collapsed;
 
-            SelectStep(g.Steps[Math.Clamp(g.LastViewedStep, 0, g.Steps.Count - 1)]);
             if (lastHighlightCurrentStep)
             {
                 highlightStepCbx.IsChecked = true;
@@ -153,6 +152,10 @@ namespace DegCAD.Guides
             fs.ShowDialog();
 
             SelectStep(egv.selectedStep);
+            highlightStepCbx.IsChecked = egv.highlightStepCbx.IsChecked;
+            vp.OffsetX = egv.vp.OffsetX;
+            vp.OffsetY = egv.vp.OffsetY;
+            vp.Redraw();
         }
         public void SwapWhiteAndBlack()
         {
