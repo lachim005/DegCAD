@@ -91,6 +91,8 @@ namespace DegCAD.MultiFile
             MainWindow = mw;
 
             intTxtColorPaletteIC.ItemsSource = Settings.DefaultColors;
+
+            OOBEMFAddingItems.OpenIfTrue(ref Settings.OOBEState.mfAddingItems);
         }
         private void EditorLoaded(object sender, RoutedEventArgs e)
         {
@@ -194,6 +196,7 @@ namespace DegCAD.MultiFile
             }
 
             SelectedContainer = e;
+            OOBEMFInspector.OpenIfTrue(ref Settings.OOBEState.mfInspector);
         }
 
         public void ExecuteCommand(ICommand c)

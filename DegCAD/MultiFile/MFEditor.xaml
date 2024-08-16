@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DegCAD.MultiFile"
              xmlns:root="clr-namespace:DegCAD"
+             xmlns:ctls="clr-namespace:DegCAD.Controls"
              mc:Ignorable="d"
              Loaded="EditorLoaded"
              Foreground="{DynamicResource fg}" 
@@ -34,7 +35,7 @@
                 </Button>
             </StackPanel>
         </Grid>
-        <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Grid.Column="2" VerticalScrollBarVisibility="Auto" x:Name="inspector">
             <StackPanel Margin="10">
                 <GroupBox Header="Pozice" Padding="10" x:Name="insTransform">
                     <Grid>
@@ -337,5 +338,7 @@
             </StackPanel>
         </ScrollViewer>
         <GridSplitter Grid.Column="1" Width="1" Background="{DynamicResource border}" HorizontalAlignment="Stretch"/>
+        <ctls:OOBEPopup Placement="RelativePoint" x:Name="OOBEMFAddingItems" Header="Přidejte objekty" Body="Zde můžete přidat objekty do vaší kompozice. Obrázky a výkresy také můžete přidat přetažením z průzkumníka souborů" ArrowPosition="Top" HorizontalOffset="10"/>
+        <ctls:OOBEPopup Placement="Left" PlacementTarget="{Binding ElementName=inspector}" x:Name="OOBEMFInspector" Header="Úpravy" Body="V pravém panelu můžete upravovat vlastnosti vybraných objektů" ArrowPosition="Right" VerticalOffset="120"/>
     </Grid>
 </UserControl>
