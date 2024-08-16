@@ -80,7 +80,7 @@ namespace DegCAD.Dialogs
                 case Type.Int:
                     if (!int.TryParse(textbox.Text, out var i))
                     {
-                        MessageBox.Show("Zadána neplatná hodnota", img: MessageBoxImage.Error);
+                        MessageBox.Show(this, "Zadána neplatná hodnota", img: MessageBoxImage.Error);
                         return;
                     }
                     IntResult = i;
@@ -88,7 +88,7 @@ namespace DegCAD.Dialogs
                 case Type.Double:
                     if (!double.TryParse(textbox.Text, out var d))
                     {
-                        MessageBox.Show("Zadána neplatná hodnota", img: MessageBoxImage.Error);
+                        MessageBox.Show(this, "Zadána neplatná hodnota", img: MessageBoxImage.Error);
                         return;
                     }
                     DoubleResult = d;

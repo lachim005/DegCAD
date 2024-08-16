@@ -39,7 +39,7 @@ namespace DegCAD
             editor.FileName = Path.GetFileNameWithoutExtension(sfd.FileName);
             return true;
         }
-        public static async Task<bool> SaveEditorAsync(Editor editor)
+        public static async Task<bool> SaveEditorAsync(Editor editor, Window owner)
         {
             try
             {
@@ -55,16 +55,16 @@ namespace DegCAD
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\n\n" + ex.InnerException?.Message, "Chyba při ukládání souboru", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(owner, ex.Message + "\n\n" + ex.InnerException?.Message, "Chyba při ukládání souboru", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             return false;
         }
-        public async void OpenFileAsync(string path, bool switchToTab = true)
+        public async void OpenFileAsync(string path, Window owner, bool switchToTab = true)
         {
             FileType openingFileType = FileType.None;
             if (Path.GetExtension(path) == ".dgproj")
             {
-                if (await OpenEditorAsync(path) is not Editor ed) return;
+                if (await OpenEditorAsync(path, owner) is not Editor ed) return;
                 openTabs.Add(new EditorTab(ed));
 
                 openingFileType = ProjectionTypeToFileType(ed.ProjectionType);
@@ -81,7 +81,7 @@ namespace DegCAD
                 openingFileType = FileType.MultiFile;
             } else
             {
-                MessageBox.Show("Tento formát není podporován", "Chyba při otevírání", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(this, "Tento formát není podporován", "Chyba při otevírání", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -92,7 +92,7 @@ namespace DegCAD
 
             Settings.RecentFiles.AddFile(path, openingFileType);
         }
-        public static async Task<Editor?> OpenEditorAsync(string path)
+        public static async Task<Editor?> OpenEditorAsync(string path, Window owner)
         {
             Editor ed;
             try
@@ -101,7 +101,7 @@ namespace DegCAD
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\n\n" + ex.InnerException?.Message, "Chyba při načítání souboru", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(owner, ex.Message + "\n\n" + ex.InnerException?.Message, "Chyba při načítání souboru", MessageBoxButton.OK, MessageBoxImage.Error);
                 return null;
             }
             ed.Changed = false;
@@ -116,7 +116,7 @@ namespace DegCAD
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\n\n" + ex.InnerException?.Message + "\n\n" + ex.InnerException?.InnerException?.Message, "Chyba při načítání souboru", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(this, ex.Message + "\n\n" + ex.InnerException?.Message + "\n\n" + ex.InnerException?.InnerException?.Message, "Chyba při načítání souboru", MessageBoxButton.OK, MessageBoxImage.Error);
                 return null;
             }
             return ed;
@@ -199,7 +199,7 @@ namespace DegCAD
         {
             if (OpenEditorOpenDialog() is not string path) return;
 
-            OpenFileAsync(path);
+            OpenFileAsync(path, this);
         }
         public static string? OpenEditorOpenDialog()
         {

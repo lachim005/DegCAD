@@ -89,9 +89,9 @@ namespace DegCAD.Dialogs
                 case 0:
                     {
                         //Axonometry given by the axonometry triangle lenghts
-                        if (!double.TryParse(xyLen.Text, out double xy) || xy < .1) { MessageBox.Show("Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
-                        if (!double.TryParse(yzLen.Text, out double yz) || yz < .1) { MessageBox.Show("Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
-                        if (!double.TryParse(zxLen.Text, out double zx) || zx < .1) { MessageBox.Show("Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
+                        if (!double.TryParse(xyLen.Text, out double xy) || xy < .1) { MessageBox.Show(this, "Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
+                        if (!double.TryParse(yzLen.Text, out double yz) || yz < .1) { MessageBox.Show(this, "Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
+                        if (!double.TryParse(zxLen.Text, out double zx) || zx < .1) { MessageBox.Show(this, "Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
 
                         double biggest = 0;
                         double squareSum = xy * xy + yz * yz + zx * zx;
@@ -99,7 +99,7 @@ namespace DegCAD.Dialogs
                         if (yz > biggest) biggest = yz;
                         if (zx > biggest) biggest = zx;
                         squareSum -= biggest * biggest;
-                        if (biggest * biggest >= squareSum) { MessageBox.Show("Nejedná se o ostroúhlý trojúhelník", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
+                        if (biggest * biggest >= squareSum) { MessageBox.Show(this, "Nejedná se o ostroúhlý trojúhelník", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
 
                         Vector2 xPoint = (0, 0);
                         Vector2 yPoint = (xy, 0);
@@ -107,7 +107,7 @@ namespace DegCAD.Dialogs
                         Circle2 c1 = new((0, 0), zx);
                         Circle2 c2 = new((xy, 0), yz);
                         var intersections = c1.FindIntersections(c2);
-                        if (intersections is null) { MessageBox.Show("Nejedná se o trojúhelník", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
+                        if (intersections is null) { MessageBox.Show(this, "Nejedná se o trojúhelník", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
                         Vector2 zPoint = intersections.Value.Item1;
 
 
@@ -169,22 +169,22 @@ namespace DegCAD.Dialogs
                         switch (disabledAngle)
                         {
                             case 0:
-                                if (!double.TryParse(yzAngle.Text, out a2) || a2 <= 90 || a2 >= 180) { MessageBox.Show("Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
-                                if (!double.TryParse(zxAngle.Text, out a3) || a3 <= 90 || a3 >= 180) { MessageBox.Show("Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
+                                if (!double.TryParse(yzAngle.Text, out a2) || a2 <= 90 || a2 >= 180) { MessageBox.Show(this, "Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
+                                if (!double.TryParse(zxAngle.Text, out a3) || a3 <= 90 || a3 >= 180) { MessageBox.Show(this, "Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
                                 a1 = 360 - a2 - a3;
-                                if (a1 <= 90 || a1 >= 180) { MessageBox.Show("Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
+                                if (a1 <= 90 || a1 >= 180) { MessageBox.Show(this, "Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
                                 break;
                             case 1:
-                                if (!double.TryParse(xyAngle.Text, out a1) || a1 <= 90 || a1 >= 180) { MessageBox.Show("Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
-                                if (!double.TryParse(zxAngle.Text, out a3) || a3 <= 90 || a3 >= 180) { MessageBox.Show("Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
+                                if (!double.TryParse(xyAngle.Text, out a1) || a1 <= 90 || a1 >= 180) { MessageBox.Show(this, "Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
+                                if (!double.TryParse(zxAngle.Text, out a3) || a3 <= 90 || a3 >= 180) { MessageBox.Show(this, "Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
                                 a2 = 360 - a1 - a3;
-                                if (a2 <= 90 || a2 >= 180) { MessageBox.Show("Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
+                                if (a2 <= 90 || a2 >= 180) { MessageBox.Show(this, "Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
                                 break;
                             default:
-                                if (!double.TryParse(xyAngle.Text, out a1) || a1 <= 90 || a1 >= 180) { MessageBox.Show("Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
-                                if (!double.TryParse(yzAngle.Text, out a2) || a2 <= 90 || a2 >= 180) { MessageBox.Show("Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
+                                if (!double.TryParse(xyAngle.Text, out a1) || a1 <= 90 || a1 >= 180) { MessageBox.Show(this, "Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
+                                if (!double.TryParse(yzAngle.Text, out a2) || a2 <= 90 || a2 >= 180) { MessageBox.Show(this, "Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
                                 a3 = 360 - a1 - a2;
-                                if (a3 <= 90 || a3 >= 180) { MessageBox.Show("Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
+                                if (a3 <= 90 || a3 >= 180) { MessageBox.Show(this, "Zadány neplatné hodnoty", "Nastavení axonometrie", MessageBoxButton.OK, MessageBoxImage.Error); return; }
                                 break;
                         }
 

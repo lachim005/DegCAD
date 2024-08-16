@@ -160,7 +160,7 @@ namespace DegCAD
                 catch (Exception ex)
                 {
                     if (ex is CommandCanceledException) return;
-                    MessageBox.Show("Při spuštění nástroje se vyskytla chyba\n\n" + ex.Message, img: MessageBoxImage.Error);
+                    MessageBox.Show(Window.GetWindow(this), "Při spuštění nástroje se vyskytla chyba\n\n" + ex.Message, img: MessageBoxImage.Error);
                     return;
                 }
                 finally
@@ -231,7 +231,7 @@ namespace DegCAD
             if (Guide is null) return;
             if (Guide.Steps.Count == 0)
             {
-                MessageBox.Show("Návod neobsahuje žádné kroky", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(Window.GetWindow(this), "Návod neobsahuje žádné kroky", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             EditorGuideView gv = new(viewPort, Guide);
@@ -239,7 +239,7 @@ namespace DegCAD
         }
         private void RemoveGuideBtn(object sender, RoutedEventArgs e)
         {
-            var res = MessageBox.Show("Opravdu chcete vymazat návod?\nTato akce je nevratná", "Varování", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+            var res = MessageBox.Show(Window.GetWindow(this), "Opravdu chcete vymazat návod?\nTato akce je nevratná", "Varování", MessageBoxButton.YesNo, MessageBoxImage.Warning);
             if (res == MessageBoxResult.Yes)
                 Guide = null;
         }

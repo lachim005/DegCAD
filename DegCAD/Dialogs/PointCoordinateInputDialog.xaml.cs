@@ -83,7 +83,7 @@ namespace DegCAD.Dialogs
 
                 if (!double.TryParse(item.X, out double x))
                 {
-                    MessageBox.Show("U každého bodu musí být vyplněna souřadnice X");
+                    MessageBox.Show(this, "U každého bodu musí být vyplněna souřadnice X");
                     return;
                 }
 
@@ -97,7 +97,7 @@ namespace DegCAD.Dialogs
                 {
                     if (!hasOne)
                     {
-                        MessageBox.Show("U každého bodu musí být vyplněna alespoň jedna souřadnice Y nebo Z");
+                        MessageBox.Show(this, "U každého bodu musí být vyplněna alespoň jedna souřadnice Y nebo Z");
                         return;
                     }
                     z = double.NaN;

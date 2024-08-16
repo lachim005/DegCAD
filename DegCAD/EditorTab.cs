@@ -76,7 +76,7 @@ namespace DegCAD
                     return false;
                 }
             }
-            return await MainWindow.SaveEditorAsync(Editor);
+            return await MainWindow.SaveEditorAsync(Editor, MainWindow.GetWindow(Editor));
         }
         public async Task<bool> SaveAs()
         {
@@ -85,7 +85,7 @@ namespace DegCAD
                 return false;
             }
 
-            return await MainWindow.SaveEditorAsync(Editor);
+            return await MainWindow.SaveEditorAsync(Editor, MainWindow.GetWindow(Editor));
         }
         public void Undo() => Editor.Timeline.Undo();
         public void Redo() => Editor.Timeline.Redo();

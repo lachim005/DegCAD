@@ -74,7 +74,7 @@ namespace DegCAD.DebugMenu
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\n\n" + ex.InnerException?.Message, "Chyba při načítání souboru", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(Window.GetWindow(this), ex.Message + "\n\n" + ex.InnerException?.Message, "Chyba při načítání souboru", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 

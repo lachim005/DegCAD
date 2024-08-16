@@ -60,7 +60,7 @@ namespace DegCAD.Dialogs
 
         private void OnWindowClosing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            MessageBox.Show("Program nemusí kvůli chybě fungovat správně.\nDoporučujeme ho co nejdříve restartovat.", "Varování", img: MessageBoxImage.Warning);
+            MessageBox.Show(this, "Program nemusí kvůli chybě fungovat správně.\nDoporučujeme ho co nejdříve restartovat.", "Varování", img: MessageBoxImage.Warning);
             this.e.Handled = true;
         }
     }

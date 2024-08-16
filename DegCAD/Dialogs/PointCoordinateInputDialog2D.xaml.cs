@@ -66,7 +66,7 @@ namespace DegCAD.Dialogs
 
                 if (!double.TryParse(item.X, out double x) || !double.TryParse(item.Y, out double y))
                 {
-                    MessageBox.Show("U každého bodu musí být vyplněna souřadnice X a Y");
+                    MessageBox.Show(this, "U každého bodu musí být vyplněna souřadnice X a Y");
                     return;
                 }
 

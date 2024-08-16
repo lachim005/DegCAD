@@ -46,7 +46,7 @@ namespace DegCAD.GeometryCommands
 
             if (highlightedItem is Label)
             {
-                MessageBox.Show("Štítky nemůžete pojmenovat", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(Window.GetWindow(vpl.Canvas), "Štítky nemůžete pojmenovat", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
                 return null;
             }
             esb.CommandHelp = "Zadejte název";

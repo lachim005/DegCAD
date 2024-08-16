@@ -207,7 +207,7 @@ namespace DegCAD
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Chyba při načítání nastavení:\n" + ex.Message, img: MessageBoxImage.Error);
+                MessageBox.Show(null, "Chyba při načítání nastavení:\n" + ex.Message, img: MessageBoxImage.Error);
             }
             finally
             {
@@ -281,7 +281,7 @@ namespace DegCAD
                 sw.WriteLine("OOBEState=" + OOBEState.Serialize());
             } catch (Exception ex)
             {
-                MessageBox.Show("Chyba při ukládání nastavení:\n" + ex.Message, img: MessageBoxImage.Error);
+                MessageBox.Show(null, "Chyba při ukládání nastavení:\n" + ex.Message, img: MessageBoxImage.Error);
             } finally
             {
                 Thread.CurrentThread.CurrentCulture = currentCI;

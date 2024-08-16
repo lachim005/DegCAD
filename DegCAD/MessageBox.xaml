@@ -9,7 +9,6 @@
         WindowStartupLocation="CenterScreen"
         SnapsToDevicePixels="True"
         ResizeMode="NoResize"
-        Topmost="True"
         MaxWidth="500"
         Background="{DynamicResource bg}"
         Foreground="{DynamicResource fg}"

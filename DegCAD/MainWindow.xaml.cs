@@ -65,16 +65,6 @@ namespace DegCAD
             openTabs.Add(new HomeTab(this));
             ActiveTab = openTabs[0];
 
-            //Open editor is the user opens a file
-            var args = Environment.GetCommandLineArgs();
-            if (args.Length == 2)
-            {
-                if (System.IO.File.Exists(args[1]))
-                {
-                    OpenFileAsync(args[1]);
-                }
-            }
-
             editorTabs.ItemsSource = openTabs;
             toastNotificationsIc.ItemsSource = toastNotifications;
 
@@ -144,7 +134,7 @@ namespace DegCAD
 
             foreach (var file in files)
             {
-                OpenFileAsync(file);
+                OpenFileAsync(file, this);
             }
         }
 
@@ -203,6 +193,7 @@ namespace DegCAD
         {
             if (!tab.HasChanges) return true;
             var save = MessageBox.Show(
+                this,
                 $"Chcete uložit soubor {tab.Name}?",
                 "DegCAD",
                 MessageBoxButton.YesNoCancel,
@@ -281,6 +272,19 @@ namespace DegCAD
         {
             if (e.ChangedButton != MouseButton.Middle) return;
             CreateNewFile();
+        }
+
+        private void OnLoaded(object sender, RoutedEventArgs e)
+        {
+            //Open editor is the user opens a file
+            var args = Environment.GetCommandLineArgs();
+            if (args.Length == 2)
+            {
+                if (System.IO.File.Exists(args[1]))
+                {
+                    OpenFileAsync(args[1], this);
+                }
+            }
         }
     }
 }

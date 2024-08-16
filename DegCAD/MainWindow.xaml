@@ -11,6 +11,7 @@
         AllowDrop="True"
         Drop="WindowDrop"
         Closing="WindowClosing"
+        Loaded="OnLoaded"
         Title="DegCAD" MinHeight="450" MinWidth="800">
     <Window.CommandBindings>
         <CommandBinding Command="New"

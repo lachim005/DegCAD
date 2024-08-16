@@ -100,7 +100,7 @@ namespace DegCAD
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\n\n" + ex.InnerException?.Message, "Chyba při ukládání souboru", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(Window.GetWindow(Editor), ex.Message + "\n\n" + ex.InnerException?.Message, "Chyba při ukládání souboru", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             return false;
         }
@@ -124,7 +124,7 @@ namespace DegCAD
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message + "\n\n" + ex.InnerException?.Message, "Chyba při ukládání souboru", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(Window.GetWindow(Editor), ex.Message + "\n\n" + ex.InnerException?.Message, "Chyba při ukládání souboru", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             return false;
         }

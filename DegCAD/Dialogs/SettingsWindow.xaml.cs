@@ -106,7 +106,7 @@ namespace DegCAD.Dialogs
 
         private void RestoreDefaultColorsClick(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Opravdu chcete obnovit původní paletu?", btn: MessageBoxButton.YesNo, img: MessageBoxImage.Question) != MessageBoxResult.Yes) return;
+            if (MessageBox.Show(this, "Opravdu chcete obnovit původní paletu?", btn: MessageBoxButton.YesNo, img: MessageBoxImage.Question) != MessageBoxResult.Yes) return;
             DefaultColors.Clear();
             DefaultColors.Add(App.Skin == Skin.Light ? Colors.Black : Colors.White);
             DefaultColors.Add(Color.FromRgb(153, 153, 153));

@@ -54,7 +54,7 @@ namespace DegCAD.Dialogs
         {
             if (!int.TryParse(fontSizeTbx.Text, out int size))
             {
-                MessageBox.Show("Neplatná velikost písma", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(this, "Neplatná velikost písma", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             if (!string.IsNullOrEmpty(LabelText))

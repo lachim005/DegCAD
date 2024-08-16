@@ -26,7 +26,7 @@ namespace DegCAD.MultiFile.Commands
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Při otevírání obrázku se vyskytla chyba:\n\n" + ex.Message, "Chyba", img: MessageBoxImage.Error); 
+                MessageBox.Show(owner, "Při otevírání obrázku se vyskytla chyba:\n\n" + ex.Message, "Chyba", img: MessageBoxImage.Error); 
             }
             return null;
         }

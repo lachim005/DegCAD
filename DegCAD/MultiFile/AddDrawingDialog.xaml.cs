@@ -41,7 +41,7 @@ namespace DegCAD.MultiFile
                 Close();
                 return;
             }
-            if (await MainWindow.OpenEditorAsync(path) is not Editor ed)
+            if (await MainWindow.OpenEditorAsync(path, this) is not Editor ed)
             {
                 Close();
                 return;

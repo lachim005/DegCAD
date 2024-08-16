@@ -336,7 +336,7 @@ namespace DegCAD.MultiFile
         {
             if (SelectedContainer?.Item is not MFDrawing dwg) return;
             MainWindow.OpenEditorSaveFileDialog(dwg.editor);
-            await MainWindow.SaveEditorAsync(dwg.editor);
+            await MainWindow.SaveEditorAsync(dwg.editor, MainWindow);
         }
 
         private void InsDwEditDrawing(object sender, RoutedEventArgs e)

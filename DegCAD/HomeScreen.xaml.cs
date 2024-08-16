@@ -72,7 +72,7 @@ namespace DegCAD
             if (sender is not FrameworkElement fe) return;
             if (fe.DataContext is not RecentFile rf) return;
 
-            mw.OpenFileAsync(rf.Path, false);
+            mw.OpenFileAsync(rf.Path, mw, false);
         }
 
         private void RecentFileClick(object sender, RoutedEventArgs e)
@@ -80,7 +80,7 @@ namespace DegCAD
             if (sender is not FrameworkElement fe) return;
             if (fe.DataContext is not RecentFile rf) return;
 
-            mw.OpenFileAsync(rf.Path);
+            mw.OpenFileAsync(rf.Path, mw);
         }
 
         private void RecentFilePreviewMouseDown(object sender, MouseButtonEventArgs e)
@@ -90,13 +90,13 @@ namespace DegCAD
             if (sender is not FrameworkElement fe) return;
             if (fe.DataContext is not RecentFile rf) return;
 
-            mw.OpenFileAsync(rf.Path, false);
+            mw.OpenFileAsync(rf.Path, mw, false);
             e.Handled = true;
         }
 
         private void ClearRecentFilesClick(object sender, RoutedEventArgs e)
         {
-            if (MessageBox.Show("Opravdu chcete vymazat historii souborů?", "DegCAD", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            if (MessageBox.Show(mw, "Opravdu chcete vymazat historii souborů?", "DegCAD", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 Settings.RecentFiles.Clear();
             }

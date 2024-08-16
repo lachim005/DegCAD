@@ -102,7 +102,7 @@ namespace DegCAD.Dialogs
             {
                 if (!int.TryParse(uniformFontSizeTbx.Text, out int fs))
                 {
-                    MessageBox.Show("Neplatná hodnota", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(this, "Neplatná hodnota", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
                 foreach (var cmd in editor.Timeline.CommandHistory)
@@ -118,7 +118,7 @@ namespace DegCAD.Dialogs
             {
                 if (!double.TryParse(fontSizeFactorTbx.Text, out double factor))
                 {
-                    MessageBox.Show("Neplatná hodnota", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                    MessageBox.Show(this, "Neplatná hodnota", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
                     return;
                 }
                 foreach (var cmd in editor.Timeline.CommandHistory)

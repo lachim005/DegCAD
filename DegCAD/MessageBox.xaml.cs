@@ -21,9 +21,15 @@ namespace DegCAD
     {
         public MessageBoxResult Result { get; private set; } = MessageBoxResult.None;
 
-        public MessageBox(string message, string title, MessageBoxButton btn, MessageBoxImage img)
+        public MessageBox(string message, string title, MessageBoxButton btn, MessageBoxImage img, Window? owner)
         {
             InitializeComponent();
+            if (owner is not null)
+            {
+                Owner = owner;
+                WindowStartupLocation = WindowStartupLocation.CenterOwner;
+                ShowInTaskbar = false;
+            }
 
             textbox.Text = message;
             Title = title;
@@ -73,15 +79,15 @@ namespace DegCAD
             }
         }
 
-        public static MessageBoxResult Show(string message, string title = "DegCAD", MessageBoxButton btn = MessageBoxButton.OK, MessageBoxImage img = MessageBoxImage.None)
+        public static MessageBoxResult Show(Window? owner, string message, string title = "DegCAD", MessageBoxButton btn = MessageBoxButton.OK, MessageBoxImage img = MessageBoxImage.None)
         {
-            MessageBox mb = new(message, title, btn, img);
+            MessageBox mb = new(message, title, btn, img, owner);
             mb.ShowDialog();
             return mb.Result;
         }
-        public async static Task<MessageBoxResult> ShowAsync(string message, string title = "DegCAD", MessageBoxButton btn = MessageBoxButton.OK, MessageBoxImage img = MessageBoxImage.None)
+        public async static Task<MessageBoxResult> ShowAsync(Window? owner, string message, string title = "DegCAD", MessageBoxButton btn = MessageBoxButton.OK, MessageBoxImage img = MessageBoxImage.None)
         {
-            MessageBox mb = new(message, title, btn, img);
+            MessageBox mb = new(message, title, btn, img, owner);
             await mb.Dispatcher.BeginInvoke(new Action(() => mb.ShowDialog()));
             return mb.Result;
         }

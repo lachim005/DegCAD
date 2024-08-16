@@ -138,7 +138,7 @@ namespace DegCAD.Dialogs
 
             if (!int.TryParse(copyCountTbx.Text, out int copyCount) || copyCount < 1)
             {
-                MessageBox.Show("Neplatný počet kopií", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(this, "Neplatný počet kopií", "Chyba", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
