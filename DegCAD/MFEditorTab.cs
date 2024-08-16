@@ -46,6 +46,7 @@ namespace DegCAD
                 PropertyChanged?.Invoke(this, new(nameof(Name)));
             }
         }
+        public bool ItalicizeName => false;
         public string Icon => "M .5 0.5 L 15 0.5 L 15 5.5 L .5 5.5 z M .5 9 L 6.5 9 L 6.5 15 L .5 15 z M 9 9 L 15 9 L 15 15 L 9 15 z";
 
         public string? FolderPath { get; set; }
@@ -63,6 +64,7 @@ namespace DegCAD
         public MFEditorTab(MFEditor editor)
         {
             Editor = editor;
+            Editor.Tab = this;
             Editor.PropertyChanged += EditorPropertyChanged;
         }
 

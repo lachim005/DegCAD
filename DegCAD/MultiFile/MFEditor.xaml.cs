@@ -51,6 +51,9 @@ namespace DegCAD.MultiFile
                 PropertyChanged?.Invoke(this, new(nameof(Changed)));
             }
         }
+        public MFEditorTab? Tab { get; set; } = null;
+
+        public List<ConnectedEditorTab> ConnectedEditorTabs { get; set; } = [];
 
         public MFEditor(MainWindow mw) : this(mw, new MFPage[0])
         {
@@ -334,7 +337,7 @@ namespace DegCAD.MultiFile
         private void InsDwEditDrawing(object sender, RoutedEventArgs e)
         {
             if (SelectedContainer?.Item is not MFDrawing dwg) return;
-            
+            if (Tab is null) return;
 
             for (int i = 0; i < MainWindow.openTabs.Count; i++)
             {
@@ -345,8 +348,10 @@ namespace DegCAD.MultiFile
             }
 
 
-            MainWindow.openTabs.Add(new ConnectedEditorTab(dwg.editor));
+            var tab = new ConnectedEditorTab(dwg.editor, Tab);
+            MainWindow.openTabs.Add(tab);
             MainWindow.editorTabs.SelectedIndex = MainWindow.editorTabs.Items.Count - 1;
+            ConnectedEditorTabs.Add(tab);
         }
 
         private void InsDwLockPosChecked(object sender, RoutedEventArgs e)

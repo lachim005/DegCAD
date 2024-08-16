@@ -10,6 +10,8 @@ namespace DegCAD
 {
     public class ConnectedEditorTab : ITab
     {
+        private string _name = string.Empty;
+
         public Editor Editor { get; init; }
 
         public Control Body => Editor;
@@ -31,7 +33,16 @@ namespace DegCAD
         public bool CanExport => true;
 
         public bool HasChanges => false;
-        public string Name => "Propojený editor"; 
+        public string Name
+        {
+            get => _name;
+            set
+            {
+                _name = value;
+                PropertyChanged?.Invoke(this, new(nameof(Name)));
+            }
+        }
+        public bool ItalicizeName => true;
         public string Icon => Editor.ProjectionType switch
         {
             ProjectionType.Plane => "M 0 7.5 L 15 7.5 M 7.5 0 L 7.5 15",
@@ -39,11 +50,21 @@ namespace DegCAD
             ProjectionType.Axonometry => "M 0 15 L 7.5 10 L 15 15 M 7.5 10 L 7.5 0",
             _ => ""
         };
+        public ITab ParentTab { get; init; }
 
-        public ConnectedEditorTab(Editor editor)
+        public ConnectedEditorTab(Editor editor, ITab parentTab)
         {
             Editor = editor;
             editor.PropertyChanged += EditorPropertyChanged;
+            ParentTab = parentTab;
+            ParentTab.PropertyChanged += ParentTabPropertyChanged;
+            Name = $"Propojený editor [{ParentTab.Name}]";
+        }
+
+        private void ParentTabPropertyChanged(object? sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName != nameof(ParentTab.Name)) return;
+            Name = $"Propojený editor [{ParentTab.Name}]";
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

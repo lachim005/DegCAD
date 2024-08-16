@@ -32,6 +32,7 @@ namespace DegCAD
 
         public bool HasChanges => Editor.Changed;
         public string Name => Editor.FileName;
+        public bool ItalicizeName => false;
         public string Icon => Editor.ProjectionType switch
         {
             ProjectionType.Plane => "M 0 7.5 L 15 7.5 M 7.5 0 L 7.5 15",
