@@ -322,13 +322,6 @@ namespace DegCAD.MultiFile
 
             dwg.UnitSize = Math.Clamp(us, 1, 100);
             dwg.ViewUpdated(ActivePage.OffsetX, ActivePage.OffsetY, ActivePage.Scale);
-
-            // Adjusts the offset so it will zoom in and out from the center
-            var newCenter = dwg.Viewport.ScreenToCanvas((dwg.Viewport.CWidth / 2, dwg.Viewport.CHeight / 2));
-            var centerDiff = newCenter - center;
-            dwg.Viewport.OffsetX -= centerDiff.X;
-            dwg.Viewport.OffsetY -= centerDiff.Y;
-            dwg.Viewport.Redraw();
         }
 
         private async void InsDwSaveClick(object sender, RoutedEventArgs e)

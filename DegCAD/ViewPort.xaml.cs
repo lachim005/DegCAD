@@ -217,8 +217,8 @@ namespace DegCAD
         public Vector2 CanvasToScreen(Vector2 canvas)
         {
             Vector2 res = new();
-            res.X = (canvas.X - OffsetX) * Scale * unitSize;
-            res.Y = (canvas.Y - OffsetY) * Scale * unitSize;
+            res.X = (canvas.X - OffsetX) * Scale * unitSize + (ActualWidth / 2);
+            res.Y = (canvas.Y - OffsetY) * Scale * unitSize + (ActualHeight / 2);
             return res;
         }
         /// <summary>
@@ -227,8 +227,8 @@ namespace DegCAD
         public Vector2 ScreenToCanvas(Vector2 screen)
         {
             Vector2 res = new();
-            res.X = (screen.X / unitSize / Scale) + OffsetX;
-            res.Y = (screen.Y / unitSize / Scale) + OffsetY;
+            res.X = ((screen.X - (ActualWidth / 2)) / unitSize / Scale) + OffsetX;
+            res.Y = ((screen.Y - (ActualHeight / 2)) / unitSize / Scale) + OffsetY;
             return res;
         }
         #endregion
@@ -350,8 +350,8 @@ namespace DegCAD
                 Scale = Math.Clamp(Math.Min(scaleX, scaleY), MinZoom, MaxZoom);
             }
 
-            OffsetX = (maxX + minX) / 2 - (ActualWidth / Scale / unitSize / 2); 
-            OffsetY = (maxY + minY) / 2 - (ActualHeight / Scale / unitSize / 2);
+            OffsetX = (maxX + minX) / 2; 
+            OffsetY = (maxY + minY) / 2;
 
             Redraw();
         }
