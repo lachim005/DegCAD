@@ -53,8 +53,6 @@ namespace DegCAD.MultiFile
         }
         public MFEditorTab? Tab { get; set; } = null;
 
-        public List<ConnectedEditorTab> ConnectedEditorTabs { get; set; } = [];
-
         public MFEditor(MainWindow mw) : this(mw, new MFPage[0])
         {
             
@@ -348,10 +346,9 @@ namespace DegCAD.MultiFile
             }
 
 
-            var tab = new ConnectedEditorTab(dwg.editor, Tab);
+            var tab = new ConnectedEditorTab(dwg.editor, MainWindow, Tab);
             MainWindow.openTabs.Add(tab);
             MainWindow.editorTabs.SelectedIndex = MainWindow.editorTabs.Items.Count - 1;
-            ConnectedEditorTabs.Add(tab);
         }
 
         private void InsDwLockPosChecked(object sender, RoutedEventArgs e)

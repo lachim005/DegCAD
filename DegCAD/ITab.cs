@@ -32,5 +32,7 @@ namespace DegCAD
         void ExecuteCommand(ICommand c);
         void SwapWhiteAndBlack();
         void Print();
+        void OnTabClosed(); 
+        event EventHandler? TabClosed;
     }
 }

@@ -79,5 +79,10 @@ namespace DegCAD
         {
 
         }
+        public void OnTabClosed()
+        {
+            TabClosed?.Invoke(this, EventArgs.Empty);
+        }
+        public event EventHandler? TabClosed;
     }
 }

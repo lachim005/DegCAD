@@ -104,5 +104,10 @@ namespace DegCAD
             Dialogs.PrintDialog pd = new(Editor);
             pd.ShowDialog();
         }
+        public void OnTabClosed()
+        {
+            TabClosed?.Invoke(this, EventArgs.Empty);
+        }
+        public event EventHandler? TabClosed;
     }
 }

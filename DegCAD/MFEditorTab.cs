@@ -155,5 +155,10 @@ namespace DegCAD
         {
             Editor.Print();
         }
+        public void OnTabClosed()
+        {
+            TabClosed?.Invoke(this, EventArgs.Empty);
+        }
+        public event EventHandler? TabClosed;
     }
 }

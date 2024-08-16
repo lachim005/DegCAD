@@ -51,14 +51,23 @@ namespace DegCAD
             _ => ""
         };
         public ITab ParentTab { get; init; }
+        public MainWindow MainWindow { get; init; }
 
-        public ConnectedEditorTab(Editor editor, ITab parentTab)
+        public ConnectedEditorTab(Editor editor, MainWindow mw, ITab parentTab)
         {
             Editor = editor;
             editor.PropertyChanged += EditorPropertyChanged;
             ParentTab = parentTab;
             ParentTab.PropertyChanged += ParentTabPropertyChanged;
             Name = $"Propojený editor [{ParentTab.Name}]";
+            ParentTab.TabClosed += ParentTabClosed;
+            MainWindow = mw;
+        }
+
+        private void ParentTabClosed(object? sender, EventArgs e)
+        {
+            MainWindow.openTabs.Remove(this);
+            ParentTab.TabClosed -= ParentTabClosed;
         }
 
         private void ParentTabPropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -112,5 +121,12 @@ namespace DegCAD
             Dialogs.PrintDialog pd = new(Editor);
             pd.ShowDialog();
         }
+
+        public void OnTabClosed()
+        {
+            ParentTab.TabClosed -= ParentTabClosed;
+            TabClosed?.Invoke(this, EventArgs.Empty);
+        }
+        public event EventHandler? TabClosed;
     }
 }

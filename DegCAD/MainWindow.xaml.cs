@@ -123,7 +123,10 @@ namespace DegCAD
             if (sender is not Button btn) return;
             if (btn.DataContext is not ITab tab) return;
             if (await CanCloseTab(tab))
+            {
+                tab.OnTabClosed();
                 openTabs.Remove(tab);
+            }
         }
 
         private void WindowDrop(object sender, DragEventArgs e)
@@ -190,6 +193,7 @@ namespace DegCAD
             {
 
                 openTabs.Remove(tab);
+                tab.OnTabClosed();
             }
         }
 

@@ -218,7 +218,10 @@ namespace DegCAD
         private async void CloseCommand(object sender, ExecutedRoutedEventArgs e)
         {
             if (await CanCloseTab(ActiveTab))
+            {
+                ActiveTab.OnTabClosed();
                 openTabs.Remove(ActiveTab);
+            }
         }
         private void UndoCommand(object sender, ExecutedRoutedEventArgs e) => ActiveTab.Undo();
         private void RedoCommand(object sender, ExecutedRoutedEventArgs e) => ActiveTab.Redo();
