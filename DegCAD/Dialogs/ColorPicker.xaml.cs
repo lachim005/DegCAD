@@ -133,10 +133,11 @@ namespace DegCAD.Dialogs
         }
         #endregion
 
-        public ColorPicker() : this(Colors.Red) { }
+        public ColorPicker(Window owner) : this(Colors.Red, owner) { }
 
-        public ColorPicker(Color color)
+        public ColorPicker(Color color, Window owner)
         {
+            Owner = owner;
             InitializeComponent();
             if (lastTabRgb)
             {
@@ -458,9 +459,9 @@ namespace DegCAD.Dialogs
         /// Opens the color picker dialog and lets the user change the given color
         /// </summary>
         /// <returns>The new color or the same color in case the user cancels the dialog</returns>
-        public static Color EditColor(Color color)
+        public static Color EditColor(Color color, Window owner)
         {
-            ColorPicker picker = new ColorPicker(color);
+            ColorPicker picker = new ColorPicker(color, owner);
             picker.ShowDialog();
             if (!picker.Saved) return color;
             return picker.SelectedColor;
@@ -470,9 +471,9 @@ namespace DegCAD.Dialogs
         /// Opens the color picker dialog and lets the user choose a color
         /// </summary>
         /// <returns>The selected color or null if the user cancels the dialog</returns>
-        public static Color? GetColor()
+        public static Color? GetColor(Window owner)
         {
-            ColorPicker picker = new ColorPicker();
+            ColorPicker picker = new(owner);
             picker.ShowDialog();
             if (!picker.Saved) return null;
             return picker.SelectedColor;

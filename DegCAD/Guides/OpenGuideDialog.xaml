@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Background="{DynamicResource bg}"
         Foreground="{DynamicResource fg}"
-        WindowStartupLocation="CenterScreen"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
         ResizeMode="NoResize"
         Closed="OnWindowClosed"
         Title="Otevřít návod" Height="300" Width="400">

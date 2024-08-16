@@ -25,36 +25,37 @@ namespace DegCAD.Dialogs
         public double DoubleResult { get; private set; } = 0;
         Type _type;
 
-        private InputBox(Type type)
+        private InputBox(Type type, Window owner)
         {
+            Owner = owner;
             InitializeComponent();
             _type = type;
             textbox.Focus();
         }
 
-        private static InputBox SpawnDialog(Type t, string unit, string title)
+        private static InputBox SpawnDialog(Type t, string unit, string title, Window owner)
         {
-            InputBox ib = new(t);
+            InputBox ib = new(t, owner);
             ib.unitTbl.Text = unit;
             ib.Title = title;
             ib.ShowDialog();
             return ib;
         }
-        public static double? InputDouble(string unit = "", string title = "Zadejte hodnotu")
+        public static double? InputDouble(Window owner, string unit = "", string title = "Zadejte hodnotu")
         {
-            var ib = SpawnDialog(Type.Double, unit, title);
+            var ib = SpawnDialog(Type.Double, unit, title, owner);
             if (ib.Canceled) return null;
             return ib.DoubleResult;
         }
-        public static string? InputString(string unit = "", string title = "Zadejte hodnotu")
+        public static string? InputString(Window owner, string unit = "", string title = "Zadejte hodnotu")
         {
-            var ib = SpawnDialog(Type.String, unit, title);
+            var ib = SpawnDialog(Type.String, unit, title, owner);
             if (ib.Canceled) return null;
             return ib.StringResult;
         }
-        public static int? InputInt(string unit = "", string title = "Zadejte hodnotu")
+        public static int? InputInt(Window owner, string unit = "", string title = "Zadejte hodnotu")
         {
-            var ib = SpawnDialog(Type.Int, unit, title);
+            var ib = SpawnDialog(Type.Int, unit, title, owner);
             if (ib.Canceled) return null;
             return ib.IntResult;
         }

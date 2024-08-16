@@ -47,8 +47,9 @@ namespace DegCAD.MultiFile
         int visibleSheet;
 
 
-        public MFPrintDialog(MFEditor e)
+        public MFPrintDialog(MFEditor e, Window owner)
         {
+            Owner = owner;
             InitializeComponent();
 
             var server = new PrintServer();

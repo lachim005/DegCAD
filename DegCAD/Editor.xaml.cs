@@ -248,7 +248,8 @@ namespace DegCAD
             if (!Settings.AlertGuides) return;
             if (Guide is not Guide g) return;
             if (g.Steps.Count == 0) return;
-            if (!OpenGuideDialog.OpenDialog()) return;
+            if (Window.GetWindow(this) is not Window win) return;
+            if (!OpenGuideDialog.OpenDialog(win)) return;
             EditorGuideView gv = new(viewPort, Guide);
             ShowView(gv, "Návod", false);
         }

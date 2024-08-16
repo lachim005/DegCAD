@@ -8,10 +8,10 @@
         Background="{DynamicResource bg}"
         Foreground="{DynamicResource fg}"
         SizeToContent="WidthAndHeight"
-        WindowStartupLocation="CenterScreen"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
         SnapsToDevicePixels="True"
         ResizeMode="NoResize"
-        Topmost="True"
         MaxWidth="500"
         KeyDown="WindowKeyDown"
         Title="Zadejte hodnotu">

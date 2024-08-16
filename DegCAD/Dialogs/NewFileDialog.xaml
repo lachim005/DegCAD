@@ -7,7 +7,8 @@
         mc:Ignorable="d"
         Background="{DynamicResource bg}"
         Foreground="{DynamicResource fg}"
-        WindowStartupLocation="CenterScreen"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
         ResizeMode="CanMinimize"
         SizeToContent="WidthAndHeight"
         Title="Nový soubor">

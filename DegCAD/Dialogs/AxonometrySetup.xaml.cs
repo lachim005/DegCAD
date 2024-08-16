@@ -37,8 +37,9 @@ namespace DegCAD.Dialogs
 
         private int disabledAngle = 2;
 
-        public AxonometrySetup()
+        public AxonometrySetup(Window owner)
         {
+            Owner = owner;
             InitializeComponent();
             LoadLastValues();
         }

@@ -9,17 +9,18 @@ namespace DegCAD.Dialogs
     /// </summary>
     public partial class AboutDialog : Window
     {
-        public AboutDialog()
+        public AboutDialog(Window owner)
         {
+            Owner = owner;
             InitializeComponent();
             var version = Assembly.GetExecutingAssembly().GetName().Version;
             versionTb.Text = $"Verze: {version}";
         }
 
 
-        public static void Open()
+        public static void Open(Window owner)
         {
-            AboutDialog dialog = new AboutDialog();
+            AboutDialog dialog = new(owner);
             dialog.ShowDialog();
         }
 

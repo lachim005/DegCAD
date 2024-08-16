@@ -128,7 +128,7 @@ namespace DegCAD
         }
         public void Print()
         {
-            Dialogs.PrintDialog pd = new(Editor);
+            Dialogs.PrintDialog pd = new(Editor, MainWindow);
             pd.ShowDialog();
         }
 

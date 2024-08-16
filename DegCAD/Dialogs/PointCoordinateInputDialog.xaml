@@ -9,7 +9,8 @@
         Foreground="{DynamicResource fg}"
         Height="400" Width="500"
         Closed="WindowClosed"
-        WindowStartupLocation="CenterScreen"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
         Title="Souřadnice bodů" MinHeight="360" MinWidth="500">
     <Grid Margin="5">
         <Grid.RowDefinitions>

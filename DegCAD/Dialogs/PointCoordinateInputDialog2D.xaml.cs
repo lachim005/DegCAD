@@ -43,8 +43,9 @@ namespace DegCAD.Dialogs
         }
         record PointInputStruct(string Label, string X, string Y);
 
-        public PointCoordinateInputDialog2D()
+        public PointCoordinateInputDialog2D(Window owner)
         {
+            Owner = owner;
             InitializeComponent();
 
 

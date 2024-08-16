@@ -26,8 +26,9 @@ namespace DegCAD.Dialogs
         internal ObservableCollection<Tuple<Color, Brush>> colors;
         public bool saveColors = false;
 
-        public EditColorsDialog(IList<Color> colors)
+        public EditColorsDialog(IList<Color> colors, Window owner)
         {
+            Owner = owner;
             InitializeComponent();
 
             this.colors = new();
@@ -50,13 +51,13 @@ namespace DegCAD.Dialogs
             if (sender is not Button btn) return;
             if (btn.DataContext is not Tuple<Color, Brush> tuple) return;
 
-            var newCol = ColorPicker.EditColor(tuple.Item1);
+            var newCol = ColorPicker.EditColor(tuple.Item1, this);
             colors[colors.IndexOf(tuple)] = new(newCol, new SolidColorBrush(newCol));
         }
 
         private void AddColor(object sender, RoutedEventArgs e)
         {
-            var c = ColorPicker.GetColor();
+            var c = ColorPicker.GetColor(this);
             if (c is null) return;
             var newColor = (Color)c;
             colors.Add(new(newColor, new SolidColorBrush(newColor)));
@@ -115,9 +116,9 @@ namespace DegCAD.Dialogs
         } 
         #endregion
 
-        public static void EditColors(IList<Color> colors)
+        public static void EditColors(IList<Color> colors, Window owner)
         {
-            var dialog = new EditColorsDialog(colors);
+            var dialog = new EditColorsDialog(colors, owner);
             dialog.ShowDialog();
             if (!dialog.saveColors) return;
             colors.Clear();

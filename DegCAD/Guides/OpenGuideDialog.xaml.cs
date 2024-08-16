@@ -19,8 +19,9 @@ namespace DegCAD.Guides
     /// </summary>
     public partial class OpenGuideDialog : Window
     {
-        public OpenGuideDialog()
+        public OpenGuideDialog(Window owner)
         {
+            Owner = owner;
             InitializeComponent();
         }
 
@@ -38,9 +39,9 @@ namespace DegCAD.Guides
 
         public bool Result { get; set; } = false;
 
-        public static bool OpenDialog()
+        public static bool OpenDialog(Window owner)
         {
-            OpenGuideDialog ogd = new();
+            OpenGuideDialog ogd = new(owner);
             ogd.ShowDialog();
             return ogd.Result;
         }

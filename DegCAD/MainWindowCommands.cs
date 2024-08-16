@@ -142,12 +142,12 @@ namespace DegCAD
             NewFileDialog nfd = new(this);
             nfd.ShowDialog();
         }
-        public static Editor? CreateNewEditor(ProjectionType? projection = null)
+        public static Editor? CreateNewEditor(Window owner, ProjectionType? projection = null)
         {
             ProjectionType proj;
             if (projection is null)
             {
-                NewDrawingDialog nfd = new();
+                NewDrawingDialog nfd = new(owner);
                 nfd.ShowDialog();
                 if (nfd.ProjectionType is null) return null;
                 proj = nfd.ProjectionType.Value;
@@ -161,7 +161,7 @@ namespace DegCAD
             //Opens the axonometry setup dialog if the user chose axonometry
             if (proj == ProjectionType.Axonometry)
             {
-                AxonometrySetup axo = new();
+                AxonometrySetup axo = new(owner);
                 axo.ShowDialog();
                 if (axo.Canceled || axo.Axis is null) return null;
 
@@ -214,7 +214,7 @@ namespace DegCAD
         {
             if (ActiveEditor is null) return;
 
-            ExportDialog ed = new(ActiveEditor.viewPort);
+            ExportDialog ed = new(ActiveEditor.viewPort, this);
             ed.ShowDialog();
         }
         private void PrintCommand(object sender, ExecutedRoutedEventArgs e) => ActiveTab.Print();
@@ -233,8 +233,8 @@ namespace DegCAD
         private void PasteCommand(object sender, ExecutedRoutedEventArgs e) => ActiveTab.Paste();
         private void DuplicateCommand(object sender, ExecutedRoutedEventArgs e) => ActiveTab.Duplicate();
         private void DeleteCommand(object sender, ExecutedRoutedEventArgs e) => ActiveTab.Delete();
-        private void SettingsCommand(object sender, ExecutedRoutedEventArgs e) => SettingsWindow.OpenDialog();
-        private void AboutClick(object sender, RoutedEventArgs e) => AboutDialog.Open();
+        private void SettingsCommand(object sender, ExecutedRoutedEventArgs e) => SettingsWindow.OpenDialog(this);
+        private void AboutClick(object sender, RoutedEventArgs e) => AboutDialog.Open(this);
         private void OpenPageLayoutWindow(object sender, ExecutedRoutedEventArgs e)
         {
             if (ActiveEditor is null) return;
@@ -253,7 +253,7 @@ namespace DegCAD
         {
             if (ActiveEditor is null) return;
 
-            ChangeGlobalFontSize d = new(ActiveEditor);
+            ChangeGlobalFontSize d = new(ActiveEditor, this);
             d.ShowDialog();
         }
         private void OpenDebugMenu(object sender, ExecutedRoutedEventArgs e)

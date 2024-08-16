@@ -38,8 +38,9 @@ namespace DegCAD.Dialogs
 
         ViewPort vp;
 
-        public PrintDialog(Editor e)
+        public PrintDialog(Editor e, Window owner)
         {
+            Owner = owner;
             InitializeComponent();
 
             var server = new PrintServer();

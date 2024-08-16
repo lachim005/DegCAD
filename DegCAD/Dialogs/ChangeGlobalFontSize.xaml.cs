@@ -27,8 +27,9 @@ namespace DegCAD.Dialogs
         List<Label> labels = new();
         List<int> initialFontSizes = new List<int>();
 
-        public ChangeGlobalFontSize(Editor e)
+        public ChangeGlobalFontSize(Editor e, Window owner)
         {
+            Owner = owner;
             InitializeComponent();
             editor = e;
             previewVp = e.viewPort.Clone();

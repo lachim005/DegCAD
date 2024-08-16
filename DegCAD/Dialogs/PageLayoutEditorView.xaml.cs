@@ -82,7 +82,7 @@ namespace DegCAD.Dialogs
 
         private void SelectPaperPresetClick(object sender, RoutedEventArgs e)
         {
-            var preset = SelectPaperSizePresetDialog.GetPaperSizePreset();
+            var preset = SelectPaperSizePresetDialog.GetPaperSizePreset(Window.GetWindow(this));
             if (preset is null) return;
             paperWidthTbx.Text = preset.Width.ToString();
             paperHeightTbx.Text = preset.Height.ToString();

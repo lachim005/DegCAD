@@ -24,8 +24,9 @@ namespace DegCAD.Dialogs
         public ObservableCollection<PaperSizePreset> Presets { get; init; }
         public bool Save { get; set; } = false;
 
-        public PaperSizesPresetEditor(List<PaperSizePreset> presets)
+        public PaperSizesPresetEditor(List<PaperSizePreset> presets, Window owner)
         {
+            Owner = owner;
             InitializeComponent();
 
             Presets = new(presets);

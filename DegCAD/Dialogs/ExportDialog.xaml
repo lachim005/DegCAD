@@ -9,7 +9,8 @@
         Foreground="{DynamicResource fg}"
         Loaded="WindowLoaded"
         Closed="WindowClosed"
-        WindowStartupLocation="CenterScreen"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
         MinHeight="550" MinWidth="600"
         Title="Export" Height="550" Width="800">
     <Grid>

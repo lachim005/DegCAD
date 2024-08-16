@@ -40,8 +40,9 @@ namespace DegCAD.Dialogs
 
         ViewPort vp;
 
-        public ExportDialog(ViewPort vp)
+        public ExportDialog(ViewPort vp, Window owner)
         {
+            Owner = owner;
             InitializeComponent();
             this.vp = vp.Clone();
             this.vp.CanZoom = false;

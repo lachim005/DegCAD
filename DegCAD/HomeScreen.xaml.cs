@@ -42,17 +42,17 @@ namespace DegCAD
 
         private void NewPlaneClick(object sender, RoutedEventArgs e)
         {
-            mw.AddEditor(MainWindow.CreateNewEditor(ProjectionType.Plane));
+            mw.AddEditor(MainWindow.CreateNewEditor(mw, ProjectionType.Plane));
         }
 
         private void NewMongeClick(object sender, RoutedEventArgs e)
         {
-            mw.AddEditor(MainWindow.CreateNewEditor(ProjectionType.Monge));
+            mw.AddEditor(MainWindow.CreateNewEditor(mw, ProjectionType.Monge));
         }
 
         private void NewAxoClick(object sender, RoutedEventArgs e)
         {
-            mw.AddEditor(MainWindow.CreateNewEditor(ProjectionType.Axonometry));
+            mw.AddEditor(MainWindow.CreateNewEditor(mw, ProjectionType.Axonometry));
         }
 
         private void NewCompositionClick(object sender, RoutedEventArgs e)

@@ -110,7 +110,7 @@ namespace DegCAD
         }
         public void Print()
         {
-            Dialogs.PrintDialog pd = new(Editor);
+            Dialogs.PrintDialog pd = new(Editor, MainWindow.GetWindow(Editor));
             pd.ShowDialog();
         }
         public void OnTabClosed()

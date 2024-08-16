@@ -10,7 +10,7 @@ namespace DegCAD.MultiFile.Commands
 {
     internal class AddImageCommand : IMFCommand
     {
-        public MFItem? Execute()
+        public MFItem? Execute(Window owner)
         {
             OpenFileDialog ofd = new();
 

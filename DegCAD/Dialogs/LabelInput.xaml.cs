@@ -31,8 +31,9 @@ namespace DegCAD.Dialogs
 
         private TextBox lastFocusedTbx;
 
-        public LabelInput()
+        public LabelInput(Window? owner = null)
         {
+            owner = owner ?? Application.Current.MainWindow;
             InitializeComponent();
             labelTextTbx.Focus();
             lastFocusedTbx = labelTextTbx;

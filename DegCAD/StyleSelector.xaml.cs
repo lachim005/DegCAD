@@ -123,7 +123,7 @@ namespace DegCAD
 
         private void EditColorsBtnClick(object sender, RoutedEventArgs e)
         {
-            Dialogs.EditColorsDialog.EditColors(ColorPalette);
+            Dialogs.EditColorsDialog.EditColors(ColorPalette, Window.GetWindow(this));
             UpdateColorPalette();
         }
 
@@ -167,7 +167,7 @@ namespace DegCAD
 
         private void ColorIndicatorClick(object sender, MouseButtonEventArgs e)
         {
-            CurrentColor = Dialogs.ColorPicker.EditColor(CurrentColor);
+            CurrentColor = Dialogs.ColorPicker.EditColor(CurrentColor, Window.GetWindow(this));
         }
     }
 }

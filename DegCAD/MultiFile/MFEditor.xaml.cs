@@ -202,7 +202,7 @@ namespace DegCAD.MultiFile
         public void ExecuteCommand(ICommand c)
         {
             if (c is not IMFCommand command) return;
-            if (command.Execute() is not MFItem item) return;
+            if (command.Execute(MainWindow) is not MFItem item) return;
             MFContainer cont = new(ActivePage, item) { CX = 0, CY = ActivePage.GetMaxY() };
             ActivePage.AddItem(cont);
             cont.Select();
@@ -510,7 +510,7 @@ namespace DegCAD.MultiFile
 
             Timeline.AddState(new TextStyleState(txt));
 
-            var c = ColorPicker.EditColor(txt.Color);
+            var c = ColorPicker.EditColor(txt.Color, MainWindow);
             txt.Color = c;
             insTxtColor.Fill = new SolidColorBrush(c);
             e.Handled = true;
@@ -651,7 +651,7 @@ namespace DegCAD.MultiFile
         }
         private void SelectPageSizePresetClick(object sender, RoutedEventArgs e)
         {
-            var preset = SelectPaperSizePresetDialog.GetPaperSizePreset();
+            var preset = SelectPaperSizePresetDialog.GetPaperSizePreset(MainWindow);
             if (preset is null) return;
 
             insPageSizeFocused = true;
@@ -789,7 +789,7 @@ namespace DegCAD.MultiFile
 
         public void Print()
         {
-            MFPrintDialog pd = new(this);
+            MFPrintDialog pd = new(this, MainWindow);
             pd.ShowDialog();
         }
 

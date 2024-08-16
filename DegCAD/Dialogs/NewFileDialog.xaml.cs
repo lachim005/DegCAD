@@ -23,25 +23,26 @@ namespace DegCAD.Dialogs
 
         public NewFileDialog(MainWindow mw)
         {
+            Owner = mw;
             InitializeComponent();
             this.mw = mw;
         }
 
         private void NewPlaneClick(object sender, RoutedEventArgs e)
         {
-            mw.AddEditor(MainWindow.CreateNewEditor(ProjectionType.Plane));
+            mw.AddEditor(MainWindow.CreateNewEditor(this, ProjectionType.Plane));
             Close();
         }
 
         private void NewMongeClick(object sender, RoutedEventArgs e)
         {
-            mw.AddEditor(MainWindow.CreateNewEditor(ProjectionType.Monge));
+            mw.AddEditor(MainWindow.CreateNewEditor(this, ProjectionType.Monge));
             Close();
         }
 
         private void NewAxoClick(object sender, RoutedEventArgs e)
         {
-            mw.AddEditor(MainWindow.CreateNewEditor(ProjectionType.Axonometry));
+            mw.AddEditor(MainWindow.CreateNewEditor(this, ProjectionType.Axonometry));
             Close();
         }
 

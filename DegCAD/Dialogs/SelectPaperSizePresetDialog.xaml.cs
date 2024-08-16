@@ -25,8 +25,9 @@ namespace DegCAD.Dialogs
         public PaperSizePreset? SelectedPreset { get; set; }
         public ObservableCollection<PaperSizePreset> Presets { get; set; }
 
-        public SelectPaperSizePresetDialog()
+        public SelectPaperSizePresetDialog(Window owner)
         {
+            Owner = owner;
             InitializeComponent();
             Presets = new(Settings.PaperSizePresets);
             paperPresetsIC.ItemsSource = Presets;
@@ -38,9 +39,9 @@ namespace DegCAD.Dialogs
             }
         }
 
-        public static PaperSizePreset? GetPaperSizePreset()
+        public static PaperSizePreset? GetPaperSizePreset(Window owner)
         {
-            SelectPaperSizePresetDialog dialog = new();
+            SelectPaperSizePresetDialog dialog = new(owner);
             dialog.ShowDialog();
             return dialog.SelectedPreset;
         }

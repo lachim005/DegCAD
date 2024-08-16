@@ -23,8 +23,9 @@ namespace DegCAD.Dialogs
         private ObservableCollection<Color> DefaultColors { get; set; } = [];
         private readonly List<PaperSizePreset> paperSizePresets = [];
 
-        public SettingsWindow()
+        public SettingsWindow(Window owner)
         {
+            Owner = owner;
             DataContext = this;
 
             InitializeComponent();
@@ -92,15 +93,15 @@ namespace DegCAD.Dialogs
             Settings.SaveSettings();
         }
 
-        public static void OpenDialog()
+        public static void OpenDialog(Window owner)
         {
-            SettingsWindow sw = new();
+            SettingsWindow sw = new(owner);
             sw.ShowDialog();
         }
 
         private void EditColorPaletteClick(object sender, RoutedEventArgs e)
         {
-            EditColorsDialog.EditColors(DefaultColors);
+            EditColorsDialog.EditColors(DefaultColors, this);
         }
 
         private void RestoreDefaultColorsClick(object sender, RoutedEventArgs e)
@@ -122,7 +123,7 @@ namespace DegCAD.Dialogs
 
         private void EditPresetPaperSizes(object sender, RoutedEventArgs e)
         {
-            PaperSizesPresetEditor editor = new(paperSizePresets);
+            PaperSizesPresetEditor editor = new(paperSizePresets, this);
             editor.ShowDialog();
             if (!editor.Save) return;
             paperSizePresets.Clear();

@@ -8,7 +8,8 @@
         ResizeMode="NoResize"
         Background="{DynamicResource bg}"
         Foreground="{DynamicResource fg}"
-        WindowStartupLocation="CenterScreen"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
         SizeToContent="Width"
         Height="300"
         Title="O programu">

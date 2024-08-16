@@ -9,7 +9,8 @@
         Foreground="{DynamicResource fg}"
         ResizeMode="NoResize"
         Closing="Window_Closing"
-        WindowStartupLocation="CenterScreen"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False"
         Title="Nastavení axonometrie" Height="450" Width="600">
     <Window.CommandBindings>
         <CommandBinding Command="Close" Executed="CancelClick"/>

@@ -22,14 +22,15 @@ namespace DegCAD.MultiFile
     {
         public Editor? editor;
 
-        public AddDrawingDialog()
+        public AddDrawingDialog(Window owner)
         {
+            Owner = owner;
             InitializeComponent();
         }
 
         private void AddEditor(object sender, RoutedEventArgs e)
         {
-            editor = MainWindow.CreateNewEditor();
+            editor = MainWindow.CreateNewEditor(this);
             Close();
         }
 
@@ -49,9 +50,9 @@ namespace DegCAD.MultiFile
             Close();
         }
 
-        public static Editor? GetEditor()
+        public static Editor? GetEditor(Window owner)
         {
-            AddDrawingDialog d = new();
+            AddDrawingDialog d = new(owner);
             d.ShowDialog();
             return d.editor;
         }

@@ -16,7 +16,7 @@ namespace DegCAD.GeometryCommands
             esb.CommandHelp = "Zadejte souřadnice a názvy bodů, které chcete vynést";
 
             //The dialog is used to enter the point coordinates
-            var dialog = new PointCoordinateInputDialog2D();
+            var dialog = new PointCoordinateInputDialog2D(System.Windows.Window.GetWindow(vpl.Viewport));
             dialog.ShowDialog();
 
             if (dialog.Canceled)

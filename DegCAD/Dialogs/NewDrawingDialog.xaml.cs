@@ -21,8 +21,9 @@ namespace DegCAD.Dialogs
     {
         public ProjectionType? ProjectionType { get; set; } = null;
 
-        public NewDrawingDialog()
+        public NewDrawingDialog(Window owner)
         {
+            Owner = owner;
             InitializeComponent();
         }
 
