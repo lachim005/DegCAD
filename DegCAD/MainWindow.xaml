@@ -84,19 +84,23 @@
                 <MenuItem Header="_Otevřít" Command="Open"/>
                 <MenuItem Header="_Uložit" Command="Save"/>
                 <MenuItem Header="Uložit _jako" Command="SaveAs" InputGestureText="Ctrl+Shift+S"/>
+                <Separator/>
                 <MenuItem Header="_Exportovat" Command="{x:Static local:MainWindow.exportCommand}" InputGestureText="Ctrl+E"/>
                 <MenuItem Header="_Tisk" Command="Print"/>
+                <Separator/>
                 <MenuItem Header="_Zavřít" Command="Close" InputGestureText="Ctrl+W"/>
-                <MenuItem Header="Domovská obrazovka" Click="OpenHomeTabClick"/>
+                <MenuItem Header="Domů" Click="OpenHomeTabClick"/>
             </MenuItem>
             <MenuItem Header="Úpr_avy">
                 <MenuItem Header="_Zpět" Command="Undo"/>
                 <MenuItem Header="_Opakovat" Command="Redo"/>
+                <Separator/>
                 <MenuItem Header="_Kopírovat" Command="Copy"/>
                 <MenuItem Header="Vyj_mout" Command="Cut"/>
                 <MenuItem Header="_Vložit" Command="Paste"/>
                 <MenuItem Header="_Duplikovat" Command="{x:Static local:MainWindow.duplicateCommand}" InputGestureText="Ctrl+D"/>
                 <MenuItem Header="_Odstranit" Command="Delete"/>
+                <Separator/>
                 <MenuItem Header="_Nastavení" Command="{x:Static local:MainWindow.settingsCommand}" InputGestureText="Ctrl+,"/>
             </MenuItem>
             <MenuItem Header="Nástroje">
