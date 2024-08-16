@@ -151,8 +151,6 @@ namespace DegCAD.MultiFile
             {
                 insText.Visibility = Visibility.Visible;
                 insTxtText.Text = txt.Text;
-                insTxtText.Focus();
-                insTxtText.SelectAll();
 
                 // Set horizontal alignment
                 insTxtHALeft.IsEnabled = true;
@@ -224,7 +222,7 @@ namespace DegCAD.MultiFile
             ActivePage.Redraw();
         }
 
-        private void InsDuplicate(object sender, RoutedEventArgs e)
+        public void DuplicateSelected()
         {
             if (SelectedContainer is null) return;
             var copy = SelectedContainer.Clone();
@@ -237,7 +235,7 @@ namespace DegCAD.MultiFile
             Timeline.AddState(new ContainerAddedState(SelectedContainer));
         }
 
-        private void InsDelete(object sender, RoutedEventArgs e)
+        public void DeleteSelected()
         {
             if (SelectedContainer is null) return;
 

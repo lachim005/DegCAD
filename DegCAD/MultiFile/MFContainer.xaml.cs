@@ -232,6 +232,10 @@ namespace DegCAD.MultiFile
         {
             return new(Page, Item.Clone()) { CX = CX, CY = CY, CWidth = CWidth, CHeight = CHeight};
         }
+        public MFContainer Clone(MFPage page)
+        {
+            return new(page, Item.Clone()) { CX = CX, CY = CY, CWidth = CWidth, CHeight = CHeight };
+        }
     }
 
     public record TransformChange()

@@ -22,6 +22,10 @@ namespace DegCAD
 
         public bool CanRedo => Editor.Timeline.CanRedo && !Editor.ExecutingCommand;
 
+        public bool CanExecuteContainerCommand => false;
+
+        public bool CanPaste => false;
+
         public bool CanExecuteCommand => !Editor.ExecutingCommand;
 
         public bool CanPrint => true;
@@ -102,6 +106,12 @@ namespace DegCAD
         }
         public void Undo() => Editor.Timeline.Undo();
         public void Redo() => Editor.Timeline.Redo();
+
+        public void Copy() { }
+        public void Cut() { }
+        public void Paste() { }
+        public void Duplicate() { }
+        public void Delete() { }
 
         public void TabSelected()
         {

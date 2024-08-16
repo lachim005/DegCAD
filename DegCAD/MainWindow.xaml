@@ -37,6 +37,21 @@
         <CommandBinding Command="Redo"
                         Executed="RedoCommand"
                         CanExecute="CanRedo"/>
+        <CommandBinding Command="Copy"
+                        Executed="CopyCommand"
+                        CanExecute="CanExecuteContainerCommand"/>
+        <CommandBinding Command="Cut"
+                        Executed="CutCommand"
+                        CanExecute="CanExecuteContainerCommand"/>
+        <CommandBinding Command="Paste"
+                        Executed="PasteCommand"
+                        CanExecute="CanPaste"/>
+        <CommandBinding Command="{x:Static local:MainWindow.duplicateCommand}"
+                        Executed="DuplicateCommand"
+                        CanExecute="CanExecuteContainerCommand"/>
+        <CommandBinding Command="Delete"
+                        Executed="DeleteCommand"
+                        CanExecute="CanExecuteContainerCommand"/>
         <CommandBinding Command="{x:Static local:MainWindow.settingsCommand}"
                         Executed="SettingsCommand"/>
         <CommandBinding Command="{x:Static local:MainWindow.pageLayoutCommand}"
@@ -54,6 +69,7 @@
                         Executed="CancelCommandCommand"/>
     </Window.CommandBindings>
     <Window.InputBindings>
+        <KeyBinding Command="{x:Static local:MainWindow.duplicateCommand}" Key="D" Modifiers="Ctrl"/>
         <KeyBinding Command="{x:Static local:MainWindow.settingsCommand}" Key="OemComma" Modifiers="Ctrl"/>
         <KeyBinding Command="Close" Key="W" Modifiers="Ctrl"/>
         <KeyBinding Command="SaveAs" Key="S" Modifiers="Ctrl+Shift"/>
@@ -76,6 +92,11 @@
             <MenuItem Header="Úpr_avy">
                 <MenuItem Header="_Zpět" Command="Undo"/>
                 <MenuItem Header="_Opakovat" Command="Redo"/>
+                <MenuItem Header="_Kopírovat" Command="Copy"/>
+                <MenuItem Header="Vyj_mout" Command="Cut"/>
+                <MenuItem Header="_Vložit" Command="Paste"/>
+                <MenuItem Header="_Duplikovat" Command="{x:Static local:MainWindow.duplicateCommand}" InputGestureText="Ctrl+D"/>
+                <MenuItem Header="_Odstranit" Command="Delete"/>
                 <MenuItem Header="_Nastavení" Command="{x:Static local:MainWindow.settingsCommand}" InputGestureText="Ctrl+,"/>
             </MenuItem>
             <MenuItem Header="Nástroje">

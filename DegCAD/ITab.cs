@@ -14,6 +14,8 @@ namespace DegCAD
         bool CanSave { get; }
         bool CanUndo { get; }
         bool CanRedo { get; }
+        bool CanExecuteContainerCommand { get; }
+        bool CanPaste { get; }
         bool CanExecuteCommand { get; }
         bool CanPrint { get; }
         bool CanLayout { get; }
@@ -28,11 +30,16 @@ namespace DegCAD
         Task<bool> SaveAs();
         void Undo();
         void Redo();
+        void Copy();
+        void Cut();
+        void Paste();
+        void Duplicate();
+        void Delete();
         void TabSelected();
         void ExecuteCommand(ICommand c);
         void SwapWhiteAndBlack();
         void Print();
-        void OnTabClosed(); 
+        void OnTabClosed();
         event EventHandler? TabClosed;
     }
 }

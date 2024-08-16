@@ -1,4 +1,5 @@
 ﻿using DegCAD.MultiFile;
+using DegCAD.MultiFile.History;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace DegCAD
 {
@@ -24,6 +26,10 @@ namespace DegCAD
         public bool CanUndo => Editor.Timeline.CanUndo;
 
         public bool CanRedo => Editor.Timeline.CanRedo;
+
+        public bool CanExecuteContainerCommand => Editor.SelectedContainer is not null;
+
+        public bool CanPaste => MFClipboard.CopiedContainer is not null;
 
         public bool CanExecuteCommand => true;
 
@@ -126,6 +132,37 @@ namespace DegCAD
         public void Undo()
         {
             Editor.Timeline.Undo();
+        }
+
+        public void Copy()
+        {
+            if (Editor.SelectedContainer is null) return;
+            MFClipboard.CopiedContainer = Editor.SelectedContainer;
+        }
+        public void Cut()
+        {
+            if (Editor.SelectedContainer is null) return;
+            MFClipboard.CopiedContainer = Editor.SelectedContainer;
+            Editor.DeleteSelected();
+        }
+        public void Paste()
+        {
+            if (MFClipboard.CopiedContainer is null) return;
+            var clone = MFClipboard.CopiedContainer.Clone(Editor.ActivePage);
+            clone.CX += MFClipboard.Offset;
+            clone.CY += MFClipboard.Offset;
+            MFClipboard.Offset += 5;
+            Editor.ActivePage.AddItem(clone);
+            Editor.ActivePage.Redraw();
+            Editor.Timeline.AddState(new ContainerAddedState(clone));
+        }
+        public void Duplicate()
+        {
+            Editor.DuplicateSelected();
+        }
+        public void Delete()
+        {
+            Editor.DeleteSelected();
         }
 
         public void TabSelected()

@@ -18,6 +18,10 @@ namespace DegCAD
 
         public bool CanRedo => false;
 
+        public bool CanExecuteContainerCommand => false;
+
+        public bool CanPaste => false;
+
         public bool CanExecuteCommand => false;
 
         public bool CanPrint => false;
@@ -47,6 +51,12 @@ namespace DegCAD
         {
             
         }
+
+        public void Copy() { }
+        public void Cut() { }
+        public void Paste() { }
+        public void Duplicate() { }
+        public void Delete() { }
 
         public Task<bool> Save()
         {

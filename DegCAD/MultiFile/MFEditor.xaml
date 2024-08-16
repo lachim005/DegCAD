@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:DegCAD.MultiFile"
+             xmlns:root="clr-namespace:DegCAD"
              mc:Ignorable="d"
              Loaded="EditorLoaded"
              Foreground="{DynamicResource fg}" 
@@ -58,8 +59,8 @@
                         <TextBox IsUndoEnabled="False" VerticalAlignment="Center" Grid.Row="1" Grid.Column="1" x:Name="insTrW" TextChanged="InspectorTransformTextChanged" PreviewMouseLeftButtonDown="SelectWhole"/>
                         <Label Content="Výška:" HorizontalAlignment="Right" Grid.Row="1" Grid.Column="3"/>
                         <TextBox IsUndoEnabled="False" VerticalAlignment="Center" Grid.Row="1" Grid.Column="4" x:Name="insTrH" TextChanged="InspectorTransformTextChanged" PreviewMouseLeftButtonDown="SelectWhole"/>
-                        <Button Content="Duplikovat" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="0" Click="InsDuplicate"/>
-                        <Button Content="Odstranit" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" Margin="0,0,0,0" Click="InsDelete"/>
+                        <Button Content="Duplikovat" Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Margin="0" Command="{x:Static root:MainWindow.duplicateCommand}"/>
+                        <Button Content="Odstranit" Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" Margin="0,0,0,0" Command="Delete"/>
                     </Grid>
                 </GroupBox>
                 <GroupBox Header="Výkres" Padding="10" x:Name="insDrawing">
@@ -117,7 +118,7 @@
                             <RowDefinition/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
-                        <TextBox AcceptsReturn="True" IsUndoEnabled="False" Grid.ColumnSpan="4" x:Name="insTxtText" TextChanged="InsTxtTextChanged" GotFocus="InsTxtTextboxGotFocus" TextWrapping="Wrap"/>
+                        <TextBox AcceptsReturn="True" IsUndoEnabled="False" Grid.ColumnSpan="4" x:Name="insTxtText" TextChanged="InsTxtTextChanged" GotFocus="InsTxtTextboxGotFocus" TextWrapping="Wrap" PreviewMouseLeftButtonDown="SelectWhole"/>
                         <StackPanel Grid.Row="2" Grid.ColumnSpan="4" Orientation="Horizontal" HorizontalAlignment="Center">
                             <Grid PreviewMouseLeftButtonUp="InsTxtBold">
                                 <Button Margin="1" Style="{DynamicResource selectableBtnStyle}" Width="27" ToolTip="Tučný text" x:Name="insTxtBold">

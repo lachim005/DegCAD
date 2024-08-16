@@ -15,6 +15,7 @@ namespace DegCAD
     public partial class MainWindow
     {
         public static RoutedCommand exportCommand = new();
+        public static RoutedCommand duplicateCommand = new();
         public static RoutedCommand settingsCommand = new();
         public static RoutedCommand pageLayoutCommand = new();
         public static RoutedCommand addGuideCommand = new();
@@ -127,6 +128,8 @@ namespace DegCAD
         public void CanAddGuide(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = ActiveTab.CanAddGuide;
         public void CanUndo(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = ActiveTab.CanUndo;
         public void CanRedo(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = ActiveTab.CanRedo;
+        public void CanExecuteContainerCommand(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = ActiveTab.CanExecuteContainerCommand;
+        public void CanPaste(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = ActiveTab.CanPaste;
         public void CanLayout(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = ActiveTab.CanLayout;
         public void CanExecuteEditorCommand(object sender, CanExecuteRoutedEventArgs e) => e.CanExecute = ActiveTab.CanExecuteCommand;
 
@@ -225,6 +228,11 @@ namespace DegCAD
         }
         private void UndoCommand(object sender, ExecutedRoutedEventArgs e) => ActiveTab.Undo();
         private void RedoCommand(object sender, ExecutedRoutedEventArgs e) => ActiveTab.Redo();
+        private void CopyCommand(object sender, ExecutedRoutedEventArgs e) => ActiveTab.Copy();
+        private void CutCommand(object sender, ExecutedRoutedEventArgs e) => ActiveTab.Cut();
+        private void PasteCommand(object sender, ExecutedRoutedEventArgs e) => ActiveTab.Paste();
+        private void DuplicateCommand(object sender, ExecutedRoutedEventArgs e) => ActiveTab.Duplicate();
+        private void DeleteCommand(object sender, ExecutedRoutedEventArgs e) => ActiveTab.Delete();
         private void SettingsCommand(object sender, ExecutedRoutedEventArgs e) => SettingsWindow.OpenDialog();
         private void AboutClick(object sender, RoutedEventArgs e) => AboutDialog.Open();
         private void OpenPageLayoutWindow(object sender, ExecutedRoutedEventArgs e)
