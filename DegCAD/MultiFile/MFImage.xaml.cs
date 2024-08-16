@@ -76,14 +76,15 @@ namespace DegCAD.MultiFile
         public MFImage(BitmapImage image)
         {
             InitializeComponent();
+            DataContext = this;
 
             imageSource = image.Clone();
-            imgControl.Source = image;
+            imgControl.Source = imageSource;
         }
 
         public override MFItem Clone()
         {
-            return new MFImage(imageSource.Clone()) { Stretch = Stretch };
+            return new MFImage(imageSource) { Stretch = Stretch };
         }
 
         public override void SwapWhiteAndBlack()
