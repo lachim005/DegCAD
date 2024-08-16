@@ -94,6 +94,8 @@ namespace DegCAD
                 return;
             }
 
+            if (ReferenceEquals(ActiveTab, openTabs[editorTabs.SelectedIndex])) return;
+
             ActiveTab = openTabs[editorTabs.SelectedIndex];
 
             //Editor tab got selected

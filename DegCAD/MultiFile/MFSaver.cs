@@ -110,7 +110,7 @@ namespace DegCAD.MultiFile
 
                     using FileStream fileStream = new(Path.Combine(dir, $"{imgCounter}.png"), FileMode.Create);
                     encoder.Save(fileStream);
-                    sb.Append($"IMG {imgCounter++}.png");
+                    sb.Append($"IMG {img.StretchIndex} {imgCounter++}.png");
                 }
                 await sw.WriteLineAsync(sb.ToString());
                 sb.Clear();

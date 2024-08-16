@@ -100,6 +100,7 @@ namespace DegCAD.MultiFile
                 insTransform.Visibility = Visibility.Collapsed;
                 insDrawing.Visibility = Visibility.Collapsed;
                 insText.Visibility = Visibility.Collapsed;
+                insImage.Visibility = Visibility.Collapsed;
                 ActivePage.CenterPage();
             }
         }
@@ -122,6 +123,7 @@ namespace DegCAD.MultiFile
             insTransform.Visibility = Visibility.Collapsed;
             insDrawing.Visibility = Visibility.Collapsed;
             insText.Visibility = Visibility.Collapsed;
+            insImage.Visibility = Visibility.Collapsed;
             insComposition.Visibility = Visibility.Collapsed;
             insPages.Visibility = Visibility.Collapsed;
             insSnapping.Visibility = Visibility.Collapsed;
@@ -139,7 +141,7 @@ namespace DegCAD.MultiFile
             insTrW.Text = e.CWidth.ToString();
             insTrH.Text = e.CHeight.ToString();
 
-
+            
             if (e.Item is MFDrawing dr)
             {
                 insDrawing.Visibility = Visibility.Visible;
@@ -185,6 +187,10 @@ namespace DegCAD.MultiFile
                 // Set Fontsize and color
                 insTxtFontSize.Text = txt.TextFontSize.ToString();
                 insTxtColor.Fill = new SolidColorBrush(txt.Color);
+            } else if (e.Item is MFImage img)
+            {
+                insImage.Visibility = Visibility.Visible;
+                insImgStretchCbx.SelectedIndex = img.StretchIndex;
             }
 
             SelectedContainer = e;
@@ -522,6 +528,18 @@ namespace DegCAD.MultiFile
 
         #endregion
 
+        #region Image inspector
+        private void InsImgStretchSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            e.Handled = true;
+            if (SelectedContainer?.Item is not MFImage img) return;
+
+            Timeline.AddState(new ImageState(img));
+
+            img.StretchIndex = insImgStretchCbx.SelectedIndex;
+        }
+        #endregion
+
         #region Pages
         public void AddPage(MFPage page, int? index = null)
         {
@@ -722,8 +740,8 @@ namespace DegCAD.MultiFile
 
         public void TabSelected()
         {
-            SelectedContainer?.Deselect();
             UpdateConnectedEditors();
+            PageSelectionChanged(this, SelectedContainer);
         }
 
         public void UpdateConnectedEditors()

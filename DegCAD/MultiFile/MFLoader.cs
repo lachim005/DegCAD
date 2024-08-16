@@ -219,7 +219,8 @@ namespace DegCAD.MultiFile
         public static MFImage ReadImage(string str, string folder)
         {
             var vals = str.Split(' ');
-            return new MFImage(Path.Combine(folder, vals[0]));
+            var stretchIndex = int.Parse(vals[0]);
+            return new MFImage(Path.Combine(folder, vals[1])) { StretchIndex = stretchIndex };
         }
     }
 
