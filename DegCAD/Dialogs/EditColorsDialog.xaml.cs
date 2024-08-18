@@ -84,12 +84,12 @@ namespace DegCAD.Dialogs
                 colors.Add(new(c, new SolidColorBrush(c)));
             }
         }
-        private void SaveColors(object sender, RoutedEventArgs e)
+        private void Save(object sender, ExecutedRoutedEventArgs e)
         {
             saveColors = true;
             Close();
         }
-        private void CancelDialog(object sender, RoutedEventArgs e)
+        private void Cancel(object sender, ExecutedRoutedEventArgs e)
         {
             Close();
         }

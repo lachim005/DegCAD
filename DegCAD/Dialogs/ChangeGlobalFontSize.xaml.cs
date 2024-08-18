@@ -91,12 +91,12 @@ namespace DegCAD.Dialogs
             previewVp.CenterContent();
         }
 
-        private void CancelClick(object sender, RoutedEventArgs e)
+        private void Cancel(object sender, ExecutedRoutedEventArgs e)
         {
             Close();
         }
 
-        private void SubmitClick(object sender, RoutedEventArgs e)
+        private void Confirm(object sender, ExecutedRoutedEventArgs e)
         {      
             if (sizingUniform.IsChecked == true)
             {

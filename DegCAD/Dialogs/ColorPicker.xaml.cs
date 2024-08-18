@@ -445,11 +445,11 @@ namespace DegCAD.Dialogs
             }
         }
 
-        private void CancelBtn(object sender, RoutedEventArgs e)
+        private void Cancel(object sender, ExecutedRoutedEventArgs e)
         {
             Close();
         }
-        private void SaveBtn(object sender, RoutedEventArgs e)
+        private void Confirm(object sender, ExecutedRoutedEventArgs e)
         {
             Saved = true;
             Close();

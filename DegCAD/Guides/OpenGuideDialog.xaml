@@ -12,6 +12,14 @@
         ResizeMode="NoResize"
         Closed="OnWindowClosed"
         Title="Otevřít návod" Height="300" Width="400">
+    <Window.CommandBindings>
+        <CommandBinding Command="Close" Executed="OpenEditor"/>
+        <CommandBinding Command="Open" Executed="OpenGuide"/>
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="Close"/>
+        <KeyBinding Key="Enter" Command="Open"/>
+    </Window.InputBindings>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -27,8 +35,8 @@
             <LineBreak/>
             Přejete si ho otevřít?
         </TextBlock>
-        <Button Grid.Row="1" Margin="10" Content="Ne, otevřít editor" Click="OpenEditor"/>
-        <Button Grid.Row="1" Margin="10" Grid.Column="1" Content="Ano, otevřít návod" Style="{DynamicResource accentBtn}" Click="OpenGuide"/>
+        <Button Grid.Row="1" Margin="10" Content="Ne, otevřít editor" Command="Close"/>
+        <Button Grid.Row="1" Margin="10" Grid.Column="1" Content="Ano, otevřít návod" Style="{DynamicResource accentBtn}" Command="Open"/>
         <CheckBox Grid.Row="2" Grid.ColumnSpan="2" Margin="10" x:Name="dontShowAnymoreChbx" HorizontalAlignment="Center">Toto okno již nezobrazovat</CheckBox>
     </Grid>
 </Window>

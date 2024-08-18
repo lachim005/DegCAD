@@ -12,6 +12,12 @@
         Foreground="{DynamicResource fg}"
         Closing="OnWindowClosing"
         Title="Vybrat přednastavenou velikost papíru" Height="550" Width="693">
+    <Window.CommandBindings>
+        <CommandBinding Command="Close" Executed="Cancel"/>
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="Close"/>
+    </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>

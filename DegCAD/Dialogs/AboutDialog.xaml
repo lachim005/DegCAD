@@ -13,6 +13,13 @@
         SizeToContent="Width"
         Height="300"
         Title="O programu">
+    <Window.CommandBindings>
+        <CommandBinding Command="Close" Executed="Close"/>
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="Close"/>
+        <KeyBinding Key="Enter" Command="Close"/>
+    </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>

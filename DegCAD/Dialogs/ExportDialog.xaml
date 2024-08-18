@@ -13,6 +13,14 @@
         ShowInTaskbar="False"
         MinHeight="550" MinWidth="600"
         Title="Export" Height="550" Width="800">
+    <Window.CommandBindings>
+        <CommandBinding Command="Close" Executed="Cancel"/>
+        <CommandBinding Command="Save" Executed="ExportImage"/>
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="Close"/>
+        <KeyBinding Key="Enter" Command="Save"/>
+    </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
@@ -72,7 +80,7 @@
                 <ComboBoxItem Content=".svg"/>
             </ComboBox>
             <CheckBox Content="Transparentní pozadí" Margin="5" x:Name="imageTransparentBgChbx"/>
-            <Button Content="Exportovat" Style="{DynamicResource accentBtn}" Click="ExportImageClick" HorizontalAlignment="Right" Width="100"/>
+            <Button Content="Exportovat" Style="{DynamicResource accentBtn}" Command="Save" HorizontalAlignment="Right" Width="100"/>
         </StackPanel>
     </Grid>
 </Window>

@@ -13,6 +13,14 @@
         Foreground="{DynamicResource fg}"
         MinHeight="550" MinWidth="800"
         Title="Tisk kompozice" Height="700" Width="1000">
+    <Window.CommandBindings>
+        <CommandBinding Command="Close" Executed="Cancel"/>
+        <CommandBinding Command="Print" Executed="Print"/>
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="Close"/>
+        <KeyBinding Key="Enter" Command="Print"/>
+    </Window.InputBindings>
     <Grid Margin="20">
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -117,7 +125,7 @@
                 </GroupBox>
             </StackPanel>
         </ScrollViewer>
-        <Button Content="Zrušit" Padding="50,0" HorizontalAlignment="Center" Click="CancelPrintClick" Grid.Row="1" Grid.Column="1"/>
-        <Button Content="Tisknout" Style="{DynamicResource accentBtn}" Padding="50,0" HorizontalAlignment="Center" Click="PrintClick" Grid.Row="1" Grid.Column="2"/>
+        <Button Content="Zrušit" Padding="50,0" HorizontalAlignment="Center" Command="Close" Grid.Row="1" Grid.Column="1"/>
+        <Button Content="Tisknout" Style="{DynamicResource accentBtn}" Padding="50,0" HorizontalAlignment="Center" Command="Print" Grid.Row="1" Grid.Column="2"/>
     </Grid>
 </Window>

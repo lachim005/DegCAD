@@ -11,6 +11,12 @@
         Foreground="{DynamicResource fg}"
         MinHeight="200" MinWidth="340"
         Title="Nastavení" Height="450" Width="800">
+    <Window.CommandBindings>
+        <CommandBinding Command="Close" Executed="Cancel"/>
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="Close"/>
+    </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1"/>
@@ -92,7 +98,7 @@
         </TabControl>
         <Rectangle Fill="{DynamicResource border}" Grid.Row="2"/>
         <StackPanel Orientation="Horizontal" Grid.Row="3" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="5">
-            <Button Content="_Zrušit" Width="150" Click="CloseClick"/>
+            <Button Content="_Zrušit" Width="150" Command="Close"/>
             <Button Style="{DynamicResource accentBtn}" Content="_Uložit" Width="150" Click="SaveClick"/>
         </StackPanel>
     </Grid>

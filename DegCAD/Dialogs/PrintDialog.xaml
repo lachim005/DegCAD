@@ -13,6 +13,14 @@
         Foreground="{DynamicResource fg}"
         MinHeight="400" MinWidth="600"
         Title="Tisk" Height="450" Width="800">
+    <Window.CommandBindings>
+        <CommandBinding Command="Close" Executed="Cancel"/>
+        <CommandBinding Command="Print" Executed="Print"/>
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="Close"/>
+        <KeyBinding Key="Enter" Command="Print"/>
+    </Window.InputBindings>
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition/>
@@ -37,7 +45,7 @@
                 <TextBox x:Name="unitSizeTbx" TextChanged="UnitSizeTbxTextChanged" Text="10"/>
                 <Label Target="{Binding ElementName=copyCountTbx}">_Počet kopií</Label>
                 <TextBox x:Name="copyCountTbx" Text="1"/>
-                <Button Click="PrintClick" Margin="0,40,0,0" Content="Tisknout" Style="{DynamicResource accentBtn}" Padding="50,0" HorizontalAlignment="Center"/>
+                <Button Command="Print" Margin="0,40,0,0" Content="Tisknout" Style="{DynamicResource accentBtn}" Padding="50,0" HorizontalAlignment="Center"/>
             </StackPanel>
         </ScrollViewer>
         <TextBlock Grid.Row="1" Text="Vyberte pozici pro tisk" VerticalAlignment="Center" HorizontalAlignment="Center"/>

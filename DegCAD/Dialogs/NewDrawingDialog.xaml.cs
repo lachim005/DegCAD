@@ -44,5 +44,10 @@ namespace DegCAD.Dialogs
             ProjectionType = DegCAD.ProjectionType.Axonometry;
             Close();
         }
+
+        private void Cancel(object sender, ExecutedRoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

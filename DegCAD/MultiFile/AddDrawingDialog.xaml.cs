@@ -56,5 +56,10 @@ namespace DegCAD.MultiFile
             d.ShowDialog();
             return d.editor;
         }
+
+        private void Cancel(object sender, ExecutedRoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

@@ -199,7 +199,7 @@ namespace DegCAD.MultiFile
                 }
             }
         }
-        private void PrintClick(object sender, RoutedEventArgs e)
+        private void Print(object sender, ExecutedRoutedEventArgs e)
         {
             if (selectedQueue is null) return;
             if (capabilities is null) return;
@@ -504,7 +504,7 @@ namespace DegCAD.MultiFile
             ShowSheet(visibleSheet + 1);
         }
 
-        private void CancelPrintClick(object sender, RoutedEventArgs e)
+        private void Cancel(object sender, ExecutedRoutedEventArgs e)
         {
             Close();
         }

@@ -38,5 +38,10 @@ namespace DegCAD.Dialogs
             };
             Process.Start(psi);
         }
+
+        private void Close(object sender, System.Windows.Input.ExecutedRoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

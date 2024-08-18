@@ -178,7 +178,7 @@ namespace DegCAD.Dialogs
             ResizeViewport();
         }
 
-        private void ExportImageClick(object sender, RoutedEventArgs e)
+        private void ExportImage(object sender, ExecutedRoutedEventArgs e)
         {
             if (!IsLoaded) return;
 
@@ -300,6 +300,11 @@ namespace DegCAD.Dialogs
             vp.SwapWhiteAndBlack();
             dark = !dark;
             vpBorder.Background = dark ? new SolidColorBrush(Color.FromRgb(38, 38, 38)) : Brushes.White;
+        }
+
+        private void Cancel(object sender, ExecutedRoutedEventArgs e)
+        {
+            Close();
         }
     }
 }

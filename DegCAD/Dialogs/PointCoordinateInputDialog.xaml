@@ -12,6 +12,14 @@
         WindowStartupLocation="CenterOwner"
         ShowInTaskbar="False"
         Title="Souřadnice bodů" MinHeight="360" MinWidth="500">
+    <Window.CommandBindings>
+        <CommandBinding Command="Close" Executed="Cancel"/>
+        <CommandBinding Command="Save" Executed="Confirm"/>
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="Close"/>
+        <KeyBinding Key="Enter" Command="Save"/>
+    </Window.InputBindings>
     <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -76,7 +84,7 @@
             <RadioButton GroupName="xDirection" VerticalAlignment="Center" x:Name="dontReverseXDirection"/>
         </StackPanel>
 
-        <Button x:Name="cancelBtn" Grid.Row="3" Content="Zrušit" Margin="5" Click="Cancel"/>
-        <Button x:Name="confirmBtn" Grid.Row="3" Content="Potvrdit" Margin="5" Grid.Column="2" Click="Confirm" Style="{DynamicResource accentBtn}"/>
+        <Button x:Name="cancelBtn" Grid.Row="3" Content="Zrušit" Margin="5" Command="Close"/>
+        <Button x:Name="confirmBtn" Grid.Row="3" Content="Potvrdit" Margin="5" Grid.Column="2" Command="Save" Style="{DynamicResource accentBtn}"/>
     </Grid>
 </Window>

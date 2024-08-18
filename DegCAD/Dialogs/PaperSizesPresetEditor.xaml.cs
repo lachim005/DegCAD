@@ -83,7 +83,7 @@ namespace DegCAD.Dialogs
             Presets.Add(new(presetNameTbx.Text, width, height));
         }
 
-        private void CancelClick(object sender, RoutedEventArgs e)
+        private void Cancel(object sender, ExecutedRoutedEventArgs e)
         {
             Close();
         }

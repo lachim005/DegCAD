@@ -73,5 +73,10 @@ namespace DegCAD.Dialogs
                 item.Width = tmp;
             }
         }
+
+        private void Cancel(object sender, ExecutedRoutedEventArgs e)
+        {
+            Close();
+        }
     }
 }

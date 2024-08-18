@@ -52,13 +52,16 @@ namespace DegCAD.Dialogs
             coordInputIc.ItemsSource = inputValues;
         }
 
-        private void Cancel(object sender, RoutedEventArgs e)
+        private void Cancel(object sender, ExecutedRoutedEventArgs e)
         {
             Close();
         }
 
-        private void Confirm(object sender, RoutedEventArgs e)
+        private void Confirm(object sender, ExecutedRoutedEventArgs e)
         {
+            // Focuses on something because if the user presses enter and the current textbox doesn't lose focus, the binding doesn't update
+            confirmBtn.Focus();
+
             foreach (var item in inputValues)
             {
                 if (IsEmpty(item)) 

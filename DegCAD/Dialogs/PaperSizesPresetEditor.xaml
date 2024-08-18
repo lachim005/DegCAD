@@ -11,6 +11,12 @@
         Background="{DynamicResource bg}"
         Foreground="{DynamicResource fg}"
         Title="Upravit přednastavené velikosti papíru" Height="550" Width="864">
+    <Window.CommandBindings>
+        <CommandBinding Command="Close" Executed="Cancel"/>
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="Close"/>
+    </Window.InputBindings>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1"/>
@@ -93,7 +99,7 @@
                 <Label Content="Název předlohy"/>
                 <TextBox x:Name="presetNameTbx" Grid.Column="2" VerticalAlignment="Center"/>
                 <Button Style="{DynamicResource accentBtn}" Grid.Row="1" Grid.ColumnSpan="3" Margin="0,5,0,0" Click="AddPresetClick" Content="Přidat předlohu"/>
-                <Button Margin="0" Content="Zrušit" Grid.Row="3" Click="CancelClick"/>
+                <Button Margin="0" Content="Zrušit" Grid.Row="3" Command="Close"/>
                 <Button Margin="0" Content="Uložit" Grid.Row="3" Click="SaveClick" Style="{DynamicResource accentBtn}" Grid.Column="2"/>
             </Grid>
         </StackPanel>

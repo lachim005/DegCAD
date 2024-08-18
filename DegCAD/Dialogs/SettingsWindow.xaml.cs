@@ -53,7 +53,7 @@ namespace DegCAD.Dialogs
             snapLabels.IsChecked = Settings.SnapLabels;
         }
 
-        private void CloseClick(object sender, RoutedEventArgs e)
+        private void Cancel(object sender, ExecutedRoutedEventArgs e)
         {
             Close();
         }

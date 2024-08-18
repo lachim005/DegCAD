@@ -25,13 +25,13 @@ namespace DegCAD.Guides
             InitializeComponent();
         }
 
-        private void OpenEditor(object sender, RoutedEventArgs e)
+        private void OpenEditor(object sender, ExecutedRoutedEventArgs e)
         {
             Result = false;
             Close();
         }
 
-        private void OpenGuide(object sender, RoutedEventArgs e)
+        private void OpenGuide(object sender, ExecutedRoutedEventArgs e)
         {
             Result = true;
             Close();

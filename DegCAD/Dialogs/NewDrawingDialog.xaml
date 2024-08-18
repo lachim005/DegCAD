@@ -12,6 +12,12 @@
         ResizeMode="CanMinimize"
         
         Title="Nový výkres" Height="350" Width="650">
+    <Window.CommandBindings>
+        <CommandBinding Command="Close" Executed="Cancel"/>
+    </Window.CommandBindings>
+    <Window.InputBindings>
+        <KeyBinding Key="Esc" Command="Close"/>
+    </Window.InputBindings>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
