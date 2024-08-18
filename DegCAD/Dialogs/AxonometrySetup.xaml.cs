@@ -314,5 +314,19 @@ namespace DegCAD.Dialogs
             yzAngle.Text = a2.ToString();
             zxAngle.Text = (360 - a1 - a2).ToString();
         }
+
+        private async void TabSwitched(object sender, SelectionChangedEventArgs e)
+        {
+            // Has to wait because for some reason, the focusing on xyAngle doesn't work
+            await Task.Delay(1);
+            if (axoTab.SelectedIndex == 0)
+            {
+                xyLen.Focus();
+            }
+            else
+            {
+                xyAngle.Focus();
+            }
+        }
     }
 }

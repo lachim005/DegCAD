@@ -29,7 +29,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="50"/>
         </Grid.RowDefinitions>
-        <TabControl Grid.ColumnSpan="2" x:Name="axoTab">
+        <TabControl Grid.ColumnSpan="2" x:Name="axoTab" SelectionChanged="TabSwitched">
             <TabItem Header="Zadat délky axonometrického trojúhelníka">
                 <Grid>
                     <Canvas VerticalAlignment="Center" Width="400" Height="300" HorizontalAlignment="Center">
