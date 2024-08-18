@@ -36,13 +36,16 @@ namespace DegCAD.MultiFile
         private static int lastDuplexing = 0;
         private static string lastCopyCount = "1";
         private static int lastCollation = 1;
+        private static string lastPagesToPrint = "";
 
         PrintQueueCollection queues;
         PrintQueue? selectedQueue;
         PrintCapabilities? capabilities;
 
-        ObservableCollection<PageButtonModel> pages = new();
+        ObservableCollection<PageModel> pages = new();
         ObservableCollection<SheetModel> sheets = new();
+
+        MFEditor editor;
 
         int visibleSheet;
 
@@ -65,19 +68,17 @@ namespace DegCAD.MultiFile
                 index++;
             }
 
-            for (int i = 0; i < e.Pages.Count; i++)
-            {
-                pages.Add(new(e.Pages[i].Page, i));
-            }
-
-            pagesButtonsIc.ItemsSource = pages;
             printersCbx.SelectedIndex = defaultIndex;
+            editor = e;
 
             LoadLastValues();
         }
 
         private void LoadLastValues()
         {
+            pagesToPrintTbx.Text = lastPagesToPrint;
+            UpdatePagesToPrint();
+
             if (!lastValuesSet) return;
             printersCbx.SelectedIndex = lastPrinter;
             paperCbx.SelectedIndex = lastPaperSize;
@@ -100,6 +101,7 @@ namespace DegCAD.MultiFile
             lastCopyCount = copyCountTbx.Text;
             lastCollation = collationCbx.SelectedIndex;
             lastValuesSet = true;
+            lastPagesToPrint = pagesToPrintTbx.Text;
         }
 
         private void PrinterChanged(object sender, SelectionChangedEventArgs e)
@@ -201,6 +203,9 @@ namespace DegCAD.MultiFile
         }
         private void Print(object sender, ExecutedRoutedEventArgs e)
         {
+            // Focuses on the print button in case the user was editing pages to print, because these only update when the textbox loses focus
+            printBtn.Focus();
+
             if (selectedQueue is null) return;
             if (capabilities is null) return;
             if (GetPaperSize() is not PageMediaSize size) return;
@@ -240,16 +245,16 @@ namespace DegCAD.MultiFile
             {
                 foreach (var item in pages)
                 {
-                    item.PagePrintCopy.LockScale = null;
-                    item.PagePrintCopy.Redraw();
+                    item.Page.LockScale = null;
+                    item.Page.Redraw();
                 }
             }
             else
             {
                 foreach (var item in pages)
                 {
-                    item.PagePrintCopy.LockScale = 1 * 96 / 25.4;
-                    item.PagePrintCopy.Redraw();
+                    item.Page.LockScale = 1 * 96 / 25.4;
+                    item.Page.Redraw();
                 }
             }
 
@@ -286,8 +291,8 @@ namespace DegCAD.MultiFile
 
                 foreach (var p in s.Pages)
                 {
-                    ug.Children.Add(p.PagePrintCopy);
-                    p.PagePrintCopy._loaded = true;
+                    ug.Children.Add(p.Page);
+                    p.Page._loaded = true;
                 }
 
                 Viewbox vb = new()
@@ -302,7 +307,7 @@ namespace DegCAD.MultiFile
 
                 foreach (var p in s.Pages)
                 {
-                    p.PagePrintCopy.Redraw();
+                    p.Page.Redraw();
                 }
 
                 PageContent pc = new();
@@ -351,16 +356,12 @@ namespace DegCAD.MultiFile
             };
         }
 
-        internal class PageButtonModel
+        internal class PageModel
         {
             public MFStaticPage Page { get; init; }
             public MFStaticPage PagePreviewCopy { get; init; }
-            public MFStaticPage PagePrintCopy { get; init; }
-            public int PageIndex { get; init; }
-            public int PageNumber { get; init; }
-            public bool ShouldPrint { get; set; } = true;
 
-            public PageButtonModel(MFPage page, int index)
+            public PageModel(MFPage page)
             {
 
                 Page = new(page);
@@ -369,9 +370,6 @@ namespace DegCAD.MultiFile
                     Page.SwapWhiteAndBlack();
                 }
                 PagePreviewCopy = new(Page);
-                PagePrintCopy = new(Page);
-                PageIndex = index;
-                PageNumber = index + 1;
             }
         }
 
@@ -380,7 +378,7 @@ namespace DegCAD.MultiFile
             public int Rows { get; init; }
             public int Columns { get; init; }
 
-            public ObservableCollection<PageButtonModel> Pages { get; init; } = new();
+            public ObservableCollection<PageModel> Pages { get; init; } = new();
 
             public SheetModel(int rows, int columns)
             {
@@ -427,7 +425,6 @@ namespace DegCAD.MultiFile
 
             foreach(var page in pages)
             {
-                if (!page.ShouldPrint) continue;
                 if (sm.Pages.Count == rows * cols)
                 {
                     sheets.Add(sm);
@@ -458,11 +455,6 @@ namespace DegCAD.MultiFile
         }
 
         private void ComboBoxSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            UpdatePreview();
-        }
-
-        private void PageSelectionChanged(object sender, RoutedEventArgs e)
         {
             UpdatePreview();
         }
@@ -509,36 +501,82 @@ namespace DegCAD.MultiFile
             Close();
         }
 
-        private void StartPageReorderDrag(object sender, MouseButtonEventArgs e)
-        {
-            if (sender is not FrameworkElement btn) return;
-            if (btn.DataContext is not PageButtonModel pm) return;
-
-            e.Handled = true;
-            DragDrop.DoDragDrop(btn, pm, DragDropEffects.Move);
-        }
-
-        private void PageReorder(object sender, DragEventArgs e)
-        {
-            //Gets the dragged and dropped tab
-            if (e.Data.GetData(typeof(PageButtonModel)) is not PageButtonModel dragPage) return;
-
-            if (sender is not FrameworkElement f) return;
-            if (f.DataContext is not PageButtonModel m) return;
-
-            int dragIndex = pages.IndexOf(dragPage);
-            int dropIndex = pages.IndexOf(m);
-            if (dragIndex == dropIndex) return;
-            if (dragIndex == -1 || dropIndex == -1) return;
-
-            e.Handled = true;
-            pages.Move(dragIndex, dropIndex);
-            UpdatePreview();
-        }
-
         private void OnWindowClosed(object sender, EventArgs e)
         {
             SaveLastValues();
+        }
+
+        private void PagesSelectionChanged(object sender, RoutedEventArgs e)
+        {
+            UpdatePagesToPrint();
+        }
+
+        private void UpdatePagesToPrint()
+        {
+            List<int> pages = [];
+            bool valid = true;
+            var vals = pagesToPrintTbx.Text.Split(',');
+            int pageCount = editor.Pages.Count;
+            // Parse the pages string
+            foreach (var v in vals)
+            {
+                if (v.Contains('-'))
+                {
+                    // Range
+                    var range = v.Split('-', 2);
+                    if (!int.TryParse(range[0], out int rangeStart)
+                        || rangeStart > pageCount
+                        || rangeStart < 1)
+                    {
+                        valid = false;
+                        break;
+                    }
+                    if (!int.TryParse(range[1], out int rangeEnd)
+                        || rangeEnd > pageCount
+                        || rangeEnd < 1
+                        || rangeEnd < rangeStart)
+                    {
+                        valid = false;
+                        break;
+                    }
+
+                    while (rangeStart <= rangeEnd)
+                    {
+                        pages.Add(rangeStart++);
+                    }
+                }
+                else
+                {
+                    // Single page
+                    if (!int.TryParse(v, out int page)
+                        || page > pageCount
+                        || page < 1)
+                    {
+                        valid = false;
+                        break;
+                    }
+                    pages.Add(page);
+                }
+            }
+
+            this.pages.Clear();
+
+            if (!valid)
+            {
+                // Uses default page order
+                foreach (var page in editor.Pages)
+                {
+                    this.pages.Add(new(page.Page));
+                }
+                UpdatePreview();
+                return;
+            }
+
+            foreach (var page in pages)
+            {
+                this.pages.Add(new(editor.Pages[page - 1].Page));
+            }
+            UpdatePreview();
         }
     }
 }

@@ -91,41 +91,11 @@
                     <ComboBoxItem x:Name="collateOptionNo">Nekompletovat (1,1,1, 2,2,2, 3,3,3)</ComboBoxItem>
                     <ComboBoxItem x:Name="collateOptionUnknown">Neznámé</ComboBoxItem>
                 </ComboBox>
-                <GroupBox Header="Tisknout strany" Margin="0,10,0,0" Padding="10">
-                    <ItemsControl x:Name="pagesButtonsIc">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Border Padding="0,2" Background="Transparent" DragOver="PageReorder" Drop="PageReorder" AllowDrop="True">
-                                    <Grid>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="30"/>
-                                            <ColumnDefinition/>
-                                        </Grid.ColumnDefinitions>
-                                        <Canvas Width="19" Height="19" VerticalAlignment="Center" MouseLeftButtonDown="StartPageReorderDrag" HorizontalAlignment="Left" SnapsToDevicePixels="True" Background="Transparent" Cursor="Hand">
-                                            <Line X1="2" Y1="4" X2="17" Y2="4" Stroke="{DynamicResource border}" StrokeThickness="1"/>
-                                            <Line X1="2" Y1="9" X2="17" Y2="9" Stroke="{DynamicResource border}" StrokeThickness="1"/>
-                                            <Line X1="2" Y1="14" X2="17" Y2="14" Stroke="{DynamicResource border}" StrokeThickness="1"/>
-                                        </Canvas>
-                                        <CheckBox IsChecked="{Binding ShouldPrint}" Grid.Column="1" VerticalAlignment="Center" Checked="PageSelectionChanged" Unchecked="PageSelectionChanged">
-                                            <CheckBox.ToolTip>
-                                                <Grid Width="200" Height="200" Background="White">
-                                                    <ContentPresenter Content="{Binding Page}"/>
-                                                </Grid>
-                                            </CheckBox.ToolTip>
-                                            <TextBlock>
-                                        <Run>Strana</Run>
-                                        <Run Text="{Binding PageNumber}"/>
-                                            </TextBlock>
-                                        </CheckBox>
-                                    </Grid>
-                                </Border>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </GroupBox>
+                <Label Content="Tisknout strany" Target="{Binding ElementName=pagesToPrintTbx}"/>
+                <TextBox x:Name="pagesToPrintTbx" LostFocus="PagesSelectionChanged" ToolTip="Zadejte čísla nebo rozsahy stránek, které chcete vytisknout. Například 1,3,6-8&#x0a;Pokud zadáte neplatné strany, nebo je nezadáte vůbec, vytisknou se všechny strany ve výchozím pořadí"/>
             </StackPanel>
         </ScrollViewer>
         <Button Content="Zrušit" Padding="50,0" HorizontalAlignment="Center" Command="Close" Grid.Row="1" Grid.Column="1"/>
-        <Button Content="Tisknout" Style="{DynamicResource accentBtn}" Padding="50,0" HorizontalAlignment="Center" Command="Print" Grid.Row="1" Grid.Column="2"/>
+        <Button Content="Tisknout" x:Name="printBtn" Style="{DynamicResource accentBtn}" Padding="50,0" HorizontalAlignment="Center" Command="Print" Grid.Row="1" Grid.Column="2"/>
     </Grid>
 </Window>
