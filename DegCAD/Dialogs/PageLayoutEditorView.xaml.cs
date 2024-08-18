@@ -126,8 +126,8 @@ namespace DegCAD.Dialogs
 
             if (!double.TryParse(unitSizeTbx.Text, out var unitSize) || unitSize < .1) return;
 
-            var xMili = -(vp.OffsetX + originX) * unitSize;
-            var yMili = -(vp.OffsetY + originY) * unitSize;
+            var xMili = -(vp.OffsetX + originX - (vp.ActualWidth / 2 / vp.Scale / ViewPort.unitSize)) * unitSize;
+            var yMili = -(vp.OffsetY + originY - (vp.ActualHeight / 2 / vp.Scale / ViewPort.unitSize)) * unitSize;
             var xPixel = Math.Round(xMili * aspectRatioBox.Scale + 2);
             var yPixel = Math.Round(yMili * aspectRatioBox.Scale + 1);
 
