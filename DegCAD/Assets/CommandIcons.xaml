@@ -181,6 +181,10 @@
         <Line X1="17" Y1="30" X2="23" Y2="30" Stroke="{DynamicResource fg}" StrokeThickness="1.4"/>
         <Line X1="43" Y1="30" X2="37" Y2="30" Stroke="{DynamicResource fg}" StrokeThickness="1.4"/>
     </Canvas>
+    <Canvas x:Key="cmdFitSplineIcon">
+        <Path Data="M 15 45 C 15 30, 20 25, 23 25 C 26 25, 34 35, 37 35 C 40 35, 45 30, 45 15" Stroke="{DynamicResource red}" StrokeThickness="1.4"/>
+        <Path Data="M 15 40 L 15 50 M 10 45 L 20 45 M 23 20 L 23 30 M 37 30 L 37 40 M 45 10 L 45 20 M 40 15 L 50 15" Stroke="{DynamicResource fg}" StrokeThickness="1.4"/>
+    </Canvas>
     <Canvas x:Key="cmdTranslateSizeIcon">
         <Line X1="10" Y1="45" X2="32" Y2="45" Stroke="{DynamicResource blue}" StrokeThickness="1.4"/>
         <Line X1="10" Y1="50" X2="10" Y2="40" Stroke="{DynamicResource blue}" StrokeThickness="1.4"/>
