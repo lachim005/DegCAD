@@ -292,6 +292,13 @@ namespace DegCAD
                         AddPoint(cir.Circle2.Center + rad);
                         AddPoint(cir.Circle2.Center - rad);
                     }
+                    else if (item is CRSpline spline)
+                    {
+                        for (int i = 1; i < spline.Points.Count - 1; i++)
+                        {
+                            AddPoint(spline.Points[i]);
+                        }
+                    }
                     else if (item is TimelineElements.Ellipse ell)
                     {
                         AddPoint(ell.P1);
