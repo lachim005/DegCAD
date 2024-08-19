@@ -300,6 +300,7 @@ namespace DegCAD
                 "HBL" => HBL(s[4..], stl),
                 "LBL" => LBL(s[4..], stl, md),
                 "HID" => HID(s[4..], stl),
+                "CRS" => CRS(s[4..], stl),
                 _ => null
             };
         }
@@ -469,6 +470,24 @@ namespace DegCAD
                 int.Parse(vals[0]),
                 int.Parse(vals[1])
             );
+        }
+        private static CRSpline CRS(string s, Style stl)
+        {
+            var s1 = s.Split(" ", 2);
+            var pointCount = int.Parse(s1[0]);
+            var points = new Vector2[pointCount];
+
+            var s2 = s1[1].Split(" ");
+
+            for (int i = 0; i < pointCount; i++)
+            {
+                points[i] = new(
+                    double.Parse(s2[2 * i]),
+                    double.Parse(s2[2 * i + 1])
+                );
+            }
+
+            return new(stl, null, points);
         }
         #endregion
 

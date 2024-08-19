@@ -191,8 +191,25 @@ namespace DegCAD
 
                 HideModification hid => $"HID {hid.CmdIndex} {hid.ItemIndex}",
 
+                CRSpline spline => SerializeCRSpline(spline),
+
                 _ => "NUL"
             };
+        }
+
+        private static string SerializeCRSpline(CRSpline spline)
+        {
+            StringBuilder sb = new();
+            sb.Append("CRS ");
+            sb.Append(spline.Points.Count);
+            foreach (var point in spline.Points)
+            {
+                sb.Append(' ');
+                sb.Append(point.X);
+                sb.Append(' ');
+                sb.Append(point.Y);
+            }
+            return sb.ToString();
         }
 
         private static string SerializeStyle(Style s)
