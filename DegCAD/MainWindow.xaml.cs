@@ -59,7 +59,7 @@ namespace DegCAD
 
             if (!Debugger.IsAttached)
             {
-                Application.Current.DispatcherUnhandledException += CrashHandler.Open;
+                Application.Current.DispatcherUnhandledException += CrashHandler.OnCrash;
             }
 
             openTabs.Add(new HomeTab(this));

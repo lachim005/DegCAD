@@ -23,17 +23,30 @@ namespace DegCAD.Dialogs
     public partial class CrashHandler : Window
     {
         DispatcherUnhandledExceptionEventArgs e;
+        private static bool isOpen = false;
+        private static int continuousCrashes;
 
         public CrashHandler(DispatcherUnhandledExceptionEventArgs e)
         {
+            isOpen = true;
+            continuousCrashes = 0;
             InitializeComponent();
 
             this.e = e;
             exceptionTbx.Text = e.Exception.ToString();
         }
 
-        public static void Open(object sender, DispatcherUnhandledExceptionEventArgs e)
+        public static void OnCrash(object sender, DispatcherUnhandledExceptionEventArgs e)
         {
+            if (isOpen)
+            {
+                if (++continuousCrashes > 20)
+                {
+                    Application.Current.Shutdown();
+                }
+
+                return;
+            }
             CrashHandler ch = new(e);
             ch.ShowDialog();
         }
@@ -62,6 +75,7 @@ namespace DegCAD.Dialogs
         {
             MessageBox.Show(this, "Program nemusí kvůli chybě fungovat správně.\nDoporučujeme ho co nejdříve restartovat.", "Varování", img: MessageBoxImage.Warning);
             this.e.Handled = true;
+            isOpen = false;
         }
     }
 }
