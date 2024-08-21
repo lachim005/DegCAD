@@ -22,7 +22,7 @@ namespace DegCAD
         {
             s.Stroke = new SolidColorBrush(style.Color);
             s.StrokeThickness = style.Thickness + 1;
-            s.StrokeDashArray = new(Style.StrokeDashArrays[style.LineStyle]);
+            s.StrokeDashArray = new(style.StrokeDashArray);
             s.StrokeStartLineCap = PenLineCap.Round;
             s.StrokeDashCap = PenLineCap.Round;
             s.StrokeEndLineCap = PenLineCap.Round;

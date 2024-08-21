@@ -19,12 +19,31 @@ namespace DegCAD
         public static Style BlueDashStyle => new() { Color = Color.FromRgb(15, 112, 183), LineStyle = 1 };
         public static Style GreenStyle => new Style() { Color = Colors.YellowGreen, Thickness = 1 };
 
-        public static double[][] StrokeDashArrays = new double[3][]
-        {
-            new double[0],
-            new double[2] {15, 15},
-            new double[4] {15, 7, 2, 7}
-        };
+        public static readonly double[][][] strokeDashArrays =
+        [
+            [
+                [],
+                [15],
+                [15, 7, 2, 7]
+            ],
+            [
+                [],
+                [8],
+                [8, 4, 1, 4]
+            ],
+            [
+                [],
+                [5],
+                [5, 3, 0, 3]
+            ],
+            [
+                [],
+                [4],
+                [4, 3, 0, 3]
+            ]
+        ];
+
+        public readonly double[] StrokeDashArray => strokeDashArrays[Math.Clamp(Thickness, 0, 3)][Math.Clamp(LineStyle, 0, 2)];
 
         public Style()
         {
@@ -64,8 +83,18 @@ namespace DegCAD
                 $"stroke-linejoin=\"round\" " +
                 $"stroke-linecap=\"round\"";
 
-            if (LineStyle == 1) pars += $" stroke-dasharray=\"15 15\"";
-            else if (LineStyle == 2) pars += $" stroke-dasharray=\"15 7 2 7\"";
+            if (LineStyle > 0)
+            {
+                var dashArray = StrokeDashArray;
+
+                pars += $" stroke-dasharray=\" ";
+                foreach (var dash in dashArray)
+                {
+                    pars += (dash * (Thickness + 1)).ToString();
+                    pars += ' ';
+                }
+                pars += '"';
+            }
 
             return pars;
         }
