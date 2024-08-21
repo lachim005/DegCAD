@@ -18,5 +18,6 @@
         <Canvas ClipToBounds="True" x:Name="canvas">
             <Rectangle Width="210" x:Name="paperBg" Height="297" Stroke="{DynamicResource border}" StrokeThickness="1" Fill="{DynamicResource bg}"/>
         </Canvas>
+        <Canvas x:Name="fgCanvas" ClipToBounds="true"/>
     </Grid>
 </UserControl>

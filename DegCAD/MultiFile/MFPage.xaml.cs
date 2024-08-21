@@ -34,6 +34,8 @@ namespace DegCAD.MultiFile
 
         private bool _bordersVisible = true;
 
+        public MFSelectionRect _selectionRect;
+
         /// <summary>
         /// The X offset of the canvas
         /// </summary>
@@ -133,6 +135,9 @@ namespace DegCAD.MultiFile
             SizeChanged += ViewPortChanged;
             Snapper = new(this);
             Editor = editor;
+
+            _selectionRect = new(Snapper, this) { Visibility = Visibility.Collapsed };
+            fgCanvas.Children.Add(_selectionRect);
         }
 
         public void AddItem(MFContainer container, int? index = null)
@@ -174,11 +179,15 @@ namespace DegCAD.MultiFile
             if (sender is not MFContainer container) return;
             SelectedItem?.Deselect();
             SelectedItem = container;
+            _selectionRect.Visibility = Visibility.Visible;
+            _selectionRect.Cont = container;
+            Redraw();
         }
         private void ContainerDeselected(object? sender, EventArgs e)
         {
             if (sender is not MFContainer container) return;
             SelectedItem = null;
+            _selectionRect.Visibility = Visibility.Collapsed;
         }
         private void OnContainerUpdating(object? sender, EventArgs e)
         {
@@ -327,6 +336,12 @@ namespace DegCAD.MultiFile
 
                 item.Item.ViewUpdated(OffsetX, OffsetY, Scale);
             }
+
+            if (SelectedItem is null) return;
+            _selectionRect.Width = SelectedItem.CWidth * Scale * unitSize;
+            _selectionRect.Height = SelectedItem.CHeight * Scale * unitSize;
+            Canvas.SetLeft(_selectionRect, (SelectedItem.CX - OffsetX) * Scale * unitSize);
+            Canvas.SetTop(_selectionRect, (SelectedItem.CY - OffsetY) * Scale * unitSize);
         }
 
         public void UpdatePaperSize()
