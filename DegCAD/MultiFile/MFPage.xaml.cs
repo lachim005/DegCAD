@@ -205,16 +205,7 @@ namespace DegCAD.MultiFile
             Vector2 posBeforeZoom = ScreenToCanvas(mousePos);
 
             //Zooms in or out
-            if (e.Delta > 0)
-            {
-                Scale *= ZoomFactor;
-                Scale *= ZoomFactor;
-            }
-            else
-            {
-                Scale /= ZoomFactor;
-                Scale /= ZoomFactor;
-            }
+            Scale *= 1 + (e.Delta / 500d);
 
             //Clamps zoom between minZoom and maxZoom
             Scale = Math.Clamp(Scale, MinZoom, MaxZoom);
