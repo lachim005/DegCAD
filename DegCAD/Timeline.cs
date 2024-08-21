@@ -18,16 +18,14 @@ namespace DegCAD
 
         public event EventHandler? TimelineChanged;
 
-        public bool CanUndo => CommandHistory.Count > 0 && CommandHistory.Peek().Items[0] is not Axis;
+        public bool CanUndo => CommandHistory.Count > 1;
         public bool CanRedo => UndoneCommands.Count > 0;
 
         public void Undo()
         {
-            //User can't undo the axis
-            if (CommandHistory.Peek().Items[0] is Axis) return;
-
             //Can't undo if commands stack is empty
-            if (CommandHistory.Count == 0) return;
+            //Axis is always first and shouldn't be undone
+            if (CommandHistory.Count <= 1) return;
 
             var undoneCmd = CommandHistory.Pop();
 
