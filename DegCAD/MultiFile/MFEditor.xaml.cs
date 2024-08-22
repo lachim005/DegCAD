@@ -248,11 +248,13 @@ namespace DegCAD.MultiFile
         {
             if (SelectedContainer is null) return;
 
-            Timeline.AddState(new ContainerRemovedState(SelectedContainer));
+            var cont = SelectedContainer;
 
-            ActivePage.RemoveItem(SelectedContainer);
-            ActivePage.SelectedItem = null;
-            ActivePage.Redraw();
+            Timeline.AddState(new ContainerRemovedState(cont));
+
+            cont.Deselect();
+
+            ActivePage.RemoveItem(cont);
         }
 
         private void SelectWhole(object sender, MouseButtonEventArgs e)
