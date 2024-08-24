@@ -41,11 +41,7 @@ namespace DegCAD.TimelineElements
         {
             ControlPoints.Clear();
 
-            for (int i = 1; i < Points.Count - 1; i++)
-            {
-                ControlPoints.Add(Points[i] + ((Points[i - 1] - Points[i + 1]) / 6));
-                ControlPoints.Add(Points[i] - ((Points[i - 1] - Points[i + 1]) / 6));
-            }
+            ControlPoints.AddRange(CalculateControlPoints(Points));
         }
 
         public override GeometryElement CloneElement()
@@ -57,27 +53,16 @@ namespace DegCAD.TimelineElements
         {
             if (ViewportLayer is null) return;
 
-            var vp = ViewportLayer.Viewport;
+            _spline.SetCatmullRomSpline(ViewportLayer, Points, ControlPoints);
+        }
 
-            StringBuilder sb = new();
-            var startingPoint = vp.CanvasToScreen(Points[1]);
-            sb.Append("M " + startingPoint.X.ToString(CultureInfo.InvariantCulture) + " " + startingPoint.Y.ToString(CultureInfo.InvariantCulture));
-
-            int cpc = 1;
-            for (int i = 1; i < Points.Count - 2; i++)
+        public static IEnumerable<Vector2> CalculateControlPoints(List<Vector2> points)
+        {
+            for (int i = 1; i < points.Count - 1; i++)
             {
-                sb.Append(" C ");
-                var cp1 = vp.CanvasToScreen(ControlPoints[cpc++]);
-                sb.Append(cp1.X.ToString(CultureInfo.InvariantCulture) + " " + cp1.Y.ToString(CultureInfo.InvariantCulture));
-                sb.Append(", ");
-                var cp2 = vp.CanvasToScreen(ControlPoints[cpc++]);
-                sb.Append(cp2.X.ToString(CultureInfo.InvariantCulture) + " " + cp2.Y.ToString(CultureInfo.InvariantCulture));
-                sb.Append(", ");
-                var pt = vp.CanvasToScreen(Points[i + 1]);
-                sb.Append(pt.X.ToString(CultureInfo.InvariantCulture) + " " + pt.Y.ToString(CultureInfo.InvariantCulture));
+                yield return points[i] + ((points[i - 1] - points[i + 1]) / 6);
+                yield return points[i] - ((points[i - 1] - points[i + 1]) / 6);
             }
-
-            _spline.Data = Geometry.Parse(sb.ToString());
         }
     }
 }

@@ -29,6 +29,18 @@ namespace DegCAD
         /// The squared length of the vector (more efficient to calculate)
         /// </summary>
         public double LengthSquared { get => X * X + Y * Y; }
+        /// <summary>
+        /// Angle of the vector 
+        /// </summary>
+        public readonly double Angle 
+        {
+            get
+            {
+                var angle = Math.Atan2(Y, X);
+                if (angle < 0) angle += Math.Tau;
+                return angle;
+            }
+        }
 
         /// <summary>
         /// Creates a new two-dimensional vector from coordinates
@@ -46,6 +58,12 @@ namespace DegCAD
         {
             double scalingFactor = length / Length;
             return this * scalingFactor;
+        }
+
+        public Vector2 RotateVector(double angle)
+        {
+            var sc = Math.SinCos(angle);
+            return (X * sc.Cos - Y * sc.Sin, X * sc.Sin + Y * sc.Cos);
         }
 
         /// <returns>a string representation of the vector in the (x,y) format</returns>

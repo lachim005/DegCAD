@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -203,18 +204,29 @@ namespace DegCAD
 
             pth.Data = Geometry.Parse(para);
         }
-        public static void SetHyperbola(this Path pth, ViewportLayer vpl, TimelineElements.Hyperbola hb)
+        public static void SetCatmullRomSpline(this Path pth, ViewportLayer vpl, List<Vector2> points, List<Vector2> controlPoints)
         {
-            var ep1 = vpl.Viewport.CanvasToScreen(hb.EndPoint1);
-            var ep2 = vpl.Viewport.CanvasToScreen(hb.EndPoint2);
-            var cp1 = vpl.Viewport.CanvasToScreen(hb.ControlPoint1);
-            var cp2 = vpl.Viewport.CanvasToScreen(hb.ControlPoint2);
-            var vertex = vpl.Viewport.CanvasToScreen(hb.Vertex);
+            var vp = vpl.Viewport;
 
+            StringBuilder sb = new();
+            var startingPoint = vp.CanvasToScreen(points[1]);
+            sb.Append("M " + startingPoint.X.ToString(CultureInfo.InvariantCulture) + " " + startingPoint.Y.ToString(CultureInfo.InvariantCulture));
 
-            string hyper = $"M {ep1.X} {ep1.Y} Q {cp1.X} {cp1.Y} {vertex.X} {vertex.Y} Q {cp2.X} {cp2.Y} {ep2.X} {ep2.Y}".Replace(',', '.');
+            int cpc = 1;
+            for (int i = 1; i < points.Count - 2; i++)
+            {
+                sb.Append(" C ");
+                var cp1 = vp.CanvasToScreen(controlPoints[cpc++]);
+                sb.Append(cp1.X.ToString(CultureInfo.InvariantCulture) + " " + cp1.Y.ToString(CultureInfo.InvariantCulture));
+                sb.Append(", ");
+                var cp2 = vp.CanvasToScreen(controlPoints[cpc++]);
+                sb.Append(cp2.X.ToString(CultureInfo.InvariantCulture) + " " + cp2.Y.ToString(CultureInfo.InvariantCulture));
+                sb.Append(", ");
+                var pt = vp.CanvasToScreen(points[i + 1]);
+                sb.Append(pt.X.ToString(CultureInfo.InvariantCulture) + " " + pt.Y.ToString(CultureInfo.InvariantCulture));
+            }
 
-            pth.Data = Geometry.Parse(hyper);
+            pth.Data = Geometry.Parse(sb.ToString());
         }
         #endregion
 

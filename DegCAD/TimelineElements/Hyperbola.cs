@@ -22,7 +22,7 @@ namespace DegCAD.TimelineElements
             set
             {
                 _center = value;
-                RecalculateSvgPoints();
+                RecalculateHyperbola();
             }
         }
         public Vector2 Vertex
@@ -31,7 +31,7 @@ namespace DegCAD.TimelineElements
             set
             {
                 _vertex = value;
-                RecalculateSvgPoints();
+                RecalculateHyperbola();
             }
         }
         public Vector2 Point
@@ -40,20 +40,24 @@ namespace DegCAD.TimelineElements
             set
             {
                 _point = value;
-                RecalculateSvgPoints();
+                RecalculateHyperbola();
             }
         }
 
-        public Vector2 EndPoint1 => Point;
-        public Vector2 EndPoint2 { get; private set; }
-        public Vector2 ControlPoint1 { get; private set; }
-        public Vector2 ControlPoint2 { get; private set; }
+        public double Eccentricity { get; set; }
+        public double A { get; set; }
+        public Vector2 Focus1 { get; set; }
+        public Vector2 Focus2 { get; set; }
+        public List<Vector2> HyperbolaPoints { get; set; } = [];
+        public List<Vector2> ControlPoints { get; set; } = [];
+
 
         public Hyperbola(Vector2 vertex, Vector2 center, Vector2 point, Style style, ViewportLayer? vpl = null)
         {
-            Center = center;
-            Vertex = vertex;
-            Point = point;
+            _center = center;
+            _vertex = vertex;
+            _point = point;
+            RecalculateHyperbola();
 
             _hyperbola = new();
             AddShape(_hyperbola);
@@ -63,25 +67,63 @@ namespace DegCAD.TimelineElements
             if (vpl is not null) AddToViewportLayer(vpl);
         }
 
-        private void RecalculateSvgPoints()
+        private void RecalculateHyperbola()
         {
-            var axisDV = Vertex - Center;
-            var axisPerpDV = new Vector2(-axisDV.Y, axisDV.X);
-            var axis = new ParametricLine2(Vertex, axisDV);
-            var endLine = new ParametricLine2(Point, axisPerpDV);
+            var endFromOrigin = _point - _center;
+            var er = endFromOrigin.RotateVector(-(_vertex - _center).Angle);
+            A = (_vertex - _center).Length;
+            var a2 = A * A;
+            var x2 = er.X * er.X;
+            var y2 = er.Y * er.Y;
+            Eccentricity = Math.Sqrt(a2 * (x2 + y2 - a2) / (x2 - a2));
 
-            var endMid = axis.FindIntersection(endLine);
-            var endVec = endMid - Point;
-            EndPoint2 = endMid + endVec;
+            Focus1 = _center + (_vertex - _center).ChangeLength(Eccentricity);
+            Focus2 = _center - (_vertex - _center).ChangeLength(Eccentricity);
 
-            ControlPoint1 = Vertex - (endVec / 3);
-            ControlPoint2 = Vertex + (endVec / 3);
+            List<Vector2> points1 = [];
+            List<Vector2> points2 = [];
+            var arad = Eccentricity - A - .6;
+            var end = (Point - Focus1).Length;
+
+            bool final = false;
+            while (arad < end)
+            {
+                arad += 1;
+
+                if (arad > end && !final)
+                {
+                    arad = end;
+                    end++;
+                    final = true;
+                }
+
+                Circle2 c1 = new(Focus1, arad);
+                Circle2 c2 = new(Focus2, arad + 2 * A);
+                var pts = c1.FindIntersections(c2);
+                if (pts is null) continue;
+                points1.Add(pts.Value.Item1);
+                points2.Add(pts.Value.Item2);
+            }
+
+            points1.Reverse();
+
+            HyperbolaPoints.Clear();
+            HyperbolaPoints.AddRange(points1);
+            HyperbolaPoints.Add(_vertex);
+            HyperbolaPoints.AddRange(points2);
+
+            if (HyperbolaPoints.Count < 4) return;
+
+            ControlPoints.Clear();
+            ControlPoints.AddRange(CRSpline.CalculateControlPoints(HyperbolaPoints));
         }
 
         public override void Draw()
         {
             if (ViewportLayer is null) return;
-            _hyperbola.SetHyperbola(ViewportLayer, this);
+            if (HyperbolaPoints.Count < 4) return;
+
+            _hyperbola.SetCatmullRomSpline(ViewportLayer, HyperbolaPoints, ControlPoints);
         }
 
         public override GeometryElement CloneElement() => new Hyperbola(Vertex, Center, Point, Style);

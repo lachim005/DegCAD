@@ -302,9 +302,10 @@ namespace DegCAD
                     }
                     else if (item is Hyperbola hyp)
                     {
-                        AddPoint(hyp.EndPoint1);
-                        AddPoint(hyp.EndPoint2);
-                        AddPoint(hyp.Center);
+                        for (int i = 1; i < hyp.HyperbolaPoints.Count - 1; i++)
+                        {
+                            AddPoint(hyp.HyperbolaPoints[i]);
+                        }
                     }
                     else if (item is InfiniteLine inf)
                     {
