@@ -13,7 +13,7 @@ namespace DegCAD.TimelineElements
     /// <summary>
     /// Circle defined by it's center and a point on it
     /// </summary>
-    public class Circle : GeometryElement, ISnapable, ISvgConvertable
+    public class Circle : GeometryElement, ISnapable
     {
         private Circle2 _circle2;
         private readonly System.Windows.Shapes.Ellipse _circle;
@@ -53,10 +53,5 @@ namespace DegCAD.TimelineElements
         }
 
         public override GeometryElement CloneElement() => new Circle(Circle2, Style);
-        public string ToSvg() => $"<circle " +
-            $"cx=\"{(Canvas.GetLeft(_circle) + _circle.Width / 2).ToString(".")}\" " +
-            $"cy=\"{Canvas.GetTop(_circle) + _circle.Height / 2}\" " +
-            $"r=\"{_circle.Width / 2}\" " +
-            $"{Style.ToSvgParameters()}/>";
     }
 }

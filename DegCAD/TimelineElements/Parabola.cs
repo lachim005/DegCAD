@@ -9,7 +9,7 @@ using System.Windows.Media;
 
 namespace DegCAD.TimelineElements
 {
-    public class Parabola : GeometryElement, ISvgConvertable
+    public class Parabola : GeometryElement
     {
         private Vector2 _focus;
         private Vector2 _vertex;
@@ -114,7 +114,5 @@ namespace DegCAD.TimelineElements
                 return new Parabola(Focus, Vertex, Style);
             return new Parabola(Focus, Vertex, End, Style);
         }
-
-        public string ToSvg() => $"<path d=\"{_parabola.Data}\" {Style.ToSvgParameters()}/>";
     }
 }

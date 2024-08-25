@@ -242,41 +242,8 @@ namespace DegCAD.Dialogs
 
         private void SaveSvg(double w, double h, double scale, string filePath)
         {
-            var clonedVp = vp.Clone();
-            clonedVp.Scale = scale / ViewPort.unitSize;
-            clonedVp.Width = w;
-            clonedVp.Height = h;
-            if (imageTransparentBgChbx.IsChecked == false || imageFormatCbx.SelectedIndex <= 1) clonedVp.Background = Brushes.White;
-
-            Viewbox vb = new();
-            vb.Child = clonedVp;
-            vb.Measure(new(w, h));
-            vb.Arrange(new(0, 0, w, h));
-            vb.UpdateLayout();
-
-            //Changes the culture so doubles will be written with dots
-            var prevCulture = CultureInfo.CurrentCulture;
-            CultureInfo.CurrentCulture = CultureInfo.InvariantCulture;
-
             using StreamWriter sw = new(filePath);
-            sw.WriteLine($"<svg xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\" width=\"{w}\" height=\"{h}\" fill=\"none\">");
-            if (imageTransparentBgChbx.IsChecked == false)
-            {
-                sw.WriteLine($"\t<rect width=\"{w}\" height=\"{h}\" fill=\"{(dark ? "#262626" : "white")}\"/>");
-            }
-
-            foreach(var cmd in clonedVp.Timeline.CommandHistory)
-            {
-                foreach (var item in cmd.Items)
-                {
-                    if ( item is not ISvgConvertable svg || !svg.IsVisible) continue;
-                    sw.WriteLine("\t" + svg.ToSvg());
-                }
-            }
-            sw.WriteLine("</svg>");
-
-
-            CultureInfo.CurrentCulture = prevCulture;
+            sw.Write(SvgExporter.ExportSvg(vp, w, h, scale, imageTransparentBgChbx.IsChecked == true, dark));
         }
 
         private string? GetSaveLocation(string formats, string filename)

@@ -11,7 +11,7 @@ using System.Windows.Shapes;
 
 namespace DegCAD.TimelineElements
 {
-    public class LineSegment : GeometryElement, ISnapable, ISvgConvertable
+    public class LineSegment : GeometryElement, ISnapable
     {
         private Vector2 _p1;
         private Vector2 _p2;
@@ -67,6 +67,5 @@ namespace DegCAD.TimelineElements
         }
 
         public override GeometryElement CloneElement() => new LineSegment(P1, P2, Style);
-        public string ToSvg() => $"<path d=\"M {_line.X1} {_line.Y1} L {_line.X2} {_line.Y2}\" {Style.ToSvgParameters()}/>";
     }
 }

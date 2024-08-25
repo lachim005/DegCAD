@@ -14,7 +14,7 @@ namespace DegCAD.TimelineElements
     /// <summary>
     /// Projection of a line in one plane
     /// </summary>
-    public class LineProjection : GeometryElement, ISnapable, ISvgConvertable
+    public class LineProjection : GeometryElement, ISnapable
     {
         private ParametricLine2 _paraLine;
         private bool _plane;
@@ -80,7 +80,6 @@ namespace DegCAD.TimelineElements
         }
 
         public override GeometryElement CloneElement() => new LineProjection(Line, Plane, Style);
-        public string ToSvg() => $"<path d=\"M {_line.X1} {_line.Y1} L {_line.X2} {_line.Y2}\" {Style.ToSvgParameters()}/>";
 
         private void RecalculateInfinitySign()
         {

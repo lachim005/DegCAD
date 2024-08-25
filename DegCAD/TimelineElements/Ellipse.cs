@@ -11,7 +11,7 @@ using System.Windows.Shapes;
 
 namespace DegCAD.TimelineElements
 {
-    public class Ellipse : GeometryElement, ISvgConvertable
+    public class Ellipse : GeometryElement
     {
         private readonly System.Windows.Shapes.Ellipse _ellipse;
         private readonly RotateTransform _ellTransform;
@@ -43,17 +43,5 @@ namespace DegCAD.TimelineElements
         }
 
         public override GeometryElement CloneElement() => new Ellipse(Center, P1, P2, Style);
-        public string ToSvg()
-        {
-            double x = Canvas.GetLeft(_ellipse) + _ellipse.Width / 2;
-            double y = Canvas.GetTop(_ellipse) + _ellipse.Height / 2;
-            return $"<ellipse " +
-            $"cx=\"{x}\" " +
-            $"cy=\"{y}\" " +
-            $"rx=\"{_ellipse.Width / 2}\" " +
-            $"ry=\"{_ellipse.Height / 2}\" " +
-            $"transform=\"rotate({_ellTransform.Angle} {x} {y})\" " +
-            $"{Style.ToSvgParameters()}/>";
-        }
     }
 }

@@ -9,7 +9,7 @@ using DegCAD.GeometryCommands;
 
 namespace DegCAD.TimelineElements
 {
-    public class HalfLine : GeometryElement, ISnapable, ISvgConvertable
+    public class HalfLine : GeometryElement, ISnapable
     {
         private ParametricLine2 _paraLine;
         private readonly Line _line;
@@ -65,6 +65,5 @@ namespace DegCAD.TimelineElements
         }
 
         public override GeometryElement CloneElement() => new HalfLine(StartPoint, Direction, Style);
-        public string ToSvg() => $"<path d=\"M {_line.X1} {_line.Y1} L {_line.X2} {_line.Y2}\" {Style.ToSvgParameters()}/>";
     }
 }

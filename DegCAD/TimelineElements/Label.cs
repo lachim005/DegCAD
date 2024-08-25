@@ -20,7 +20,7 @@ namespace DegCAD.TimelineElements
     /// <summary>
     /// A label labeling a thing that's supposed to be labeled
     /// </summary>
-    public class Label : GeometryElement, ISvgConvertable
+    public class Label : GeometryElement
     {
         private string _labelText = "";
         private string _subscript = "";
@@ -139,43 +139,39 @@ namespace DegCAD.TimelineElements
             _supTbl.Visibility = visibility;
         }
         public override GeometryElement CloneElement() => new Label(LabelText, Subscript, Superscript, Position, Style, LabeledObject.CloneElement(), fontSize: FontSize);
-        public string ToSvg()
+        public IEnumerable<string> ToSvg()
         {
-            if (ViewportLayer is null) return string.Empty;
+            if (ViewportLayer is null) yield break;
 
             var t = Canvas.GetTop(_lblTbl);
             var r = ViewportLayer.Canvas.ActualWidth - Canvas.GetRight(_lblTbl);
 
-            var text = $"<text x=\"{r}\" " +
+            yield return "<g>";
+            yield return $"    <text x=\"{r}\" " +
                 $"y=\"{t}\" " +
                 $"fill=\"{Style.ToHex(Style.Color)}\" " +
                 $"font-size=\"{_lblTbl.FontSize}\" " +
-                $"dominant-baseline=\"hanging\" " +
                 $"text-anchor=\"end\" " +
-                $"font-family=\"Tahoma\">{LabelText}</text>\n";
+                $"class=\"text\">{LabelText}</text>";
 
             var subL = Canvas.GetLeft(_subTbl);
             var subT = Canvas.GetTop(_subTbl);
 
-            text += $"<text x=\"{subL}\" " +
+            yield return $"    <text x=\"{subL}\" " +
                 $"y=\"{subT}\" " +
                 $"fill=\"{Style.ToHex(Style.Color)}\" " +
                 $"font-size=\"{_subTbl.FontSize}\" " +
-                $"dominant-baseline=\"hanging\" " +
-                $"font-family=\"Tahoma\">{Subscript}</text>\n";
+                $"class=\"text\">{Subscript}</text>";
 
             var supL = Canvas.GetLeft(_supTbl);
             var supT = Canvas.GetTop(_supTbl);
 
-            text += $"<text x=\"{supL}\" " +
+            yield return $"    <text x=\"{supL}\" " +
                 $"y=\"{supT}\" " +
                 $"fill=\"{Style.ToHex(Style.Color)}\" " +
                 $"font-size=\"{_supTbl.FontSize}\" " +
-                $"dominant-baseline=\"hanging\" " +
-                $"font-family=\"Tahoma\">{Superscript}</text>\n";
-
-            return text;
-
+                $"class=\"text\">{Superscript}</text>";
+            yield return "</g>";
         }
 
         public bool IsOnLabel(Vector2 canvasPos)

@@ -8,7 +8,7 @@ using System.Windows.Shapes;
 
 namespace DegCAD.TimelineElements
 {
-    internal class Point : GeometryElement, ISnapable, ISvgConvertable
+    internal class Point : GeometryElement, ISnapable
     {
         private double _x;
         private double _y;
@@ -78,7 +78,5 @@ namespace DegCAD.TimelineElements
         }
 
         public override GeometryElement CloneElement() => new Point(X, Y, Style);
-        public string ToSvg() => $"<path d=\"M {_line1.X1} {_line1.Y1} L {_line1.X2} {_line1.Y2}\" {Style.ToSvgParameters()}/>\n" +
-            $"<path d=\"M {_line2.X1} {_line2.Y1} L {_line2.X2} {_line2.Y2}\" {Style.ToSvgParameters()}/>";
     }
 }

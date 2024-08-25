@@ -9,7 +9,7 @@ using System.Windows.Media;
 
 namespace DegCAD.TimelineElements
 {
-    public class Hyperbola : GeometryElement, ISvgConvertable
+    public class Hyperbola : GeometryElement
     {
         private Vector2 _center;
         private Vector2 _vertex;
@@ -127,6 +127,5 @@ namespace DegCAD.TimelineElements
         }
 
         public override GeometryElement CloneElement() => new Hyperbola(Vertex, Center, Point, Style);
-        public string ToSvg() => $"<path d=\"{_hyperbola.Data}\" {Style.ToSvgParameters()}/>";
     }
 }

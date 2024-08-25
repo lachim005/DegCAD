@@ -13,7 +13,7 @@ namespace DegCAD.TimelineElements
     /// <summary>
     /// An arc defined by it's center, a point on the circle and two angles
     /// </summary>
-    public class Arc : GeometryElement, ISnapable, ISvgConvertable
+    public class Arc : GeometryElement, ISnapable
     {
         private Circle2 _circle2;
         private double _startAngle;
@@ -88,7 +88,5 @@ namespace DegCAD.TimelineElements
         }
 
         public override GeometryElement CloneElement() => new Arc(Circle, StartAngle, EndAngle, Style);
-
-        public string ToSvg() => $"<path d=\"{_arc.Data}\" {Style.ToSvgParameters()}/>";
     }
 }
