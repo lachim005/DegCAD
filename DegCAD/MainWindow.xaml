@@ -64,6 +64,9 @@
         <CommandBinding Command="{x:Static local:MainWindow.changeGlobalFontSizeCommand}"
                         Executed="ChangeGlobalFontSize"
                         CanExecute="CanLayout"/>
+        <CommandBinding Command="{x:Static local:MainWindow.reorderTimelineCommand}"
+                        Executed="ReorderTimeline"
+                        CanExecute="CanLayout"/>
         <CommandBinding Command="{x:Static local:MainWindow.openDebugMenuCommand}"
                         Executed="OpenDebugMenu"/>
         <CommandBinding Command="{x:Static local:MainWindow.cancelCommandCommand}"
@@ -108,6 +111,7 @@
                 <MenuItem Header="Rozložení na papíře" Command="{x:Static local:MainWindow.pageLayoutCommand}"/>
                 <MenuItem Header="Vytvořit _návod" Command="{x:Static local:MainWindow.addGuideCommand}"/>
                 <MenuItem Header="Změnit _velikost popisků" Command="{x:Static local:MainWindow.changeGlobalFontSizeCommand}"/>
+                <MenuItem Header="Změnit pořadí prvků" Command="{x:Static local:MainWindow.reorderTimelineCommand}"/>
             </MenuItem>
             <MenuItem Header="Nápo_věda">
                 <MenuItem Header="_O programu" Click="AboutClick"/>

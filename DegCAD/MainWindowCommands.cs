@@ -20,6 +20,7 @@ namespace DegCAD
         public static RoutedCommand pageLayoutCommand = new();
         public static RoutedCommand addGuideCommand = new();
         public static RoutedCommand changeGlobalFontSizeCommand = new();
+        public static RoutedCommand reorderTimelineCommand = new();
         public static RoutedCommand openDebugMenuCommand = new();
         public static RoutedCommand cancelCommandCommand = new();
 
@@ -254,6 +255,13 @@ namespace DegCAD
             if (ActiveEditor is null) return;
 
             ChangeGlobalFontSize d = new(ActiveEditor, this);
+            d.ShowDialog();
+        }
+        private void ReorderTimeline(object sender, ExecutedRoutedEventArgs e)
+        {
+            if (ActiveEditor is null) return;
+
+            ReorderTimelineDialog d = new(ActiveEditor, this);
             d.ShowDialog();
         }
         private void OpenDebugMenu(object sender, ExecutedRoutedEventArgs e)
