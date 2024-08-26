@@ -75,8 +75,13 @@
 
         <Rectangle Grid.Column="1" Grid.Row="1" Fill="{DynamicResource border}"/>
 
-        <Border x:Name="vpBorder" Grid.Row="1" Grid.Column="2" Background="Transparent" MouseEnter="VpMouseEnter">
-            
-        </Border>
+        <Grid Grid.Row="1" Grid.Column="2">
+            <Border x:Name="vpBorder" Background="Transparent" MouseEnter="VpMouseEnter"/>
+            <StackPanel VerticalAlignment="Top" HorizontalAlignment="Right">
+                <Button Width="27" Click="CenterViewport" ToolTip="Vycentrovat">
+                    <Path Width="17" Height="17" Data="M 3 16 L 3 9 L 1 9 L 8.5 1 L 16 9 L 14 9 L 14 16 L 10 16 L 10 11 L 7 11 L 7 16 z" Stroke="{DynamicResource fg}" StrokeThickness="1"/>
+                </Button>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>

@@ -90,6 +90,11 @@ namespace DegCAD.Dialogs
             vp.Timeline.RedoAll();
         }
 
+        private void CenterViewport(object sender, RoutedEventArgs e)
+        {
+            vp.CenterContent();
+        }
+
         private class TimelineItemModel
         {
             public StackPanel Elements { get; init; } = new StackPanel() { Orientation = Orientation.Horizontal };
