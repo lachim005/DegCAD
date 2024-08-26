@@ -9,8 +9,47 @@
         ShowInTaskbar="False"
         Background="{DynamicResource bg}"
         Foreground="{DynamicResource fg}"
-        Title="Změnit pořadí prvků" Height="450" Width="800">
+        Title="Změnit pořadí prvků" MinHeight="450" MinWidth="800" Height="600" Width="900">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="350"/>
+            <ColumnDefinition Width="1"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
         
+        <Rectangle Grid.ColumnSpan="3" Fill="{DynamicResource border}"/>
+
+        <ScrollViewer Grid.Row="1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <ItemsControl x:Name="itemsIC" Grid.Column="1">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="{DynamicResource border}" BorderThickness="0,0,0,1" Height="36">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="auto"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <ContentPresenter Content="{Binding Elements}" Height="30" VerticalAlignment="Center"/>
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </ScrollViewer>
+
+        <Rectangle Grid.Column="1" Grid.Row="1" Fill="{DynamicResource border}"/>
+
+        <Border x:Name="vpBorder" Grid.Row="1" Grid.Column="2">
+            
+        </Border>
     </Grid>
 </Window>
