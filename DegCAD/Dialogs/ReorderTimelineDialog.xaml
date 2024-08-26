@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DegCAD.Dialogs"
+        xmlns:ctls="clr-namespace:DegCAD.Controls"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
         ShowInTaskbar="False"
@@ -26,8 +27,34 @@
         <ScrollViewer Grid.Row="1">
             <Grid>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
+                <ItemsControl x:Name="guideIc">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border Height="{Binding Height}" Width="18" CornerRadius="5" Margin="2" Background="{DynamicResource accentColor}">
+                                <TextBlock Text="{Binding Title}" Foreground="White" Margin="0,5,0,0" RenderTransformOrigin="0.5, 0.5" VerticalAlignment="Top" HorizontalAlignment="Center">
+                                    <TextBlock.LayoutTransform>
+                                        <RotateTransform Angle="270"/>
+                                    </TextBlock.LayoutTransform>
+                                </TextBlock>
+                                <Border.ToolTip>
+                                    <Grid Margin="-4" UseLayoutRounding="True">
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition Height="auto"/>
+                                            <RowDefinition Height="1"/>
+                                            <RowDefinition Height="auto"/>
+                                        </Grid.RowDefinitions>
+                                        <TextBlock FontSize="16" HorizontalAlignment="Center" FontWeight="SemiBold" Text="{Binding TooltipTitle}" Margin="5"/>
+                                        <Rectangle Grid.Row="1" Fill="{DynamicResource border}"/>
+                                        <ctls:MarkdownTextblock Grid.Row="2" Text="{Binding Tooltip}" Margin="5" MaxWidth="300"/>
+                                    </Grid>
+                                </Border.ToolTip>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
                 <ItemsControl x:Name="itemsIC" Grid.Column="1">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>

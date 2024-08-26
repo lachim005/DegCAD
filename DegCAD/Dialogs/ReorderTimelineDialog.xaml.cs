@@ -1,4 +1,5 @@
-﻿using DegCAD.TimelineElements;
+﻿using DegCAD.Guides;
+using DegCAD.TimelineElements;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -24,6 +25,7 @@ namespace DegCAD.Dialogs
         private readonly Editor editor;
 
         private ObservableCollection<TimelineItemModel> tlItems = [];
+        private ObservableCollection<GuideStepModel> guideSteps = [];
 
         public ReorderTimelineDialog(Editor ed, Window owner)
         {
@@ -41,6 +43,14 @@ namespace DegCAD.Dialogs
             }
 
             itemsIC.ItemsSource = tlItems;
+
+            if (ed.Guide is null) return;
+            foreach (var step in ed.Guide.Steps)
+            {
+                guideSteps.Add(new(step));
+            }
+
+            guideIc.ItemsSource = guideSteps;
         }
 
         private class TimelineItemModel
@@ -216,6 +226,23 @@ namespace DegCAD.Dialogs
                 [3, 2.2],
                 [3, 1.5, 1, 1.5]
             ];
+        }
+
+        private class GuideStepModel
+        {
+            public GuideStep GuideStep { get; init; }
+
+            public double Height => Math.Max(GuideStep.Items * 36 - 4, 0);
+            public string Title => ((GuideStep.Items < 2) ? "K " : "Krok ") + GuideStep.Position.ToString();
+            public string TooltipTitle => "Krok " + GuideStep.Position;
+            public string Tooltip => GuideStep.Description;
+
+            public Visibility Visibility => (GuideStep.Items == 0) ? Visibility.Collapsed : Visibility.Visible;
+
+            public GuideStepModel(GuideStep step)
+            {
+                GuideStep = step;
+            }
         }
     }
 }
