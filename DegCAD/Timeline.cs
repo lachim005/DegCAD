@@ -114,5 +114,33 @@ namespace DegCAD
             }
             return newTl;
         }
+
+        public void ShowItem(int index)
+        {
+            index = Math.Clamp(index, 0, CommandHistory.Count + UndoneCommands.Count - 1);
+            if (index + 1 < CommandHistory.Count)
+            {
+                while (CommandHistory.Count > index + 1)
+                {
+                    Undo();
+                }
+                return;
+            }
+
+            while (CommandHistory.Count < index + 1)
+            {
+                Redo();
+            }
+            return;
+        }
+
+        public void UndoAll()
+        {
+            while (CanUndo) Undo();
+        }
+        public void RedoAll()
+        {
+            while (CanRedo) Redo();
+        }
     }
 }

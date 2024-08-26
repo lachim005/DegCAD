@@ -27,6 +27,8 @@ namespace DegCAD.Dialogs
         private ObservableCollection<TimelineItemModel> tlItems = [];
         private ObservableCollection<GuideStepModel> guideSteps = [];
 
+        private readonly ViewPort vp;
+
         public ReorderTimelineDialog(Editor ed, Window owner)
         {
             Owner = owner;
@@ -34,12 +36,16 @@ namespace DegCAD.Dialogs
 
             editor = ed;
 
-            foreach (var item in ed.Timeline.CommandHistory)
+            vp = ed.viewPort.Clone();
+            vpBorder.Child = vp;
+
+            for (int i = 0; i < vp.Timeline.CommandHistory.Count; i++)
             {
+                var item = vp.Timeline.CommandHistory[i];
                 if (item.Items.Length < 1) continue;
                 if (item.Items[0] is Axis) continue;
 
-                tlItems.Add(new(item));
+                tlItems.Add(new(item, i));
             }
 
             itemsIC.ItemsSource = tlItems;
@@ -53,15 +59,47 @@ namespace DegCAD.Dialogs
             guideIc.ItemsSource = guideSteps;
         }
 
+        private void ItemMouseEnter(object sender, MouseEventArgs e)
+        {
+            if (sender is not FrameworkElement fe) return;
+            if (fe.DataContext is not TimelineItemModel ti) return;
+
+            vp.Timeline.ShowItem(ti.Index);
+
+            foreach (var el in ti.Item.Items)
+            {
+                if (el is not GeometryElement ge) return;
+                ge.IsHighlighted = true;
+            }
+        }
+
+        private void ItemMouseLeave(object sender, MouseEventArgs e)
+        {
+            if (sender is not FrameworkElement fe) return;
+            if (fe.DataContext is not TimelineItemModel ti) return;
+
+            foreach (var el in ti.Item.Items)
+            {
+                if (el is not GeometryElement ge) return;
+                ge.IsHighlighted = false;
+            }
+        }
+
+        private void VpMouseEnter(object sender, MouseEventArgs e)
+        {
+            vp.Timeline.RedoAll();
+        }
+
         private class TimelineItemModel
         {
             public StackPanel Elements { get; init; } = new StackPanel() { Orientation = Orientation.Horizontal };
             public TimelineItem Item { get; init; }
+            public int Index { get; init; }
 
-
-            public TimelineItemModel(TimelineItem item)
+            public TimelineItemModel(TimelineItem item, int index)
             {
                 Item = item;
+                Index = index;
 
                 foreach (var el in item.Items)
                 {                   
