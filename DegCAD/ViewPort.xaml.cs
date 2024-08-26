@@ -344,8 +344,8 @@ namespace DegCAD
 
             if (CanZoom)
             {
-                double scaleX = (ActualWidth / (w + 5) / unitSize);
-                double scaleY = (ActualHeight / (h + 5) / unitSize);
+                double scaleX = (ActualWidth / (w + 1) / unitSize);
+                double scaleY = (ActualHeight / (h + 1) / unitSize);
                 Scale = Math.Clamp(Math.Min(scaleX, scaleY), MinZoom, MaxZoom);
             }
 
