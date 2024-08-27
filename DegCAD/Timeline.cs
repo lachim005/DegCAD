@@ -142,5 +142,33 @@ namespace DegCAD
         {
             while (CanRedo) Redo();
         }
+
+        public int IndexOf(TimelineItem item)
+        {
+            int index = 0;
+            foreach (var i in CommandHistory)
+            {
+                if (ReferenceEquals(i, item)) return index;
+                index++;
+            }
+
+            foreach (var i in UndoneCommands)
+            {
+                if (ReferenceEquals(i, item)) return index;
+                index++;
+            }
+
+            return -1;
+        }
+
+        public void Move(int move, int moveTo)
+        {
+            var shownItems = IndexOf(CommandHistory.Peek());
+            ShowItem(move);
+            var item = CommandHistory.Pop();
+            ShowItem(moveTo - 1);
+            CommandHistory.Push(item);
+            ShowItem(shownItems);
+        }
     }
 }

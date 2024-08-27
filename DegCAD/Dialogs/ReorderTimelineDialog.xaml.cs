@@ -99,7 +99,7 @@ namespace DegCAD.Dialogs
         {
             public StackPanel Elements { get; init; } = new StackPanel() { Orientation = Orientation.Horizontal };
             public TimelineItem Item { get; init; }
-            public int Index { get; init; }
+            public int Index { get; set; }
 
             public TimelineItemModel(TimelineItem item, int index)
             {
@@ -286,6 +286,41 @@ namespace DegCAD.Dialogs
             {
                 GuideStep = step;
             }
+        }
+
+        private void StartTimelineItemDrag(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is not FrameworkElement f) return;
+            DragDrop.DoDragDrop(f, f.DataContext, DragDropEffects.Move);
+        }
+
+        private void TimelineItemDrop(object sender, DragEventArgs e)
+        {
+            // Gets the dragged and dropped color
+            var dragItem = e.Data.GetData(typeof(TimelineItemModel)) as TimelineItemModel;
+            if (dragItem is null) return;
+            if ((sender as FrameworkElement)?.DataContext is not TimelineItemModel dropItem) return;
+
+
+            // Switch models
+            int dragIndex = tlItems.IndexOf(dragItem);
+            int dropIndex = tlItems.IndexOf(dropItem);
+            if (dragIndex == -1 || dropIndex == -1) return;
+
+            // Switch in timeline
+            int tlDragIndex = vp.Timeline.IndexOf(dragItem.Item);
+            int tlDropIndex = vp.Timeline.IndexOf(dropItem.Item);
+            if (tlDragIndex == -1 || tlDropIndex == -1) return;
+
+            tlItems.Move(dragIndex, dropIndex);
+            vp.Timeline.Move(tlDragIndex, tlDropIndex);
+            
+            foreach (var i in tlItems)
+            {
+                i.Index = vp.Timeline.IndexOf(i.Item);
+            }
+
+            editor.Timeline.Move(tlDragIndex, tlDropIndex);
         }
     }
 }

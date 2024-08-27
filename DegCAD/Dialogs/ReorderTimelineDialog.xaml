@@ -58,13 +58,14 @@
                 <ItemsControl x:Name="itemsIC" Grid.Column="1">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Border BorderBrush="{DynamicResource border}" Background="Transparent" MouseEnter="ItemMouseEnter" MouseLeave="ItemMouseLeave" BorderThickness="0,0,0,1" Height="36">
+                            <Border BorderBrush="{DynamicResource border}" Cursor="SizeAll" PreviewMouseLeftButtonDown="StartTimelineItemDrag" AllowDrop="True" Drop="TimelineItemDrop" DragOver="TimelineItemDrop" Background="Transparent" MouseEnter="ItemMouseEnter" MouseLeave="ItemMouseLeave" BorderThickness="0,0,0,1" Height="36">
                                 <Grid>
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="auto"/>
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
-                                    <ContentPresenter Content="{Binding Elements}" Height="30" VerticalAlignment="Center"/>
+                                    <Path Data="M 8 12 L 28 12 M 8 18 L 28 18 M 8 24 L 28 24" Stroke="{DynamicResource fg}" StrokeThickness="1" Width="36" Height="36"/>
+                                    <ContentPresenter Content="{Binding Elements}" Height="30" Grid.Column="1" VerticalAlignment="Center"/>
                                 </Grid>
                             </Border>
                         </DataTemplate>
