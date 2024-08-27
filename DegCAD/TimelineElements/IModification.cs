@@ -12,5 +12,7 @@ namespace DegCAD.TimelineElements
     {
         public void Apply(Timeline tl);
         public void Remove(Timeline tl);
+        public int CmdIndex { get; }
+        public int ItemIndex { get; }
     }
 }
