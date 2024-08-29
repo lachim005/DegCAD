@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace DegCAD
 {
-    public class HistoryStack<T> : IEnumerable<T>
+    public class UndoneHistoryStack<T> : IEnumerable<T>
     {
         public int Count => list.Count;
 
@@ -19,26 +20,26 @@ namespace DegCAD
             set => list[index] = value;
         }
 
-        public HistoryStack()
+        public UndoneHistoryStack()
         {
             list = new();
         }
 
         public void Push(T item)
         {
-            list.Add(item);
+            list.Insert(0, item);
         }
 
         public T Pop()
         {
-            var res = list[list.Count - 1];
-            list.RemoveAt(list.Count - 1);
+            var res = list[0];
+            list.RemoveAt(0);
             return res;
         }
 
         public T Peek()
         {
-            return list[list.Count - 1];
+            return list[0];
         }
 
         public void Clear()

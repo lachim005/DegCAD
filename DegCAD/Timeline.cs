@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -15,7 +16,7 @@ namespace DegCAD
     public class Timeline : IEnumerable<TimelineItem>
     {
         public HistoryStack<TimelineItem> CommandHistory { get; private set; } = new();
-        public Stack<TimelineItem> UndoneCommands { get; private set; } = new();
+        public UndoneHistoryStack<TimelineItem> UndoneCommands { get; private set; } = new();
 
         public event EventHandler? TimelineChanged;
 
@@ -220,7 +221,7 @@ namespace DegCAD
                 {
                     return CommandHistory[index];
                 }
-                return UndoneCommands.ToArray()[index - CommandHistory.Count];
+                return UndoneCommands[index - CommandHistory.Count];
             }
         }
         public ITimelineElement this[int cmdIndex, int itemIndex]

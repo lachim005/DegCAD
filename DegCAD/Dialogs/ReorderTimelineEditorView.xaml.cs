@@ -306,7 +306,7 @@ namespace DegCAD.Dialogs
             // Switch models
             int dragIndex = tlItems.IndexOf(dragItem);
             int dropIndex = tlItems.IndexOf(dropItem);
-            if (dragIndex == -1 || dropIndex == -1) return;
+            if (dragIndex == -1 || dropIndex == -1 || dragIndex == dropIndex) return;
 
             // Switch in timeline
             int tlDragIndex = vp.Timeline.IndexOf(dragItem.Item);
