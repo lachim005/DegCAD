@@ -73,6 +73,8 @@ namespace DegCAD
 
         private void TabSwitched(object sender, SelectionChangedEventArgs e)
         {
+            if (ActiveEditor is not null) ActiveEditor.ActiveViewChanged -= ActiveEditorActiveViewChanged;
+
             //Home or invalid tab got selected
             if (editorTabs.SelectedIndex < 0)
             {
@@ -92,12 +94,14 @@ namespace DegCAD
             if (ActiveTab is EditorTab et)
             {
                 ActiveEditor = et.Editor;
-                cmdPallete.ShowButtons((FileType)ActiveEditor.ProjectionType);
+                ActiveEditor.ActiveViewChanged += ActiveEditorActiveViewChanged;
+                cmdPallete.ShowButtons((ActiveEditor.ActiveView is null) ? (FileType)ActiveEditor.ProjectionType : FileType.None);
             }
             else if (ActiveTab is ConnectedEditorTab cet)
             {
                 ActiveEditor = cet.Editor;
-                cmdPallete.ShowButtons((FileType)ActiveEditor.ProjectionType);
+                ActiveEditor.ActiveViewChanged += ActiveEditorActiveViewChanged;
+                cmdPallete.ShowButtons((ActiveEditor.ActiveView is null) ? (FileType)ActiveEditor.ProjectionType : FileType.None);
             }
             else if (ActiveTab is MFEditorTab mf)
             {
@@ -108,6 +112,12 @@ namespace DegCAD
             }
 
             ActiveTab.TabSelected();
+        }
+
+        private void ActiveEditorActiveViewChanged(object? sender, Control? e)
+        {
+            if (ActiveEditor is null) return;
+            cmdPallete.ShowButtons((e is null) ? (FileType)ActiveEditor.ProjectionType : FileType.None);
         }
 
         private async void EditorTabCloseClick(object sender, RoutedEventArgs e)

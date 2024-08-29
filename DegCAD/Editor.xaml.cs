@@ -30,13 +30,24 @@ namespace DegCAD
         private bool _executingCommand = false;
         private bool _changed = false;
         private bool initiated = false;
+        private Control? _activeView = null;
 
         public GeometryInputManager InputMgr { get; protected set; }
         public Timeline Timeline => viewPort.Timeline;
         public Snapper Snapper { get; protected set; }
         public ProjectionType ProjectionType { get; set; }
         public AxonometryAxes? AxonometryAxes { get; set; } = null;
-        public Control? ActiveView { get; protected set; }
+        public Control? ActiveView 
+        {
+            get => _activeView;
+            protected set
+            {
+                _activeView = value;
+                ActiveViewChanged?.Invoke(this, value);
+            }
+        }
+
+        public event EventHandler<Control?> ActiveViewChanged;
 
         public bool ExecutingCommand
         {
