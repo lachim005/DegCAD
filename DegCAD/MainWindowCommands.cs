@@ -261,8 +261,7 @@ namespace DegCAD
         {
             if (ActiveEditor is null) return;
 
-            ReorderTimelineDialog d = new(ActiveEditor, this);
-            d.ShowDialog();
+            ActiveEditor.ShowView(new ReorderTimelineEditorView(ActiveEditor), "Změnit pořadí prvků", true);
         }
         private void OpenDebugMenu(object sender, ExecutedRoutedEventArgs e)
         {

@@ -13,14 +13,15 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace DegCAD.Dialogs
 {
     /// <summary>
-    /// Interaction logic for ReorderTimelineDialog.xaml
+    /// Interaction logic for ReorderTimelineEditorView.xaml
     /// </summary>
-    public partial class ReorderTimelineDialog : Window
+    public partial class ReorderTimelineEditorView : UserControl, IChangesWithDarkMode
     {
         private readonly Editor editor;
 
@@ -29,9 +30,8 @@ namespace DegCAD.Dialogs
 
         private readonly ViewPort vp;
 
-        public ReorderTimelineDialog(Editor ed, Window owner)
+        public ReorderTimelineEditorView(Editor ed)
         {
-            Owner = owner;
             InitializeComponent();
 
             editor = ed;
@@ -108,7 +108,7 @@ namespace DegCAD.Dialogs
                 Index = index;
 
                 foreach (var el in item.Items)
-                {                   
+                {
                     AddElement(el);
                 }
             }
@@ -120,7 +120,7 @@ namespace DegCAD.Dialogs
                     // Adding label
                     if (ge is TimelineElements.Label lbl)
                     {
-                        Grid grid = new() { Height = 30, Margin = new(5,0,5,0) };
+                        Grid grid = new() { Height = 30, Margin = new(5, 0, 5, 0) };
                         grid.ColumnDefinitions.Add(new() { Width = new(1, GridUnitType.Auto) });
                         grid.ColumnDefinitions.Add(new() { Width = new(1, GridUnitType.Auto) });
                         grid.RowDefinitions.Add(new() { Height = new(1, GridUnitType.Auto) });
@@ -141,7 +141,7 @@ namespace DegCAD.Dialogs
                             FontSize = 10,
                             Foreground = new SolidColorBrush(lbl.Style.Color),
                             Text = lbl.Superscript,
-                            VerticalAlignment = VerticalAlignment.Center                  
+                            VerticalAlignment = VerticalAlignment.Center
                         };
                         grid.Children.Add(tbl2);
                         Grid.SetColumn(tbl2, 1);
@@ -180,7 +180,7 @@ namespace DegCAD.Dialogs
                         {
                             Width = 26,
                             Height = 14,
-                            Margin = new(2,7,2,7),
+                            Margin = new(2, 7, 2, 7),
                             StrokeThickness = 2,
                             StrokeDashArray = new(strokeDashArrays[ge.Style.LineStyle]),
                             Stroke = new SolidColorBrush(ge.Style.Color)
@@ -315,13 +315,18 @@ namespace DegCAD.Dialogs
 
             if (!vp.Timeline.Move(tlDragIndex, tlDropIndex)) return;
             tlItems.Move(dragIndex, dropIndex);
-            
+
             foreach (var i in tlItems)
             {
                 i.Index = vp.Timeline.IndexOf(i.Item);
             }
 
             _ = editor.Timeline.Move(tlDragIndex, tlDropIndex);
+        }
+
+        public void SwapWhiteAndBlack()
+        {
+            vp.SwapWhiteAndBlack();
         }
     }
 }
