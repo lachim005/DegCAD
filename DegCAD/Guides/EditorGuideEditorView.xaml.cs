@@ -136,5 +136,10 @@ namespace DegCAD.Guides
                 SelectStep(guide.Steps[Math.Clamp(guide.LastEditedStep, 0, guide.Steps.Count - 1)]);
             }
         }
+
+        private void CenterScreenClick(object sender, RoutedEventArgs e)
+        {
+            vp.CenterContent();
+        }
     }
 }

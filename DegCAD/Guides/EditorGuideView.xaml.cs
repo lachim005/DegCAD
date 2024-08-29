@@ -57,7 +57,7 @@ namespace DegCAD.Guides
             stepDisplay.DataContext = selectedStep;
 
             topBar.Visibility = Visibility.Collapsed;
-            fullscreenBtn.Visibility = Visibility.Collapsed;
+            fullscreenBtn.Visibility = Visibility.Hidden;
 
             if (lastHighlightCurrentStep)
             {
@@ -198,6 +198,11 @@ namespace DegCAD.Guides
             HighlightCurrentStep(false);
             vp.AllowLabelInteractions = true;
             lastHighlightCurrentStep = false;
+        }
+
+        private void CenterScreenClick(object sender, RoutedEventArgs e)
+        {
+            vp.CenterContent();
         }
     }
 }

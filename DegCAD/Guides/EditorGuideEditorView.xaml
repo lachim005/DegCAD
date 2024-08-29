@@ -60,5 +60,10 @@
         </ScrollViewer>
         <GridSplitter Grid.Column="3" Width="1" Background="{DynamicResource border}" HorizontalAlignment="Stretch"/>
         <Border x:Name="vpBorder" Grid.Column="4"/>
+        <StackPanel Grid.Column="4" VerticalAlignment="Top" HorizontalAlignment="Right">
+            <Button Width="27" Click="CenterScreenClick" ToolTip="Vycentrovat">
+                <Path Width="17" Height="17" Data="M 3 16 L 3 9 L 1 9 L 8.5 1 L 16 9 L 14 9 L 14 16 L 10 16 L 10 11 L 7 11 L 7 16 z" Stroke="{DynamicResource fg}" StrokeThickness="1"/>
+            </Button>
+        </StackPanel>
     </Grid>
 </UserControl>
