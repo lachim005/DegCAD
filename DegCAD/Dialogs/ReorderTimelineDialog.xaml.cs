@@ -37,6 +37,7 @@ namespace DegCAD.Dialogs
             editor = ed;
 
             vp = ed.viewPort.Clone();
+            vp.AllowLabelInteractions = false;
             vpBorder.Child = vp;
 
             for (int i = 0; i < vp.Timeline.CommandHistory.Count; i++)
