@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,7 @@ namespace DegCAD
     /// <summary>
     /// Handles the history of commands
     /// </summary>
-    public class Timeline
+    public class Timeline : IEnumerable<TimelineItem>
     {
         public HistoryStack<TimelineItem> CommandHistory { get; private set; } = new();
         public Stack<TimelineItem> UndoneCommands { get; private set; } = new();
@@ -20,6 +21,7 @@ namespace DegCAD
 
         public bool CanUndo => CommandHistory.Count > 1;
         public bool CanRedo => UndoneCommands.Count > 0;
+        public int Count => CommandHistory.Count + UndoneCommands.Count;
 
         public void Undo()
         {
@@ -169,6 +171,52 @@ namespace DegCAD
             ShowItem(moveTo - 1);
             CommandHistory.Push(item);
             ShowItem(shownItems);
+        }
+
+        public IEnumerator<TimelineItem> GetEnumerator() => new TimelineEnumerator(this);
+        IEnumerator IEnumerable.GetEnumerator() => new TimelineEnumerator(this);
+
+        public TimelineItem this[int index]
+        {
+            get
+            {
+                if (index < CommandHistory.Count)
+                {
+                    return CommandHistory[index];
+                }
+                return UndoneCommands.ToArray()[index - CommandHistory.Count];
+            }
+        }
+        public ITimelineElement this[int cmdIndex, int itemIndex]
+        {
+            get
+            {
+                return this[cmdIndex].Items[itemIndex];
+            }
+        }
+    }
+
+    public sealed class TimelineEnumerator(Timeline tl) : IEnumerator<TimelineItem>
+    {
+        public TimelineItem Current => tl[index];
+
+        object IEnumerator.Current => Current;
+
+        public int index = -1;
+
+        readonly Timeline tl = tl;
+
+        public void Dispose() { }
+
+        public bool MoveNext()
+        {
+            index++;
+            return index < tl.Count;
+        }
+
+        public void Reset()
+        {
+            index = -1;
         }
     }
 }
