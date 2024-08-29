@@ -163,14 +163,50 @@ namespace DegCAD
             return -1;
         }
 
-        public void Move(int move, int moveTo)
+        /// <summary>
+        /// Moves one timeline item to another index. Also changes indeces in modifications
+        /// </summary>
+        /// <returns>Whether or not the move was successful</returns>
+        public bool Move(int move, int moveTo)
         {
+            if (move == moveTo) return true;
+            if (move >= Count || moveTo >= Count) return false;
+
+            // Can't move modifications before their items and items past their modifications
+            for (int i = 0; i < Count; i++)
+            {
+                foreach (var el in this[i])
+                {
+                    if (el is not IModification mod) continue;
+                    if (i == move && mod.CmdIndex >= moveTo) return false;
+                    if (mod.CmdIndex == move && moveTo >= i) return false;
+                } 
+            }
+
+
             var shownItems = IndexOf(CommandHistory.Peek());
             ShowItem(move);
+
+            // Adjusts indeces in modifications
+            foreach (var cmd in this)
+            {
+                foreach (var el in cmd)
+                {
+                    if (el is not IModification mod) continue;
+
+                    if (mod.CmdIndex > Math.Max(move, moveTo) || mod.CmdIndex < Math.Min(move, moveTo)) continue;
+                    
+                    if (mod.CmdIndex == move) mod.CmdIndex = moveTo;
+                    else mod.CmdIndex += (move > moveTo) ? 1 : -1;
+                }
+            }
+
             var item = CommandHistory.Pop();
             ShowItem(moveTo - 1);
             CommandHistory.Push(item);
             ShowItem(shownItems);
+
+            return true;
         }
 
         public IEnumerator<TimelineItem> GetEnumerator() => new TimelineEnumerator(this);

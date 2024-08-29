@@ -312,15 +312,15 @@ namespace DegCAD.Dialogs
             int tlDropIndex = vp.Timeline.IndexOf(dropItem.Item);
             if (tlDragIndex == -1 || tlDropIndex == -1) return;
 
+            if (!vp.Timeline.Move(tlDragIndex, tlDropIndex)) return;
             tlItems.Move(dragIndex, dropIndex);
-            vp.Timeline.Move(tlDragIndex, tlDropIndex);
             
             foreach (var i in tlItems)
             {
                 i.Index = vp.Timeline.IndexOf(i.Item);
             }
 
-            editor.Timeline.Move(tlDragIndex, tlDropIndex);
+            _ = editor.Timeline.Move(tlDragIndex, tlDropIndex);
         }
     }
 }
