@@ -342,6 +342,35 @@ namespace DegCAD.Dialogs
         public void SwapWhiteAndBlack()
         {
             vp.SwapWhiteAndBlack();
+            foreach (var cmd in tlItems)
+            {
+                foreach (var el in cmd.Elements.Children)
+                {
+                    if (el is Shape shape)
+                    {
+                        if (shape.Stroke is not SolidColorBrush cb) continue;
+                        if (cb.Color == Colors.Black)
+                            shape.Stroke = Brushes.White;
+                        else if (cb.Color == Colors.White)
+                            shape.Stroke = Brushes.Black;
+                        continue;
+                    }
+                    if (el is Grid grid)
+                    {
+                        // Label
+                        foreach (var ch in grid.Children)
+                        {
+                            if (ch is not TextBlock tbl) continue;
+                            if (tbl.Foreground is not SolidColorBrush cb) continue;
+                            if (cb.Color == Colors.Black)
+                                tbl.Foreground = Brushes.White;
+                            else if (cb.Color == Colors.White)
+                                tbl.Foreground = Brushes.Black;
+                            continue;
+                        }
+                    }
+                }
+            }
         }
 
         private void GuideStepClick(object sender, MouseButtonEventArgs e)
