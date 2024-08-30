@@ -3,6 +3,7 @@ using DegCAD.TimelineElements;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -34,6 +35,8 @@ namespace DegCAD.Dialogs
         {
             InitializeComponent();
 
+            guideEditPopup.DataContext = new GuideStepModel(new());
+
             editor = ed;
 
             vp = ed.viewPort.Clone();
@@ -51,7 +54,12 @@ namespace DegCAD.Dialogs
 
             itemsIC.ItemsSource = tlItems;
 
-            if (ed.Guide is null) return;
+            if (ed.Guide is null)
+            {
+                guideStp.Visibility = Visibility.Collapsed;
+                return;
+            }
+
             foreach (var step in ed.Guide.Steps)
             {
                 guideSteps.Add(new(step));
@@ -272,7 +280,7 @@ namespace DegCAD.Dialogs
             ];
         }
 
-        private class GuideStepModel
+        private class GuideStepModel : INotifyPropertyChanged
         {
             public GuideStep GuideStep { get; init; }
 
@@ -286,6 +294,13 @@ namespace DegCAD.Dialogs
             public GuideStepModel(GuideStep step)
             {
                 GuideStep = step;
+            }
+
+            public event PropertyChangedEventHandler? PropertyChanged;
+
+            public void InvokePropertyChange(string name)
+            {
+                PropertyChanged?.Invoke(this, new(name));
             }
         }
 
@@ -327,6 +342,49 @@ namespace DegCAD.Dialogs
         public void SwapWhiteAndBlack()
         {
             vp.SwapWhiteAndBlack();
+        }
+
+        private void GuideStepClick(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is not FrameworkElement fe) return;
+            if (fe.DataContext is not GuideStepModel step) return;
+
+            guideEditPopup.DataContext = step;
+            guideEditPopup.PlacementTarget = fe;
+            guideEditPopup.IsOpen = true;
+        }
+
+        private void IncrementItemsCount(object sender, RoutedEventArgs e)
+        {
+            if (sender is not FrameworkElement fe) return;
+            if (fe.DataContext is not GuideStepModel step) return;
+            step.GuideStep.Items++;
+            step.InvokePropertyChange(nameof(step.Height));
+            step.InvokePropertyChange(nameof(step.Title));
+        }
+        private void DecrementItemsCount(object sender, RoutedEventArgs e)
+        {
+            if (sender is not FrameworkElement fe) return;
+            if (fe.DataContext is not GuideStepModel step) return;
+            if (step.GuideStep.Items <= 1) return;
+            step.GuideStep.Items--;
+            step.InvokePropertyChange(nameof(step.Height));
+            step.InvokePropertyChange(nameof(step.Title));
+        }
+
+        private void GuideStepDescriptionChanged(object sender, TextChangedEventArgs e)
+        {
+            if (sender is not FrameworkElement fe) return;
+            if (fe.DataContext is not GuideStepModel step) return;
+            step.InvokePropertyChange(nameof(step.Tooltip));
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (editor.Guide is not Guide g) return;
+            GuideStep newStep = new() { Position = g.Steps.Count + 1 };
+            g.Steps.Add(newStep);
+            guideSteps.Add(new(newStep));
         }
     }
 }
