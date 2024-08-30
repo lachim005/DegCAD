@@ -14,14 +14,8 @@
             <ColumnDefinition Width="1"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="1"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
 
-        <Rectangle Grid.ColumnSpan="3" Fill="{DynamicResource border}"/>
-
-        <ScrollViewer Grid.Row="1">
+        <ScrollViewer>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
@@ -101,9 +95,9 @@
             </Grid>
         </ScrollViewer>
 
-        <Rectangle Grid.Column="1" Grid.Row="1" Fill="{DynamicResource border}"/>
+        <Rectangle Grid.Column="1" Fill="{DynamicResource border}"/>
 
-        <Grid Grid.Row="1" Grid.Column="2">
+        <Grid Grid.Column="2">
             <Border x:Name="vpBorder" Background="Transparent" MouseEnter="VpMouseEnter"/>
             <StackPanel VerticalAlignment="Top" HorizontalAlignment="Right">
                 <Button Width="27" Click="CenterViewport" ToolTip="Vycentrovat">
