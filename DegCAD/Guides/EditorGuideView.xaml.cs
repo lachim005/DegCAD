@@ -47,6 +47,7 @@ namespace DegCAD.Guides
 
 
             vp = evp.Clone();
+            vp.AllowLabelInteractions = false;
 
             clonedTl = vp.Timeline;
             clonedTl.UndoneCommands.Clear();

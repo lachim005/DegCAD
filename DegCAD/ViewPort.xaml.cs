@@ -31,8 +31,6 @@ namespace DegCAD
         public const double MaxZoom = 5;
         public const double MinZoom = .1;
 
-        private bool _allowLabelInteractions = true;
-
         /// <summary>
         /// The X offset of the canvas
         /// </summary>
@@ -71,15 +69,7 @@ namespace DegCAD
         public int CHeight => (int)ActualHeight;
 
         public bool CanZoom { get; set; } = true;
-        public bool AllowLabelInteractions
-        {
-            get => _allowLabelInteractions;
-            set
-            {
-                _allowLabelInteractions = value;
-                labelBlocker.Visibility = value ? Visibility.Collapsed : Visibility.Visible;
-            }
-        }
+        public bool AllowLabelInteractions { get; set; } = true;
 
         public Timeline Timeline { get; init; }
 

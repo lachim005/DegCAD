@@ -205,6 +205,7 @@ namespace DegCAD.TimelineElements
         bool startedMoving = false;
         private void LabelMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            if (!ViewportLayer?.Viewport.AllowLabelInteractions ?? false) return;
             if (e.ClickCount == 2)
             {
                 //Rename label
@@ -232,6 +233,7 @@ namespace DegCAD.TimelineElements
         }
         private void CanvasMouseMove(object sender, MouseEventArgs e)
         {
+            if (!ViewportLayer?.Viewport.AllowLabelInteractions ?? false) return;
             if (dragStart is null) return;
             if (dragStartPos is null) return;
             if (e.LeftButton == MouseButtonState.Released)

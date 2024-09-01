@@ -19,6 +19,5 @@
         <Grid x:Name="vpLayers">
 
         </Grid>
-        <Rectangle Fill="Transparent" Visibility="Collapsed" x:Name="labelBlocker"/>
     </Grid>
 </UserControl>
