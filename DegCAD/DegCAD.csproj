@@ -6,9 +6,9 @@
 		<Nullable>enable</Nullable>
 		<UseWPF>true</UseWPF>
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<AssemblyFileVersion>1.0.0</AssemblyFileVersion>
-		<AssemblyVersion>1.0.0</AssemblyVersion>
-		<Version>1.0.0</Version>
+		<AssemblyFileVersion>2.0.0</AssemblyFileVersion>
+		<AssemblyVersion>2.0.0</AssemblyVersion>
+		<Version>2.0.0</Version>
 		<ApplicationIcon>Assets\logo.ico</ApplicationIcon>
 		<ApplicationManifest>app.manifest</ApplicationManifest>
 		<Configurations>Debug;Release;Release-Portable</Configurations>
