@@ -31,7 +31,6 @@ namespace DegCAD
         public Editor? ActiveEditor { get; set; }
         public ITab ActiveTab { get; set; }
         public readonly ObservableCollection<ITab> openTabs = new();
-        private readonly ObservableCollection<ToastNotification> toastNotifications = new();
 
         /// <summary>
         /// Used for the number after "Bez názvu" in new document names
@@ -66,9 +65,6 @@ namespace DegCAD
             ActiveTab = openTabs[0];
 
             editorTabs.ItemsSource = openTabs;
-            toastNotificationsIc.ItemsSource = toastNotifications;
-
-            CheckForNewVersion();
         }
 
         private void TabSwitched(object sender, SelectionChangedEventArgs e)
@@ -234,47 +230,6 @@ namespace DegCAD
             foreach (var tab in openTabs)
             {
                 tab.SwapWhiteAndBlack();
-            }
-        }
-
-        private void CloseToastNotification(object sender, RoutedEventArgs e)
-        {
-            if (sender is not Button b) return;
-            if (b.DataContext is not ToastNotification tn) return;
-
-            toastNotifications.Remove(tn);
-        }
-
-        private void ToastNotificationButtonClick(object sender, RoutedEventArgs e)
-        {
-            if (sender is not Button b) return;
-            if (b.DataContext is not ToastNotification tn) return;
-
-            toastNotifications.Remove(tn);
-            tn.ButtonAction();
-        }
-
-        private async void CheckForNewVersion()
-        {
-            if (!Settings.AlertNewVersions) return;
-            try
-            {
-                using System.Net.Http.HttpClient client = new();
-                string res = await client.GetStringAsync("https://degcad.cz/newestVersion.txt");
-                Version newestVer = new(res);
-                var currentVer = Assembly.GetExecutingAssembly().GetName().Version;
-                if (newestVer > currentVer)
-                {
-                    toastNotifications.Add(new(
-                        $"Je k dispozici nová verze DegCADu {newestVer}.\nStáhnout ji můžete na webu degcad.cz.\n", 
-                        "Nová verze", 
-                        "Stáhnout", 
-                        () => Process.Start(new ProcessStartInfo() { FileName = "https://degcad.cz/download.php", UseShellExecute = true })));
-                }
-            }
-            catch
-            {
-
             }
         }
 

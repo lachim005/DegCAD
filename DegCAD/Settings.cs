@@ -80,7 +80,6 @@ namespace DegCAD
         public static bool NameNewItems { get; set; } = true;
 
         public static bool AlertGuides { get; set; } = true;
-        public static bool AlertNewVersions { get; set; } = true;
         public static bool SnapLabels { get; set; } = true;
 
         public static RecentFiles RecentFiles { get; private set; } = new();
@@ -179,10 +178,6 @@ namespace DegCAD
                             if (!bool.TryParse(value, out bool ag)) continue;
                             AlertGuides = ag;
                             break;
-                        case "AlertNewVersions":
-                            if (!bool.TryParse(value, out bool anv)) continue;
-                            AlertNewVersions = anv;
-                            break;
                         case "SnapLabels":
                             if (!bool.TryParse(value, out bool sl)) continue;
                             SnapLabels = sl;
@@ -270,7 +265,6 @@ namespace DegCAD
                 sw.WriteLine("RepeatCommands=" + RepeatCommands);
                 sw.WriteLine("NameNewItems=" + NameNewItems);
                 sw.WriteLine("AlertGuides=" + AlertGuides);
-                sw.WriteLine("AlertNewVersions=" + AlertNewVersions);
                 sw.WriteLine("SnapLabels=" + SnapLabels);
                 sw.WriteLine("RecentFiles=[");
                 foreach (var file in RecentFiles.Files)

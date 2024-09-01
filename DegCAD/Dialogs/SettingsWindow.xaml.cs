@@ -49,7 +49,6 @@ namespace DegCAD.Dialogs
             nameNewObjectsCbx.IsChecked = Settings.NameNewItems;
 
             alertGuides.IsChecked = Settings.AlertGuides;
-            alertNewVersions.IsChecked = Settings.AlertNewVersions;
             snapLabels.IsChecked = Settings.SnapLabels;
         }
 
@@ -87,7 +86,6 @@ namespace DegCAD.Dialogs
             Settings.NameNewItems = nameNewObjectsCbx.IsChecked == true;
 
             Settings.AlertGuides = alertGuides.IsChecked == true;
-            Settings.AlertNewVersions = alertNewVersions.IsChecked == true;
             Settings.SnapLabels = snapLabels.IsChecked == true;
 
             Settings.SaveSettings();

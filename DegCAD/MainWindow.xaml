@@ -168,34 +168,6 @@
                     </DataTemplate>
                 </TabControl.ContentTemplate>
             </TabControl>
-            <ItemsControl x:Name="toastNotificationsIc" Background="Transparent" Width="280" HorizontalAlignment="Right" Margin="0,0,10,47" VerticalAlignment="Bottom">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border MinHeight="120" Margin="0,13,0,0" BorderBrush="{DynamicResource border}" BorderThickness="1" CornerRadius="7" Background="{DynamicResource bg}">
-                            <Grid Margin="5">
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="25"/>
-                                    <RowDefinition/>
-                                    <RowDefinition Height="36"/>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition Width="30"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="{Binding Header}" Margin="5,0" FontSize="18" FontWeight="Bold" VerticalAlignment="Center"/>
-                                <Button BorderThickness="0" Style="{DynamicResource closeBtn}" Width="20" Height="20" Grid.Column="1" Margin="0" VerticalAlignment="Center" Click="CloseToastNotification">
-                                    <Canvas Width="10" Height="10">
-                                        <Line X1="0" Y1="0" X2="10" Y2="10" Stroke="{DynamicResource fg}" StrokeThickness="1"/>
-                                        <Line X1="0" Y1="10" X2="10" Y2="0" Stroke="{DynamicResource fg}" StrokeThickness="1"/>
-                                    </Canvas>
-                                </Button>
-                                <TextBlock Grid.Row="1" Grid.ColumnSpan="2" Text="{Binding Text}" Margin="5 0"/>
-                                <Button Grid.Row="2" Grid.ColumnSpan="2" Style="{DynamicResource accentBtn}" VerticalAlignment="Center" Content="{Binding ButtonText}" Click="ToastNotificationButtonClick"/>
-                            </Grid>
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
         </Grid>
     </DockPanel>
 </Window>

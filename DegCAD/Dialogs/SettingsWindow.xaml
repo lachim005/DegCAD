@@ -90,7 +90,6 @@
                 <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="10">
                     <StackPanel>
                         <CheckBox x:Name="alertGuides" Content="Upozorňovat na _návody"/>
-                        <CheckBox x:Name="alertNewVersions" Content="Upozorňovat na nové _verze"/>
                         <CheckBox x:Name="snapLabels" Content="Přichytávat popisky"/>
                     </StackPanel>
                 </ScrollViewer>
