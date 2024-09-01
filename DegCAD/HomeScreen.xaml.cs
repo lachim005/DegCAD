@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -38,7 +39,43 @@ namespace DegCAD
             recentFilesIC.ItemsSource = Settings.RecentFiles.Files;
 
             OOBENewFile.OpenIfTrue(ref Settings.OOBEState.newFile);
+            notificationIc.ItemsSource = mw.Notifications;
+            mw.Notifications.CollectionChanged += NotificationsChanged;
+            UpdateNotifications();
         }
+
+        private void NotificationsChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            UpdateNotifications();   
+        }
+        private void UpdateNotifications()
+        {
+            if (Settings.FetchingNotificationsFailed)
+            {
+                notificationsPlaceholder.Visibility = Visibility.Visible;
+                notificationsPlaceholder.Text = "Při stahování oznámění se vyskytla chyba";
+                return;
+            }
+            if (mw.Notifications.Count == 0)
+            {
+                notificationsPlaceholder.Visibility = Visibility.Visible;
+                notificationsPlaceholder.Text = "Zatím tu nic není";
+                return;
+            }
+            notificationsPlaceholder.Visibility = Visibility.Collapsed;
+
+            int unSeenCount = 0;
+            foreach (var not in mw.Notifications)
+            {
+                if (!not.Seen) unSeenCount++;
+            }
+            if (unSeenCount == 0) return;
+
+            notificationBubble.Visibility = Visibility.Visible;
+            notificationBubbleText.Text = unSeenCount.ToString();
+
+        }
+
 
         private void NewPlaneClick(object sender, RoutedEventArgs e)
         {
@@ -100,6 +137,33 @@ namespace DegCAD
             {
                 Settings.RecentFiles.Clear();
             }
+        }
+
+        private void OpenNotifications(object sender, RoutedEventArgs e)
+        {
+            if (notificationsPanel.Visibility == Visibility.Visible)
+            {
+                notificationsPanel.Visibility = Visibility.Collapsed;
+                return;
+            }
+            notificationsPanel.Visibility = Visibility.Visible;
+            notificationBubble.Visibility = Visibility.Collapsed;
+
+            if (Settings.FetchingNotificationsFailed) return;
+
+            Settings.SeenNotifications.Clear();
+            foreach (var not in mw.Notifications)
+            {
+                not.Seen = true;
+                Settings.SeenNotifications.Add(not.GUID);
+            }
+        }
+
+        private void NotificationButtonClick(object sender, RoutedEventArgs e)
+        {
+            if (sender is not FrameworkElement fe) return;
+            if (fe.DataContext is not Notification not) return;
+            Process.Start(new ProcessStartInfo() { FileName = not.ButtonLink, UseShellExecute = true });
         }
     }
 }

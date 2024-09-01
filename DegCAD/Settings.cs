@@ -84,6 +84,8 @@ namespace DegCAD
 
         public static RecentFiles RecentFiles { get; private set; } = new();
         public static OOBEState OOBEState { get; set; } = new();
+        public static List<string> SeenNotifications { get; set; } = [];
+        public static bool FetchingNotificationsFailed { get; set; } = false;
 
         public static string GetSettingsFilePath()
         {
@@ -195,6 +197,12 @@ namespace DegCAD
                             if (!long.TryParse(value, out long oobe)) continue;
                             OOBEState.Deserialize(oobe);
                             break;
+                        case "SeenNotifications":
+                            while ((line = sr.ReadLine()) is not null && line != "]")
+                            {
+                                SeenNotifications.Add(line);
+                            }
+                            break;
                     }
                 }
 
@@ -273,6 +281,12 @@ namespace DegCAD
                 }
                 sw.WriteLine(']');
                 sw.WriteLine("OOBEState=" + OOBEState.Serialize());
+                sw.WriteLine("SeenNotifications=[");
+                foreach (var not in SeenNotifications)
+                {
+                    sw.WriteLine(not);
+                }
+                sw.WriteLine(']');
             } catch (Exception ex)
             {
                 MessageBox.Show(null, "Chyba při ukládání nastavení:\n" + ex.Message, img: MessageBoxImage.Error);

@@ -1,4 +1,5 @@
 ﻿using DegCAD.Dialogs;
+using DegCAD.Guides;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -31,6 +32,7 @@ namespace DegCAD
         public Editor? ActiveEditor { get; set; }
         public ITab ActiveTab { get; set; }
         public readonly ObservableCollection<ITab> openTabs = new();
+        public ObservableCollection<Notification> Notifications { get; init; } = [];
 
         /// <summary>
         /// Used for the number after "Bez názvu" in new document names
@@ -65,6 +67,8 @@ namespace DegCAD
             ActiveTab = openTabs[0];
 
             editorTabs.ItemsSource = openTabs;
+
+            FetchNotifications();
         }
 
         private void TabSwitched(object sender, SelectionChangedEventArgs e)
@@ -249,6 +253,66 @@ namespace DegCAD
                 {
                     OpenFileAsync(args[1], this);
                 }
+            }
+        }
+
+        private async void FetchNotifications()
+        {
+            try
+            {
+                // Check newest version
+                using System.Net.Http.HttpClient client = new();
+                string newestVerString = await client.GetStringAsync("https://degcad.cz/newestVersion.txt");
+                Version newestVer = new(newestVerString.Trim());
+                var currentVer = Assembly.GetExecutingAssembly().GetName().Version;
+                if (newestVer > currentVer)
+                {
+                    var seen = false;
+                    foreach (var not in Settings.SeenNotifications)
+                    {
+                        if (not != newestVerString) continue;
+                        seen = true;
+                        break;
+                    }
+                    Notifications.Add(new(
+                        newestVerString,
+                        "Nová verze",
+                        $"Je k dispozici nová verze DegCADu **{newestVer}**.\nStáhnout ji můžete na webu degcad.cz.\nMomentálně používáte verzi {currentVer}",
+                        "Stáhnout",
+                        "https://degcad.cz/download.php",
+                        seen
+                        ));
+                }
+
+                var notString = await client.GetStringAsync("https://degcad.cz/notifications.txt");
+                var notificationLines = notString.Split('\n');
+                if (notificationLines.Length < 6) return;
+                for (int i = 0; i < notificationLines.Length; i++)
+                {
+                    string guid = notificationLines[i++].Trim();
+                    string title = notificationLines[i++].Trim();
+                    string btnTitle = notificationLines[i++].Trim();
+                    string btnLink = notificationLines[i++].Trim();
+                    string body = string.Empty;
+                    while (notificationLines[i] != "--END--")
+                    {
+                        if (body != string.Empty) body += '\n';
+                        body += notificationLines[i++].Trim();
+                    }
+                    bool seen = false;
+                    foreach (var not in Settings.SeenNotifications)
+                    {
+                        if (not != guid) continue;
+                        seen = true;
+                        break;
+                    }
+                    Notifications.Add(new(guid, title, body, btnTitle, btnLink, seen));
+                }
+            }
+            catch
+            {
+                Settings.FetchingNotificationsFailed = true;
+                Notifications.Clear();
             }
         }
     }
