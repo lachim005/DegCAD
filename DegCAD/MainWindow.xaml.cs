@@ -279,7 +279,7 @@ namespace DegCAD
                         "Nová verze",
                         $"Je k dispozici nová verze DegCADu **{newestVer}**.\nStáhnout ji můžete na webu degcad.cz.\nMomentálně používáte verzi {currentVer}",
                         "Stáhnout",
-                        "https://degcad.cz/download.php",
+                        "https://degcad.cz/download.php?fn",
                         seen
                         ));
                 }
